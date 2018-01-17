@@ -1,15 +1,21 @@
+// @flow
+
 import React from 'react';
 import { connect } from 'react-redux';
 
-import NewProject from '../components/NewProject';
+import { sortedProjects } from '../core/projects';
 
-function Projects({ projects }) {
+import NewProject from '../components/NewProject';
+import ProjectList from '../components/ProjectList';
+
+function Projects({ projects }: { projects: Array<projectType> }) {
   return (
     <div>
       <h2>Projects</h2>
 
       <section>
         <NewProject />
+        <ProjectList projects={sortedProjects(projects)} />
       </section>
     </div>
   );
