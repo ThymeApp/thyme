@@ -42,6 +42,7 @@ function ProjectInput({ value, projects, handleChange }) {
   return (
     <Select
       name="project"
+      autosize
       value={value}
       onChange={handleChange}
       options={

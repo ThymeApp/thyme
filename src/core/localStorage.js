@@ -1,4 +1,6 @@
-export function loadState() {
+// @flow
+
+export function loadState(): {} | typeof undefined {
   try {
     const serializedState = localStorage.getItem('ThymeState');
 
@@ -6,14 +8,14 @@ export function loadState() {
       return undefined;
     }
 
-    return JSON.parse(serializedState);
+    return JSON.parse(serializedState || '{}');
   } catch (e) {
     console.error(e);
     return undefined;
   }
 }
 
-export function saveState(state) {
+export function saveState(state: {}): void {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem('ThymeState', serializedState);

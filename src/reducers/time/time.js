@@ -1,3 +1,5 @@
+// @flow
+
 import { combineReducers } from 'redux';
 import startOfDay from 'date-fns/start_of_day';
 

@@ -1,6 +1,8 @@
+// @flow
+
 import differenceInMinutes from 'date-fns/difference_in_minutes';
 
-export function calculateDuration(from, to) {
+export function calculateDuration(from: string, to: string): number {
   const [fromHour, fromMinute] = from.split(':');
   const [toHour, toMinute] = to.split(':');
 
@@ -14,7 +16,7 @@ export function calculateDuration(from, to) {
   return differenceInMinutes(toDate, fromDate);
 }
 
-export function formatDuration(duration) {
+export function formatDuration(duration: number): string {
   const hours = Math.floor(duration / 60);
   const minutes = duration % 60;
 

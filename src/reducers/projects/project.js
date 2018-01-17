@@ -1,3 +1,5 @@
+// @flow
+
 import { combineReducers } from 'redux';
 
 function id(state = null, action) {
