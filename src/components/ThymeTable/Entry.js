@@ -5,6 +5,7 @@ import { formatDuration, calculateDuration } from '../../core/thyme';
 
 import DateInput from '../DateInput';
 import TimeInput from '../TimeInput';
+import NotesInput from '../NotesInput';
 
 import './Entry.css';
 
@@ -23,11 +24,13 @@ class Entry extends Component {
     this.onDateChange = (e) => this.onValueChange('date', e.target.value);
     this.onStartTimeChange = (e) => this.onValueChange('start', e.target.value);
     this.onEndTimeChange = (e) => this.onValueChange('end', e.target.value);
+    this.onNotesChange = (e) => this.onValueChange('notes', e.target.value);
 
     this.state = {
       date: format(new Date(), 'YYYY-MM-DD'),
       start: '00:00',
       end: '00:00',
+      notes: '',
     };
   }
 
@@ -38,7 +41,7 @@ class Entry extends Component {
   }
 
   render() {
-    const { date, start, end } = this.state;
+    const { date, start, end, notes } = this.state;
 
     return (
       <tr className="ThymeEntry">
@@ -53,7 +56,7 @@ class Entry extends Component {
         <td className="ThymeEntry__item ThymeEntry__item--project">
           Project</td>
         <td className="ThymeEntry__item ThymeEntry__item--notes">
-          Notes</td>
+          <NotesInput onChange={this.onNotesChange} value={notes} /></td>
       </tr>
     );
   }
