@@ -4,7 +4,7 @@ function getProjectTree(
   project: projectType,
   projects: Array<projectType>,
   current: Array<string> = [],
-) {
+): Array<string> {
   const projectNames = [project.name, ...current];
 
   if (project.parent) {
@@ -22,18 +22,22 @@ function getProjectTree(
   return projectNames;
 }
 
-export function sortedProjects(projects: Array<projectType>) {
-  const named = projects.map(project => ({
-    ...project,
-    name: getProjectTree(project, projects).join(' > '),
-  }));
+export function sortedProjects(projects: Array<projectType>): Array<projectTreeType> {
+  const named = projects
+    .map(project => ({
+      ...project,
+      nameTree: getProjectTree(project, projects),
+    }));
 
   named.sort((a, b) => {
-    if (a.name > b.name) {
+    const atree = a.nameTree.join('');
+    const btree = b.nameTree.join('');
+
+    if (atree > btree) {
       return 1;
     }
 
-    if (a.name < b.name) {
+    if (atree < btree) {
       return -1;
     }
 

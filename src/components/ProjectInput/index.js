@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
@@ -5,7 +7,13 @@ import 'react-select/dist/react-select.css';
 
 import { sortedProjects } from '../../core/projects';
 
-function ProjectInput({ value, projects, handleChange }) {
+type ProjectInputType = {
+  value: string,
+  projects: Array<projectType>,
+  handleChange: ({ value: string, label: string }) => void,
+};
+
+function ProjectInput({ value, projects, handleChange }: ProjectInputType) {
   return (
     <Select
       name="project"
@@ -16,7 +24,7 @@ function ProjectInput({ value, projects, handleChange }) {
         sortedProjects(projects)
           .map(project => ({
             value: project.id,
-            label: project.name,
+            label: project.nameTree.join(' > '),
           }))
       }
     />

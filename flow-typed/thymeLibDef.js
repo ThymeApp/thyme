@@ -5,3 +5,5 @@ declare type projectType = {
   createdAt: string,
   updatedAt: string,
 };
+
+declare type projectTreeType = projectType & { nameTree: Array<string> };
