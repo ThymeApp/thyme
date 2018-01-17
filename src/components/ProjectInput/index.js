@@ -4,15 +4,17 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
 function getProjectTree(project, projects, current = []) {
+  const projectNames = [project.name, ...current];
+
   if (project.parent) {
     return getProjectTree(
       projects.find(item => item.id === project.parent),
       projects,
-      [project.name, ...current],
+      projectNames,
     );
   }
 
-  return [project.name];
+  return projectNames;
 }
 
 function sortedProjects(projects) {
@@ -23,11 +25,11 @@ function sortedProjects(projects) {
 
   named.sort((a, b) => {
     if (a.name > b.name) {
-      return -1;
+      return 1;
     }
 
     if (a.name < b.name) {
-      return 1;
+      return -1;
     }
 
     return 0;
