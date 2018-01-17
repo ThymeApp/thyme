@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router';
 import { Switch, Route, Link } from 'react-router-dom';
 import classnames from 'classnames';
@@ -19,29 +19,25 @@ function AppLink(name, path, currentPath) {
   );
 }
 
-class App extends Component {
-  render() {
-    const { location } = this.props;
+function App({ location }) {
+  return (
+    <div className="App">
+      <header className="App__header">
+        <h1 className="App__title">Thyme</h1>
 
-    return (
-      <div className="App">
-        <header className="App__header">
-          <h1 className="App__title">Thyme</h1>
-
-          <menu className="App__menu">
-            {AppLink('Timesheet', '/', location.pathname)}
-            {AppLink('Projects', '/projects', location.pathname)}
-          </menu>
-        </header>
-        <section className="App__container">
-          <Switch>
-            <Route path="/projects" component={Projects} />
-            <Route exact path="/" component={Time} />
-          </Switch>
-        </section>
-      </div>
-    );
-  }
+        <menu className="App__menu">
+          {AppLink('Timesheet', '/', location.pathname)}
+          {AppLink('Projects', '/projects', location.pathname)}
+        </menu>
+      </header>
+      <section className="App__container">
+        <Switch>
+          <Route path="/projects" component={Projects} />
+          <Route exact path="/" component={Time} />
+        </Switch>
+      </section>
+    </div>
+  );
 }
 
 export default withRouter(App);

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import startOfDay from 'date-fns/start_of_day';
 
 function id(state = null, action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'ADD_TIME':
       return action.id;
     default:
@@ -11,7 +11,7 @@ function id(state = null, action) {
 }
 
 function date(state = startOfDay(new Date()), action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'ADD_TIME':
     case 'UPDATE_TIME':
       return action.date;
@@ -21,7 +21,7 @@ function date(state = startOfDay(new Date()), action) {
 }
 
 function start(state = '00:00', action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'ADD_TIME':
     case 'UPDATE_TIME':
       return action.start;
@@ -31,7 +31,7 @@ function start(state = '00:00', action) {
 }
 
 function end(state = '00:00', action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'ADD_TIME':
     case 'UPDATE_TIME':
       return action.end;
@@ -41,7 +41,7 @@ function end(state = '00:00', action) {
 }
 
 function project(state = null, action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'ADD_TIME':
     case 'UPDATE_TIME':
       return action.project;
@@ -51,7 +51,7 @@ function project(state = null, action) {
 }
 
 function notes(state = '', action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'ADD_TIME':
     case 'UPDATE_TIME':
       return action.notes;
@@ -61,7 +61,7 @@ function notes(state = '', action) {
 }
 
 function createdAt(state = new Date(), action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'ADD_TIME':
       return new Date();
     default:
@@ -70,7 +70,7 @@ function createdAt(state = new Date(), action) {
 }
 
 function updatedAt(state = new Date(), action) {
-  switch(action.type) {
+  switch (action.type) {
     case 'ADD_TIME':
     case 'UPDATE_TIME':
       return new Date();
