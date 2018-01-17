@@ -1,0 +1,22 @@
+.ProjectList {
+  width: 100%;
+}
+
+.ProjectList__input {
+  font-size: large;
+  margin-right: 12px;
+}
+
+.ProjectList__item {
+  margin: 6px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ProjectList .Select {
+  min-width: 200px;
+}
+
+.ProjectList .ProjectList {
+  padding-left: 30px;
+}

@@ -15,6 +15,7 @@ function Projects({ projects }: { projects: Array<projectType> }) {
 
       <section>
         <NewProject />
+        <hr />
         <ProjectList projects={sortedProjects(projects)} />
       </section>
     </div>

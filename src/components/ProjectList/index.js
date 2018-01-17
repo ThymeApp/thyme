@@ -3,6 +3,10 @@
 import React from 'react';
 import type { Element } from 'react';
 
+import ProjectItem from './ProjectItem';
+
+import './ProjectList.css';
+
 type ProjectsListType = {
   projects: Array<projectTreeType>,
   parent?: string,
@@ -10,15 +14,11 @@ type ProjectsListType = {
 
 function ProjectsList({ projects, parent = '' }: ProjectsListType): Element<any> {
   return (
-    <div>
+    <div className="ProjectList">
       {projects
         .filter(item => (parent === '' && item.parent === null) || item.parent === parent)
         .map(project => (
-          <div key={project.id}>
-            {project.nameTree.join(' > ')}
-
-            {ProjectsList({ projects, parent: project.id })}
-          </div>
+          <ProjectItem key={project.id} project={project} projects={projects} />
         ))}
     </div>
   );
