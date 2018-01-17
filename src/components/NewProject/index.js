@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import shortid from 'shortid';
+
+import { addProject } from '../../actions/projects';
 
 import ProjectInput from '../ProjectInput';
 import Button from '../Button';
@@ -18,7 +22,7 @@ class NewProject extends Component {
 
     this.onNameChange = e => this.onValueChange('name', e.target.value);
     this.onProjectChange =
-        project => this.onValueChange('project', project === null ? null : project.value);
+        project => this.onValueChange('parent', project === null ? null : project.value);
     this.onSubmit = this.addNew.bind(this);
 
     this.state = defaultState();
@@ -65,4 +69,15 @@ class NewProject extends Component {
   }
 }
 
-export default NewProject;
+function mapDispatchToProps(dispatch) {
+  return {
+    onAddProject(project) {
+      dispatch(addProject({
+        ...project,
+        id: shortid.generate(),
+      }));
+    },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(NewProject);

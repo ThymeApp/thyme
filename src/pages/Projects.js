@@ -1,32 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import shortid from 'shortid';
-
-import { addProject, updateProject, removeProject } from '../actions/projects';
 
 import NewProject from '../components/NewProject';
 
-function Projects({ onAddProject }) {
+function Projects({ projects }) {
   return (
     <div>
       <h2>Projects</h2>
 
       <section>
-        <NewProject onAddProject={onAddProject} />
+        <NewProject />
       </section>
     </div>
   );
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onAddProject(project) {
-      dispatch(addProject({
-        ...project,
-        id: shortid.generate(),
-      }));
-    },
-  };
+function mapStateToProps(state) {
+  const { allIds, byId } = state.projects;
+  const projects = allIds.map(id => byId[id]);
+
+  return { projects };
 }
 
-export default connect(null, mapDispatchToProps)(Projects);
+export default connect(mapStateToProps)(Projects);
