@@ -27,10 +27,10 @@ class Entry extends Component {
     this.onNotesChange = (e) => this.onValueChange('notes', e.target.value);
 
     this.state = {
-      date: format(new Date(), 'YYYY-MM-DD'),
-      start: '00:00',
-      end: '00:00',
-      notes: '',
+      date: format(props.date || new Date(), 'YYYY-MM-DD'),
+      start: props.start || '00:00',
+      end: props.end || '00:00',
+      notes: props.notes || '',
     };
   }
 

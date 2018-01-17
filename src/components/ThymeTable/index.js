@@ -8,7 +8,7 @@ import Entry from './Entry';
 
 import './ThymeTable.css';
 
-function ThymeTable({ onEntryUpdate }) {
+function ThymeTable({ entries, onEntryCreate, onEntryUpdate }) {
   return (
     <table className="ThymeTable">
       <tbody>
@@ -20,29 +20,31 @@ function ThymeTable({ onEntryUpdate }) {
           <th>Project</th>
           <th>Notes</th>
         </tr>
-        <Entry onUpdate={onEntryUpdate} />
+        {entries.map(entry => <Entry key={entry.id} onUpdate={onEntryUpdate} {...entry} />)}
+        <Entry onEntryCreate={onEntryCreate} />
       </tbody>
     </table>
   );
 }
 
 function mapStateToProps(state) {
-  return {};
+  const { allIds, byId } = state.time;
+  const entries = allIds.map(id => byId[id]);
+
+  return { entries };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     onEntryUpdate(entry) {
-      if (!entry.id) {
-        dispatch(addTime({
-          ...entry,
-          id: shortid.generate(),
-        }));
-        return;
-      }
-
       dispatch(updateTime(entry));
     },
+    onEntryCreate(entry) {
+      dispatch(addTime({
+        ...entry,
+        id: shortid.generate(),
+      }));
+    }
   };
 }
 
