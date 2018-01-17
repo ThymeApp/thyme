@@ -12,6 +12,7 @@ function ThymeTable() {
           <th>Date</th>
           <th>Start</th>
           <th>End</th>
+          <th>Duration</th>
           <th>Project</th>
           <th>Notes</th>
         </tr>
