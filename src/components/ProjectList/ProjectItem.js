@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import type { Element } from 'react';
 import { connect } from 'react-redux';
 
+import { isDescendant } from '../../core/projects';
+
 import { updateProject } from '../../actions/projects';
 
 import ProjectInput from '../ProjectInput';
@@ -20,7 +22,7 @@ function projectValues(props) {
 type ProjectItemType = {
   projects: Array<projectTreeType>,
   project: projectTreeType,
-  onUpdateProject: (project: { id: string, name: string, parent: string }) => void,
+  onUpdateProject: (project: { id: string, name: string, parent: string | null }) => void,
 };
 
 class ProjectItem extends Component<ProjectItemType> {
@@ -28,16 +30,25 @@ class ProjectItem extends Component<ProjectItemType> {
     super(props);
 
     this.onChangeName = (e) => {
-      props.onUpdateProject({
+      this.props.onUpdateProject({
         ...projectValues(this.props),
-        name: e.target.value,
+        name: e.target instanceof HTMLInputElement ? e.target.value : '',
       });
     };
 
     this.onChangeParent = (parent) => {
-      props.onUpdateProject({
+      const { project, projects, onUpdateProject } = this.props;
+
+      const parentId = parent === null ? null : parent.value;
+
+      // Can't move to this project because it's a descendant
+      if (isDescendant(project.id, parentId, projects)) {
+        return;
+      }
+
+      onUpdateProject({
         ...projectValues(this.props),
-        parent: parent.value,
+        parent: parentId,
       });
     };
   }

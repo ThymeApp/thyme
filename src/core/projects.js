@@ -1,5 +1,27 @@
 // @flow
 
+export function isDescendant(from: string, to: string | null, projects: Array<projectTreeType>) {
+  if (from === to) {
+    return true;
+  }
+
+  const toProject = projects.find(project => project.id === to);
+
+  if (!toProject) {
+    return false;
+  }
+
+  if (toProject.parent === from) {
+    return true;
+  }
+
+  if (toProject.parent === null) {
+    return false;
+  }
+
+  return isDescendant(from, toProject.parent, projects);
+}
+
 function getProjectTree(
   project: projectType,
   projects: Array<projectType>,
