@@ -83,7 +83,7 @@ function updatedAt(state = new Date(), action) {
 
 const time = combineReducers({
   id,
-  // project,
+  project,
   date,
   start,
   end,

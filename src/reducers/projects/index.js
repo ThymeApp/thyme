@@ -1,6 +1,7 @@
 // @flow
 
 import { combineReducers } from 'redux';
+import pick from 'lodash/pick';
 
 import project from './project';
 
@@ -12,6 +13,8 @@ function byId(state = {}, action) {
         ...state,
         [action.id]: project(state[action.id], action),
       };
+    case 'REMOVE_PROJECT':
+      return pick(state, Object.keys(state).filter(item => item !== action.id));
     default:
       return state;
   }

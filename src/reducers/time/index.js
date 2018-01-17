@@ -1,6 +1,7 @@
 // @flow
 
 import { combineReducers } from 'redux';
+import pick from 'lodash/pick';
 
 import time from './time';
 
@@ -12,6 +13,8 @@ function byId(state = {}, action) {
         ...state,
         [action.id]: time(state[action.id], action),
       };
+    case 'REMOVE_TIME':
+      return pick(state, Object.keys(state).filter(item => item !== action.id));
     default:
       return state;
   }
