@@ -9,6 +9,7 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-scripts": "1.1.0",
+    "react-select": "^1.2.1",
     "redux": "^3.7.2",
     "shortid": "^2.2.8"
   },
