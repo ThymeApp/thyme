@@ -19,16 +19,16 @@ function ThymeTable({ entries, onEntryCreate, onEntryUpdate, onEntryRemove }) {
           <th>Duration</th>
           <th>Project</th>
           <th>Notes</th>
-          <th></th>
+          <th />
         </tr>
-        {entries.map(entry =>
+        {entries.map(entry => (
           <Entry
             key={entry.id}
             onRemove={onEntryRemove}
             onUpdate={onEntryUpdate}
             {...entry}
           />
-        )}
+        ))}
         <Entry onAdd={onEntryCreate} />
       </tbody>
     </table>

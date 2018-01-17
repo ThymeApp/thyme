@@ -48,6 +48,22 @@ class Entry extends Component {
     this.state = defaultState(props);
   }
 
+  onValueChange(key, value) {
+    const { onUpdate } = this.props;
+
+    if (typeof onUpdate === 'function') {
+      onUpdate({
+        id: this.props.id,
+        ...this.state,
+        [key]: value,
+      });
+    }
+
+    this.setState({
+      [key]: value,
+    });
+  }
+
   addEntry() {
     const { onAdd } = this.props;
 
@@ -69,22 +85,6 @@ class Entry extends Component {
     ) {
       onRemove(id);
     }
-  }
-
-  onValueChange(key, value) {
-    const { onUpdate } = this.props;
-
-    if (typeof onUpdate === 'function') {
-      onUpdate({
-        id: this.props.id,
-        ...this.state,
-        [key]: value,
-      });
-    }
-
-    this.setState({
-      [key]: value,
-    });
   }
 
   render() {

@@ -1,0 +1,14 @@
+.NewProject {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.NewProject__input {
+  font-size: large;
+  margin-right: 12px;
+}
+
+.NewProject .Select {
+  min-width: 200px;
+  margin-right: 12px;
+}
