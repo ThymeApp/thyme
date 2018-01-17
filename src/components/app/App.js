@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+
+import ThymeTable from '../ThymeTable';
+
 import './App.css';
 
 class App extends Component {
@@ -8,9 +11,9 @@ class App extends Component {
         <header className="App__header">
           <h1 className="App__title">Thyme</h1>
         </header>
-        <p className="App__container">
-          Add Time
-        </p>
+        <section className="App__container">
+          <ThymeTable />
+        </section>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import startOfDay from 'date-fns/start_of_day';
 
 function id(state = null, action) {
   switch(action.type) {
@@ -9,7 +10,7 @@ function id(state = null, action) {
   }
 }
 
-function date(state = new Date(), action) {
+function date(state = startOfDay(new Date()), action) {
   switch(action.type) {
     case 'ADD_TIME':
     case 'UPDATE_TIME':
