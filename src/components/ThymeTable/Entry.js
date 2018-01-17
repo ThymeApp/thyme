@@ -20,6 +20,15 @@ function timeElapsed(from, to) {
   return formatDuration(calculateDuration(from, to));
 }
 
+function defaultState(props = {}) {
+  return {
+    date: format(props.date || new Date(), 'YYYY-MM-DD'),
+    start: props.start || '00:00',
+    end: props.end || '00:00',
+    notes: props.notes || '',
+  };
+}
+
 class Entry extends Component {
   constructor(props) {
     super(props);
@@ -32,12 +41,7 @@ class Entry extends Component {
     this.onAddEntry = this.addEntry.bind(this);
     this.onRemoveEntry = this.removeEntry.bind(this);
 
-    this.state = {
-      date: format(props.date || new Date(), 'YYYY-MM-DD'),
-      start: props.start || '00:00',
-      end: props.end || '00:00',
-      notes: props.notes || '',
-    };
+    this.state = defaultState(props);
   }
 
   addEntry() {
@@ -47,6 +51,8 @@ class Entry extends Component {
       onAdd({
         ...this.state,
       });
+
+      this.setState(defaultState());
     }
   }
 
