@@ -22,6 +22,7 @@ function projectValues(props) {
 type ProjectItemType = {
   projects: Array<projectTreeType>,
   project: projectTreeType,
+  level: number;
   onUpdateProject: (project: { id: string, name: string, parent: string | null }) => void,
 };
 
@@ -57,12 +58,12 @@ class ProjectItem extends Component<ProjectItemType> {
   onChangeParent: (project: { value: string, label: string }) => void;
 
   render(): Element<any> {
-    const { project, projects } = this.props;
+    const { project, projects, level } = this.props;
 
     return (
       <Fragment>
         <tr className="ProjectList__item">
-          <td>
+          <td className={`ProjectList__level-${level}`}>
             <input
               className="ProjectList__input"
               type="text"
@@ -74,7 +75,7 @@ class ProjectItem extends Component<ProjectItemType> {
             <ProjectInput handleChange={this.onChangeParent} value={project.parent} excludeValue />
           </td>
         </tr>
-        {ProjectsList({ projects, parent: project.id })}
+        {ProjectsList({ projects, parent: project.id, level: level + 1 })}
       </Fragment>
     );
   }

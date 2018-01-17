@@ -1,5 +1,5 @@
-.ProjectList {
-  width: 100%;
+.ProjectList__header {
+  text-align: left;
 }
 
 .ProjectList__input {
@@ -8,10 +8,20 @@
   height: 30px;
 }
 
-.ProjectList__item {
-  margin: 6px 0;
-  display: flex;
-  flex-wrap: wrap;
+.ProjectList__level-2 {
+  padding-left: 30px;
+}
+
+.ProjectList__level-3 {
+  padding-left: 60px;
+}
+
+.ProjectList__level-4 {
+  padding-left: 90px;
+}
+
+.ProjectList__level-5 {
+  padding-left: 120px;
 }
 
 .ProjectList .Select {
