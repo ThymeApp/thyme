@@ -5,6 +5,7 @@ import { formatDuration, calculateDuration } from '../../core/thyme';
 
 import DateInput from '../DateInput';
 import TimeInput from '../TimeInput';
+import ProjectInput from '../ProjectInput';
 import NotesInput from '../NotesInput';
 
 import add from './add.svg';
@@ -25,6 +26,7 @@ function defaultState(props = {}) {
     date: format(props.date || new Date(), 'YYYY-MM-DD'),
     start: props.start || '00:00',
     end: props.end || '00:00',
+    project: props.project || null,
     notes: props.notes || '',
   };
 }
@@ -33,10 +35,12 @@ class Entry extends Component {
   constructor(props) {
     super(props);
 
-    this.onDateChange = (e) => this.onValueChange('date', e.target.value);
-    this.onStartTimeChange = (e) => this.onValueChange('start', e.target.value);
-    this.onEndTimeChange = (e) => this.onValueChange('end', e.target.value);
-    this.onNotesChange = (e) => this.onValueChange('notes', e.target.value);
+    this.onDateChange = e => this.onValueChange('date', e.target.value);
+    this.onStartTimeChange = e => this.onValueChange('start', e.target.value);
+    this.onEndTimeChange = e => this.onValueChange('end', e.target.value);
+    this.onProjectChange =
+        project => this.onValueChange('project', project === null ? null : project.value);
+    this.onNotesChange = e => this.onValueChange('notes', e.target.value);
 
     this.onAddEntry = this.addEntry.bind(this);
     this.onRemoveEntry = this.removeEntry.bind(this);
@@ -85,7 +89,7 @@ class Entry extends Component {
 
   render() {
     const { id } = this.props;
-    const { date, start, end, notes } = this.state;
+    const { date, start, end, project, notes } = this.state;
 
     return (
       <tr className="ThymeEntry">
@@ -98,7 +102,7 @@ class Entry extends Component {
         <td className="ThymeEntry__item ThymeEntry__item--duration">
           {timeElapsed(start, end)}</td>
         <td className="ThymeEntry__item ThymeEntry__item--project">
-          Project</td>
+          <ProjectInput value={project} handleChange={this.onProjectChange} /></td>
         <td className="ThymeEntry__item ThymeEntry__item--notes">
           <NotesInput onChange={this.onNotesChange} value={notes} /></td>
         <td>
