@@ -59,6 +59,25 @@ function notes(state = '', action) {
   }
 }
 
+function createdAt(state = new Date(), action) {
+  switch(action.type) {
+    case 'ADD_TIME':
+      return new Date();
+    default:
+      return state;
+  }
+}
+
+function updatedAt(state = new Date(), action) {
+  switch(action.type) {
+    case 'ADD_TIME':
+    case 'UPDATE_TIME':
+      return new Date();
+    default:
+      return state;
+  }
+}
+
 const time = combineReducers({
   id,
   project,
@@ -66,6 +85,8 @@ const time = combineReducers({
   start,
   end,
   notes,
+  createdAt,
+  updatedAt,
 });
 
 export default time;
