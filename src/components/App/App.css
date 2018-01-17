@@ -15,3 +15,17 @@
   font-size: large;
   padding: 15px;
 }
+
+.App__menu {
+  padding: 0;
+}
+
+.App__menu-item {
+  color: #fff;
+  margin: 0 5px;
+  text-decoration: none;
+}
+
+.App__menu-item--active {
+  text-decoration: underline;
+}

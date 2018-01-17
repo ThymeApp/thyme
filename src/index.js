@@ -3,16 +3,20 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux';
 import throttle from 'lodash/throttle';
+import createHistory from 'history/createBrowserHistory';
+import { Router } from 'react-router-dom';
 
 import { loadState, saveState } from './core/localStorage';
 
 import reducers from './reducers';
 
-import App from './components/app/App';
+import App from './components/App';
 
 import registerServiceWorker from './registerServiceWorker';
 
 import './index.css';
+
+const history = createHistory();
 
 const store = createStore(
   reducers,
@@ -28,7 +32,9 @@ store.subscribe(throttle(() => {
 
 ReactDOM.render(
   <Provider store={store}>
-    <App/>
+    <Router history={history}>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById('root'),
 );
