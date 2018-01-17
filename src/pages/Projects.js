@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { sortedProjects } from '../core/projects';
 
 import NewProject from '../components/NewProject';
-import ProjectList from '../components/ProjectList';
+import ProjectsList from '../components/ProjectsList';
 
 function Projects({ projects }: { projects: Array<projectType> }) {
   return (
@@ -16,7 +16,7 @@ function Projects({ projects }: { projects: Array<projectType> }) {
       <section>
         <NewProject />
         <hr />
-        <ProjectList projects={sortedProjects(projects)} />
+        <ProjectsList projects={sortedProjects(projects)} />
       </section>
     </div>
   );

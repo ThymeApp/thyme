@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import type { Element } from 'react';
 import { connect } from 'react-redux';
 
@@ -9,7 +9,7 @@ import { isDescendant } from '../../core/projects';
 import { updateProject } from '../../actions/projects';
 
 import ProjectInput from '../ProjectInput';
-import ProjectsList from './index';
+import ProjectsList from './ProjectsList';
 
 function projectValues(props) {
   return {
@@ -60,18 +60,22 @@ class ProjectItem extends Component<ProjectItemType> {
     const { project, projects } = this.props;
 
     return (
-      <div className="ProjectList__item" key={project.id}>
-        <input
-          className="ProjectList__input"
-          type="text"
-          value={project.name}
-          onChange={this.onChangeName}
-        />
-
-        <ProjectInput handleChange={this.onChangeParent} value={project.parent} excludeValue />
-
+      <Fragment>
+        <tr className="ProjectList__item">
+          <td>
+            <input
+              className="ProjectList__input"
+              type="text"
+              value={project.name}
+              onChange={this.onChangeName}
+            />
+          </td>
+          <td>
+            <ProjectInput handleChange={this.onChangeParent} value={project.parent} excludeValue />
+          </td>
+        </tr>
         {ProjectsList({ projects, parent: project.id })}
-      </div>
+      </Fragment>
     );
   }
 }

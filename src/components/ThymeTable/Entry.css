@@ -1,3 +1,11 @@
+.ThymeEntry__item input {
+  height: 32px;
+}
+
+.ThymeEntry__item--project {
+  min-width: 150px;
+}
+
 .ThymeEntry__item--duration {
   font-family: monospace;
   font-size: large;
