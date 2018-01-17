@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import format from 'date-fns/format';
 
 import { formatDuration, calculateDuration } from '../../core/thyme';
 
+import DateInput from '../DateInput';
 import TimeInput from '../TimeInput';
+
+import './Entry.css';
 
 function timeElapsed(from, to) {
   if (from === '' || to === '') {
@@ -16,32 +20,40 @@ class Entry extends Component {
   constructor(props) {
     super(props);
 
-    this.onStartTimeChange = (e) => this.onTimeChange('start', e.target.value);
-    this.onEndTimeChange = (e) => this.onTimeChange('end', e.target.value);
+    this.onDateChange = (e) => this.onValueChange('date', e.target.value);
+    this.onStartTimeChange = (e) => this.onValueChange('start', e.target.value);
+    this.onEndTimeChange = (e) => this.onValueChange('end', e.target.value);
 
     this.state = {
-      start: '01:00',
-      end: '03:40',
+      date: format(new Date(), 'YYYY-MM-DD'),
+      start: '00:00',
+      end: '00:00',
     };
   }
 
-  onTimeChange(time, value) {
+  onValueChange(time, value) {
     this.setState({
       [time]: value,
     });
   }
 
   render() {
-    const { start, end } = this.state;
+    const { date, start, end } = this.state;
 
     return (
-      <tr>
-        <td>Date</td>
-        <td><TimeInput onChange={this.onStartTimeChange} value={start} /></td>
-        <td><TimeInput onChange={this.onEndTimeChange} value={end} /></td>
-        <td>{timeElapsed(start, end)}</td>
-        <td>Project</td>
-        <td>Notes</td>
+      <tr className="ThymeEntry">
+        <td className="ThymeEntry__item ThymeEntry__item--date">
+          <DateInput onChange={this.onDateChange} value={date} /></td>
+        <td className="ThymeEntry__item ThymeEntry__item--start">
+          <TimeInput onChange={this.onStartTimeChange} value={start} /></td>
+        <td className="ThymeEntry__item ThymeEntry__item--end">
+          <TimeInput onChange={this.onEndTimeChange} value={end} /></td>
+        <td className="ThymeEntry__item ThymeEntry__item--duration">
+          {timeElapsed(start, end)}</td>
+        <td className="ThymeEntry__item ThymeEntry__item--project">
+          Project</td>
+        <td className="ThymeEntry__item ThymeEntry__item--notes">
+          Notes</td>
       </tr>
     );
   }

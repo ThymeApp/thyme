@@ -1,8 +1,10 @@
 import React from 'react';
 
+import './TimeInput.css';
+
 function TimeInput({ value, onChange }) {
   return (
-    <input type="time" value={value} onChange={onChange} />
+    <input className="TimeInput" type="time" value={value} onChange={onChange} />
   );
 }
 
