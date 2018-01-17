@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "date-fns": "^1.29.0",
+    "history": "^4.7.2",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -20,6 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "lint": "eslint ./",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
