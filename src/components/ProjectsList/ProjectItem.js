@@ -6,10 +6,11 @@ import { connect } from 'react-redux';
 
 import { isDescendant } from '../../core/projects';
 
-import { updateProject } from '../../actions/projects';
+import { updateProject, removeProject } from '../../actions/projects';
 
 import ProjectInput from '../ProjectInput';
 import ProjectsList from './ProjectsList';
+import remove from './remove.svg';
 
 function projectValues(props) {
   return {
@@ -24,6 +25,7 @@ type ProjectItemType = {
   project: projectTreeType,
   level: number;
   onUpdateProject: (project: { id: string, name: string, parent: string | null }) => void,
+  onRemoveProject: (id: string) => void,
 };
 
 class ProjectItem extends Component<ProjectItemType> {
@@ -52,10 +54,24 @@ class ProjectItem extends Component<ProjectItemType> {
         parent: parentId,
       });
     };
+
+    this.onRemoveEntry = () => {
+      const { project, projects, onRemoveProject } = this.props;
+
+      if (projects.find(item => item.parent === project.id)) {
+        alert('This project has children, cannot remove.');
+        return;
+      }
+
+      if (window.confirm('Are you sure you want to remove this project?')) {
+        onRemoveProject(project.id);
+      }
+    };
   }
 
   onChangeName: (e: Event) => void;
   onChangeParent: (project: { value: string, label: string }) => void;
+  onRemoveEntry: () => void;
 
   render(): Element<any> {
     const { project, projects, level } = this.props;
@@ -74,6 +90,11 @@ class ProjectItem extends Component<ProjectItemType> {
           <td>
             <ProjectInput handleChange={this.onChangeParent} value={project.parent} excludeValue />
           </td>
+          <td>
+            <button onClick={this.onRemoveEntry} className="ProjectList__button">
+              <img className="ProjectList__button-image" src={remove} alt="Remove entry" />
+            </button>
+          </td>
         </tr>
         {ProjectsList({ projects, parent: project.id, level: level + 1 })}
       </Fragment>
@@ -83,8 +104,12 @@ class ProjectItem extends Component<ProjectItemType> {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onUpdateProject(project) {
+    onUpdateProject(project: projectTreeType) {
       dispatch(updateProject(project));
+    },
+
+    onRemoveProject(id: string) {
+      dispatch(removeProject(id));
     },
   };
 }
