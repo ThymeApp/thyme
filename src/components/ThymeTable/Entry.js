@@ -34,9 +34,19 @@ class Entry extends Component {
     };
   }
 
-  onValueChange(time, value) {
+  onValueChange(key, value) {
+    const { onUpdate } = this.props;
+
+    if (typeof onUpdate === 'function') {
+      onUpdate({
+        id: this.props.id,
+        ...this.state,
+        [key]: value,
+      });
+    }
+
     this.setState({
-      [time]: value,
+      [key]: value,
     });
   }
 

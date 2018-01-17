@@ -1,10 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import shortid from 'shortid';
+
+import { addTime, updateTime } from '../../actions/time';
 
 import Entry from './Entry';
 
 import './ThymeTable.css';
 
-function ThymeTable() {
+function ThymeTable({ onEntryUpdate }) {
   return (
     <table className="ThymeTable">
       <tbody>
@@ -16,10 +20,30 @@ function ThymeTable() {
           <th>Project</th>
           <th>Notes</th>
         </tr>
-        <Entry />
+        <Entry onUpdate={onEntryUpdate} />
       </tbody>
     </table>
   );
 }
 
-export default ThymeTable;
+function mapStateToProps(state) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onEntryUpdate(entry) {
+      if (!entry.id) {
+        dispatch(addTime({
+          ...entry,
+          id: shortid.generate(),
+        }));
+        return;
+      }
+
+      dispatch(updateTime(entry));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThymeTable);
