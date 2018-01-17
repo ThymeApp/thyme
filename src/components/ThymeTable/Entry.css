@@ -2,3 +2,16 @@
   font-family: monospace;
   font-size: large;
 }
+
+.ThymeEntry__button {
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  height: 16px;
+  width: 16px;
+}
+
+.ThymeEntry__button-image {
+  max-width: 100%;
+}

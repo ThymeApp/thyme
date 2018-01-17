@@ -20,7 +20,7 @@ function allIds(state = [], action) {
     case 'ADD_TIME':
       return [...state, action.id];
     case 'REMOVE_TIME':
-      return state.filter(item => item.id !== action.id);
+      return state.filter(id => id !== action.id);
     default:
       return state;
   }

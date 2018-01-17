@@ -11,3 +11,10 @@ export function updateTime(entry) {
     ...entry,
   };
 }
+
+export function removeTime(id) {
+  return {
+    type: 'REMOVE_TIME',
+    id,
+  };
+}

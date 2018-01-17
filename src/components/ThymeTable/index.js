@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 
-import { addTime, updateTime } from '../../actions/time';
+import { addTime, updateTime, removeTime } from '../../actions/time';
 
 import Entry from './Entry';
 
 import './ThymeTable.css';
 
-function ThymeTable({ entries, onEntryCreate, onEntryUpdate }) {
+function ThymeTable({ entries, onEntryCreate, onEntryUpdate, onEntryRemove }) {
   return (
     <table className="ThymeTable">
       <tbody>
@@ -19,9 +19,17 @@ function ThymeTable({ entries, onEntryCreate, onEntryUpdate }) {
           <th>Duration</th>
           <th>Project</th>
           <th>Notes</th>
+          <th></th>
         </tr>
-        {entries.map(entry => <Entry key={entry.id} onUpdate={onEntryUpdate} {...entry} />)}
-        <Entry onEntryCreate={onEntryCreate} />
+        {entries.map(entry =>
+          <Entry
+            key={entry.id}
+            onRemove={onEntryRemove}
+            onUpdate={onEntryUpdate}
+            {...entry}
+          />
+        )}
+        <Entry onAdd={onEntryCreate} />
       </tbody>
     </table>
   );
@@ -44,7 +52,10 @@ function mapDispatchToProps(dispatch) {
         ...entry,
         id: shortid.generate(),
       }));
-    }
+    },
+    onEntryRemove(id) {
+      dispatch(removeTime(id));
+    },
   };
 }
 
