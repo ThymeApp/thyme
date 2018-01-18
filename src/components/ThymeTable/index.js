@@ -2,9 +2,8 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import shortid from 'shortid';
 
-import { addTime, updateTime, removeTime } from '../../actions/time';
+import { updateTime, removeTime } from '../../actions/time';
 
 import Entry from './Entry';
 
@@ -12,14 +11,12 @@ import './ThymeTable.css';
 
 type ThymeTableType = {
   entries: Array<timeType>,
-  onEntryCreate: (entry: timePropertyType) => void,
   onEntryUpdate: (entry: timePropertyType) => void,
   onEntryRemove: (id: string) => void,
 };
 
 function ThymeTable({
   entries,
-  onEntryCreate,
   onEntryUpdate,
   onEntryRemove,
 }: ThymeTableType) {
@@ -43,17 +40,9 @@ function ThymeTable({
             entry={entry}
           />
         ))}
-        <Entry onAdd={onEntryCreate} />
       </tbody>
     </table>
   );
-}
-
-function mapStateToProps(state) {
-  const { allIds, byId } = state.time;
-  const entries = allIds.map(id => byId[id]);
-
-  return { entries };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -61,16 +50,10 @@ function mapDispatchToProps(dispatch) {
     onEntryUpdate(entry) {
       dispatch(updateTime(entry));
     },
-    onEntryCreate(entry: timePropertyType) {
-      dispatch(addTime({
-        ...entry,
-        id: shortid.generate(),
-      }));
-    },
     onEntryRemove(id) {
       dispatch(removeTime(id));
     },
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ThymeTable);
+export default connect(null, mapDispatchToProps)(ThymeTable);

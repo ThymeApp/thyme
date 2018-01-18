@@ -7,8 +7,13 @@
 }
 
 .ThymeEntry__item--date, .ThymeEntry__item--start, .ThymeEntry__item--end,
-.ThymeEntry__item--duration, .ThymeEntry__item--action {
+.ThymeEntry__item--action {
   width: 1px;
+}
+
+.ThymeEntry__item--duration {
+  width: 90px;
+  padding: 0;
 }
 
 .ThymeEntry__item--project {
