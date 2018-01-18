@@ -56,6 +56,7 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     this.onAddEntry = this.addEntry.bind(this);
     this.onRemoveEntry = this.removeEntry.bind(this);
+    this.onKeyPress = this.keyPress.bind(this);
 
     this.state = defaultState(props.entry);
   }
@@ -65,23 +66,29 @@ class Entry extends Component<EntryType, EntryStateType> {
   onEndTimeChange: (e: Event) => void;
   onProjectChange: (project: { value: string, label: string }) => void;
   onNotesChange: (e: Event) => void;
+  onKeyPress: (e: KeyboardEvent) => void;
   onAddEntry: () => void;
   onRemoveEntry: () => void;
 
   onValueChange(key: string, value: string | null) {
-    const { entry, onUpdate } = this.props;
-
-    if (typeof onUpdate === 'function' && entry && entry.id) {
-      onUpdate({
-        id: entry.id,
-        ...this.state,
-        [key]: value,
-      });
-    }
+    this.updateEntry({
+      [key]: value,
+    });
 
     this.setState({
       [key]: value,
     });
+  }
+
+  keyPress(e: KeyboardEvent) {
+    // check if return is pressed
+    if (e.charCode && e.charCode === 13) {
+      if (this.props.entry) {
+        this.updateEntry();
+      } else {
+        this.addEntry();
+      }
+    }
   }
 
   addEntry() {
@@ -93,6 +100,18 @@ class Entry extends Component<EntryType, EntryStateType> {
       });
 
       this.setState(defaultState());
+    }
+  }
+
+  updateEntry(newState: any) {
+    const { entry, onUpdate } = this.props;
+
+    if (typeof onUpdate === 'function' && entry && entry.id) {
+      onUpdate({
+        id: entry.id,
+        ...this.state,
+        ...newState,
+      });
     }
   }
 
@@ -123,13 +142,13 @@ class Entry extends Component<EntryType, EntryStateType> {
     return (
       <tr className="ThymeEntry">
         <td className="ThymeEntry__item ThymeEntry__item--date">
-          <DateInput onChange={this.onDateChange} value={date} />
+          <DateInput onKeyPress={this.onKeyPress} onChange={this.onDateChange} value={date} />
         </td>
         <td className="ThymeEntry__item ThymeEntry__item--start">
-          <TimeInput onChange={this.onStartTimeChange} value={start} />
+          <TimeInput onKeyPress={this.onKeyPress} onChange={this.onStartTimeChange} value={start} />
         </td>
         <td className="ThymeEntry__item ThymeEntry__item--end">
-          <TimeInput onChange={this.onEndTimeChange} value={end} />
+          <TimeInput onKeyPress={this.onKeyPress} onChange={this.onEndTimeChange} value={end} />
         </td>
         <td className="ThymeEntry__item ThymeEntry__item--duration">
           {timeElapsed(start, end)}
@@ -138,7 +157,7 @@ class Entry extends Component<EntryType, EntryStateType> {
           <ProjectInput value={project} handleChange={this.onProjectChange} />
         </td>
         <td className="ThymeEntry__item ThymeEntry__item--notes">
-          <NotesInput onChange={this.onNotesChange} value={notes} />
+          <NotesInput onKeyPress={this.onKeyPress} onChange={this.onNotesChange} value={notes} />
         </td>
         <td>
           {!hasId && (

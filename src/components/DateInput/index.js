@@ -7,11 +7,18 @@ import './DateInput.css';
 type DateInputType = {
   value: string,
   onChange: (e: Event) => void,
+  onKeyPress: (e: KeyboardEvent) => void,
 };
 
-function DateInput({ value, onChange }: DateInputType) {
+function DateInput({ value, onChange, onKeyPress }: DateInputType) {
   return (
-    <input className="DateInput" type="date" onChange={onChange} value={value} />
+    <input
+      className="DateInput"
+      type="date"
+      onKeyPress={onKeyPress}
+      onChange={onChange}
+      value={value}
+    />
   );
 }
 
