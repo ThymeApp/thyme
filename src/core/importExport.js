@@ -26,7 +26,7 @@ type importStateType = {
 function validTimeEntry(entry) {
   if (
     typeof entry.id !== 'string' ||
-    (entry.project !== null || typeof entry.project !== 'string') ||
+    (entry.project !== null && typeof entry.project !== 'string') ||
     typeof entry.date !== 'string' ||
     typeof entry.start !== 'string' ||
     typeof entry.end !== 'string' ||
@@ -43,7 +43,7 @@ function validTimeEntry(entry) {
 function validProjectEntry(entry) {
   if (
     typeof entry.id !== 'string' ||
-    (entry.parent !== null || typeof entry.parent !== 'string') ||
+    (entry.parent !== null && typeof entry.parent !== 'string') ||
     typeof entry.name !== 'string' ||
     typeof entry.createdAt !== 'string' ||
     typeof entry.updatedAt !== 'string'
