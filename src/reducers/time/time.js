@@ -47,6 +47,8 @@ function project(state = null, action) {
     case 'ADD_TIME':
     case 'UPDATE_TIME':
       return action.project;
+    case 'REMOVE_PROJECT':
+      return state === action.id ? null : state;
     default:
       return state;
   }
