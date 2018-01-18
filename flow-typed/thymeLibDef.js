@@ -7,3 +7,11 @@ declare type projectType = {
 };
 
 declare type projectTreeType = projectType & { nameTree: Array<string> };
+
+declare type RouterLocation = {
+  pathname: string,
+  search: string,
+  hash: string,
+  state?: any,
+  key?: string
+};
