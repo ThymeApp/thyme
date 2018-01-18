@@ -10,7 +10,7 @@ import './App.css';
 function AppLink(name, path, currentPath) {
   return (
     <Link
-      className={classnames('App__menu-item', { 'App__menu-item--active': currentPath === path  })}
+      className={classnames('App__menu-item', { 'App__menu-item--active': currentPath === path })}
       to={path}
     >
       {name}

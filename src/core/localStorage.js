@@ -10,7 +10,6 @@ export function loadState(): {} | typeof undefined {
 
     return JSON.parse(serializedState || '{}');
   } catch (e) {
-    console.error(e);
     return undefined;
   }
 }
@@ -20,6 +19,6 @@ export function saveState(state: {}): void {
     const serializedState = JSON.stringify(state);
     localStorage.setItem('ThymeState', serializedState);
   } catch (e) {
-    console.error(e);
+    // silently fail
   }
 }

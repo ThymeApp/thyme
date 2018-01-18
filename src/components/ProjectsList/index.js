@@ -18,6 +18,6 @@ function projectsListWrapper({ projects }: { projects: Array<projectTreeType> })
       </tbody>
     </table>
   );
-};
+}
 
 export default projectsListWrapper;

@@ -8,6 +8,20 @@ declare type projectType = {
 
 declare type projectTreeType = projectType & { nameTree: Array<string> };
 
+declare type timePropertyType = {
+  project: string | null,
+  date: string,
+  start: string,
+  end: string,
+  notes: string,
+}
+
+declare type timeType = {
+  id: string,
+  createdAt: string,
+  updatedAt: string,
+} & timePropertyType;
+
 declare type RouterLocation = {
   pathname: string,
   search: string,

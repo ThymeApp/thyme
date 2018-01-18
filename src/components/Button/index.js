@@ -1,8 +1,15 @@
+// @flow
+
 import React from 'react';
 
 import './Button.css';
 
-function Button({ value, onClick }) {
+type ButtonType = {
+  value: string,
+  onClick: (e: Event) => void,
+};
+
+function Button({ value, onClick }: ButtonType) {
   return (
     <button className="Button" onClick={onClick}>
       {value}

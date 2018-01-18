@@ -1,10 +1,17 @@
+// @flow
+
 import React from 'react';
 
 import './NotesInput.css';
 
-function NotesInput({ value, onChange }) {
+type NotesInputType = {
+  value: string,
+  onChange: (e: Event) => void,
+};
+
+function NotesInput({ value, onChange }: NotesInputType) {
   return (
-    <input className="NotesInput" type="text" onChange={onChange} value={value}/>
+    <input className="NotesInput" type="text" onChange={onChange} value={value} />
   );
 }
 

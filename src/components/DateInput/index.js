@@ -1,8 +1,15 @@
+// @flow
+
 import React from 'react';
 
 import './DateInput.css';
 
-function DateInput({ value, onChange }) {
+type DateInputType = {
+  value: string,
+  onChange: (e: Event) => void,
+};
+
+function DateInput({ value, onChange }: DateInputType) {
   return (
     <input className="DateInput" type="date" onChange={onChange} value={value} />
   );

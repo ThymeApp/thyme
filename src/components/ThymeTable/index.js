@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
@@ -8,7 +10,19 @@ import Entry from './Entry';
 
 import './ThymeTable.css';
 
-function ThymeTable({ entries, onEntryCreate, onEntryUpdate, onEntryRemove }) {
+type ThymeTableType = {
+  entries: Array<timeType>,
+  onEntryCreate: (entry: timePropertyType) => void,
+  onEntryUpdate: (entry: timePropertyType) => void,
+  onEntryRemove: (id: string) => void,
+};
+
+function ThymeTable({
+  entries,
+  onEntryCreate,
+  onEntryUpdate,
+  onEntryRemove,
+}: ThymeTableType) {
   return (
     <table className="ThymeTable">
       <tbody>
@@ -26,7 +40,7 @@ function ThymeTable({ entries, onEntryCreate, onEntryUpdate, onEntryRemove }) {
             key={entry.id}
             onRemove={onEntryRemove}
             onUpdate={onEntryUpdate}
-            {...entry}
+            entry={entry}
           />
         ))}
         <Entry onAdd={onEntryCreate} />
@@ -47,7 +61,7 @@ function mapDispatchToProps(dispatch) {
     onEntryUpdate(entry) {
       dispatch(updateTime(entry));
     },
-    onEntryCreate(entry) {
+    onEntryCreate(entry: timePropertyType) {
       dispatch(addTime({
         ...entry,
         id: shortid.generate(),

@@ -1,6 +1,10 @@
+// @flow
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
+
+import { valueFromEventTarget } from '../../core/dom';
 
 import { addProject } from '../../actions/projects';
 
@@ -16,11 +20,20 @@ function defaultState() {
   };
 }
 
-class NewProject extends Component {
+type NewProjectStateType = {
+  name: string,
+  parent: string | null,
+};
+
+type NewProjectType = {
+  onAddProject: (project: NewProjectStateType) => void,
+};
+
+class NewProject extends Component<NewProjectType, NewProjectStateType> {
   constructor(props) {
     super(props);
 
-    this.onNameChange = e => this.onValueChange('name', e.target.value);
+    this.onNameChange = e => this.onValueChange('name', valueFromEventTarget(e.target));
     this.onProjectChange =
         project => this.onValueChange('parent', project === null ? null : project.value);
     this.onSubmit = this.addNew.bind(this);
@@ -28,7 +41,11 @@ class NewProject extends Component {
     this.state = defaultState();
   }
 
-  onValueChange(key, value) {
+  onNameChange: (e: Event) => void;
+  onProjectChange: (project: { value: string, label: string }) => void;
+  onSubmit: () => void;
+
+  onValueChange(key: string, value: string | null) {
     this.setState({
       [key]: value,
     });

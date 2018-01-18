@@ -1,7 +1,10 @@
+// @flow
+
 import React, { Component } from 'react';
 import format from 'date-fns/format';
 
 import { formatDuration, calculateDuration } from '../../core/thyme';
+import { valueFromEventTarget } from '../../core/dom';
 
 import DateInput from '../DateInput';
 import TimeInput from '../TimeInput';
@@ -21,7 +24,7 @@ function timeElapsed(from, to) {
   return formatDuration(calculateDuration(from, to));
 }
 
-function defaultState(props = {}) {
+function defaultState(props = {}): timePropertyType {
   return {
     date: format(props.date || new Date(), 'YYYY-MM-DD'),
     start: props.start || '00:00',
@@ -31,29 +34,47 @@ function defaultState(props = {}) {
   };
 }
 
-class Entry extends Component {
-  constructor(props) {
+type EntryType = {
+  id?: string,
+  entry?: timeType,
+  onAdd?: (entry: timePropertyType) => void,
+  onRemove?: (id: string) => void,
+  onUpdate?: (entry: timePropertyType) => void,
+};
+
+type EntryStateType = timePropertyType;
+
+class Entry extends Component<EntryType, EntryStateType> {
+  constructor(props: EntryType) {
     super(props);
 
-    this.onDateChange = e => this.onValueChange('date', e.target.value);
-    this.onStartTimeChange = e => this.onValueChange('start', e.target.value);
-    this.onEndTimeChange = e => this.onValueChange('end', e.target.value);
+    this.onDateChange = e => this.onValueChange('date', valueFromEventTarget(e.target));
+    this.onStartTimeChange = e => this.onValueChange('start', valueFromEventTarget(e.target));
+    this.onEndTimeChange = e => this.onValueChange('end', valueFromEventTarget(e.target));
     this.onProjectChange =
         project => this.onValueChange('project', project === null ? null : project.value);
-    this.onNotesChange = e => this.onValueChange('notes', e.target.value);
+    this.onNotesChange = e => this.onValueChange('notes', valueFromEventTarget(e.target));
 
     this.onAddEntry = this.addEntry.bind(this);
     this.onRemoveEntry = this.removeEntry.bind(this);
 
-    this.state = defaultState(props);
+    this.state = defaultState(props.entry);
   }
 
-  onValueChange(key, value) {
-    const { onUpdate } = this.props;
+  onDateChange: (e: Event) => void;
+  onStartTimeChange: (e: Event) => void;
+  onEndTimeChange: (e: Event) => void;
+  onProjectChange: (project: { value: string, label: string }) => void;
+  onNotesChange: (e: Event) => void;
+  onAddEntry: () => void;
+  onRemoveEntry: () => void;
+
+  onValueChange(key: string, value: string | null) {
+    const { id, onUpdate } = this.props;
 
     if (typeof onUpdate === 'function') {
       onUpdate({
-        id: this.props.id,
+        id,
         ...this.state,
         [key]: value,
       });
@@ -80,6 +101,7 @@ class Entry extends Component {
     const { id, onRemove } = this.props;
 
     if (
+      id &&
       typeof onRemove === 'function' &&
       window.confirm('Are you sure you want to delete this item?')
     ) {
@@ -89,22 +111,34 @@ class Entry extends Component {
 
   render() {
     const { id } = this.props;
-    const { date, start, end, project, notes } = this.state;
+    const {
+      date,
+      start,
+      end,
+      project,
+      notes,
+    } = this.state;
 
     return (
       <tr className="ThymeEntry">
         <td className="ThymeEntry__item ThymeEntry__item--date">
-          <DateInput onChange={this.onDateChange} value={date} /></td>
+          <DateInput onChange={this.onDateChange} value={date} />
+        </td>
         <td className="ThymeEntry__item ThymeEntry__item--start">
-          <TimeInput onChange={this.onStartTimeChange} value={start} /></td>
+          <TimeInput onChange={this.onStartTimeChange} value={start} />
+        </td>
         <td className="ThymeEntry__item ThymeEntry__item--end">
-          <TimeInput onChange={this.onEndTimeChange} value={end} /></td>
+          <TimeInput onChange={this.onEndTimeChange} value={end} />
+        </td>
         <td className="ThymeEntry__item ThymeEntry__item--duration">
-          {timeElapsed(start, end)}</td>
+          {timeElapsed(start, end)}
+        </td>
         <td className="ThymeEntry__item ThymeEntry__item--project">
-          <ProjectInput value={project} handleChange={this.onProjectChange} /></td>
+          <ProjectInput value={project} handleChange={this.onProjectChange} />
+        </td>
         <td className="ThymeEntry__item ThymeEntry__item--notes">
-          <NotesInput onChange={this.onNotesChange} value={notes} /></td>
+          <NotesInput onChange={this.onNotesChange} value={notes} />
+        </td>
         <td>
           {!id && (
             <button onClick={this.onAddEntry} className="ThymeEntry__button">
