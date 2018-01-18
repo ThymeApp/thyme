@@ -20,3 +20,7 @@ export function removeProject(id: string) {
     id,
   };
 }
+
+export function truncateProjects() {
+  return { type: 'TRUNCATE_PROJECTS' };
+}

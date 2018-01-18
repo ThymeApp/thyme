@@ -20,3 +20,7 @@ export function removeTime(id: string) {
     id,
   };
 }
+
+export function truncateTime() {
+  return { type: 'TRUNCATE_TIME' };
+}

@@ -1,13 +1,23 @@
 .Button {
   font-size: large;
+  height: 36px;
   padding: 2px 12px;
   border: 0;
   border-radius: 4px;
   color: #fff;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);;
   background-image: linear-gradient(to bottom, #4ba614, #008c00);
+  margin-right: 6px;
 }
 
 .Button:hover {
   background-image: linear-gradient(to bottom, #4dc014, #00ac00);
+}
+
+.Button--red {
+  background-image: linear-gradient(to bottom, #a62a25, #7d201c);
+}
+
+.Button--red:hover {
+  background-image: linear-gradient(to bottom, #c23127, #ae2d27);
 }

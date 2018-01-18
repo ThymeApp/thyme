@@ -15,6 +15,8 @@ function byId(state = {}, action) {
       };
     case 'REMOVE_PROJECT':
       return pick(state, Object.keys(state).filter(item => item !== action.id));
+    case 'TRUNCATE_PROJECTS':
+      return {};
     default:
       return state;
   }
@@ -26,6 +28,8 @@ function allIds(state = [], action) {
       return [...state, action.id];
     case 'REMOVE_PROJECT':
       return state.filter(id => id !== action.id);
+    case 'TRUNCATE_PROJECTS':
+      return [];
     default:
       return state;
   }

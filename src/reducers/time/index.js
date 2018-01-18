@@ -16,6 +16,7 @@ function byId(state = {}, action) {
       };
     // update every item
     case 'REMOVE_PROJECT':
+    case 'TRUNCATE_PROJECTS':
       return Object.keys(state).reduce((newState, key) => ({
         ...newState,
         [key]: time(state[key], action),
@@ -23,6 +24,8 @@ function byId(state = {}, action) {
     // remove item
     case 'REMOVE_TIME':
       return pick(state, Object.keys(state).filter(item => item !== action.id));
+    case 'TRUNCATE_TIME':
+      return {};
     default:
       return state;
   }
@@ -34,6 +37,8 @@ function allIds(state = [], action) {
       return [...state, action.id];
     case 'REMOVE_TIME':
       return state.filter(id => id !== action.id);
+    case 'TRUNCATE_TIME':
+      return [];
     default:
       return state;
   }

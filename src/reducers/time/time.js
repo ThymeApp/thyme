@@ -49,6 +49,8 @@ function project(state = null, action) {
       return action.project;
     case 'REMOVE_PROJECT':
       return state === action.id ? null : state;
+    case 'TRUNCATE_PROJECTS':
+      return null;
     default:
       return state;
   }
