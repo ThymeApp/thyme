@@ -80,17 +80,6 @@ class Entry extends Component<EntryType, EntryStateType> {
     });
   }
 
-  keyPress(e: KeyboardEvent) {
-    // check if return is pressed
-    if (e.charCode && e.charCode === 13) {
-      if (this.props.entry) {
-        this.updateEntry();
-      } else {
-        this.addEntry();
-      }
-    }
-  }
-
   addEntry() {
     const { onAdd } = this.props;
 
@@ -112,6 +101,13 @@ class Entry extends Component<EntryType, EntryStateType> {
         ...this.state,
         ...newState,
       });
+    }
+  }
+
+  keyPress(e: KeyboardEvent) {
+    // check if return is pressed
+    if (e.charCode && e.charCode === 13 && !this.props.entry) {
+      this.addEntry();
     }
   }
 
