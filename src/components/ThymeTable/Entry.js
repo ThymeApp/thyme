@@ -35,7 +35,6 @@ function defaultState(props = {}): timePropertyType {
 }
 
 type EntryType = {
-  id?: string,
   entry?: timeType,
   onAdd?: (entry: timePropertyType) => void,
   onRemove?: (id: string) => void,
@@ -70,11 +69,11 @@ class Entry extends Component<EntryType, EntryStateType> {
   onRemoveEntry: () => void;
 
   onValueChange(key: string, value: string | null) {
-    const { id, onUpdate } = this.props;
+    const { entry, onUpdate } = this.props;
 
-    if (typeof onUpdate === 'function') {
+    if (typeof onUpdate === 'function' && entry && entry.id) {
       onUpdate({
-        id,
+        id: entry.id,
         ...this.state,
         [key]: value,
       });
@@ -98,19 +97,19 @@ class Entry extends Component<EntryType, EntryStateType> {
   }
 
   removeEntry() {
-    const { id, onRemove } = this.props;
+    const { entry, onRemove } = this.props;
 
     if (
-      id &&
+      entry && entry.id &&
       typeof onRemove === 'function' &&
       window.confirm('Are you sure you want to delete this item?')
     ) {
-      onRemove(id);
+      onRemove(entry.id);
     }
   }
 
   render() {
-    const { id } = this.props;
+    const { entry } = this.props;
     const {
       date,
       start,
@@ -118,6 +117,8 @@ class Entry extends Component<EntryType, EntryStateType> {
       project,
       notes,
     } = this.state;
+
+    const hasId = Boolean(entry && !!entry.id);
 
     return (
       <tr className="ThymeEntry">
@@ -140,12 +141,12 @@ class Entry extends Component<EntryType, EntryStateType> {
           <NotesInput onChange={this.onNotesChange} value={notes} />
         </td>
         <td>
-          {!id && (
+          {!hasId && (
             <button onClick={this.onAddEntry} className="ThymeEntry__button">
               <img className="ThymeEntry__button-image" src={add} alt="Add entry" />
             </button>
           )}
-          {id && (
+          {hasId && (
             <button onClick={this.onRemoveEntry} className="ThymeEntry__button">
               <img className="ThymeEntry__button-image" src={remove} alt="Remove entry" />
             </button>
