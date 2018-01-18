@@ -8,17 +8,19 @@ import 'react-select/dist/react-select.css';
 import { sortedProjects } from '../../core/projects';
 
 type ProjectInputType = {
+  placeholder?: string,
   value: string,
   projects: Array<projectType>,
   handleChange: ({ value: string, label: string }) => void,
 };
 
-function ProjectInput({ value, projects, handleChange }: ProjectInputType) {
+function ProjectInput({ placeholder, value, projects, handleChange }: ProjectInputType) {
   return (
     <Select
       name="project"
       autosize
       value={value}
+      placeholder={placeholder || 'Select project...'}
       onChange={handleChange}
       options={
         sortedProjects(projects)
