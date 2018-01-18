@@ -1,38 +1,42 @@
 {
-  "name": "thyme",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "classnames": "^2.2.5",
-    "date-fns": "^1.29.0",
-    "file-saver": "^1.3.3",
-    "history": "^4.7.2",
-    "lodash": "^4.17.4",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.0",
-    "react-select": "^1.2.1",
-    "redux": "^3.7.2",
-    "shortid": "^2.2.8"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "lint": "eslint ./",
-    "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "babel-eslint": "^8.2.1",
-    "eslint": "^4.15.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-flowtype": "^2.41.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.5.1",
-    "flow-bin": "^0.63.1"
-  }
+    "name": "thyme",
+    "version": "0.1.0",
+    "private": true,
+    "homepage": "https://gaya.github.io/thyme/",
+    "dependencies": {
+        "classnames": "^2.2.5",
+        "date-fns": "^1.29.0",
+        "file-saver": "^1.3.3",
+        "gh-pages": "^1.1.0",
+        "history": "^4.7.2",
+        "lodash": "^4.17.4",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "react-redux": "^5.0.6",
+        "react-router": "^4.2.0",
+        "react-router-dom": "^4.2.2",
+        "react-scripts": "1.1.0",
+        "react-select": "^1.2.1",
+        "redux": "^3.7.2",
+        "shortid": "^2.2.8"
+    },
+    "scripts": {
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build",
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "lint": "eslint ./",
+        "eject": "react-scripts eject"
+    },
+    "devDependencies": {
+        "babel-eslint": "^8.2.1",
+        "eslint": "^4.15.0",
+        "eslint-config-airbnb": "^16.1.0",
+        "eslint-plugin-flowtype": "^2.41.0",
+        "eslint-plugin-import": "^2.8.0",
+        "eslint-plugin-jsx-a11y": "^6.0.3",
+        "eslint-plugin-react": "^7.5.1",
+        "flow-bin": "^0.63.1"
+    }
 }
