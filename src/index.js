@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux';
 import throttle from 'lodash/throttle';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 
 import { loadState, saveState } from './core/localStorage';
@@ -32,9 +32,9 @@ store.subscribe(throttle(() => {
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
+    <BrowserRouter basename={process.env.PUBLIC_URL} history={history}>
       <App><Routes /></App>
-    </Router>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root') || document.createElement('div'),
 );
