@@ -6,7 +6,8 @@
   height: 32px;
 }
 
-.ThymeEntry__item--date, .ThymeEntry__item--start, .ThymeEntry__item--end, .ThymeEntry__item--duration {
+.ThymeEntry__item--date, .ThymeEntry__item--start, .ThymeEntry__item--end,
+.ThymeEntry__item--duration, .ThymeEntry__item--action {
   width: 1px;
 }
 

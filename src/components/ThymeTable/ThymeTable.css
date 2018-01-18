@@ -5,3 +5,7 @@
 .ThymeTable__header {
   text-align: left;
 }
+
+.ThymeTable__header th {
+  padding-right: 12px;
+}

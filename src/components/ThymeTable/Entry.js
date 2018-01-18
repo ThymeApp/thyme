@@ -169,7 +169,7 @@ class Entry extends Component<EntryType, EntryStateType> {
         <td className="ThymeEntry__item ThymeEntry__item--notes">
           <NotesInput onKeyPress={this.onKeyPress} onChange={this.onNotesChange} value={notes} />
         </td>
-        <td>
+        <td className="ThymeEntry__item--action">
           {!hasId && (
             <button onClick={this.onAddEntry} className="ThymeEntry__button">
               <img className="ThymeEntry__button-image" src={add} alt="Add entry" />
