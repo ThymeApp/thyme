@@ -26,6 +26,11 @@ function byId(state = {}, action) {
       return pick(state, Object.keys(state).filter(item => item !== action.id));
     case 'TRUNCATE_TIME':
       return {};
+    case 'IMPORT_JSON_DATA':
+      return action.time.reduce((newState, item) => ({
+        ...newState,
+        [item.id]: item,
+      }), {});
     default:
       return state;
   }
@@ -39,6 +44,8 @@ function allIds(state = [], action) {
       return state.filter(id => id !== action.id);
     case 'TRUNCATE_TIME':
       return [];
+    case 'IMPORT_JSON_DATA':
+      return action.time.map(item => item.id);
     default:
       return state;
   }
