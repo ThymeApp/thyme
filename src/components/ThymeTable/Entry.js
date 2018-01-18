@@ -58,6 +58,8 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.onRemoveEntry = this.removeEntry.bind(this);
     this.onKeyPress = this.keyPress.bind(this);
 
+    this.onSetDateInputRef = (input) => { this.dateInput = input; };
+
     this.state = defaultState(props.entry);
   }
 
@@ -69,6 +71,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   onKeyPress: (e: KeyboardEvent) => void;
   onAddEntry: () => void;
   onRemoveEntry: () => void;
+  onSetDateInputRef: (input: HTMLInputElement | null) => void;
 
   onValueChange(key: string, value: string | null) {
     this.updateEntry({
@@ -80,6 +83,8 @@ class Entry extends Component<EntryType, EntryStateType> {
     });
   }
 
+  dateInput: HTMLInputElement | null;
+
   addEntry() {
     const { onAdd } = this.props;
 
@@ -87,6 +92,10 @@ class Entry extends Component<EntryType, EntryStateType> {
       onAdd({
         ...this.state,
       });
+
+      if (this.dateInput) {
+        this.dateInput.focus();
+      }
 
       this.setState(defaultState());
     }
@@ -138,7 +147,12 @@ class Entry extends Component<EntryType, EntryStateType> {
     return (
       <tr className="ThymeEntry">
         <td className="ThymeEntry__item ThymeEntry__item--date">
-          <DateInput onKeyPress={this.onKeyPress} onChange={this.onDateChange} value={date} />
+          <DateInput
+            setRef={this.onSetDateInputRef}
+            onKeyPress={this.onKeyPress}
+            onChange={this.onDateChange}
+            value={date}
+          />
         </td>
         <td className="ThymeEntry__item ThymeEntry__item--start">
           <TimeInput onKeyPress={this.onKeyPress} onChange={this.onStartTimeChange} value={start} />
