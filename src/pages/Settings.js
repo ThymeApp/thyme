@@ -121,6 +121,12 @@ class Settings extends Component<SettingsType> {
         <h4>Delete data</h4>
         <Button red value="Remove timesheet data" onClick={this.onRemoveTime} />
         <Button red value="Remove project data" onClick={this.onRemoveProjects} />
+
+        <h4>About</h4>
+        Thyme is creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
+        It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
+        All your data is stored in your own browser.
+        <a href="https://github.com/Gaya/thyme/issues">Issues can be filed on Github</a>.
       </div>
     );
   }
