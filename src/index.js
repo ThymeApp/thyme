@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux';
 import throttle from 'lodash/throttle';
 import { BrowserRouter } from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
 
 import { loadState, saveState } from './core/localStorage';
 
@@ -16,8 +15,6 @@ import App from './components/App';
 import Routes from './Routes';
 
 import './index.css';
-
-const history = createHistory();
 
 const store = createStore(
   reducers,
@@ -32,7 +29,7 @@ store.subscribe(throttle(() => {
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter basename={process.env.PUBLIC_URL} history={history}>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <App><Routes /></App>
     </BrowserRouter>
   </Provider>,
