@@ -20,6 +20,7 @@ function AppLink(name, path, currentPath) {
 
 type AppType = {
   location: RouterLocation,
+  children: any
 }
 
 function App({ location, children }: AppType) {
