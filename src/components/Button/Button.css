@@ -6,18 +6,18 @@
   border-radius: 4px;
   color: #fff;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);;
-  background-image: linear-gradient(to bottom, #4ba614, #008c00);
+  background-image: linear-gradient(to bottom, #336a88, #2a5871);
   margin-right: 6px;
 }
 
 .Button:hover {
-  background-image: linear-gradient(to bottom, #4dc014, #00ac00);
+  background-image: linear-gradient(to bottom, #22475b, #183240);
 }
 
 .Button--red {
-  background-image: linear-gradient(to bottom, #a62a25, #7d201c);
+  background-image: linear-gradient(to bottom, #e93031, #b72626);
 }
 
 .Button--red:hover {
-  background-image: linear-gradient(to bottom, #c23127, #ae2d27);
+  background-image: linear-gradient(to bottom, #ff3435, #d52b2b);
 }
