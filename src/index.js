@@ -13,6 +13,7 @@ import { loadState, saveState } from './core/localStorage';
 import reducers from './reducers';
 
 import App from './components/App';
+import Routes from './Routes';
 
 import './index.css';
 
@@ -32,7 +33,7 @@ store.subscribe(throttle(() => {
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <App />
+      <App><Routes /></App>
     </Router>
   </Provider>,
   document.getElementById('root') || document.createElement('div'),

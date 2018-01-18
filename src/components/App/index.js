@@ -1,10 +1,9 @@
+// @flow
+
 import React from 'react';
 import { withRouter } from 'react-router';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
-
-import Time from '../../pages/Time';
-import Projects from '../../pages/Projects';
 
 import './App.css';
 
@@ -19,7 +18,11 @@ function AppLink(name, path, currentPath) {
   );
 }
 
-function App({ location }) {
+type AppType = {
+  location: RouterLocation,
+}
+
+function App({ location, children }: AppType) {
   return (
     <div className="App">
       <header className="App__header">
@@ -30,12 +33,7 @@ function App({ location }) {
           {AppLink('Projects', '/projects', location.pathname)}
         </menu>
       </header>
-      <section className="App__container">
-        <Switch>
-          <Route path="/projects" component={Projects} />
-          <Route exact path="/" component={Time} />
-        </Switch>
-      </section>
+      <section className="App__container">{children}</section>
     </div>
   );
 }
