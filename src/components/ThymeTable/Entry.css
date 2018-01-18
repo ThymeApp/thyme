@@ -1,5 +1,13 @@
+.ThymeEntry__item {
+  padding-right: 12px;
+}
+
 .ThymeEntry__item input {
   height: 32px;
+}
+
+.ThymeEntry__item--date, .ThymeEntry__item--start, .ThymeEntry__item--end, .ThymeEntry__item--duration {
+  width: 1px;
 }
 
 .ThymeEntry__item--project {

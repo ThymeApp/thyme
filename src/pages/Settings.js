@@ -126,7 +126,7 @@ class Settings extends Component<SettingsType> {
         Thyme is creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
         It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
         All your data is stored in your own browser.
-        <a href="https://github.com/Gaya/thyme/issues">Issues can be filed on Github</a>.
+        Issues / requests can be <a href="https://github.com/Gaya/thyme/issues">filed on Github</a>.
       </div>
     );
   }

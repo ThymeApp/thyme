@@ -1,4 +1,6 @@
-.App { }
+.App a {
+  color: #222;
+}
 
 .App__header {
   background-color: #222;
@@ -20,12 +22,12 @@
   padding: 0;
 }
 
-.App__menu-item {
+.App .App__menu-item {
   color: #fff;
   margin: 0 5px;
   text-decoration: none;
 }
 
-.App__menu-item--active {
+.App .App__menu-item--active {
   text-decoration: underline;
 }
