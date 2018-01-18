@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import FileSaver from 'file-saver';
 import format from 'date-fns/format';
 
-import { stateToExport } from '../core/importExport';
+import { stateToExport, validData } from '../core/importExport';
 
+import { importJSONData } from '../actions/app';
 import { truncateTime } from '../actions/time';
 import { truncateProjects } from '../actions/projects';
 
@@ -17,6 +18,7 @@ type SettingsType = {
   projects: any,
   removeTimeData: () => void,
   removeProjectData: () => void,
+  importData: (data: any) => void,
 };
 
 class Settings extends Component<SettingsType> {
@@ -36,11 +38,23 @@ class Settings extends Component<SettingsType> {
     };
 
     this.onExportData = this.exportData.bind(this);
+    this.onImportData = this.importData.bind(this);
+
+    // create file upload element
+    const input = document.createElement('input');
+    input.setAttribute('name', 'upload');
+    input.setAttribute('type', 'file');
+
+    input.addEventListener('change', this.handleFileChange.bind(this));
+
+    this.uploadInput = input;
   }
 
   onRemoveTime: () => void;
   onRemoveProjects: () => void;
   onExportData: () => void;
+  onImportData: () => void;
+  uploadInput: HTMLInputElement;
 
   exportData() {
     const { time, projects } = this.props;
@@ -55,6 +69,46 @@ class Settings extends Component<SettingsType> {
     FileSaver.saveAs(blob, `thyme-export_${format(new Date(), 'YYYY-MM-DD')}.json`);
   }
 
+  importData() {
+    if (
+      window.confirm('If you import data it will overwrite your current data. Wish to continue?')
+    ) {
+      // open file dialog
+      this.uploadInput.click();
+    }
+  }
+
+  handleImportData(jsonString: string) {
+    try {
+      const importData = JSON.parse(jsonString);
+
+      if (!validData(importData)) {
+        alert('The provided JSON is not a valid Thyme timesheet');
+        return;
+      }
+
+      this.props.importData(importData);
+
+      alert('Import successful');
+    } catch (e) {
+      alert(e.message);
+    }
+  }
+
+  handleFileChange(e) {
+    if (e.target instanceof HTMLInputElement === false) {
+      return;
+    }
+
+    if (e.target.files instanceof FileList) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        this.handleImportData(ev.target.result);
+      };
+      reader.readAsText(e.target.files[0]);
+    }
+  }
+
   render() {
     return (
       <div>
@@ -62,6 +116,7 @@ class Settings extends Component<SettingsType> {
 
         <h4>Export / Import</h4>
         <Button value="Export data" onClick={this.onExportData} />
+        <Button value="Import data" onClick={this.onImportData} />
 
         <h4>Delete data</h4>
         <Button red value="Remove timesheet data" onClick={this.onRemoveTime} />
@@ -85,6 +140,10 @@ function mapDispatchToProps(dispatch) {
 
     removeProjectData() {
       dispatch(truncateProjects());
+    },
+
+    importData(data) {
+      dispatch(importJSONData(data));
     },
   };
 }
