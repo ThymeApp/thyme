@@ -5,6 +5,8 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
+import thyme from './Thyme.svg';
+
 import './App.css';
 
 function AppLink(name, path, currentPath) {
@@ -27,7 +29,10 @@ function App({ location, children }: AppType) {
   return (
     <div className="App">
       <header className="App__header">
-        <h1 className="App__title">Thyme</h1>
+        <h1 className="App__title">
+          <img src={thyme} alt="Thyme" />
+          Thyme
+        </h1>
 
         <menu className="App__menu">
           {AppLink('Timesheet', '/', location.pathname)}
