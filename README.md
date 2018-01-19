@@ -25,8 +25,7 @@ and project notes.
 ## Future features
 
 - Reports of total time spent
-- Better timesheet listing
-- Timesheet listing filters
+- Improved timesheet listing
 
 ---
 
