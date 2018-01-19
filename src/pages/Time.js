@@ -5,16 +5,31 @@ import { connect } from 'react-redux';
 import isThisWeek from 'date-fns/is_this_week';
 import isAfter from 'date-fns/is_after';
 import isBefore from 'date-fns/is_before';
+import subMonths from 'date-fns/sub_months';
 
 import DateRange from '../components/DateRange';
 import ThymeTable from '../components/ThymeTable';
 import NewTime from '../components/ThymeTable/New';
 
+const now = new Date();
+const thisWeek = entry => isThisWeek(entry.date);
+const lastMonth = entry => isAfter(entry.date, subMonths(now, 1));
+const older = entry => isBefore(entry.date, subMonths(now, 1));
+
+function dateRangeFilter(dateRange: dateRanges) {
+  switch (dateRange) {
+    case 'older':
+      return older;
+    case 'month':
+      return lastMonth;
+    default:
+      return thisWeek;
+  }
+}
+
 type TimeType = {
   entries: Array<timeType>,
 };
-
-const thisWeek = entry => isThisWeek(entry.date);
 
 function sortByTime(a, b) {
   const aDate = `${a.date} ${a.start}`;
@@ -42,9 +57,9 @@ function Time({ entries }: TimeType) {
 }
 
 function mapStateToProps(state) {
-  const { allIds, byId } = state.time;
+  const { allIds, byId, dateRange } = state.time;
 
-  const entries = allIds.map(id => byId[id]).filter(thisWeek);
+  const entries = allIds.map(id => byId[id]).filter(dateRangeFilter(dateRange));
 
   // sort entries
   entries.sort(sortByTime);
