@@ -24,3 +24,10 @@ export function removeTime(id: string) {
 export function truncateTime() {
   return { type: 'TRUNCATE_TIME' };
 }
+
+export function changeDateRange(dateRange: dateRanges) {
+  return {
+    type: 'CHANGE_DATE_RANGE',
+    dateRange,
+  };
+}

@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
-import type { Element } from 'react';
 import { connect } from 'react-redux';
 
 import { isDescendant } from '../../core/projects';
@@ -73,7 +72,7 @@ class ProjectItem extends Component<ProjectItemType> {
   onChangeParent: (project: { value: string, label: string }) => void;
   onRemoveEntry: () => void;
 
-  render(): Element<any> {
+  render() {
     const { project, projects, level } = this.props;
 
     return (

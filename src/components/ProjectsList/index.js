@@ -1,11 +1,10 @@
 // @flow
 
 import React from 'react';
-import type { Element } from 'react';
 
 import ProjectsList from './ProjectsList';
 
-function projectsListWrapper({ projects }: { projects: Array<projectTreeType> }): Element<any> {
+function projectsListWrapper({ projects }: { projects: Array<projectTreeType> }) {
   return (
     <table className="ProjectList">
       <tbody>

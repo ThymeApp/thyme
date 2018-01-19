@@ -51,7 +51,17 @@ function allIds(state = [], action) {
   }
 }
 
+function dateRange(state = 'week', action): dateRanges {
+  switch (action.type) {
+    case 'CHANGE_DATE_RANGE':
+      return action.dateRange;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   byId,
   allIds,
+  dateRange,
 });
