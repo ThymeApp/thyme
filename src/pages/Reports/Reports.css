@@ -1,0 +1,27 @@
+.Report__header {
+  display: flex;
+  align-items: center;
+}
+
+.Report__title {
+  margin: 0 12px 0 0;
+}
+
+.Report__period {
+  margin-left: auto;
+}
+
+.Report__filters {
+  display: flex;
+  margin: 12px 0;
+}
+
+.Report__filter {
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.Report__filter-name {
+  margin-right: 3px;
+}

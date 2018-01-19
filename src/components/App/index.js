@@ -36,6 +36,7 @@ function App({ location, children }: AppType) {
 
         <menu className="App__menu">
           {AppLink('Timesheet', '/', location.pathname)}
+          {AppLink('Reports', '/reports', location.pathname)}
           {AppLink('Projects', '/projects', location.pathname)}
           {AppLink('Settings', '/settings', location.pathname)}
         </menu>
