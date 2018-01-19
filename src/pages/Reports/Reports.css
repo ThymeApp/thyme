@@ -3,6 +3,10 @@
   align-items: center;
 }
 
+.Report__header-date {
+  opacity: 0.6;
+}
+
 .Report__title {
   margin: 0 12px 0 0;
 }
@@ -11,9 +15,14 @@
   margin-left: auto;
 }
 
+.Report__period select {
+  font-size: large;
+}
+
 .Report__filters {
   display: flex;
   margin: 12px 0;
+  line-height: 1.2em;
 }
 
 .Report__filter {
@@ -24,4 +33,9 @@
 
 .Report__filter-name {
   margin-right: 3px;
+}
+
+.Report__filters-label {
+  margin-right: 12px;
+  opacity: 0.6;
 }
