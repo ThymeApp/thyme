@@ -7,7 +7,11 @@ import { sortedProjects } from '../../core/projects';
 
 import './Reports.css';
 
-function Reports({ projects }) {
+type ReportsType = {
+  projects: Array<projectType>,
+};
+
+function Reports({ projects }: ReportsType) {
   return (
     <div>
       <div className="Report__header">
@@ -23,22 +27,25 @@ function Reports({ projects }) {
       </div>
       <div className="Report__filters">
         <span className="Report__filters-label">Show:</span>
-        {sortedProjects(projects).map(project => (
+        {projects.map(project => (
           <label className="Report__filter" key={project.id} htmlFor={project.id}>
             <span className="Report__filter-name">{project.name}</span>
             <input defaultChecked type="checkbox" name={project.id} id={project.id} />
           </label>
         ))}
       </div>
+      <div>{JSON.stringify(projects)}</div>
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  const { allIds, byId } = state.projects;
-  const projects = allIds.map(id => byId[id]);
+  const { projects, time } = state;
 
-  return { projects };
+  return {
+    projects: sortedProjects(projects.allIds.map(id => projects.byId[id])),
+    time: time.allIds.map(id => time.byId[id]),
+  };
 }
 
 export default connect(mapStateToProps)(Reports);

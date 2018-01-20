@@ -68,3 +68,12 @@ export function sortedProjects(projects: Array<projectType>): Array<projectTreeT
 
   return named;
 }
+
+export function totalProjectTime(
+  project: projectType,
+  time: Array<timeType>,
+  from: Date,
+  to: Date,
+): number {
+  return 0;
+}
