@@ -1,6 +1,9 @@
 // @flow
 
 import differenceInMinutes from 'date-fns/difference_in_minutes';
+import isAfter from 'date-fns/is_after';
+import isBefore from 'date-fns/is_before';
+import isEqual from 'date-fns/is_equal';
 
 export function calculateDuration(from: string, to: string): number {
   const [fromHour, fromMinute] = from.split(':');
@@ -21,4 +24,17 @@ export function formatDuration(duration: number): string {
   const minutes = duration % 60;
 
   return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+}
+
+export function totalProjectTime(
+  project: projectType,
+  times: Array<timeType>,
+  from: Date,
+  to: Date,
+): number {
+  return times
+    .filter(time => time.project === project.id)
+    .filter(time => isAfter(time.date, from) || isEqual(time.date, from))
+    .filter(time => isBefore(time.date, to) || isEqual(time.date, to))
+    .reduce((total, time) => total + calculateDuration(time.start, time.end), 0);
 }
