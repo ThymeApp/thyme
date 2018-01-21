@@ -8,7 +8,7 @@ import { sortedProjects } from '../../core/projects';
 import './Reports.css';
 
 type ReportsType = {
-  projects: Array<projectType>,
+  projects: Array<projectTreeType>,
 };
 
 function Reports({ projects }: ReportsType) {
