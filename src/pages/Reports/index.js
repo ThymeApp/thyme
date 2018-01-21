@@ -9,11 +9,10 @@ import { totalProjectTime } from '../../core/thyme';
 import './Reports.css';
 
 type ReportsType = {
-  projects: Array<projectTreeType>,
-  time: Array<timeType>,
+  projects: Array<projectTreeType & { time: number }>,
 };
 
-function Reports({ projects, time }: ReportsType) {
+function Reports({ projects }: ReportsType) {
   return (
     <div>
       <div className="Report__header">
@@ -40,7 +39,7 @@ function Reports({ projects, time }: ReportsType) {
         {projects.map(project => (
           <div key={project.id}>
             <div>{project.name}</div>
-            <div>{totalProjectTime(project, time, '2018-01-15', '2018-01-21') / 60}</div>
+            <div>{project.time}</div>
           </div>
         ))}
       </div>
@@ -51,9 +50,19 @@ function Reports({ projects, time }: ReportsType) {
 function mapStateToProps(state) {
   const { projects, time } = state;
 
+  const mappedTime = time.allIds.map(id => time.byId[id]);
+
+  const from = '2018-01-15';
+  const to = '2018-01-21';
+
   return {
-    projects: sortedProjects(projects.allIds.map(id => projects.byId[id])),
-    time: time.allIds.map(id => time.byId[id]),
+    projects:
+      sortedProjects(projects.allIds
+        .map(id => projects.byId[id])
+        .map(project => ({
+          ...project,
+          time: totalProjectTime(project, mappedTime, from, to) / 60,
+        }))),
   };
 }
 
