@@ -28,13 +28,13 @@ export function formatDuration(duration: number): string {
 
 export function totalProjectTime(
   project: projectType,
-  times: Array<timeType>,
-  from: Date,
-  to: Date,
+  time: Array<timeType>,
+  from: Date | string,
+  to: Date | string,
 ): number {
-  return times
-    .filter(time => time.project === project.id)
-    .filter(time => isAfter(time.date, from) || isEqual(time.date, from))
-    .filter(time => isBefore(time.date, to) || isEqual(time.date, to))
-    .reduce((total, time) => total + calculateDuration(time.start, time.end), 0);
+  return time
+    .filter(entry => entry.project === project.id)
+    .filter(entry => isAfter(entry.date, from) || isEqual(entry.date, from))
+    .filter(entry => isBefore(entry.date, to) || isEqual(entry.date, to))
+    .reduce((total, entry) => total + calculateDuration(entry.start, entry.end), 0);
 }

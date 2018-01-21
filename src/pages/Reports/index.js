@@ -4,14 +4,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { sortedProjects } from '../../core/projects';
+import { totalProjectTime } from '../../core/thyme';
 
 import './Reports.css';
 
 type ReportsType = {
   projects: Array<projectTreeType>,
+  time: Array<timeType>,
 };
 
-function Reports({ projects }: ReportsType) {
+function Reports({ projects, time }: ReportsType) {
   return (
     <div>
       <div className="Report__header">
@@ -34,7 +36,14 @@ function Reports({ projects }: ReportsType) {
           </label>
         ))}
       </div>
-      <div>{JSON.stringify(projects)}</div>
+      <div>
+        {projects.map(project => (
+          <div key={project.id}>
+            <div>{project.name}</div>
+            <div>{totalProjectTime(project, time, '2018-01-15', '2018-01-21') / 60}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
