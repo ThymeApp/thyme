@@ -35,14 +35,20 @@ function Reports({ projects }: ReportsType) {
           </label>
         ))}
       </div>
-      <div>
-        {projects.map(project => (
-          <div key={project.id}>
-            <div>{project.name}</div>
-            <div>{project.time}</div>
-          </div>
-        ))}
-      </div>
+      <table>
+        <tbody>
+          <tr>
+            <th>Project</th>
+            <th>Total hours</th>
+          </tr>
+          {projects.map(project => (
+            <tr key={project.id}>
+              <td>{project.nameTree.join(' > ')}</td>
+              <td>{project.time}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -55,14 +61,16 @@ function mapStateToProps(state) {
   const from = '2018-01-15';
   const to = '2018-01-21';
 
+  const allProjects = [
+    { id: null, nameTree: ['No project'] },
+    ...sortedProjects(projects.allIds.map(id => projects.byId[id])),
+  ].map(project => ({
+    ...project,
+    time: totalProjectTime(project, mappedTime, from, to) / 60,
+  }));
+
   return {
-    projects:
-      sortedProjects(projects.allIds
-        .map(id => projects.byId[id])
-        .map(project => ({
-          ...project,
-          time: totalProjectTime(project, mappedTime, from, to) / 60,
-        }))),
+    projects: allProjects,
   };
 }
 

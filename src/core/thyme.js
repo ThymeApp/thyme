@@ -27,7 +27,7 @@ export function formatDuration(duration: number): string {
 }
 
 export function totalProjectTime(
-  project: projectType,
+  project: projectType | { id: null, nameTree: Array<string> },
   time: Array<timeType>,
   from: Date | string,
   to: Date | string,
