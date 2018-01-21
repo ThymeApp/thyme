@@ -2,6 +2,7 @@ module.exports = {
   parser: 'babel-eslint',
   env: {
     browser: true,
+    jest: true,
   },
   plugins: ['flowtype'],
   extends: ['airbnb', 'plugin:flowtype/recommended'],
