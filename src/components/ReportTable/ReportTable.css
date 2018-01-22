@@ -11,6 +11,10 @@
   text-align: left;
 }
 
+.ReportTable__total-header {
+  width: 120px;
+}
+
 .ReportTable__total td {
   border-top: 1px solid #ccc;
 }

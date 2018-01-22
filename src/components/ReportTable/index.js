@@ -14,7 +14,7 @@ function ReportTable({ projects }: ReportTableType) {
       <tbody>
         <tr className="ReportTable__header">
           <th>Project</th>
-          <th>Total hours</th>
+          <th className="ReportTable__total-header">Total hours</th>
         </tr>
         {projects.map(project => (
           <tr key={project.id}>
