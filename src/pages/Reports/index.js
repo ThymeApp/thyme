@@ -12,10 +12,11 @@ import ReportFilters from '../../components/ReportFilters';
 import './Reports.css';
 
 type ReportsType = {
+  allProjects: Array<projectTreeType>,
   projects: Array<projectTreeType & { time: number }>,
 };
 
-function Reports({ projects }: ReportsType) {
+function Reports({ allProjects, projects }: ReportsType) {
   return (
     <div>
       <div className="Report__header">
@@ -29,14 +30,15 @@ function Reports({ projects }: ReportsType) {
           </select>
         </div>
       </div>
-      <ReportFilters projects={projects} />
+      <ReportFilters projects={allProjects} />
       <ReportTable projects={projects} />
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  const { projects, time } = state;
+  const { projects, time, reports } = state;
+  const { filters } = reports;
 
   const mappedTime = time.allIds.map(id => time.byId[id]);
 
@@ -52,7 +54,8 @@ function mapStateToProps(state) {
   }));
 
   return {
-    projects: allProjects,
+    allProjects,
+    projects: allProjects.filter(project => filters.indexOf(project.id) > -1),
   };
 }
 
