@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { sortedProjects } from '../../core/projects';
 import { totalProjectTime } from '../../core/thyme';
 
+import ReportTable from '../../components/ReportTable';
+
 import './Reports.css';
 
 type ReportsType = {
@@ -35,20 +37,7 @@ function Reports({ projects }: ReportsType) {
           </label>
         ))}
       </div>
-      <table>
-        <tbody>
-          <tr>
-            <th>Project</th>
-            <th>Total hours</th>
-          </tr>
-          {projects.map(project => (
-            <tr key={project.id}>
-              <td>{project.nameTree.join(' > ')}</td>
-              <td>{project.time}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ReportTable projects={projects} />
     </div>
   );
 }
