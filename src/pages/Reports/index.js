@@ -40,8 +40,8 @@ function mapStateToProps(state) {
 
   const mappedTime = time.allIds.map(id => time.byId[id]);
 
-  const from = '2018-01-15';
-  const to = '2018-01-21';
+  const from = '2017-12-21';
+  const to = '2018-01-16';
 
   const allProjects = [
     { id: null, name: 'No project', nameTree: ['No project'] },
