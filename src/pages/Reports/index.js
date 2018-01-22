@@ -7,6 +7,7 @@ import { sortedProjects } from '../../core/projects';
 import { totalProjectTime } from '../../core/thyme';
 
 import ReportTable from '../../components/ReportTable';
+import ReportFilters from '../../components/ReportFilters';
 
 import './Reports.css';
 
@@ -28,15 +29,7 @@ function Reports({ projects }: ReportsType) {
           </select>
         </div>
       </div>
-      <div className="Report__filters">
-        <span className="Report__filters-label">Show:</span>
-        {projects.map(project => (
-          <label className="Report__filter" key={project.id} htmlFor={project.id}>
-            <span className="Report__filter-name">{project.name}</span>
-            <input defaultChecked type="checkbox" name={project.id} id={project.id} />
-          </label>
-        ))}
-      </div>
+      <ReportFilters projects={projects} />
       <ReportTable projects={projects} />
     </div>
   );
@@ -51,7 +44,7 @@ function mapStateToProps(state) {
   const to = '2018-01-21';
 
   const allProjects = [
-    { id: null, nameTree: ['No project'] },
+    { id: null, name: 'No project', nameTree: ['No project'] },
     ...sortedProjects(projects.allIds.map(id => projects.byId[id])),
   ].map(project => ({
     ...project,

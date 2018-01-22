@@ -18,24 +18,3 @@
 .Report__period select {
   font-size: large;
 }
-
-.Report__filters {
-  display: flex;
-  margin: 12px 0;
-  line-height: 1.2em;
-}
-
-.Report__filter {
-  display: flex;
-  align-items: center;
-  margin-right: 12px;
-}
-
-.Report__filter-name {
-  margin-right: 3px;
-}
-
-.Report__filters-label {
-  margin-right: 12px;
-  opacity: 0.6;
-}
