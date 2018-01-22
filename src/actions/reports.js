@@ -6,3 +6,10 @@ export function resetFilters(filters: Array<string>) {
     filters,
   };
 }
+
+export function toggleFilter(filter: string | null) {
+  return {
+    type: 'TOGGLE_FILTER',
+    filter,
+  };
+}
