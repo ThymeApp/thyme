@@ -18,3 +18,7 @@
 .ReportTable__total td {
   border-top: 1px solid #ccc;
 }
+
+.ReportTable__duration {
+  font-family: monospace;
+}
