@@ -13,3 +13,11 @@ export function toggleFilter(filter: string | null) {
     filter,
   };
 }
+
+export function updateDateRange(from: Date, to: Date) {
+  return {
+    type: 'UPDATE_DATE_RANGE',
+    from,
+    to,
+  };
+}

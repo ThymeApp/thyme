@@ -25,7 +25,7 @@ function filters(state: Array<string | null> = [], action) {
 
 function from(state: Date = startOfWeek(new Date(), { weekStartsOn: 1 }), action): Date {
   switch (action.type) {
-    case 'RESET_DATE_RANGE':
+    case 'UPDATE_DATE_RANGE':
       return action.from;
     default:
       return state;
@@ -34,7 +34,7 @@ function from(state: Date = startOfWeek(new Date(), { weekStartsOn: 1 }), action
 
 function to(state: Date = endOfWeek(new Date(), { weekStartsOn: 1 }), action): Date {
   switch (action.type) {
-    case 'RESET_DATE_RANGE':
+    case 'UPDATE_DATE_RANGE':
       return action.to;
     default:
       return state;
