@@ -8,6 +8,7 @@ import { totalProjectTime } from '../../core/thyme';
 
 import ReportTable from '../../components/ReportTable';
 import ReportFilters from '../../components/ReportFilters';
+import ReportRange from '../../components/ReportRange';
 
 import './Reports.css';
 
@@ -20,15 +21,8 @@ function Reports({ allProjects, projects }: ReportsType) {
   return (
     <div>
       <div className="Report__header">
-        <h2 className="Report__title">This week</h2>
-        <span className="Report__header-date">(15-21 January 2018)</span>
-        <div className="Report__period">
-          <select name="period">
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="custom">Custom range</option>
-          </select>
-        </div>
+        <h2 className="Report__title">Thyme report</h2>
+        <ReportRange />
       </div>
       <ReportFilters projects={allProjects} />
       <ReportTable projects={projects} />
@@ -38,12 +32,9 @@ function Reports({ allProjects, projects }: ReportsType) {
 
 function mapStateToProps(state) {
   const { projects, time, reports } = state;
-  const { filters } = reports;
+  const { filters, from, to } = reports;
 
   const mappedTime = time.allIds.map(id => time.byId[id]);
-
-  const from = '2017-12-21';
-  const to = '2018-01-16';
 
   const allProjects = [
     { id: null, name: 'No project', nameTree: ['No project'] },

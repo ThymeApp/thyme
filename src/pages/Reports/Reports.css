@@ -3,18 +3,6 @@
   align-items: center;
 }
 
-.Report__header-date {
-  opacity: 0.6;
-}
-
 .Report__title {
   margin: 0 12px 0 0;
-}
-
-.Report__period {
-  margin-left: auto;
-}
-
-.Report__period select {
-  font-size: large;
 }
