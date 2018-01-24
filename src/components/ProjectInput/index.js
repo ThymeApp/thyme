@@ -10,7 +10,7 @@ import { sortedProjects } from '../../core/projects';
 type ProjectInputType = {
   placeholder?: string,
   value: string,
-  projects: Array<projectType>,
+  projects: Array<projectTreeType>,
   handleChange: ({ value: string, label: string }) => void,
 };
 
@@ -23,7 +23,7 @@ function ProjectInput({ placeholder, value, projects, handleChange }: ProjectInp
       placeholder={placeholder || 'Select project...'}
       onChange={handleChange}
       options={
-        sortedProjects(projects)
+        projects
           .map(project => ({
             value: project.id,
             label: project.nameTree.join(' > '),
@@ -37,7 +37,7 @@ function mapStateToProps(state) {
   const { allIds, byId } = state.projects;
   const projects = allIds.map(id => byId[id]);
 
-  return { projects };
+  return { projects: sortedProjects(projects) };
 }
 
 export default connect(mapStateToProps)(ProjectInput);
