@@ -22,7 +22,7 @@ function Reports({ allProjects, projects }: ReportsType) {
   return (
     <div>
       <div className="Report__header">
-        <h2 className="Report__title">Thyme report</h2>
+        <h2 className="Report__title">Reports</h2>
         <ReportRange />
       </div>
       <ReportFilters projects={allProjects} />
