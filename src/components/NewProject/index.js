@@ -3,13 +3,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
+import { Button, Input } from 'semantic-ui-react';
 
 import { valueFromEventTarget } from '../../core/dom';
 
 import { addProject } from '../../actions/projects';
 
 import ProjectInput from '../ProjectInput';
-import Button from '../Button';
 
 import './NewProject.css';
 
@@ -70,7 +70,7 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
 
     return (
       <div className="NewProject">
-        <input
+        <Input
           id="project-name"
           name="project-name"
           className="NewProject__input"
@@ -78,9 +78,10 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
           placeholder="Project name"
           value={name}
           onChange={this.onNameChange}
+          size="small"
         />
         <ProjectInput placeholder="Select parent..." handleChange={this.onProjectChange} value={parent} />
-        <Button value="Add project" onClick={this.onSubmit} />
+        <Button color="blue" onClick={this.onSubmit}>Add project</Button>
       </div>
     );
   }
