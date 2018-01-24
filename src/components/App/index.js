@@ -3,7 +3,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Container, Divider, Dropdown, Grid, Header, Image, List, Menu, Segment } from 'semantic-ui-react';
+import { Container, Image, Menu } from 'semantic-ui-react';
 import classnames from 'classnames';
 
 import thyme from './Thyme.svg';
