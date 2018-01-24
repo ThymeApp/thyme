@@ -19,6 +19,8 @@
         "react-scripts": "1.1.0",
         "react-select": "^1.2.1",
         "redux": "^3.7.2",
+        "semantic-ui-css": "^2.2.12",
+        "semantic-ui-react": "^0.77.2",
         "shortid": "^2.2.8"
     },
     "scripts": {
