@@ -27,7 +27,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test --env=jsdom",
-        "lint": "eslint ./",
+        "lint": "eslint ./src",
+        "flow": "flow",
         "eject": "react-scripts eject",
         "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
     },
