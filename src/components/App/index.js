@@ -30,7 +30,7 @@ function App({ location, children }: AppType) {
       <Menu fixed="top" inverted>
         <Container>
           <Menu.Item header>
-            <Image size="mini" src={thyme} alt="Thyme" style={{ marginRight: '1.5em' }} />
+            <Image size="mini" src={thyme} alt="Thyme" style={{ width: 24, marginRight: '1.5em' }} />
             Thyme
           </Menu.Item>
           {AppLink('Timesheet', '/', location.pathname)}

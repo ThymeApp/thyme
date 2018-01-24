@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Container, Header } from 'semantic-ui-react';
 import FileSaver from 'file-saver';
 import format from 'date-fns/format';
 
@@ -111,23 +112,23 @@ class Settings extends Component<SettingsType> {
 
   render() {
     return (
-      <div>
-        <h2>Settings</h2>
+      <Container>
+        <Header as="h1">Settings</Header>
 
-        <h4>Export / Import</h4>
+        <Header as="h3">Export / Import</Header>
         <Button value="Export data" onClick={this.onExportData} />
         <Button value="Import data" onClick={this.onImportData} />
 
-        <h4>Delete data</h4>
+        <Header as="h3">Delete data</Header>
         <Button red value="Remove timesheet data" onClick={this.onRemoveTime} />
         <Button red value="Remove project data" onClick={this.onRemoveProjects} />
 
-        <h4>About</h4>
+        <Header as="h3">About</Header>
         Thyme is creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
         It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
         All your data is stored in your own browser.
         Issues / requests can be <a href="https://github.com/Gaya/thyme/issues">filed on Github</a>.
-      </div>
+      </Container>
     );
   }
 }
