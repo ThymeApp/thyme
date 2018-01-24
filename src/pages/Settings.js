@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Button } from 'semantic-ui-react';
 import FileSaver from 'file-saver';
 import format from 'date-fns/format';
 
@@ -11,8 +11,6 @@ import { stateToExport, validData } from '../core/importExport';
 import { importJSONData } from '../actions/app';
 import { truncateTime } from '../actions/time';
 import { truncateProjects } from '../actions/projects';
-
-import Button from '../components/Button';
 
 type SettingsType = {
   time: any,
@@ -112,16 +110,16 @@ class Settings extends Component<SettingsType> {
 
   render() {
     return (
-      <Container>
+      <Container text>
         <Header as="h1">Settings</Header>
 
         <Header as="h3">Export / Import</Header>
-        <Button value="Export data" onClick={this.onExportData} />
-        <Button value="Import data" onClick={this.onImportData} />
+        <Button color="blue" onClick={this.onExportData}>Export data</Button>
+        <Button color="green" onClick={this.onImportData}>Import data</Button>
 
         <Header as="h3">Delete data</Header>
-        <Button red value="Remove timesheet data" onClick={this.onRemoveTime} />
-        <Button red value="Remove project data" onClick={this.onRemoveProjects} />
+        <Button color="red" onClick={this.onRemoveTime}>Remove timesheet data</Button>
+        <Button color="red" onClick={this.onRemoveProjects}>Remove project data</Button>
 
         <Header as="h3">About</Header>
         Thyme is creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
