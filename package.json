@@ -28,7 +28,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test --env=jsdom",
         "lint": "eslint ./",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
     },
     "devDependencies": {
         "babel-eslint": "^8.2.1",
