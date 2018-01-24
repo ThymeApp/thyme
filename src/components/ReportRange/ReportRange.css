@@ -2,6 +2,11 @@
   margin-left: auto;
 }
 
+.Report__period-button {
+  font-size: large;
+  margin-right: 12px;
+}
+
 .Report__date-input {
   font-size: large;
   margin: 0 6px;
