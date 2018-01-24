@@ -7,14 +7,14 @@ import { createStore, compose } from 'redux';
 import throttle from 'lodash/throttle';
 import { BrowserRouter } from 'react-router-dom';
 
+import 'semantic-ui-css/semantic.min.css';
+
 import { loadState, saveState } from './core/localStorage';
 
 import reducers from './reducers';
 
 import App from './components/App';
 import Routes from './Routes';
-
-import './index.css';
 
 const store = createStore(
   reducers,
