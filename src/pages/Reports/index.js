@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { Container, Menu } from 'semantic-ui-react';
 
 import { sortedProjects } from '../../core/projects';
 import { totalProjectTime } from '../../core/thyme';
@@ -11,8 +12,6 @@ import ReportFilters from '../../components/ReportFilters';
 import ReportRange from '../../components/ReportRange';
 import ReportCharts from '../../components/ReportCharts';
 
-import './Reports.css';
-
 type ReportsType = {
   allProjects: Array<projectTreeType>,
   projects: Array<projectTreeType & { time: number }>,
@@ -20,15 +19,17 @@ type ReportsType = {
 
 function Reports({ allProjects, projects }: ReportsType) {
   return (
-    <div>
-      <div className="Report__header">
-        <h2 className="Report__title">Reports</h2>
-        <ReportRange />
-      </div>
+    <Container>
+      <Menu style={{ border: 0, boxShadow: 'none' }}>
+        <Menu.Header as="h1" style={{ margin: 0 }}>Reports</Menu.Header>
+        <Menu.Menu position="right">
+          <ReportRange />
+        </Menu.Menu>
+      </Menu>
       <ReportFilters projects={allProjects} />
       <ReportCharts projects={projects} />
       <ReportTable projects={projects} />
-    </div>
+    </Container>
   );
 }
 
