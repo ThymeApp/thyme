@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { Table } from 'semantic-ui-react';
 
 import { updateTime, removeTime } from '../../actions/time';
 
@@ -21,27 +22,28 @@ function ThymeTable({
   onEntryRemove,
 }: ThymeTableType) {
   return (
-    <table className="ThymeTable">
-      <tbody>
-        <tr className="ThymeTable__header">
-          <th>Date</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Duration</th>
-          <th>Project</th>
-          <th>Notes</th>
-          <th />
-        </tr>
-        {entries.map(entry => (
-          <Entry
-            key={entry.id}
-            onRemove={onEntryRemove}
-            onUpdate={onEntryUpdate}
-            entry={entry}
-          />
-        ))}
-      </tbody>
-    </table>
+    <Table className="ThymeTable">
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Date</Table.HeaderCell>
+          <Table.HeaderCell>Start</Table.HeaderCell>
+          <Table.HeaderCell>End</Table.HeaderCell>
+          <Table.HeaderCell>Duration</Table.HeaderCell>
+          <Table.HeaderCell>Project</Table.HeaderCell>
+          <Table.HeaderCell colSpan={2}>Notes</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+      {entries.map(entry => (
+        <Entry
+          key={entry.id}
+          onRemove={onEntryRemove}
+          onUpdate={onEntryUpdate}
+          entry={entry}
+        />
+      ))}
+      </Table.Body>
+    </Table>
   );
 }
 
