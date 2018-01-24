@@ -1,0 +1,24 @@
+.ReportTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ReportTable td {
+  padding: 6px 0;
+}
+
+.ReportTable__header th {
+  text-align: left;
+}
+
+.ReportTable__total-header {
+  width: 120px;
+}
+
+.ReportTable__total td {
+  border-top: 1px solid #ccc;
+}
+
+.ReportTable__duration {
+  font-family: monospace;
+}
