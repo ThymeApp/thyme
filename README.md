@@ -4,7 +4,7 @@ A little web app which allows you to log time data.
 
 ---
 
-[Use Thyme live in your browser](https://gaya.github.io/thyme/)
+### [Use Thyme live in your browser](https://gaya.github.io/thyme/)
 
 ---
 
@@ -40,5 +40,7 @@ and project notes.
 
 ![Projects screen](/public/projects.png)
 > Adding and adjusting projects
+
+---
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
