@@ -11,7 +11,12 @@ type DateInputType = {
   onKeyPress: (e: KeyboardEvent) => void,
 };
 
-function DateInput({ value, setRef, onChange, onKeyPress }: DateInputType) {
+function DateInput({
+  value,
+  setRef,
+  onChange,
+  onKeyPress,
+}: DateInputType) {
   return (
     <input
       className="DateInput"

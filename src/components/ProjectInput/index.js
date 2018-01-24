@@ -14,7 +14,12 @@ type ProjectInputType = {
   handleChange: ({ value: string, label: string }) => void,
 };
 
-function ProjectInput({ placeholder, value, projects, handleChange }: ProjectInputType) {
+function ProjectInput({
+  placeholder,
+  value,
+  projects,
+  handleChange,
+}: ProjectInputType) {
   return (
     <Select
       name="project"
