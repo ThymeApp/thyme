@@ -30,4 +30,15 @@ and project notes.
 
 ---
 
+## Screenshots
+
+![Timesheets screen](/public/timesheets.png);
+> Detailed time logging
+
+![Reports screen](/public/reports.png);
+> Time log reports
+
+![Projects screen](/public/projects.png);
+> Adding and adjusting projects
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
