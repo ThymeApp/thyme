@@ -2,11 +2,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
+import { Menu } from 'semantic-ui-react';
 
 import { changeDateRange } from '../../actions/time';
-
-import './DateRange.css';
 
 type DateRangeType = {
   dateRange: dateRanges,
@@ -30,32 +28,26 @@ class DateRange extends Component<DateRangeType> {
     const { dateRange } = this.props;
 
     return (
-      <div className="DateRange">
-        <button
-          className={
-            classnames('DateRange__item', { 'DateRange__item--selected': dateRange === 'week' })
-          }
+      <Menu secondary>
+        <Menu.Item
+          active={dateRange === 'week'}
           onClick={this.toggleThisWeek}
         >
           This week
-        </button>
-        <button
-          className={
-            classnames('DateRange__item', { 'DateRange__item--selected': dateRange === 'month' })
-          }
+        </Menu.Item>
+        <Menu.Item
+          active={dateRange === 'month'}
           onClick={this.toggleLastMonth}
         >
           Last month
-        </button>
-        <button
-          className={
-            classnames('DateRange__item', { 'DateRange__item--selected': dateRange === 'older' })
-          }
+        </Menu.Item>
+        <Menu.Item
+          active={dateRange === 'older'}
           onClick={this.toggleOlder}
         >
           Older
-        </button>
-      </div>
+        </Menu.Item>
+      </Menu>
     );
   }
 }
