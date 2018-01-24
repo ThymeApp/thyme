@@ -25,8 +25,8 @@ function Reports({ allProjects, projects }: ReportsType) {
         <h2 className="Report__title">Thyme report</h2>
         <ReportRange />
       </div>
-      <ReportCharts projects={projects} />
       <ReportFilters projects={allProjects} />
+      <ReportCharts projects={projects} />
       <ReportTable projects={projects} />
     </div>
   );

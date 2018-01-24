@@ -7,6 +7,8 @@ import { formatDuration } from '../../core/thyme';
 
 import Colours from './Colours';
 
+import './ReportCharts.css';
+
 type ReportChartsType = {
   projects: Array<projectTreeType & { time: number }>,
 };
@@ -23,9 +25,23 @@ function ReportCharts({ projects }: ReportChartsType) {
   };
 
   return (
-    <div>
+    <div className="ReportCharts">
       <Pie
+        height={300}
         data={data}
+        options={{
+          responsive: false,
+          tooltips: {
+            callbacks: {
+              label: (tooltip) => {
+                const label = data.labels[tooltip.index];
+                const value = data.datasets[0].data[tooltip.index] * 60;
+
+                return `${label}: ${formatDuration(value)}`;
+              },
+            },
+          },
+        }}
       />
     </div>
   );
