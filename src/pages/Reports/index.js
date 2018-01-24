@@ -9,6 +9,7 @@ import { totalProjectTime } from '../../core/thyme';
 import ReportTable from '../../components/ReportTable';
 import ReportFilters from '../../components/ReportFilters';
 import ReportRange from '../../components/ReportRange';
+import ReportCharts from '../../components/ReportCharts';
 
 import './Reports.css';
 
@@ -24,6 +25,7 @@ function Reports({ allProjects, projects }: ReportsType) {
         <h2 className="Report__title">Thyme report</h2>
         <ReportRange />
       </div>
+      <ReportCharts projects={projects} />
       <ReportFilters projects={allProjects} />
       <ReportTable projects={projects} />
     </div>
