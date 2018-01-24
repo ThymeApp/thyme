@@ -39,7 +39,7 @@ function App({ location, children }: AppType) {
           {AppLink('Settings', '/settings', location.pathname)}
         </Container>
       </Menu>
-      <Container style={{ marginTop: '6em' }}>{children}</Container>
+      <Container fluid style={{ marginTop: '6em' }}>{children}</Container>
     </div>
   );
 }
