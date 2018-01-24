@@ -48,7 +48,7 @@ function sortByTime(a, b) {
 
 function Time({ entries }: TimeType) {
   return (
-    <div>
+    <div style={{ paddingLeft: '1%', paddingRight: '1%' }}>
       <DateRange />
       <ThymeTable entries={entries} />
       <NewTime />
