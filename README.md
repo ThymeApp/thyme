@@ -19,13 +19,14 @@ and project notes.
 - Create date, start and end time
 - Create projects and sub-projects
 - Assign timesheet entry to a project
+- Reports of total time spent per project
 - Export / Import data
 - Saves to localStorage of the browser
 
 ## Future features
 
-- Reports of total time spent
 - Improved timesheet listing
+- Save and sync data in the clouds
 
 ---
 
