@@ -15,11 +15,13 @@ class DateRange extends Component<DateRangeType> {
   constructor(props) {
     super(props);
 
+    this.toggleToday = () => { props.changeDateRange('today'); };
     this.toggleThisWeek = () => { props.changeDateRange('week'); };
     this.toggleLastMonth = () => { props.changeDateRange('month'); };
     this.toggleOlder = () => { props.changeDateRange('older'); };
   }
 
+  toggleToday: () => void;
   toggleThisWeek: () => void;
   toggleLastMonth: () => void;
   toggleOlder: () => void;
@@ -29,6 +31,12 @@ class DateRange extends Component<DateRangeType> {
 
     return (
       <Menu secondary>
+        <Menu.Item
+          active={dateRange === 'today'}
+          onClick={this.toggleToday}
+        >
+          Today
+        </Menu.Item>
         <Menu.Item
           active={dateRange === 'week'}
           onClick={this.toggleThisWeek}
