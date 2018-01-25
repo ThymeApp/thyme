@@ -1,8 +1,11 @@
 // @flow
 
-export function addProject(entry: projectType) {
+import shortid from 'shortid';
+
+export function addProject(entry: { parent: string | null, name: string }) {
   return {
     type: 'ADD_PROJECT',
+    id: shortid.generate(),
     ...entry,
   };
 }

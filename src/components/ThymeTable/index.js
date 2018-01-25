@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Table } from 'semantic-ui-react';
 
 import { updateTime, removeTime } from '../../actions/time';
+import { addProject } from '../../actions/projects';
 
 import NewTime from './New';
 import Entry from './Entry';
@@ -13,12 +14,14 @@ type ThymeTableType = {
   entries: Array<timeType>,
   onEntryUpdate: (entry: timePropertyType) => void,
   onEntryRemove: (id: string) => void,
+  onAddProject: (project: string) => string,
 };
 
 function ThymeTable({
   entries,
   onEntryUpdate,
   onEntryRemove,
+  onAddProject,
 }: ThymeTableType) {
   return (
     <Table basic="very">
@@ -38,10 +41,11 @@ function ThymeTable({
             key={entry.id}
             onRemove={onEntryRemove}
             onUpdate={onEntryUpdate}
+            onAddNewProject={onAddProject}
             entry={entry}
           />
         ))}
-        <NewTime />
+        <NewTime onAddNewProject={onAddProject} />
       </Table.Body>
     </Table>
   );
@@ -54,6 +58,13 @@ function mapDispatchToProps(dispatch) {
     },
     onEntryRemove(id) {
       dispatch(removeTime(id));
+    },
+    onAddProject(project) {
+      const newProjectAction = addProject({ parent: null, name: project });
+
+      dispatch(newProjectAction);
+
+      return newProjectAction.id;
     },
   };
 }
