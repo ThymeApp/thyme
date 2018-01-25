@@ -10,7 +10,7 @@ import Entry from './Entry';
 
 type NewType = {
   onEntryCreate: (entry: timePropertyType) => void,
-  onAddNewProject: (project: string) => void,
+  onAddNewProject: (project: string) => string,
 };
 
 function New({ onEntryCreate, onAddNewProject }: NewType) {
