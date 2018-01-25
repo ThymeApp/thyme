@@ -13,13 +13,7 @@ type NewType = {
 };
 
 function New({ onEntryCreate }: NewType) {
-  return (
-    <table className="ThymeTable">
-      <tbody>
-        <Entry onAdd={onEntryCreate} />
-      </tbody>
-    </table>
-  );
+  return <Entry onAdd={onEntryCreate} />;
 }
 
 function mapDispatchToProps(dispatch) {

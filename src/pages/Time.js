@@ -9,7 +9,6 @@ import subMonths from 'date-fns/sub_months';
 
 import DateRange from '../components/DateRange';
 import ThymeTable from '../components/ThymeTable';
-import NewTime from '../components/ThymeTable/New';
 
 const now = new Date();
 const thisWeek = entry => isThisWeek(entry.date, { weekStartsOn: 1 });
@@ -51,7 +50,6 @@ function Time({ entries }: TimeType) {
     <div style={{ paddingLeft: '1%', paddingRight: '1%' }}>
       <DateRange />
       <ThymeTable entries={entries} />
-      <NewTime />
     </div>
   );
 }

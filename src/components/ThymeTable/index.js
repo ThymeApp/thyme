@@ -6,6 +6,7 @@ import { Table } from 'semantic-ui-react';
 
 import { updateTime, removeTime } from '../../actions/time';
 
+import NewTime from './New';
 import Entry from './Entry';
 
 import './ThymeTable.css';
@@ -34,14 +35,15 @@ function ThymeTable({
         </Table.Row>
       </Table.Header>
       <Table.Body>
-      {entries.map(entry => (
-        <Entry
-          key={entry.id}
-          onRemove={onEntryRemove}
-          onUpdate={onEntryUpdate}
-          entry={entry}
-        />
-      ))}
+        {entries.map(entry => (
+          <Entry
+            key={entry.id}
+            onRemove={onEntryRemove}
+            onUpdate={onEntryUpdate}
+            entry={entry}
+          />
+        ))}
+        <NewTime />
       </Table.Body>
     </Table>
   );
