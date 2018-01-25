@@ -110,7 +110,7 @@ class Settings extends Component<SettingsType> {
 
   render() {
     return (
-      <Container text>
+      <Container>
         <Header as="h1">Settings</Header>
 
         <Header as="h3">Export / Import</Header>
@@ -122,7 +122,7 @@ class Settings extends Component<SettingsType> {
         <Button color="red" onClick={this.onRemoveProjects}>Remove project data</Button>
 
         <Header as="h3">About</Header>
-        Thyme is creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
+        Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
         It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
         All your data is stored in your own browser.
         Issues / requests can be <a href="https://github.com/Gaya/thyme/issues">filed on Github</a>.

@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react';
-
-import './DateInput.css';
+import { Input } from 'semantic-ui-react';
 
 type DateInputType = {
   value: string,
@@ -18,13 +17,13 @@ function DateInput({
   onKeyPress,
 }: DateInputType) {
   return (
-    <input
-      className="DateInput"
+    <Input
       type="date"
       ref={setRef}
       onKeyPress={onKeyPress}
       onChange={onChange}
       value={value}
+      size="small"
     />
   );
 }

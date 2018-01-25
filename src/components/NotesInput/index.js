@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react';
-
-import './NotesInput.css';
+import { Input } from 'semantic-ui-react';
 
 type NotesInputType = {
   value: string,
@@ -12,12 +11,13 @@ type NotesInputType = {
 
 function NotesInput({ value, onChange, onKeyPress }: NotesInputType) {
   return (
-    <input
-      className="NotesInput"
+    <Input
       type="text"
       onChange={onChange}
       value={value}
       onKeyPress={onKeyPress}
+      size="small"
+      style={{ width: '100%' }}
     />
   );
 }

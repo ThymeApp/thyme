@@ -11,7 +11,7 @@ import ProjectsList from '../components/ProjectsList';
 
 function Projects({ projects }: { projects: Array<projectType> }) {
   return (
-    <Container text>
+    <Container>
       <Header as="h1">Projects</Header>
 
       <section>

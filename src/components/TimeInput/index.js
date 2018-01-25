@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react';
-
-import './TimeInput.css';
+import { Input } from 'semantic-ui-react';
 
 type TimeInputType = {
   value: string,
@@ -12,12 +11,12 @@ type TimeInputType = {
 
 function TimeInput({ value, onChange, onKeyPress }: TimeInputType) {
   return (
-    <input
-      className="TimeInput"
+    <Input
       type="time"
       value={value}
       onChange={onChange}
       onKeyPress={onKeyPress}
+      size="small"
     />
   );
 }
