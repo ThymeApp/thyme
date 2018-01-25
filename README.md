@@ -32,13 +32,13 @@ and project notes.
 
 ## Screenshots
 
-![Timesheets screen](/public/timesheets.png)
+![Timesheets screen](/public/screenshot_timesheets.png)
 > Detailed time logging
 
-![Reports screen](/public/reports.png)
+![Reports screen](/public/screenshot_reports.png)
 > Time log reports
 
-![Projects screen](/public/projects.png)
+![Projects screen](/public/screenshot_projects.png)
 > Adding and adjusting projects
 
 ---
