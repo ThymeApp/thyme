@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import shortid from 'shortid';
 import { Button, Input } from 'semantic-ui-react';
 
 import { valueFromEventTarget } from '../../core/dom';
@@ -92,7 +91,6 @@ function mapDispatchToProps(dispatch) {
     onAddProject(project) {
       dispatch(addProject({
         ...project,
-        id: shortid.generate(),
       }));
     },
   };
