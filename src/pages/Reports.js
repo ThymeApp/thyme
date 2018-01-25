@@ -4,13 +4,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Container, Menu } from 'semantic-ui-react';
 
-import { sortedProjects } from '../../core/projects';
-import { totalProjectTime } from '../../core/thyme';
+import { sortedProjects } from '../core/projects';
+import { totalProjectTime } from '../core/thyme';
 
-import ReportTable from '../../components/ReportTable';
-import ReportFilters from '../../components/ReportFilters';
-import ReportRange from '../../components/ReportRange';
-import ReportCharts from '../../components/ReportCharts';
+import ReportTable from '../components/ReportTable';
+import ReportFilters from '../components/ReportFilters';
+import ReportRange from '../components/ReportRange';
+import ReportCharts from '../components/ReportCharts';
 
 type ReportsType = {
   allProjects: Array<projectTreeType>,

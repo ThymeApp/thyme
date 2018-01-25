@@ -16,6 +16,10 @@ type ReportChartsType = {
 function ReportCharts({ projects }: ReportChartsType) {
   const projectsWithTime = projects.filter(project => project.time > 0);
 
+  if (projectsWithTime.length === 0) {
+    return null;
+  }
+
   const data = {
     labels: projectsWithTime.map(project => project.name),
     datasets: [{
