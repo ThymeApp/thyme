@@ -40,7 +40,7 @@ type EntryType = {
   onAdd?: (entry: timePropertyType) => void,
   onRemove?: (id: string) => void,
   onUpdate?: (entry: timePropertyType) => void,
-  onAddNewProject?: (project: string) => void,
+  onAddNewProject?: (project: string) => string,
 };
 
 type EntryStateType = timePropertyType;
@@ -90,8 +90,16 @@ class Entry extends Component<EntryType, EntryStateType> {
   addNewProject(project: string) {
     const { onAddNewProject } = this.props;
 
+    const newProject = project.trim();
+
+    if (newProject === '') {
+      return;
+    }
+
     if (onAddNewProject) {
-      onAddNewProject(project);
+      this.setState({
+        project: onAddNewProject(project),
+      });
     }
   }
 
