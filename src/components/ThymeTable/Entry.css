@@ -3,10 +3,15 @@
   background: none;
   padding: 0;
   margin: 0;
-  height: 16px;
-  width: 16px;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
 }
 
 .ThymeEntry__button-image {
   max-width: 100%;
+}
+
+.TableRow--tracking .ui.input input, .TableRow--tracking .ui.selection.dropdown {
+  background-color: #f4fbfb;
 }

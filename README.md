@@ -18,6 +18,7 @@ and project notes.
 
 ## Features
 
+- Integrated timer
 - Create date, start and end time
 - Create projects and sub-projects
 - Assign timesheet entry to a project
@@ -27,7 +28,6 @@ and project notes.
 
 ## Future features
 
-- Improved timesheet listing
 - Save and sync data in the clouds
 
 ---

@@ -51,7 +51,7 @@ function allIds(state = [], action) {
   }
 }
 
-function dateRange(state = 'week', action): dateRanges {
+function dateRange(state = 'today', action): dateRanges {
   switch (action.type) {
     case 'CHANGE_DATE_RANGE':
       return action.dateRange;
