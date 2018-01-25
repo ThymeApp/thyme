@@ -84,7 +84,6 @@ class ProjectItem extends Component<ProjectItemType> {
               type="text"
               value={project.name}
               onChange={this.onChangeName}
-              size="small"
             />
           </Table.Cell>
           <Table.Cell width={6}>

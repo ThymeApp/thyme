@@ -26,17 +26,15 @@ function ProjectInput({
       selection
       value={value}
       onChange={handleChange}
-      options={
-        [
-          { key: null, value: null, text: 'No project' },
-          ...projects
-            .map(project => ({
-              key: project.id,
-              value: project.id,
-              text: project.nameTree.join(' > '),
-            })),
-        ]
-      }
+      options={[
+        { key: null, value: null, text: 'No project' },
+        ...projects
+          .map(project => ({
+            key: project.id,
+            value: project.id,
+            text: project.nameTree.join(' > '),
+          })),
+      ]}
     />
   );
 }

@@ -78,10 +78,10 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
           placeholder="Project name"
           value={name}
           onChange={this.onNameChange}
-          size="small"
+          style={{ marginRight: 12 }}
         />
         <ProjectInput placeholder="Select parent..." handleChange={this.onProjectChange} value={parent} />
-        <Button color="blue" onClick={this.onSubmit}>Add project</Button>
+        <Button style={{ marginLeft: 12 }} color="blue" onClick={this.onSubmit}>Add project</Button>
       </div>
     );
   }
