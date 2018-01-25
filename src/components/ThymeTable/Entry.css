@@ -11,3 +11,7 @@
 .ThymeEntry__button-image {
   max-width: 100%;
 }
+
+.TableRow--tracking .ui.input input, .TableRow--tracking .ui.selection.dropdown {
+  background-color: #f4fbfb;
+}

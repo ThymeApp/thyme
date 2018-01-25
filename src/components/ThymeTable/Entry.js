@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import format from 'date-fns/format';
 import { Table } from 'semantic-ui-react';
+import classnames from 'classnames';
 
 import { formatDuration, calculateDuration } from '../../core/thyme';
 import { valueFromEventTarget } from '../../core/dom';
@@ -131,7 +132,7 @@ class Entry extends Component<EntryType, EntryStateType> {
       tracking: true,
       entry: {
         ...this.state.entry,
-        start: this.state.entry.startTime === '00:00' ? startTime : this.state.entry.start,
+        start: this.state.entry.start === '00:00' ? startTime : this.state.entry.start,
         end: startTime,
       },
     });
@@ -228,7 +229,7 @@ class Entry extends Component<EntryType, EntryStateType> {
     const hasId = Boolean(entry && !!entry.id);
 
     return (
-      <Table.Row>
+      <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>
         <Table.Cell width={1}>
           <DateInput
             setRef={this.onSetDateInputRef}
