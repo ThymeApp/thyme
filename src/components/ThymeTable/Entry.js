@@ -47,6 +47,7 @@ type EntryType = {
 
 type EntryStateType = {
   entry: timePropertyType,
+  tracking: boolean,
 };
 
 class Entry extends Component<EntryType, EntryStateType> {
@@ -65,11 +66,22 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.onRemoveEntry = this.removeEntry.bind(this);
     this.onKeyPress = this.keyPress.bind(this);
 
+    this.onStartTimeTracking = this.startTimeTracking.bind(this);
+
     this.onSetDateInputRef = (input) => { this.dateInput = input; };
 
     this.state = {
       entry: defaultState(props.entry),
+      tracking: false,
     };
+  }
+
+  componentDidMount() {
+    this.tickInterval = setInterval(this.tickTimer.bind(this), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.tickInterval);
   }
 
   onDateChange: (e: Event) => void;
@@ -81,6 +93,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   onAddEntry: () => void;
   onRemoveEntry: () => void;
   onSetDateInputRef: (input: HTMLInputElement | null) => void;
+  onStartTimeTracking: () => void;
   onAddNewProject: (e: Event, project: { value: string }) => void;
 
   onValueChange(key: string, value: string | null) {
@@ -92,6 +105,32 @@ class Entry extends Component<EntryType, EntryStateType> {
       entry: {
         ...this.state.entry,
         [key]: value,
+      },
+    });
+  }
+
+  tickInterval: IntervalID;
+
+  tickTimer() {
+    if (this.state.tracking) {
+      this.setState({
+        entry: {
+          ...this.state.entry,
+          end: format(new Date(), 'HH:mm'),
+        },
+      });
+    }
+  }
+
+  startTimeTracking() {
+    const startTime = format(new Date(), 'HH:mm');
+
+    this.setState({
+      tracking: true,
+      entry: {
+        ...this.state.entry,
+        start: startTime,
+        end: startTime,
       },
     });
   }
@@ -208,7 +247,7 @@ class Entry extends Component<EntryType, EntryStateType> {
         <Table.Cell style={{ width: 1, paddingRight: 12, whiteSpace: 'nowrap' }}>
           {!hasId && (
             <div style={{ display: 'flex' }}>
-              <button onClick={this.onAddEntry} className="ThymeEntry__button">
+              <button onClick={this.onStartTimeTracking} className="ThymeEntry__button">
                 <img className="ThymeEntry__button-image" src={play} alt="Track time" />
               </button>
               <span style={{ width: 3 }} />
