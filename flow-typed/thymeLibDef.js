@@ -22,7 +22,7 @@ declare type timeType = {
   updatedAt: string,
 } & timePropertyType;
 
-declare type dateRanges = 'week' | 'month' | 'older';
+declare type dateRanges = 'today' | 'week' | 'month' | 'older';
 
 declare type RouterLocation = {
   pathname: string,
