@@ -67,6 +67,7 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.onKeyPress = this.keyPress.bind(this);
 
     this.onStartTimeTracking = this.startTimeTracking.bind(this);
+    this.onStopTimeTracking = this.stopTimeTracking.bind(this);
 
     this.onSetDateInputRef = (input) => { this.dateInput = input; };
 
@@ -94,6 +95,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   onRemoveEntry: () => void;
   onSetDateInputRef: (input: HTMLInputElement | null) => void;
   onStartTimeTracking: () => void;
+  onStopTimeTracking: () => void;
   onAddNewProject: (e: Event, project: { value: string }) => void;
 
   onValueChange(key: string, value: string | null) {
@@ -129,9 +131,15 @@ class Entry extends Component<EntryType, EntryStateType> {
       tracking: true,
       entry: {
         ...this.state.entry,
-        start: startTime,
+        start: this.state.entry.startTime === '00:00' ? startTime : this.state.entry.start,
         end: startTime,
       },
+    });
+  }
+
+  stopTimeTracking() {
+    this.setState({
+      tracking: false,
     });
   }
 
@@ -168,7 +176,10 @@ class Entry extends Component<EntryType, EntryStateType> {
         this.dateInput.focus();
       }
 
-      this.setState({ entry: defaultState() });
+      this.setState({
+        tracking: false,
+        entry: defaultState(),
+      });
     }
   }
 
@@ -205,6 +216,7 @@ class Entry extends Component<EntryType, EntryStateType> {
 
   render() {
     const { entry } = this.props;
+    const { tracking } = this.state;
     const {
       date,
       start,
@@ -247,8 +259,15 @@ class Entry extends Component<EntryType, EntryStateType> {
         <Table.Cell style={{ width: 1, paddingRight: 12, whiteSpace: 'nowrap' }}>
           {!hasId && (
             <div style={{ display: 'flex' }}>
-              <button onClick={this.onStartTimeTracking} className="ThymeEntry__button">
-                <img className="ThymeEntry__button-image" src={play} alt="Track time" />
+              <button
+                onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+                className="ThymeEntry__button"
+              >
+                <img
+                  className="ThymeEntry__button-image"
+                  src={tracking ? pause : play}
+                  alt={tracking ? 'Stop tracking' : 'Track time'}
+                />
               </button>
               <span style={{ width: 3 }} />
               <button onClick={this.onAddEntry} className="ThymeEntry__button">
