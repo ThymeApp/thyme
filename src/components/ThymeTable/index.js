@@ -9,8 +9,6 @@ import { updateTime, removeTime } from '../../actions/time';
 import NewTime from './New';
 import Entry from './Entry';
 
-import './ThymeTable.css';
-
 type ThymeTableType = {
   entries: Array<timeType>,
   onEntryUpdate: (entry: timePropertyType) => void,
@@ -23,7 +21,7 @@ function ThymeTable({
   onEntryRemove,
 }: ThymeTableType) {
   return (
-    <Table className="ThymeTable">
+    <Table basic="very">
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Date</Table.HeaderCell>
