@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+import { Dropdown } from 'semantic-ui-react';
 
 import { sortedProjects } from '../../core/projects';
 
@@ -21,18 +20,22 @@ function ProjectInput({
   handleChange,
 }: ProjectInputType) {
   return (
-    <Select
-      name="project"
-      autosize
-      value={value}
+    <Dropdown
       placeholder={placeholder || 'Select project...'}
+      search
+      selection
+      value={value}
       onChange={handleChange}
       options={
-        projects
-          .map(project => ({
-            value: project.id,
-            label: project.nameTree.join(' > '),
-          }))
+        [
+          { key: null, value: null, text: 'No project' },
+          ...projects
+            .map(project => ({
+              key: project.id,
+              value: project.id,
+              text: project.nameTree.join(' > '),
+            })),
+        ]
       }
     />
   );
