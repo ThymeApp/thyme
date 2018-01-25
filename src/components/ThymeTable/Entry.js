@@ -52,7 +52,7 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.onStartTimeChange = e => this.onValueChange('start', valueFromEventTarget(e.target));
     this.onEndTimeChange = e => this.onValueChange('end', valueFromEventTarget(e.target));
     this.onProjectChange =
-        project => this.onValueChange('project', project === null ? null : project.value);
+      (e, project) => this.onValueChange('project', project === null ? null : project.value);
     this.onNotesChange = e => this.onValueChange('notes', valueFromEventTarget(e.target));
 
     this.onAddEntry = this.addEntry.bind(this);
@@ -67,7 +67,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   onDateChange: (e: Event) => void;
   onStartTimeChange: (e: Event) => void;
   onEndTimeChange: (e: Event) => void;
-  onProjectChange: (project: { value: string, label: string }) => void;
+  onProjectChange: (e: Event, project: { value: string, label: string }) => void;
   onNotesChange: (e: Event) => void;
   onKeyPress: (e: KeyboardEvent) => void;
   onAddEntry: () => void;

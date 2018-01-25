@@ -3,12 +3,3 @@
   flex-wrap: wrap;
   align-items: center;
 }
-
-.NewProject__input {
-  margin-right: 12px;
-}
-
-.NewProject .Select {
-  min-width: 200px;
-  margin-right: 12px;
-}

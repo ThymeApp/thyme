@@ -39,7 +39,7 @@ class ProjectItem extends Component<ProjectItemType> {
       });
     };
 
-    this.onChangeParent = (parent) => {
+    this.onChangeParent = (e, parent) => {
       const { project, projects, onUpdateProject } = this.props;
 
       const parentId = parent === null ? null : parent.value;
@@ -70,7 +70,7 @@ class ProjectItem extends Component<ProjectItemType> {
   }
 
   onChangeName: (e: Event) => void;
-  onChangeParent: (project: { value: string, label: string }) => void;
+  onChangeParent: (e: Event, project: { value: string, label: string }) => void;
   onRemoveEntry: () => void;
 
   render() {
@@ -84,7 +84,6 @@ class ProjectItem extends Component<ProjectItemType> {
               type="text"
               value={project.name}
               onChange={this.onChangeName}
-              size="small"
             />
           </Table.Cell>
           <Table.Cell width={6}>

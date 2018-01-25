@@ -35,14 +35,14 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
 
     this.onNameChange = e => this.onValueChange('name', valueFromEventTarget(e.target));
     this.onProjectChange =
-        project => this.onValueChange('parent', project === null ? null : project.value);
+      (e, project) => this.onValueChange('parent', project === null ? null : project.value);
     this.onSubmit = this.addNew.bind(this);
 
     this.state = defaultState();
   }
 
   onNameChange: (e: Event) => void;
-  onProjectChange: (project: { value: string, label: string }) => void;
+  onProjectChange: (e: Event, project: { value: string, label: string }) => void;
   onSubmit: () => void;
 
   onValueChange(key: string, value: string | null) {
@@ -78,10 +78,10 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
           placeholder="Project name"
           value={name}
           onChange={this.onNameChange}
-          size="small"
+          style={{ marginRight: 12 }}
         />
         <ProjectInput placeholder="Select parent..." handleChange={this.onProjectChange} value={parent} />
-        <Button color="blue" onClick={this.onSubmit}>Add project</Button>
+        <Button style={{ marginLeft: 12 }} color="blue" onClick={this.onSubmit}>Add project</Button>
       </div>
     );
   }
