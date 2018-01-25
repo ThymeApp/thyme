@@ -11,6 +11,7 @@ type ProjectInputType = {
   value: string,
   projects: Array<projectTreeType>,
   handleChange: ({ value: string, label: string }) => void,
+  onAddItem?: (e: Event, project: { value: string }) => void,
 };
 
 function ProjectInput({
@@ -18,6 +19,7 @@ function ProjectInput({
   value,
   projects,
   handleChange,
+  onAddItem,
 }: ProjectInputType) {
   return (
     <Dropdown
@@ -26,6 +28,8 @@ function ProjectInput({
       selection
       value={value}
       onChange={handleChange}
+      allowAdditions={!!onAddItem}
+      onAddItem={onAddItem}
       options={[
         { key: null, value: null, text: 'No project' },
         ...projects
