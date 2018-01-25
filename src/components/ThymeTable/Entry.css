@@ -5,6 +5,7 @@
   margin: 0;
   height: 16px;
   width: 16px;
+  cursor: pointer;
 }
 
 .ThymeEntry__button-image {
