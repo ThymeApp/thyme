@@ -15,6 +15,7 @@ import reducers from './reducers';
 
 import App from './components/App';
 import Routes from './Routes';
+import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(
   reducers,
@@ -35,3 +36,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root') || document.createElement('div'),
 );
+
+registerServiceWorker();
