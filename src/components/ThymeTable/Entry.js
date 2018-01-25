@@ -40,6 +40,7 @@ type EntryType = {
   onAdd?: (entry: timePropertyType) => void,
   onRemove?: (id: string) => void,
   onUpdate?: (entry: timePropertyType) => void,
+  onAddNewProject?: (project: string) => void,
 };
 
 type EntryStateType = timePropertyType;
@@ -54,6 +55,7 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.onProjectChange =
       (e, project) => this.onValueChange('project', project === null ? null : project.value);
     this.onNotesChange = e => this.onValueChange('notes', valueFromEventTarget(e.target));
+    this.onAddNewProject = (e, project) => this.addNewProject(project.value);
 
     this.onAddEntry = this.addEntry.bind(this);
     this.onRemoveEntry = this.removeEntry.bind(this);
@@ -73,6 +75,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   onAddEntry: () => void;
   onRemoveEntry: () => void;
   onSetDateInputRef: (input: HTMLInputElement | null) => void;
+  onAddNewProject: (e: Event, project: { value: string }) => void;
 
   onValueChange(key: string, value: string | null) {
     this.updateEntry({
@@ -82,6 +85,14 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.setState({
       [key]: value,
     });
+  }
+
+  addNewProject(project: string) {
+    const { onAddNewProject } = this.props;
+
+    if (onAddNewProject) {
+      onAddNewProject(project);
+    }
   }
 
   dateInput: HTMLInputElement | null;
@@ -165,7 +176,11 @@ class Entry extends Component<EntryType, EntryStateType> {
           {timeElapsed(start, end)}
         </Table.Cell>
         <Table.Cell width={3}>
-          <ProjectInput value={project} handleChange={this.onProjectChange} />
+          <ProjectInput
+            value={project}
+            onAddItem={this.onAddNewProject}
+            handleChange={this.onProjectChange}
+          />
         </Table.Cell>
         <Table.Cell>
           <NotesInput onKeyPress={this.onKeyPress} onChange={this.onNotesChange} value={notes} />

@@ -10,10 +10,11 @@ import Entry from './Entry';
 
 type NewType = {
   onEntryCreate: (entry: timePropertyType) => void,
+  onAddNewProject: (project: string) => void,
 };
 
-function New({ onEntryCreate }: NewType) {
-  return <Entry onAdd={onEntryCreate} />;
+function New({ onEntryCreate, onAddNewProject }: NewType) {
+  return <Entry onAdd={onEntryCreate} onAddNewProject={onAddNewProject} />;
 }
 
 function mapDispatchToProps(dispatch) {
