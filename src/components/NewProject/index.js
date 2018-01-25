@@ -35,6 +35,7 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
     this.onNameChange = e => this.onValueChange('name', valueFromEventTarget(e.target));
     this.onProjectChange =
       (e, project) => this.onValueChange('parent', project === null ? null : project.value);
+    this.onKeyPress = this.keyPress.bind(this);
     this.onSubmit = this.addNew.bind(this);
 
     this.state = defaultState();
@@ -42,12 +43,20 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
 
   onNameChange: (e: Event) => void;
   onProjectChange: (e: Event, project: { value: string, label: string }) => void;
+  onKeyPress: (e: KeyboardEvent) => void;
   onSubmit: () => void;
 
   onValueChange(key: string, value: string | null) {
     this.setState({
       [key]: value,
     });
+  }
+
+  keyPress(e: KeyboardEvent) {
+    // check if return is pressed
+    if (e.charCode && e.charCode === 13) {
+      this.addNew();
+    }
   }
 
   addNew() {
@@ -77,6 +86,7 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
           placeholder="Project name"
           value={name}
           onChange={this.onNameChange}
+          onKeyPress={this.onKeyPress}
           style={{ marginRight: 12 }}
         />
         <ProjectInput placeholder="Select parent..." handleChange={this.onProjectChange} value={parent} />
