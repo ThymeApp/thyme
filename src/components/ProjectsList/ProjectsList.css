@@ -3,15 +3,15 @@
 }
 
 .ProjectList__level-3 .ui.input input {
-  padding-left: 60px;
+  margin-left: 60px;
 }
 
 .ProjectList__level-4 .ui.input input {
-  padding-left: 90px;
+  margin-left: 90px;
 }
 
 .ProjectList__level-5 .ui.input input {
-  padding-left: 120px;
+  margin-left: 120px;
 }
 
 .ProjectList .Select {
