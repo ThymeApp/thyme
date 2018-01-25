@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import isToday from 'date-fns/is_today';
 import isThisWeek from 'date-fns/is_this_week';
 import isAfter from 'date-fns/is_after';
 import isBefore from 'date-fns/is_before';
@@ -11,6 +12,7 @@ import DateRange from '../components/DateRange';
 import ThymeTable from '../components/ThymeTable';
 
 const now = new Date();
+const today = entry => isToday(entry.date);
 const thisWeek = entry => isThisWeek(entry.date, { weekStartsOn: 1 });
 const lastMonth = entry => isAfter(entry.date, subMonths(now, 1));
 const older = entry => isBefore(entry.date, subMonths(now, 1));
@@ -21,8 +23,10 @@ function dateRangeFilter(dateRange: dateRanges) {
       return older;
     case 'month':
       return lastMonth;
-    default:
+    case 'week':
       return thisWeek;
+    default:
+      return today;
   }
 }
 
