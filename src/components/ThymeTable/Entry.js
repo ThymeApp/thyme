@@ -13,6 +13,8 @@ import ProjectInput from '../ProjectInput';
 import NotesInput from '../NotesInput';
 
 import add from './add.svg';
+import play from './play.svg';
+import pause from './pause.svg';
 import remove from './remove.svg';
 
 import './Entry.css';
@@ -43,7 +45,9 @@ type EntryType = {
   onAddNewProject?: (project: string) => string,
 };
 
-type EntryStateType = timePropertyType;
+type EntryStateType = {
+  entry: timePropertyType,
+};
 
 class Entry extends Component<EntryType, EntryStateType> {
   constructor(props: EntryType) {
@@ -63,7 +67,9 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     this.onSetDateInputRef = (input) => { this.dateInput = input; };
 
-    this.state = defaultState(props.entry);
+    this.state = {
+      entry: defaultState(props.entry),
+    };
   }
 
   onDateChange: (e: Event) => void;
@@ -83,7 +89,10 @@ class Entry extends Component<EntryType, EntryStateType> {
     });
 
     this.setState({
-      [key]: value,
+      entry: {
+        ...this.state.entry,
+        [key]: value,
+      },
     });
   }
 
@@ -98,7 +107,10 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     if (onAddNewProject) {
       this.setState({
-        project: onAddNewProject(project),
+        entry: {
+          ...this.state.entry,
+          project: onAddNewProject(project),
+        },
       });
     }
   }
@@ -110,14 +122,14 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     if (typeof onAdd === 'function') {
       onAdd({
-        ...this.state,
+        ...this.state.entry,
       });
 
       if (this.dateInput) {
         this.dateInput.focus();
       }
 
-      this.setState(defaultState());
+      this.setState({ entry: defaultState() });
     }
   }
 
@@ -127,7 +139,7 @@ class Entry extends Component<EntryType, EntryStateType> {
     if (typeof onUpdate === 'function' && entry && entry.id) {
       onUpdate({
         id: entry.id,
-        ...this.state,
+        ...this.state.entry,
         ...newState,
       });
     }
@@ -160,7 +172,7 @@ class Entry extends Component<EntryType, EntryStateType> {
       end,
       project,
       notes,
-    } = this.state;
+    } = this.state.entry;
 
     const hasId = Boolean(entry && !!entry.id);
 
@@ -193,11 +205,17 @@ class Entry extends Component<EntryType, EntryStateType> {
         <Table.Cell>
           <NotesInput onKeyPress={this.onKeyPress} onChange={this.onNotesChange} value={notes} />
         </Table.Cell>
-        <Table.Cell style={{ width: 1, paddingRight: 12 }}>
+        <Table.Cell style={{ width: 1, paddingRight: 12, whiteSpace: 'nowrap' }}>
           {!hasId && (
-            <button onClick={this.onAddEntry} className="ThymeEntry__button">
-              <img className="ThymeEntry__button-image" src={add} alt="Add entry" />
-            </button>
+            <div style={{ display: 'flex' }}>
+              <button onClick={this.onAddEntry} className="ThymeEntry__button">
+                <img className="ThymeEntry__button-image" src={play} alt="Track time" />
+              </button>
+              <span style={{ width: 3 }} />
+              <button onClick={this.onAddEntry} className="ThymeEntry__button">
+                <img className="ThymeEntry__button-image" src={add} alt="Add entry" />
+              </button>
+            </div>
           )}
           {hasId && (
             <button onClick={this.onRemoveEntry} className="ThymeEntry__button">
