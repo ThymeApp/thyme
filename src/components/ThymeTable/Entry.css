@@ -1,30 +1,3 @@
-.ThymeEntry__item {
-  padding-right: 12px;
-}
-
-.ThymeEntry__item input {
-  height: 32px;
-}
-
-.ThymeEntry__item--date, .ThymeEntry__item--start, .ThymeEntry__item--end,
-.ThymeEntry__item--action {
-  width: 1px;
-}
-
-.ThymeEntry__item--duration {
-  width: 90px;
-  padding: 0;
-}
-
-.ThymeEntry__item--project {
-  min-width: 150px;
-}
-
-.ThymeEntry__item--duration {
-  font-family: monospace;
-  font-size: large;
-}
-
 .ThymeEntry__button {
   border: 0;
   background: none;

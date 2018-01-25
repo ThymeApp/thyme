@@ -1,27 +1,17 @@
-.ProjectList__header {
-  text-align: left;
+.ProjectList__level-2 .ui.input input {
+  margin-left: 30px;
 }
 
-.ProjectList__input {
-  font-size: large;
-  margin-right: 12px;
-  height: 30px;
+.ProjectList__level-3 .ui.input input {
+  margin-left: 60px;
 }
 
-.ProjectList__level-2 {
-  padding-left: 30px;
+.ProjectList__level-4 .ui.input input {
+  margin-left: 90px;
 }
 
-.ProjectList__level-3 {
-  padding-left: 60px;
-}
-
-.ProjectList__level-4 {
-  padding-left: 90px;
-}
-
-.ProjectList__level-5 {
-  padding-left: 120px;
+.ProjectList__level-5 .ui.input input {
+  margin-left: 120px;
 }
 
 .ProjectList .Select {

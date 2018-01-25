@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Container, Header, Button } from 'semantic-ui-react';
 import FileSaver from 'file-saver';
 import format from 'date-fns/format';
 
@@ -10,8 +11,6 @@ import { stateToExport, validData } from '../core/importExport';
 import { importJSONData } from '../actions/app';
 import { truncateTime } from '../actions/time';
 import { truncateProjects } from '../actions/projects';
-
-import Button from '../components/Button';
 
 type SettingsType = {
   time: any,
@@ -111,23 +110,23 @@ class Settings extends Component<SettingsType> {
 
   render() {
     return (
-      <div>
-        <h2>Settings</h2>
+      <Container>
+        <Header as="h1">Settings</Header>
 
-        <h4>Export / Import</h4>
-        <Button value="Export data" onClick={this.onExportData} />
-        <Button value="Import data" onClick={this.onImportData} />
+        <Header as="h3">Export / Import</Header>
+        <Button color="blue" onClick={this.onExportData}>Export data</Button>
+        <Button color="green" onClick={this.onImportData}>Import data</Button>
 
-        <h4>Delete data</h4>
-        <Button red value="Remove timesheet data" onClick={this.onRemoveTime} />
-        <Button red value="Remove project data" onClick={this.onRemoveProjects} />
+        <Header as="h3">Delete data</Header>
+        <Button color="red" onClick={this.onRemoveTime}>Remove timesheet data</Button>
+        <Button color="red" onClick={this.onRemoveProjects}>Remove project data</Button>
 
-        <h4>About</h4>
-        Thyme is creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
+        <Header as="h3">About</Header>
+        Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
         It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
         All your data is stored in your own browser.
         Issues / requests can be <a href="https://github.com/Gaya/thyme/issues">filed on Github</a>.
-      </div>
+      </Container>
     );
   }
 }

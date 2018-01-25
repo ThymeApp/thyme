@@ -1,10 +1,10 @@
 .NewProject {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .NewProject__input {
-  font-size: large;
   margin-right: 12px;
 }
 

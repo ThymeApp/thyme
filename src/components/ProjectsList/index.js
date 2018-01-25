@@ -1,21 +1,23 @@
 // @flow
 
 import React from 'react';
+import { Table } from 'semantic-ui-react';
 
 import ProjectsList from './ProjectsList';
 
 function projectsListWrapper({ projects }: { projects: Array<projectTreeType> }) {
   return (
-    <table className="ProjectList">
-      <tbody>
-        <tr className="ProjectList__header">
-          <th>Name</th>
-          <th>Parent</th>
-          <th />
-        </tr>
+    <Table>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell colSpan={2}>Parent</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
         <ProjectsList projects={projects} />
-      </tbody>
-    </table>
+      </Table.Body>
+    </Table>
   );
 }
 

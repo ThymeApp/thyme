@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import format from 'date-fns/format';
+import { Table } from 'semantic-ui-react';
 
 import { formatDuration, calculateDuration } from '../../core/thyme';
 import { valueFromEventTarget } from '../../core/dom';
@@ -145,31 +146,31 @@ class Entry extends Component<EntryType, EntryStateType> {
     const hasId = Boolean(entry && !!entry.id);
 
     return (
-      <tr className="ThymeEntry">
-        <td className="ThymeEntry__item ThymeEntry__item--date">
+      <Table.Row>
+        <Table.Cell width={1}>
           <DateInput
             setRef={this.onSetDateInputRef}
             onKeyPress={this.onKeyPress}
             onChange={this.onDateChange}
             value={date}
           />
-        </td>
-        <td className="ThymeEntry__item ThymeEntry__item--start">
+        </Table.Cell>
+        <Table.Cell width={1}>
           <TimeInput onKeyPress={this.onKeyPress} onChange={this.onStartTimeChange} value={start} />
-        </td>
-        <td className="ThymeEntry__item ThymeEntry__item--end">
+        </Table.Cell>
+        <Table.Cell width={1}>
           <TimeInput onKeyPress={this.onKeyPress} onChange={this.onEndTimeChange} value={end} />
-        </td>
-        <td className="ThymeEntry__item ThymeEntry__item--duration">
+        </Table.Cell>
+        <Table.Cell width={1}>
           {timeElapsed(start, end)}
-        </td>
-        <td className="ThymeEntry__item ThymeEntry__item--project">
+        </Table.Cell>
+        <Table.Cell width={3}>
           <ProjectInput value={project} handleChange={this.onProjectChange} />
-        </td>
-        <td className="ThymeEntry__item ThymeEntry__item--notes">
+        </Table.Cell>
+        <Table.Cell>
           <NotesInput onKeyPress={this.onKeyPress} onChange={this.onNotesChange} value={notes} />
-        </td>
-        <td className="ThymeEntry__item--action">
+        </Table.Cell>
+        <Table.Cell style={{ width: 1, paddingRight: 12 }}>
           {!hasId && (
             <button onClick={this.onAddEntry} className="ThymeEntry__button">
               <img className="ThymeEntry__button-image" src={add} alt="Add entry" />
@@ -180,8 +181,8 @@ class Entry extends Component<EntryType, EntryStateType> {
               <img className="ThymeEntry__button-image" src={remove} alt="Remove entry" />
             </button>
           )}
-        </td>
-      </tr>
+        </Table.Cell>
+      </Table.Row>
     );
   }
 }

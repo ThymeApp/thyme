@@ -2,6 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Table, Input } from 'semantic-ui-react';
 
 import { isDescendant } from '../../core/projects';
 
@@ -77,24 +78,24 @@ class ProjectItem extends Component<ProjectItemType> {
 
     return (
       <Fragment>
-        <tr className="ProjectList__item">
-          <td className={`ProjectList__level-${level}`}>
-            <input
-              className="ProjectList__input"
+        <Table.Row className="ProjectList__item">
+          <Table.Cell className={`ProjectList__level-${level}`}>
+            <Input
               type="text"
               value={project.name}
               onChange={this.onChangeName}
+              size="small"
             />
-          </td>
-          <td>
+          </Table.Cell>
+          <Table.Cell width={6}>
             <ProjectInput handleChange={this.onChangeParent} value={project.parent} excludeValue />
-          </td>
-          <td>
+          </Table.Cell>
+          <Table.Cell width={1}>
             <button onClick={this.onRemoveEntry} className="ProjectList__button">
               <img className="ProjectList__button-image" src={remove} alt="Remove entry" />
             </button>
-          </td>
-        </tr>
+          </Table.Cell>
+        </Table.Row>
         {ProjectsList({ projects, parent: project.id, level: level + 1 })}
       </Fragment>
     );

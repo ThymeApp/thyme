@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Button, Input } from 'semantic-ui-react';
 import format from 'date-fns/format';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/start_of_week';
@@ -10,8 +11,6 @@ import subMonths from 'date-fns/sub_months';
 
 import { updateDateRange } from '../../actions/reports';
 import { valueFromEventTarget } from '../../core/dom';
-
-import './ReportRange.css';
 
 type ReportRangeType = {
   from: Date,
@@ -53,33 +52,27 @@ class ReportRange extends Component<ReportRangeType> {
 
     return (
       <div className="Report__period">
-        <input
-          className="Report__period-button"
-          type="button"
-          value="This week"
-          onClick={this.onThisWeek}
-        />
-        <input
-          className="Report__period-button"
-          type="button"
-          value="Last month"
-          onClick={this.onLastMonth}
-        />
+        <Button basic onClick={this.onThisWeek}>
+          This week
+        </Button>
+        <Button basic onClick={this.onLastMonth}>
+          Last month
+        </Button>
 
-        <input
-          className="Report__date-input"
+        <Input
           onChange={this.onUpdateFrom}
           type="date"
           value={from}
           name="from"
+          size="small"
         />
-        <span>to</span>
-        <input
-          className="Report__date-input"
+        <span style={{ marginLeft: 6, marginRight: 6 }}>to</span>
+        <Input
           onChange={this.onUpdateTo}
           type="date"
           value={to}
           name="to"
+          size="small"
         />
       </div>
     );

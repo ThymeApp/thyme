@@ -1,10 +1,9 @@
 // @flow
 
 import React from 'react';
+import { Table } from 'semantic-ui-react';
 
 import { formatDuration } from '../../core/thyme';
-
-import './ReportTable.css';
 
 type ReportTableType = {
   projects: Array<projectTreeType & { time: number }>,
@@ -12,26 +11,28 @@ type ReportTableType = {
 
 function ReportTable({ projects }: ReportTableType) {
   return (
-    <table className="ReportTable">
-      <tbody>
-        <tr className="ReportTable__header">
-          <th>Project</th>
-          <th className="ReportTable__total-header">Total spent</th>
-        </tr>
+    <Table celled>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Project</Table.HeaderCell>
+          <Table.HeaderCell width={2}>Total spent</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
         {projects.map(project => (
-          <tr key={project.id}>
-            <td>{project.nameTree.join(' > ')}</td>
-            <td className="ReportTable__duration">{formatDuration(project.time * 60)}</td>
-          </tr>
+          <Table.Row key={project.id}>
+            <Table.Cell>{project.nameTree.join(' > ')}</Table.Cell>
+            <Table.Cell>{formatDuration(project.time * 60)}</Table.Cell>
+          </Table.Row>
         ))}
-        <tr className="ReportTable__total">
-          <td />
-          <td className="ReportTable__duration">
+        <Table.Row>
+          <Table.Cell />
+          <Table.Cell>
             {formatDuration(projects.reduce((total, project) => total + (project.time * 60), 0))}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table>
   );
 }
 

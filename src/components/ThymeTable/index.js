@@ -2,12 +2,12 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { Table } from 'semantic-ui-react';
 
 import { updateTime, removeTime } from '../../actions/time';
 
+import NewTime from './New';
 import Entry from './Entry';
-
-import './ThymeTable.css';
 
 type ThymeTableType = {
   entries: Array<timeType>,
@@ -21,17 +21,18 @@ function ThymeTable({
   onEntryRemove,
 }: ThymeTableType) {
   return (
-    <table className="ThymeTable">
-      <tbody>
-        <tr className="ThymeTable__header">
-          <th>Date</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Duration</th>
-          <th>Project</th>
-          <th>Notes</th>
-          <th />
-        </tr>
+    <Table basic="very">
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Date</Table.HeaderCell>
+          <Table.HeaderCell>Start</Table.HeaderCell>
+          <Table.HeaderCell>End</Table.HeaderCell>
+          <Table.HeaderCell>Duration</Table.HeaderCell>
+          <Table.HeaderCell>Project</Table.HeaderCell>
+          <Table.HeaderCell colSpan={2}>Notes</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
         {entries.map(entry => (
           <Entry
             key={entry.id}
@@ -40,8 +41,9 @@ function ThymeTable({
             entry={entry}
           />
         ))}
-      </tbody>
-    </table>
+        <NewTime />
+      </Table.Body>
+    </Table>
   );
 }
 

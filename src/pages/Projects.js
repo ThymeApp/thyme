@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { Container, Header, Divider } from 'semantic-ui-react';
 
 import { sortedProjects } from '../core/projects';
 
@@ -10,15 +11,15 @@ import ProjectsList from '../components/ProjectsList';
 
 function Projects({ projects }: { projects: Array<projectType> }) {
   return (
-    <div>
-      <h2>Projects</h2>
+    <Container>
+      <Header as="h1">Projects</Header>
 
       <section>
         <NewProject />
-        <hr />
+        <Divider />
         <ProjectsList projects={sortedProjects(projects)} />
       </section>
-    </div>
+    </Container>
   );
 }
 
