@@ -14,7 +14,7 @@ type ThymeTableType = {
   entries: Array<timeType>,
   onEntryUpdate: (entry: timePropertyType) => void,
   onEntryRemove: (id: string) => void,
-  onAddProject: (project: string) => void,
+  onAddProject: (project: string) => string,
 };
 
 function ThymeTable({
