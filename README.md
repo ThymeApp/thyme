@@ -1,10 +1,10 @@
-# ![Thyme](https://gaya.github.io/thyme/favicon-32x32.png) Thyme
+# ![Thyme](/public/favicon-32x32.png) Thyme
 
 A little web app which allows you to log time data.
 
 ---
 
-### [Use Thyme live in your browser](https://gaya.github.io/thyme/)
+### [Use Thyme live in your browser at https://usethyme.com](https://usethyme.com)
 
 ---
 
@@ -45,4 +45,10 @@ and project notes.
 
 ---
 
+## Made with Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
+## License
+
+MIT
