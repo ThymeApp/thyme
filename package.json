@@ -2,7 +2,7 @@
     "name": "thyme",
     "version": "0.1.0",
     "private": true,
-    "homepage": "https://gaya.github.io/thyme/",
+    "homepage": "/",
     "dependencies": {
         "chart.js": "^2.7.1",
         "classnames": "^2.2.5",
