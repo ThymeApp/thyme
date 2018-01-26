@@ -23,8 +23,7 @@
         "shortid": "^2.2.8"
     },
     "scripts": {
-        "predeploy": "npm run build",
-        "deploy": "gh-pages -d build",
+        "gh-deploy": "gh-pages -d gh-pages",
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test --env=jsdom",
