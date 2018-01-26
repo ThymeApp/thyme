@@ -1,7 +1,7 @@
 {
     "name": "thyme",
     "version": "0.1.0",
-    "private": true,
+    "private": false,
     "homepage": "/",
     "dependencies": {
         "chart.js": "^2.7.1",
