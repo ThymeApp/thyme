@@ -25,6 +25,7 @@ class ReportRange extends Component<ReportRangeType> {
     this.onUpdateFrom = (e: Event) => this.updateRange('from', valueFromEventTarget(e.target));
     this.onUpdateTo = (e: Event) => this.updateRange('to', valueFromEventTarget(e.target));
 
+    this.onToday = () => this.props.updateDateRange(new Date(), new Date());
     this.onThisWeek = () => this.props.updateDateRange(
       startOfWeek(new Date(), { weekStartsOn: 1 }),
       endOfWeek(new Date(), { weekStartsOn: 1 }),
@@ -37,6 +38,7 @@ class ReportRange extends Component<ReportRangeType> {
 
   onUpdateFrom: (e: Event) => void;
   onUpdateTo: (e: Event) => void;
+  onToday: () => void;
   onThisWeek: () => void;
   onLastMonth: () => void;
 
@@ -52,6 +54,9 @@ class ReportRange extends Component<ReportRangeType> {
 
     return (
       <div className="Report__period">
+        <Button basic onClick={this.onToday}>
+          Today
+        </Button>
         <Button basic onClick={this.onThisWeek}>
           This week
         </Button>
