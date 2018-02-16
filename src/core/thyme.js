@@ -4,6 +4,8 @@ import differenceInMinutes from 'date-fns/difference_in_minutes';
 import isAfter from 'date-fns/is_after';
 import isBefore from 'date-fns/is_before';
 import isEqual from 'date-fns/is_equal';
+import startOfDay from 'date-fns/start_of_day';
+import endOfDay from 'date-fns/end_of_day';
 
 export function calculateDuration(from: string, to: string): number {
   const [fromHour, fromMinute] = from.split(':');
@@ -32,9 +34,12 @@ export function totalProjectTime(
   from: Date | string,
   to: Date | string,
 ): number {
+  const startOfDayFrom = startOfDay(from);
+  const endOfDayTo = endOfDay(to);
+
   return time
     .filter(entry => entry.project === project.id)
-    .filter(entry => isAfter(entry.date, from) || isEqual(entry.date, from))
-    .filter(entry => isBefore(entry.date, to) || isEqual(entry.date, to))
+    .filter(entry => isAfter(entry.date, startOfDayFrom) || isEqual(entry.date, startOfDayFrom))
+    .filter(entry => isBefore(entry.date, endOfDayTo) || isEqual(entry.date, endOfDayTo))
     .reduce((total, entry) => total + calculateDuration(entry.start, entry.end), 0);
 }
