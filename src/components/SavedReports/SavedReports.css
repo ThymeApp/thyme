@@ -1,0 +1,8 @@
+.SavedReports__new {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.SavedReports__new input {
+  min-width: 300px;
+}

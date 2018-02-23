@@ -11,6 +11,7 @@ import ReportTable from '../components/ReportTable';
 import ReportFilters from '../components/ReportFilters';
 import ReportRange from '../components/ReportRange';
 import ReportCharts from '../components/ReportCharts';
+import SavedReports from '../components/SavedReports';
 
 type ReportsType = {
   allProjects: Array<projectTreeType>,
@@ -29,6 +30,7 @@ function Reports({ allProjects, projects }: ReportsType) {
       <ReportFilters projects={allProjects} />
       <ReportCharts projects={projects} />
       <ReportTable projects={projects} />
+      <SavedReports />
     </Container>
   );
 }
