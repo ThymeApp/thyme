@@ -16,6 +16,10 @@ declare type timePropertyType = {
   notes: string,
 }
 
+declare type tempTimePropertyType = {
+  tracking: boolean,
+} & timePropertyType;
+
 declare type timeType = {
   id: string,
   createdAt: string,

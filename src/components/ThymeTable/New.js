@@ -4,6 +4,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 
+import { loadTemporaryItem } from '../../core/localStorage';
+
 import { addTime } from '../../actions/time';
 
 import Entry from './Entry';
@@ -14,7 +16,13 @@ type NewType = {
 };
 
 function New({ onEntryCreate, onAddNewProject }: NewType) {
-  return <Entry onAdd={onEntryCreate} onAddNewProject={onAddNewProject} />;
+  return (
+    <Entry
+      tempEntry={loadTemporaryItem()}
+      onAdd={onEntryCreate}
+      onAddNewProject={onAddNewProject}
+    />
+  );
 }
 
 function mapDispatchToProps(dispatch) {

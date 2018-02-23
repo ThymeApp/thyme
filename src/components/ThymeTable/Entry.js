@@ -5,6 +5,7 @@ import format from 'date-fns/format';
 import { Table } from 'semantic-ui-react';
 import classnames from 'classnames';
 
+import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
 import { formatDuration, calculateDuration } from '../../core/thyme';
 import { valueFromEventTarget } from '../../core/dom';
 
@@ -40,6 +41,7 @@ function defaultState(props = {}): timePropertyType {
 
 type EntryType = {
   entry?: timeType,
+  tempEntry?: tempTimePropertyType,
   onAdd?: (entry: timePropertyType) => void,
   onRemove?: (id: string) => void,
   onUpdate?: (entry: timePropertyType) => void,
@@ -73,8 +75,8 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.onSetDateInputRef = (input) => { this.dateInput = input; };
 
     this.state = {
-      entry: defaultState(props.entry),
-      tracking: false,
+      entry: defaultState(props.entry || props.tempEntry),
+      tracking: props.tempEntry ? props.tempEntry.tracking : false,
     };
   }
 
@@ -112,16 +114,21 @@ class Entry extends Component<EntryType, EntryStateType> {
     });
   }
 
+  dateInput: HTMLInputElement | null;
   tickInterval: IntervalID;
 
   tickTimer() {
     if (this.state.tracking) {
-      this.setState({
-        entry: {
-          ...this.state.entry,
-          end: format(new Date(), 'HH:mm'),
-        },
-      });
+      const entry = {
+        ...this.state.entry,
+        end: format(new Date(), 'HH:mm'),
+      };
+
+      // update state of component
+      this.setState({ entry });
+
+      // save temporary state to localStorage
+      saveTemporaryItem({ ...entry, tracking: this.state.tracking });
     }
   }
 
@@ -142,6 +149,9 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.setState({
       tracking: false,
     });
+
+    // stop tracking in localStorage
+    saveTemporaryItem({ ...this.state.entry, tracking: false });
   }
 
   addNewProject(project: string) {
@@ -163,8 +173,6 @@ class Entry extends Component<EntryType, EntryStateType> {
     }
   }
 
-  dateInput: HTMLInputElement | null;
-
   addEntry() {
     const { onAdd } = this.props;
 
@@ -173,14 +181,19 @@ class Entry extends Component<EntryType, EntryStateType> {
         ...this.state.entry,
       });
 
+      // put focus back on date input
       if (this.dateInput) {
         this.dateInput.focus();
       }
 
+      // reset item
       this.setState({
         tracking: false,
         entry: defaultState(),
       });
+
+      // clear item from localStorage
+      clearTemporaryItem();
     }
   }
 
