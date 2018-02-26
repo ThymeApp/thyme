@@ -1,3 +1,11 @@
+declare type reportType = {
+  id: string,
+  name: string,
+  from: string,
+  to: string,
+  createdAt: string,
+};
+
 declare type projectType = {
   id: string,
   parent: string | null,
@@ -34,4 +42,11 @@ declare type RouterLocation = {
   hash: string,
   state?: any,
   key?: string
+};
+
+declare type RouterMatch = {
+  isExact: boolean,
+  params: any,
+  path: string,
+  url: string,
 };

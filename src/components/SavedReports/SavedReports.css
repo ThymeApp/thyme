@@ -1,0 +1,33 @@
+.SavedReports__new {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.SavedReports__new input {
+  min-width: 300px;
+}
+
+.SavedReports__new .ui.button {
+  margin: 0;
+}
+
+.SavedReports__report {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+
+.Report__button {
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+}
+
+.Report__button-image {
+  max-width: 100%;
+}
