@@ -18,6 +18,11 @@ function byId(state = {}, action) {
     // remove item
     case 'REMOVE_REPORT':
       return pick(state, Object.keys(state).filter(item => item !== action.id));
+    case 'IMPORT_JSON_DATA':
+      return action.reports.reduce((newState, item) => ({
+        ...newState,
+        [item.id]: item,
+      }), {});
     default:
       return state;
   }
@@ -29,6 +34,8 @@ function allIds(state = [], action) {
       return [...state, action.id];
     case 'REMOVE_REPORT':
       return state.filter(id => id !== action.id);
+    case 'IMPORT_JSON_DATA':
+      return action.reports.map(item => item.id);
     default:
       return state;
   }
