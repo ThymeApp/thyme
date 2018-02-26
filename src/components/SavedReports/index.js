@@ -4,7 +4,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Input, Button, Header } from 'semantic-ui-react';
 
-import { addReport } from '../../actions/reports';
+import { addReport, removeReport } from '../../actions/reports';
+
+import remove from './remove.svg';
 
 import './SavedReports.css';
 
@@ -20,6 +22,7 @@ type SavedReportsProps = {
     to: Date,
   }>,
   addReport: (name: string, filters: Array<string>, from: Date, to: Date) => void,
+  removeReport: (id: string) => void,
 };
 
 type SaveReportsState = {
@@ -45,14 +48,17 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
       }
     };
 
-    this.onAddReport = this.addReport.bind(this);
+    this.onAddReport = (e: Event) => {
+      e.preventDefault();
+      this.addReport();
+    };
 
     this.state = {
       name: '',
     };
   }
 
-  onAddReport: () => void;
+  onAddReport: (e: Event) => void;
   onUpdateName: (e: Event) => void;
   onKeyPress: (e: KeyboardEvent) => void;
 
@@ -71,6 +77,12 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
     this.props.addReport(name, filters, from, to);
 
     this.updateName('');
+  }
+
+  removeReport(id: string) {
+    if (window.confirm('Are you are you want to remove this report?')) {
+      this.props.removeReport(id);
+    }
   }
 
   render() {
@@ -102,6 +114,10 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
                 key={report.id}
               >
                 {report.name}
+
+                <button onClick={() => this.removeReport(report.id)} className="Report__button">
+                  <img className="Report__button-image" src={remove} alt="Remove entry" />
+                </button>
               </div>
             ))}
           </div>
@@ -134,6 +150,10 @@ function mapDispatchToProps(dispatch) {
   return {
     addReport(name: string, filters: Array<string>, from: Date, to: Date) {
       dispatch(addReport(name, filters, from, to));
+    },
+
+    removeReport(id: string) {
+      dispatch(removeReport(id));
     },
   };
 }

@@ -34,3 +34,7 @@ export function addReport(name: string, filters: Array<string>, from: Date, to: 
     to,
   };
 }
+
+export function removeReport(id: string) {
+  return { type: 'REMOVE_REPORT', id };
+}
