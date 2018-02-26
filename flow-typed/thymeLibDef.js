@@ -1,3 +1,11 @@
+declare type reportType = {
+  id: string,
+  name: string,
+  from: string,
+  to: string,
+  createdAt: string,
+};
+
 declare type projectType = {
   id: string,
   parent: string | null,

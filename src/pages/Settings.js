@@ -15,6 +15,7 @@ import { truncateProjects } from '../actions/projects';
 type SettingsType = {
   time: any,
   projects: any,
+  reports: any,
   removeTimeData: () => void,
   removeProjectData: () => void,
   importData: (data: any) => void,
@@ -56,9 +57,9 @@ class Settings extends Component<SettingsType> {
   uploadInput: HTMLInputElement;
 
   exportData() {
-    const { time, projects } = this.props;
+    const { time, projects, reports } = this.props;
 
-    const stateToSave = stateToExport({ time, projects });
+    const stateToSave = stateToExport({ time, projects, reports });
 
     const blob = new Blob(
       [JSON.stringify(stateToSave)],
@@ -132,9 +133,9 @@ class Settings extends Component<SettingsType> {
 }
 
 function mapStateToProps(state) {
-  const { time, projects } = state;
+  const { time, projects, reports } = state;
 
-  return { time, projects };
+  return { time, projects, reports };
 }
 
 function mapDispatchToProps(dispatch) {
