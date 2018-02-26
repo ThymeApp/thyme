@@ -47,10 +47,20 @@ function to(state: Date = new Date(), action): Date {
   }
 }
 
+function createdAt(state = new Date(), action) {
+  switch (action.type) {
+    case 'ADD_REPORT':
+      return new Date();
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   id,
   name,
   filters,
   from,
   to,
+  createdAt,
 });
