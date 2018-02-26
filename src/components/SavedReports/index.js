@@ -1,11 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Input, Button, Header } from 'semantic-ui-react';
-import { withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
 
 import { addReport, removeReport, setReport } from '../../actions/reports';
 
@@ -14,7 +11,6 @@ import remove from './remove.svg';
 import './SavedReports.css';
 
 type SavedReportsProps = {
-  match: RouterMatch, // eslint-disable-line
   filters: Array<string>,
   from: Date,
   to: Date,
@@ -27,6 +23,7 @@ type SavedReportsProps = {
   }>,
   addReport: (name: string, filters: Array<string>, from: Date, to: Date) => void,
   removeReport: (id: string) => void,
+  setReport: (filters: Array<string>, from: Date, to: Date) => void,
 };
 
 type SaveReportsState = {
@@ -62,34 +59,9 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
     };
   }
 
-  componentDidMount() {
-    this.updateReport(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.updateReport(nextProps);
-  }
-
   onAddReport: (e: Event) => void;
   onUpdateName: (e: Event) => void;
   onKeyPress: (e: KeyboardEvent) => void;
-
-  updateReport(props: SavedReportsProps) {
-    const { match, savedReports } = props;
-    const { reportId } = match.params;
-
-    if (!reportId) {
-      return;
-    }
-
-    const foundReport = savedReports.find(report => report.id === reportId);
-
-    if (!foundReport) {
-      return;
-    }
-
-    this.props.setReport(foundReport);
-  }
 
   updateName(name: string) {
     this.setState({ name });
@@ -142,7 +114,12 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
                 className="SavedReports__report"
                 key={report.id}
               >
-                <Link to={`/reports/${report.id}`}>{report.name}</Link>
+                <Button
+                  basic
+                  onClick={() => this.props.setReport(report.filters, report.from, report.to)}
+                >
+                  {report.name}
+                </Button>
 
                 <button onClick={() => this.removeReport(report.id)} className="Report__button">
                   <img className="Report__button-image" src={remove} alt="Remove entry" />
@@ -185,13 +162,10 @@ function mapDispatchToProps(dispatch) {
       dispatch(removeReport(id));
     },
 
-    setReport({ filters, from, to }) {
+    setReport(filters, from, to) {
       dispatch(setReport(filters, from, to));
     },
   };
 }
 
-export default compose(
-  withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
-)(SavedReports);
+export default connect(mapStateToProps, mapDispatchToProps)(SavedReports);
