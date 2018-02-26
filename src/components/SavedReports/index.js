@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Button } from 'semantic-ui-react';
+import { Input, Button, Header } from 'semantic-ui-react';
 
 import { addReport } from '../../actions/reports';
 
@@ -12,6 +12,13 @@ type SavedReportsProps = {
   filters: Array<string>,
   from: Date,
   to: Date,
+  savedReports: Array<{
+    id: string,
+    name: string,
+    filters: Array<string>,
+    from: Date,
+    to: Date,
+  }>,
   addReport: (name: string, filters: Array<string>, from: Date, to: Date) => void,
 };
 
@@ -68,6 +75,7 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
 
   render() {
     const { name } = this.state;
+    const { savedReports } = this.props;
 
     return (
       <div className="SavedReports">
@@ -83,15 +91,43 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
           />
           <Button onClick={this.onAddReport} color="blue">Save this report</Button>
         </form>
+
+        {savedReports.length > 0 && <Header>Saved reports</Header>}
+
+        {savedReports.length > 0 && (
+          <div className="SavedReports__list">
+            {savedReports.map(report => (
+              <div
+                className="SavedReports__report"
+                key={report.id}
+              >
+                {report.name}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { filters, from, to } = state.reports;
+  const {
+    filters,
+    from,
+    to,
+    allIds,
+    byId,
+  } = state.reports;
 
-  return { filters, from, to };
+  const savedReports = allIds.map(id => byId[id]);
+
+  return {
+    filters,
+    from,
+    to,
+    savedReports,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
