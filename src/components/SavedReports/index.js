@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Input, Button, Header } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 import { addReport, removeReport } from '../../actions/reports';
 
@@ -113,7 +114,7 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
                 className="SavedReports__report"
                 key={report.id}
               >
-                {report.name}
+                <Link to={`/reports/${report.id}`}>{report.name}</Link>
 
                 <button onClick={() => this.removeReport(report.id)} className="Report__button">
                   <img className="Report__button-image" src={remove} alt="Remove entry" />
