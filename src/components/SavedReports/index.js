@@ -1,17 +1,20 @@
 // @flow
 
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Input, Button, Header } from 'semantic-ui-react';
+import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import { addReport, removeReport } from '../../actions/reports';
+import { addReport, removeReport, setReport } from '../../actions/reports';
 
 import remove from './remove.svg';
 
 import './SavedReports.css';
 
 type SavedReportsProps = {
+  match: RouterMatch, // eslint-disable-line
   filters: Array<string>,
   from: Date,
   to: Date,
@@ -59,9 +62,34 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
     };
   }
 
+  componentDidMount() {
+    this.updateReport(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateReport(nextProps);
+  }
+
   onAddReport: (e: Event) => void;
   onUpdateName: (e: Event) => void;
   onKeyPress: (e: KeyboardEvent) => void;
+
+  updateReport(props: SavedReportsProps) {
+    const { match, savedReports } = props;
+    const { reportId } = match.params;
+
+    if (!reportId) {
+      return;
+    }
+
+    const foundReport = savedReports.find(report => report.id === reportId);
+
+    if (!foundReport) {
+      return;
+    }
+
+    this.props.setReport(foundReport);
+  }
 
   updateName(name: string) {
     this.setState({ name });
@@ -156,7 +184,14 @@ function mapDispatchToProps(dispatch) {
     removeReport(id: string) {
       dispatch(removeReport(id));
     },
+
+    setReport({ filters, from, to }) {
+      dispatch(setReport(filters, from, to));
+    },
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SavedReports);
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(SavedReports);

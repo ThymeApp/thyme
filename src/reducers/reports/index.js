@@ -44,6 +44,7 @@ function toggleFilter(state: Array<string | null>, filter: string | null) {
 
 function filters(state: Array<string | null> = [], action) {
   switch (action.type) {
+    case 'SET_REPORT':
     case 'RESET_FILTERS':
       return action.filters;
     case 'TOGGLE_FILTER':
@@ -55,6 +56,7 @@ function filters(state: Array<string | null> = [], action) {
 
 function from(state: Date = startOfWeek(new Date(), { weekStartsOn: 1 }), action): Date {
   switch (action.type) {
+    case 'SET_REPORT':
     case 'UPDATE_DATE_RANGE':
       return action.from;
     default:
@@ -64,6 +66,7 @@ function from(state: Date = startOfWeek(new Date(), { weekStartsOn: 1 }), action
 
 function to(state: Date = endOfWeek(new Date(), { weekStartsOn: 1 }), action): Date {
   switch (action.type) {
+    case 'SET_REPORT':
     case 'UPDATE_DATE_RANGE':
       return action.to;
     default:

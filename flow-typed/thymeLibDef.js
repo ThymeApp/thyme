@@ -35,3 +35,10 @@ declare type RouterLocation = {
   state?: any,
   key?: string
 };
+
+declare type RouterMatch = {
+  isExact: boolean,
+  params: any,
+  path: string,
+  url: string,
+};
