@@ -51,8 +51,8 @@ function validProjectEntry(entry) {
 function validReportEntry(entry) {
   return !(typeof entry.id !== 'string' ||
     typeof entry.name !== 'string' ||
-    Array.isArray(entry.filters) ||
-    entry.every(item => typeof item === 'string' || item === null) ||
+    !Array.isArray(entry.filters) ||
+    entry.filters.some(item => typeof item !== 'string' && item !== null) ||
     typeof entry.from !== 'string' ||
     typeof entry.to !== 'string' ||
     typeof entry.createdAt !== 'string');
