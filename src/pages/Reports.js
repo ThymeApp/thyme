@@ -11,6 +11,7 @@ import ReportTable from '../components/ReportTable';
 import ReportFilters from '../components/ReportFilters';
 import ReportRange from '../components/ReportRange';
 import ReportCharts from '../components/ReportCharts';
+import ReportDetailed from '../components/ReportDetailed';
 import SavedReports from '../components/SavedReports';
 
 type ReportsType = {
@@ -30,6 +31,7 @@ function Reports({ allProjects, projects }: ReportsType) {
       <ReportFilters projects={allProjects} />
       <ReportCharts projects={projects} />
       <ReportTable projects={projects} />
+      <ReportDetailed projects={projects} />
       <SavedReports />
     </Container>
   );
