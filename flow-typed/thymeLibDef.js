@@ -15,6 +15,7 @@ declare type projectType = {
 };
 
 declare type projectTreeType = projectType & { nameTree: Array<string> };
+declare type projectTreeWithTimeType = projectTreeType & { time: number, entries: Array<timeType> };
 
 declare type timePropertyType = {
   project: string | null,

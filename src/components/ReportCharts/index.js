@@ -10,7 +10,7 @@ import Colours from './Colours';
 import './ReportCharts.css';
 
 type ReportChartsType = {
-  projects: Array<projectTreeType & { time: number }>,
+  projects: Array<projectTreeWithTimeType>,
 };
 
 function ReportCharts({ projects }: ReportChartsType) {

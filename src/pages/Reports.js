@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Container, Menu } from 'semantic-ui-react';
 
 import { sortedProjects } from '../core/projects';
-import { totalProjectTime } from '../core/thyme';
+import { totalProjectTime, projectTimeEntries } from '../core/thyme';
 
 import ReportTable from '../components/ReportTable';
 import ReportFilters from '../components/ReportFilters';
@@ -14,8 +14,8 @@ import ReportCharts from '../components/ReportCharts';
 import SavedReports from '../components/SavedReports';
 
 type ReportsType = {
-  allProjects: Array<projectTreeType>,
-  projects: Array<projectTreeType & { time: number }>,
+  allProjects: Array<projectTreeWithTimeType>,
+  projects: Array<projectTreeWithTimeType>,
 };
 
 function Reports({ allProjects, projects }: ReportsType) {
@@ -47,6 +47,7 @@ function mapStateToProps(state) {
   ].map(project => ({
     ...project,
     time: totalProjectTime(project, mappedTime, from, to) / 60,
+    entries: projectTimeEntries(project, mappedTime, from, to),
   }));
 
   return {
