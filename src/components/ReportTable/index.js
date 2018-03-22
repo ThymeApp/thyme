@@ -6,7 +6,7 @@ import { Table } from 'semantic-ui-react';
 import { formatDuration } from '../../core/thyme';
 
 type ReportTableType = {
-  projects: Array<projectTreeType & { time: number }>,
+  projects: Array<projectTreeWithTimeType>,
 };
 
 function ReportTable({ projects }: ReportTableType) {

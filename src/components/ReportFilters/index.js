@@ -9,7 +9,7 @@ import './ReportFilters.css';
 
 type ReportFiltersType = {
   filters: Array<string>,
-  projects: Array<projectTreeType & { time: number }>,
+  projects: Array<projectTreeWithTimeType>,
   toggleFilter: (project: string | null) => void,
   resetFilters: (projects: Array<string>) => void,
 };

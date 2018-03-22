@@ -7,6 +7,7 @@ import { Container, Image, Menu, Message } from 'semantic-ui-react';
 import classnames from 'classnames';
 
 import thyme from './Thyme.svg';
+import './print.css';
 
 function AppLink(name, path, currentPath) {
   return (

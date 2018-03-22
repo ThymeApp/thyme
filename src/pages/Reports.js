@@ -3,19 +3,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Container, Menu } from 'semantic-ui-react';
+import isAfter from 'date-fns/is_after';
+import isBefore from 'date-fns/is_before';
 
 import { sortedProjects } from '../core/projects';
-import { totalProjectTime } from '../core/thyme';
+import { totalProjectTime, projectTimeEntries } from '../core/thyme';
 
 import ReportTable from '../components/ReportTable';
 import ReportFilters from '../components/ReportFilters';
 import ReportRange from '../components/ReportRange';
 import ReportCharts from '../components/ReportCharts';
+import ReportDetailed from '../components/ReportDetailed';
 import SavedReports from '../components/SavedReports';
 
 type ReportsType = {
-  allProjects: Array<projectTreeType>,
-  projects: Array<projectTreeType & { time: number }>,
+  allProjects: Array<projectTreeWithTimeType>,
+  projects: Array<projectTreeWithTimeType>,
 };
 
 function Reports({ allProjects, projects }: ReportsType) {
@@ -30,9 +33,25 @@ function Reports({ allProjects, projects }: ReportsType) {
       <ReportFilters projects={allProjects} />
       <ReportCharts projects={projects} />
       <ReportTable projects={projects} />
+      <ReportDetailed projects={projects} />
       <SavedReports />
     </Container>
   );
+}
+
+function sortByTime(a, b) {
+  const aDate = `${a.date} ${a.start}`;
+  const bDate = `${b.date} ${b.start}`;
+
+  if (isBefore(aDate, bDate)) {
+    return -1;
+  }
+
+  if (isAfter(aDate, bDate)) {
+    return 1;
+  }
+
+  return 0;
 }
 
 function mapStateToProps(state) {
@@ -47,6 +66,7 @@ function mapStateToProps(state) {
   ].map(project => ({
     ...project,
     time: totalProjectTime(project, mappedTime, from, to) / 60,
+    entries: [...projectTimeEntries(project, mappedTime, from, to)].sort(sortByTime),
   }));
 
   return {
