@@ -1,0 +1,9 @@
+@media print {
+  .top.menu,
+  .SavedReports,
+  .Report__period .button,
+  .accordion .title,
+  .Report__filters {
+    display: none;
+  }
+}
