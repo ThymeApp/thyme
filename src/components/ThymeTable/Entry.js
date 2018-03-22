@@ -6,7 +6,7 @@ import { Table } from 'semantic-ui-react';
 import classnames from 'classnames';
 
 import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
-import { formatDuration, calculateDuration } from '../../core/thyme';
+import { formatDuration, calculateDuration, timeElapsed } from '../../core/thyme';
 import { valueFromEventTarget } from '../../core/dom';
 
 import DateInput from '../DateInput';
@@ -20,14 +20,6 @@ import pause from './pause.svg';
 import remove from './remove.svg';
 
 import './Entry.css';
-
-function timeElapsed(from, to) {
-  if (from === '' || to === '') {
-    return 'Invalid time';
-  }
-
-  return formatDuration(calculateDuration(from, to));
-}
 
 function defaultState(props = {}): timePropertyType {
   return {

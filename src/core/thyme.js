@@ -28,6 +28,14 @@ export function formatDuration(duration: number): string {
   return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
 }
 
+export function timeElapsed(from: string, to: string) {
+  if (from === '' || to === '') {
+    return 'Invalid time';
+  }
+
+  return formatDuration(calculateDuration(from, to));
+}
+
 export function projectTimeEntries(
   project: projectType | { id: null, nameTree: Array<string> },
   time: Array<timeType>,
