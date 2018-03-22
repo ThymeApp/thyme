@@ -6,7 +6,7 @@ import { Table } from 'semantic-ui-react';
 import classnames from 'classnames';
 
 import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
-import { formatDuration, calculateDuration, timeElapsed } from '../../core/thyme';
+import { timeElapsed } from '../../core/thyme';
 import { valueFromEventTarget } from '../../core/dom';
 
 import DateInput from '../DateInput';
