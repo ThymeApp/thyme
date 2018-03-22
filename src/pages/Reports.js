@@ -3,6 +3,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Container, Menu } from 'semantic-ui-react';
+import isAfter from 'date-fns/is_after';
+import isBefore from 'date-fns/is_before';
 
 import { sortedProjects } from '../core/projects';
 import { totalProjectTime, projectTimeEntries } from '../core/thyme';
@@ -37,6 +39,21 @@ function Reports({ allProjects, projects }: ReportsType) {
   );
 }
 
+function sortByTime(a, b) {
+  const aDate = `${a.date} ${a.start}`;
+  const bDate = `${b.date} ${b.start}`;
+
+  if (isBefore(aDate, bDate)) {
+    return -1;
+  }
+
+  if (isAfter(aDate, bDate)) {
+    return 1;
+  }
+
+  return 0;
+}
+
 function mapStateToProps(state) {
   const { projects, time, reports } = state;
   const { filters, from, to } = reports;
@@ -49,7 +66,7 @@ function mapStateToProps(state) {
   ].map(project => ({
     ...project,
     time: totalProjectTime(project, mappedTime, from, to) / 60,
-    entries: projectTimeEntries(project, mappedTime, from, to),
+    entries: [...projectTimeEntries(project, mappedTime, from, to)].sort(sortByTime),
   }));
 
   return {

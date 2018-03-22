@@ -2,8 +2,9 @@
 
 import React, { Component } from 'react';
 import { Table, Accordion, Icon } from 'semantic-ui-react';
+import format from 'date-fns/format';
 
-import { formatDuration } from '../../core/thyme';
+import { timeElapsed } from '../../core/thyme';
 
 type ReportDetailedType = {
   projects: Array<projectTreeWithTimeType>,
@@ -44,23 +45,25 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
           <Table celled>
             <Table.Header>
               <Table.Row>
+                <Table.HeaderCell>Date</Table.HeaderCell>
+                <Table.HeaderCell>Start</Table.HeaderCell>
+                <Table.HeaderCell>End</Table.HeaderCell>
+                <Table.HeaderCell>Duration</Table.HeaderCell>
                 <Table.HeaderCell>Project</Table.HeaderCell>
-                <Table.HeaderCell width={2}>Total spent</Table.HeaderCell>
+                <Table.HeaderCell>Notes</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {projects.map(project => (
-                <Table.Row key={project.id}>
+              {projects.map(project => project.entries.map(entry => (
+                <Table.Row key={entry.id}>
+                  <Table.Cell>{format(entry.date, 'DD/MM/YYYY')}</Table.Cell>
+                  <Table.Cell>{entry.start}</Table.Cell>
+                  <Table.Cell>{entry.end}</Table.Cell>
+                  <Table.Cell>{timeElapsed(entry.start, entry.end)}</Table.Cell>
                   <Table.Cell>{project.nameTree.join(' > ')}</Table.Cell>
-                  <Table.Cell>{formatDuration(project.time * 60)}</Table.Cell>
+                  <Table.Cell>{entry.notes}</Table.Cell>
                 </Table.Row>
-              ))}
-              <Table.Row>
-                <Table.Cell />
-                <Table.Cell>
-                  {formatDuration(projects.reduce((total, project) => total + (project.time * 60), 0))}
-                </Table.Cell>
-              </Table.Row>
+              )))}
             </Table.Body>
           </Table>
         </Accordion.Content>
