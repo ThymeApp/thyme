@@ -28,18 +28,27 @@ export function formatDuration(duration: number): string {
   return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
 }
 
-export function totalProjectTime(
+export function projectTimeEntries(
   project: projectType | { id: null, nameTree: Array<string> },
   time: Array<timeType>,
   from: Date | string,
   to: Date | string,
-): number {
+) {
   const startOfDayFrom = startOfDay(from);
   const endOfDayTo = endOfDay(to);
 
   return time
     .filter(entry => entry.project === project.id)
     .filter(entry => isAfter(entry.date, startOfDayFrom) || isEqual(entry.date, startOfDayFrom))
-    .filter(entry => isBefore(entry.date, endOfDayTo) || isEqual(entry.date, endOfDayTo))
+    .filter(entry => isBefore(entry.date, endOfDayTo) || isEqual(entry.date, endOfDayTo));
+}
+
+export function totalProjectTime(
+  project: projectType | { id: null, nameTree: Array<string> },
+  time: Array<timeType>,
+  from: Date | string,
+  to: Date | string,
+): number {
+  return projectTimeEntries(project, time, from, to)
     .reduce((total, entry) => total + calculateDuration(entry.start, entry.end), 0);
 }
