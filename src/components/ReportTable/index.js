@@ -25,13 +25,15 @@ function ReportTable({ projects }: ReportTableType) {
             <Table.Cell>{formatDuration(project.time * 60)}</Table.Cell>
           </Table.Row>
         ))}
-        <Table.Row>
-          <Table.Cell />
-          <Table.Cell>
-            {formatDuration(projects.reduce((total, project) => total + (project.time * 60), 0))}
-          </Table.Cell>
-        </Table.Row>
       </Table.Body>
+      <Table.Footer>
+        <Table.Row>
+          <Table.HeaderCell />
+          <Table.HeaderCell>
+            {formatDuration(projects.reduce((total, project) => total + (project.time * 60), 0))}
+          </Table.HeaderCell>
+        </Table.Row>
+      </Table.Footer>
     </Table>
   );
 }
