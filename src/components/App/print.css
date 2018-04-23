@@ -3,7 +3,7 @@
   .SavedReports,
   .Report__period .button,
   .accordion .title,
-  .Report__filters {
+  .App .Report__filters {
     display: none;
   }
 }
