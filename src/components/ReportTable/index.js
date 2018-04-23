@@ -28,7 +28,7 @@ function ReportTable({ projects }: ReportTableType) {
         <Table.Row>
           <Table.Cell />
           <Table.Cell>
-            {formatDuration(projects.reduce((total, project) => total + (project.time * 60), 0))}
+            <strong>{formatDuration(projects.reduce((total, project) => total + (project.time * 60), 0))}</strong>
           </Table.Cell>
         </Table.Row>
       </Table.Body>
