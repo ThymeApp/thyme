@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import format from 'date-fns/format';
-import { Table } from 'semantic-ui-react';
+import { Table, Confirm } from 'semantic-ui-react';
 import classnames from 'classnames';
 
 import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
@@ -43,6 +43,7 @@ type EntryType = {
 type EntryStateType = {
   entry: timePropertyType,
   tracking: boolean,
+  confirm: boolean,
 };
 
 class Entry extends Component<EntryType, EntryStateType> {
@@ -60,6 +61,8 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.onAddEntry = this.addEntry.bind(this);
     this.onRemoveEntry = this.removeEntry.bind(this);
     this.onKeyPress = this.keyPress.bind(this);
+    this.onOpenConfirm = () => { this.setState({ confirm: true }); };
+    this.onCancelConfirm = () => { this.setState({ confirm: false }); };
 
     this.onStartTimeTracking = this.startTimeTracking.bind(this);
     this.onStopTimeTracking = this.stopTimeTracking.bind(this);
@@ -69,6 +72,7 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.state = {
       entry: defaultState(props.entry || props.tempEntry),
       tracking: props.tempEntry ? props.tempEntry.tracking : false,
+      confirm: false,
     };
   }
 
@@ -92,6 +96,8 @@ class Entry extends Component<EntryType, EntryStateType> {
   onStartTimeTracking: () => void;
   onStopTimeTracking: () => void;
   onAddNewProject: (e: Event, project: { value: string }) => void;
+  onOpenConfirm: () => void;
+  onCancelConfirm: () => void;
 
   onValueChange(key: string, value: string | null) {
     this.updateEntry({
@@ -213,8 +219,7 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     if (
       entry && entry.id &&
-      typeof onRemove === 'function' &&
-      window.confirm('Are you sure you want to delete this item?')
+      typeof onRemove === 'function'
     ) {
       onRemove(entry.id);
     }
@@ -222,7 +227,7 @@ class Entry extends Component<EntryType, EntryStateType> {
 
   render() {
     const { entry } = this.props;
-    const { tracking } = this.state;
+    const { tracking, confirm } = this.state;
     const {
       date,
       start,
@@ -235,6 +240,14 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     return (
       <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>
+        <Confirm
+          open={confirm}
+          content="Are you sure you want to remove this entry?"
+          confirmButton="Remove entry"
+          size="mini"
+          onCancel={this.onCancelConfirm}
+          onConfirm={this.onRemoveEntry}
+        />
         <Table.Cell width={1}>
           <DateInput
             setRef={this.onSetDateInputRef}
@@ -282,7 +295,7 @@ class Entry extends Component<EntryType, EntryStateType> {
             </div>
           )}
           {hasId && (
-            <button onClick={this.onRemoveEntry} className="ThymeEntry__button">
+            <button onClick={this.onOpenConfirm} className="ThymeEntry__button">
               <img className="ThymeEntry__button-image" src={remove} alt="Remove entry" />
             </button>
           )}
