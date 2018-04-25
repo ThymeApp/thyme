@@ -33,8 +33,8 @@ class ReportRange extends Component<ReportRangeType> {
     );
     this.weekToDate = () => this.props.updateDateRange(
       subDays(new Date(), 7),
-      new Date()     
-    );   
+      new Date(),
+    );
     this.onLastMonth = () => this.props.updateDateRange(
       subMonths(new Date(), 1),
       new Date(),
@@ -46,6 +46,7 @@ class ReportRange extends Component<ReportRangeType> {
   onToday: () => void;
   onThisWeek: () => void;
   onLastMonth: () => void;
+  weekToDate: () => void;
 
   updateRange(key, value) {
     const from = key === 'from' ? value : this.props.from;
