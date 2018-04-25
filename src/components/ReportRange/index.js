@@ -6,6 +6,7 @@ import { Button, Input } from 'semantic-ui-react';
 import format from 'date-fns/format';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/start_of_week';
+import subDays from 'date-fns/sub_days';
 import endOfWeek from 'date-fns/end_of_week';
 import subMonths from 'date-fns/sub_months';
 
@@ -30,6 +31,10 @@ class ReportRange extends Component<ReportRangeType> {
       startOfWeek(new Date(), { weekStartsOn: 1 }),
       endOfWeek(new Date(), { weekStartsOn: 1 }),
     );
+    this.weekToDate = () => this.props.updateDateRange(
+      subDays(new Date(), 7),
+      new Date()     
+    );   
     this.onLastMonth = () => this.props.updateDateRange(
       subMonths(new Date(), 1),
       new Date(),
@@ -59,6 +64,9 @@ class ReportRange extends Component<ReportRangeType> {
         </Button>
         <Button basic onClick={this.onThisWeek}>
           This week
+        </Button>
+        <Button basic onClick={this.weekToDate}>
+          Week to date
         </Button>
         <Button basic onClick={this.onLastMonth}>
           Last month
