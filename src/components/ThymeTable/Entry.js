@@ -2,7 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import format from 'date-fns/format';
-import { Table, Confirm } from 'semantic-ui-react';
+import { Table, Confirm, Button, Icon, Popup } from 'semantic-ui-react';
 import classnames from 'classnames';
 
 import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
@@ -13,11 +13,6 @@ import DateInput from '../DateInput';
 import TimeInput from '../TimeInput';
 import ProjectInput from '../ProjectInput';
 import NotesInput from '../NotesInput';
-
-import add from './add.svg';
-import play from './play.svg';
-import pause from './pause.svg';
-import remove from './remove.svg';
 
 import './Entry.css';
 
@@ -267,40 +262,39 @@ class Entry extends Component<EntryType, EntryStateType> {
         <Table.Cell>
           <NotesInput onKeyPress={this.onKeyPress} onChange={this.onNotesChange} value={notes} />
         </Table.Cell>
-        <Table.Cell style={{ width: 1, paddingRight: 12, whiteSpace: 'nowrap' }}>
-          {!hasId && (
-            <div style={{ display: 'flex' }}>
-              <button
-                onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
-                className="ThymeEntry__button"
-              >
-                <img
-                  className="ThymeEntry__button-image"
-                  src={tracking ? pause : play}
-                  alt={tracking ? 'Stop tracking' : 'Track time'}
+        <Table.Cell textAlign="right" style={{ width: 1, whiteSpace: 'nowrap' }}>
+          <Button.Group size="small">
+            {!hasId && (
+              <Fragment>
+                <Button
+                  icon
+                  color="blue"
+                  onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+                >
+                  <Icon name={tracking ? 'pause' : 'play'} />
+                </Button>
+                <Button icon onClick={this.onAddEntry}>
+                  <Icon name="add" />
+                </Button>
+              </Fragment>
+            )}
+            {hasId && (
+              <Fragment>
+                <Button icon onClick={this.onOpenConfirm}>
+                  <Icon name="remove" />
+                </Button>
+
+                <Confirm
+                  open={confirm}
+                  content="Are you sure you want to remove this entry?"
+                  confirmButton="Remove entry"
+                  size="mini"
+                  onCancel={this.onCancelConfirm}
+                  onConfirm={this.onRemoveEntry}
                 />
-              </button>
-              <span style={{ width: 3 }} />
-              <button onClick={this.onAddEntry} className="ThymeEntry__button">
-                <img className="ThymeEntry__button-image" src={add} alt="Add entry" />
-              </button>
-            </div>
-          )}
-          {hasId && (
-            <Fragment>
-              <button onClick={this.onOpenConfirm} className="ThymeEntry__button">
-                <img className="ThymeEntry__button-image" src={remove} alt="Remove entry" />
-              </button>
-              <Confirm
-                open={confirm}
-                content="Are you sure you want to remove this entry?"
-                confirmButton="Remove entry"
-                size="mini"
-                onCancel={this.onCancelConfirm}
-                onConfirm={this.onRemoveEntry}
-              />
-            </Fragment>
-          )}
+              </Fragment>
+            )}
+          </Button.Group>
         </Table.Cell>
       </Table.Row>
     );
