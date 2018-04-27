@@ -2,7 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Table, Input } from 'semantic-ui-react';
+import { Table, Input, Confirm } from 'semantic-ui-react';
 
 import { isDescendant } from '../../core/projects';
 
@@ -30,7 +30,11 @@ type ProjectItemType = {
   alert: (message: string) => void,
 };
 
-class ProjectItem extends Component<ProjectItemType> {
+type ProjectItemState = {
+  confirmDelete: boolean,
+};
+
+class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
   constructor(props) {
     super(props);
 
@@ -58,25 +62,36 @@ class ProjectItem extends Component<ProjectItemType> {
     };
 
     this.onRemoveEntry = () => {
-      const { project, projects, onRemoveProject } = this.props;
+      const { project, projects } = this.props;
 
       if (projects.find(item => item.parent === project.id)) {
         props.alert('This project has children, parent cannot be removed.');
         return;
       }
 
-      if (window.confirm('Are you sure you want to remove this project?')) {
-        onRemoveProject(project.id);
-      }
+      this.setState({ confirmDelete: true });
     };
+
+    this.onRemoveProject = () => {
+      const { project, onRemoveProject } = this.props;
+
+      onRemoveProject(project.id);
+    };
+
+    this.onCancelConfirm = () => this.setState({ confirmDelete: false });
+
+    this.state = { confirmDelete: false };
   }
 
   onChangeName: (e: Event) => void;
   onChangeParent: (e: Event, project: { value: string, label: string }) => void;
   onRemoveEntry: () => void;
+  onRemoveProject: () => void;
+  onCancelConfirm: () => void;
 
   render() {
     const { project, projects, level } = this.props;
+    const { confirmDelete } = this.state;
 
     return (
       <Fragment>
@@ -95,6 +110,14 @@ class ProjectItem extends Component<ProjectItemType> {
             <button onClick={this.onRemoveEntry} className="ProjectList__button">
               <img className="ProjectList__button-image" src={remove} alt="Remove entry" />
             </button>
+            <Confirm
+              open={confirmDelete}
+              content="Are you sure you want to remove this project?"
+              confirmButton="Remove project"
+              size="mini"
+              onCancel={this.onCancelConfirm}
+              onConfirm={this.onRemoveProject}
+            />
           </Table.Cell>
         </Table.Row>
         {ProjectsList({ projects, parent: project.id, level: level + 1 })}
