@@ -12,3 +12,14 @@ export function importJSONData(data: importDataType) {
     ...data,
   };
 }
+
+export function alert(message: string) {
+  return {
+    type: 'SET_ALERT',
+    message,
+  };
+}
+
+export function clearAlert() {
+  return { type: 'CLEAR_ALERT' };
+}
