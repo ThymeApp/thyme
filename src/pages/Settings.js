@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Button } from 'semantic-ui-react';
+import { Container, Header, Button, Confirm } from 'semantic-ui-react';
 import FileSaver from 'file-saver';
 import format from 'date-fns/format';
 
@@ -21,7 +21,11 @@ type SettingsType = {
   importData: (data: any) => void,
 };
 
-class Settings extends Component<SettingsType> {
+type SettingsState = {
+  confirmImport: boolean,
+}
+
+class Settings extends Component<SettingsType, SettingsState> {
   constructor(props) {
     super(props);
 
@@ -37,8 +41,16 @@ class Settings extends Component<SettingsType> {
       }
     };
 
+    this.onImportData = () => { this.setState({ confirmImport: true }); };
+
+    this.onCancelConfirm = () => {
+      this.setState({
+        confirmImport: false,
+      });
+    };
+
     this.onExportData = this.exportData.bind(this);
-    this.onImportData = this.importData.bind(this);
+    this.onOpenImportInput = this.openImportInput.bind(this);
 
     // create file upload element
     const input = document.createElement('input');
@@ -48,12 +60,18 @@ class Settings extends Component<SettingsType> {
     input.addEventListener('change', this.handleFileChange.bind(this));
 
     this.uploadInput = input;
+
+    this.state = {
+      confirmImport: false,
+    };
   }
 
   onRemoveTime: () => void;
   onRemoveProjects: () => void;
   onExportData: () => void;
+  onOpenImportInput: () => void;
   onImportData: () => void;
+  onCancelConfirm: () => void;
   uploadInput: HTMLInputElement;
 
   exportData() {
@@ -69,13 +87,12 @@ class Settings extends Component<SettingsType> {
     FileSaver.saveAs(blob, `thyme-export_${format(new Date(), 'YYYY-MM-DD')}.json`);
   }
 
-  importData() {
-    if (
-      window.confirm('If you import data it will overwrite your current data. Wish to continue?')
-    ) {
-      // open file dialog
-      this.uploadInput.click();
-    }
+  openImportInput() {
+    // close confirm modal
+    this.onCancelConfirm();
+
+    // open file dialog
+    this.uploadInput.click();
   }
 
   handleImportData(jsonString: string) {
@@ -110,6 +127,10 @@ class Settings extends Component<SettingsType> {
   }
 
   render() {
+    const {
+      confirmImport,
+    } = this.state;
+
     return (
       <Container>
         <Header as="h1">Settings</Header>
@@ -117,6 +138,14 @@ class Settings extends Component<SettingsType> {
         <Header as="h3">Export / Import</Header>
         <Button color="blue" onClick={this.onExportData}>Export data</Button>
         <Button color="green" onClick={this.onImportData}>Import data</Button>
+        <Confirm
+          open={confirmImport}
+          content="If you import data it will overwrite your current data. Wish to continue?"
+          confirmButton="Import data"
+          size="mini"
+          onCancel={this.onCancelConfirm}
+          onConfirm={this.onOpenImportInput}
+        />
 
         <Header as="h3">Delete data</Header>
         <Button color="red" onClick={this.onRemoveTime}>Remove timesheet data</Button>
