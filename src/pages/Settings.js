@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Button } from 'semantic-ui-react';
+import { Container, Header, Button, Confirm } from 'semantic-ui-react';
 import FileSaver from 'file-saver';
 import format from 'date-fns/format';
 
@@ -19,26 +19,37 @@ type SettingsType = {
   removeTimeData: () => void,
   removeProjectData: () => void,
   importData: (data: any) => void,
+  alert: (message: string) => void,
 };
 
-class Settings extends Component<SettingsType> {
+type SettingsState = {
+  confirmImport: boolean,
+  confirmRemoveTimesheet: boolean,
+  confirmRemoveProjects: boolean,
+}
+
+class Settings extends Component<SettingsType, SettingsState> {
   constructor(props) {
     super(props);
 
-    this.onRemoveTime = () => {
-      if (window.confirm('Are you SUPER sure you want to remove all timesheet data?')) {
-        props.removeTimeData();
-      }
-    };
+    this.onRemoveTime = () => { this.setState({ confirmRemoveTimesheet: true }); };
+    this.onConfirmRemoveTime = () => this.props.removeTimeData();
 
-    this.onRemoveProjects = () => {
-      if (window.confirm('Are you SUPER sure you want to remove all projects data?')) {
-        props.removeProjectData();
-      }
+    this.onRemoveProjects = () => { this.setState({ confirmRemoveProjects: true }); };
+    this.onConfirmRemoveProjects = () => this.props.removeProjectData();
+
+    this.onImportData = () => { this.setState({ confirmImport: true }); };
+    this.onOpenImportInput = this.openImportInput.bind(this);
+
+    this.onCancelConfirm = () => {
+      this.setState({
+        confirmImport: false,
+        confirmRemoveTimesheet: false,
+        confirmRemoveProjects: false,
+      });
     };
 
     this.onExportData = this.exportData.bind(this);
-    this.onImportData = this.importData.bind(this);
 
     // create file upload element
     const input = document.createElement('input');
@@ -48,12 +59,22 @@ class Settings extends Component<SettingsType> {
     input.addEventListener('change', this.handleFileChange.bind(this));
 
     this.uploadInput = input;
+
+    this.state = {
+      confirmImport: false,
+      confirmRemoveTimesheet: false,
+      confirmRemoveProjects: false,
+    };
   }
 
   onRemoveTime: () => void;
+  onConfirmRemoveTime: () => void;
   onRemoveProjects: () => void;
+  onConfirmRemoveProjects: () => void;
   onExportData: () => void;
+  onOpenImportInput: () => void;
   onImportData: () => void;
+  onCancelConfirm: () => void;
   uploadInput: HTMLInputElement;
 
   exportData() {
@@ -69,13 +90,12 @@ class Settings extends Component<SettingsType> {
     FileSaver.saveAs(blob, `thyme-export_${format(new Date(), 'YYYY-MM-DD')}.json`);
   }
 
-  importData() {
-    if (
-      window.confirm('If you import data it will overwrite your current data. Wish to continue?')
-    ) {
-      // open file dialog
-      this.uploadInput.click();
-    }
+  openImportInput() {
+    // close confirm modal
+    this.onCancelConfirm();
+
+    // open file dialog
+    this.uploadInput.click();
   }
 
   handleImportData(jsonString: string) {
@@ -83,15 +103,15 @@ class Settings extends Component<SettingsType> {
       const importData = parseImportData(JSON.parse(jsonString));
 
       if (!validData(importData)) {
-        alert('The provided JSON is not a valid Thyme timesheet');
+        this.props.alert('The provided JSON is not a valid Thyme timesheet');
         return;
       }
 
       this.props.importData(importData);
 
-      alert('Import successful');
+      this.props.alert('Import successful');
     } catch (e) {
-      alert(e.message);
+      this.props.alert(e.message);
     }
   }
 
@@ -110,6 +130,12 @@ class Settings extends Component<SettingsType> {
   }
 
   render() {
+    const {
+      confirmImport,
+      confirmRemoveTimesheet,
+      confirmRemoveProjects,
+    } = this.state;
+
     return (
       <Container>
         <Header as="h1">Settings</Header>
@@ -117,10 +143,35 @@ class Settings extends Component<SettingsType> {
         <Header as="h3">Export / Import</Header>
         <Button color="blue" onClick={this.onExportData}>Export data</Button>
         <Button color="green" onClick={this.onImportData}>Import data</Button>
+        <Confirm
+          open={confirmImport}
+          content="If you import data it will overwrite your current data. Wish to continue?"
+          confirmButton="Import data"
+          size="mini"
+          onCancel={this.onCancelConfirm}
+          onConfirm={this.onOpenImportInput}
+        />
 
         <Header as="h3">Delete data</Header>
         <Button color="red" onClick={this.onRemoveTime}>Remove timesheet data</Button>
+        <Confirm
+          open={confirmRemoveTimesheet}
+          content="Are you SUPER sure you want to remove all timesheet data?"
+          confirmButton="Remove data"
+          size="mini"
+          onCancel={this.onCancelConfirm}
+          onConfirm={this.onConfirmRemoveTime}
+        />
+
         <Button color="red" onClick={this.onRemoveProjects}>Remove project data</Button>
+        <Confirm
+          open={confirmRemoveProjects}
+          content="Are you SUPER sure you want to remove all projects data?"
+          confirmButton="Remove data"
+          size="mini"
+          onCancel={this.onCancelConfirm}
+          onConfirm={this.onConfirmRemoveProjects}
+        />
 
         <Header as="h3">About</Header>
         Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.

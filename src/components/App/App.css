@@ -1,0 +1,7 @@
+.page.modals.visible.transition {
+  display: flex!important;
+}
+
+body {
+  height: auto;
+}

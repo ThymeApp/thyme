@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Button, Header } from 'semantic-ui-react';
+import { Input, Button, Header, Confirm } from 'semantic-ui-react';
 
 import { addReport, removeReport, setReport } from '../../actions/reports';
 
@@ -28,6 +28,7 @@ type SavedReportsProps = {
 
 type SaveReportsState = {
   name: string,
+  confirmDelete: boolean,
 };
 
 class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
@@ -54,14 +55,20 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
       this.addReport();
     };
 
+    this.onRemoveReport = () => this.setState({ confirmDelete: true });
+    this.onCancelConfirm = () => this.setState({ confirmDelete: false });
+
     this.state = {
       name: '',
+      confirmDelete: false,
     };
   }
 
   onAddReport: (e: Event) => void;
   onUpdateName: (e: Event) => void;
   onKeyPress: (e: KeyboardEvent) => void;
+  onRemoveReport: () => void;
+  onCancelConfirm: () => void;
 
   updateName(name: string) {
     this.setState({ name });
@@ -80,14 +87,8 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
     this.updateName('');
   }
 
-  removeReport(id: string) {
-    if (window.confirm('Are you are you want to remove this report?')) {
-      this.props.removeReport(id);
-    }
-  }
-
   render() {
-    const { name } = this.state;
+    const { name, confirmDelete } = this.state;
     const { savedReports } = this.props;
 
     return (
@@ -121,9 +122,17 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
                   {report.name}
                 </Button>
 
-                <button onClick={() => this.removeReport(report.id)} className="Report__button">
+                <button onClick={this.onRemoveReport} className="Report__button">
                   <img className="Report__button-image" src={remove} alt="Remove entry" />
                 </button>
+                <Confirm
+                  open={confirmDelete}
+                  content="Are you are you want to remove this report?"
+                  confirmButton="Remove report"
+                  size="mini"
+                  onCancel={this.onCancelConfirm}
+                  onConfirm={() => { this.onCancelConfirm(); this.props.removeReport(report.id); }}
+                />
               </div>
             ))}
           </div>
