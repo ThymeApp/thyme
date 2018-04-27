@@ -31,7 +31,7 @@ class ReportRange extends Component<ReportRangeType> {
       startOfWeek(new Date(), { weekStartsOn: 1 }),
       endOfWeek(new Date(), { weekStartsOn: 1 }),
     );
-    this.weekToDate = () => this.props.updateDateRange(
+    this.onWeekToDate = () => this.props.updateDateRange(
       subDays(new Date(), 7),
       new Date(),
     );
@@ -46,7 +46,7 @@ class ReportRange extends Component<ReportRangeType> {
   onToday: () => void;
   onThisWeek: () => void;
   onLastMonth: () => void;
-  weekToDate: () => void;
+  onWeekToDate: () => void;
 
   updateRange(key, value) {
     const from = key === 'from' ? value : this.props.from;
@@ -66,7 +66,7 @@ class ReportRange extends Component<ReportRangeType> {
         <Button basic onClick={this.onThisWeek}>
           This week
         </Button>
-        <Button basic onClick={this.weekToDate}>
+        <Button basic onClick={this.onWeekToDate}>
           Week to date
         </Button>
         <Button basic onClick={this.onLastMonth}>
