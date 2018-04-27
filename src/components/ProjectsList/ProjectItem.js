@@ -7,6 +7,7 @@ import { Table, Input } from 'semantic-ui-react';
 import { isDescendant } from '../../core/projects';
 
 import { updateProject, removeProject } from '../../actions/projects';
+import { alert } from '../../actions/app';
 
 import ProjectInput from '../ProjectInput';
 import ProjectsList from './ProjectsList';
@@ -26,6 +27,7 @@ type ProjectItemType = {
   level: number;
   onUpdateProject: (project: { id: string, name: string, parent: string | null }) => void,
   onRemoveProject: (id: string) => void,
+  alert: (message: string) => void,
 };
 
 class ProjectItem extends Component<ProjectItemType> {
@@ -59,7 +61,7 @@ class ProjectItem extends Component<ProjectItemType> {
       const { project, projects, onRemoveProject } = this.props;
 
       if (projects.find(item => item.parent === project.id)) {
-        alert('This project has children, cannot remove.');
+        props.alert('This project has children, parent cannot be removed.');
         return;
       }
 
@@ -109,6 +111,10 @@ function mapDispatchToProps(dispatch) {
 
     onRemoveProject(id: string) {
       dispatch(removeProject(id));
+    },
+
+    alert(message: string) {
+      dispatch(alert(message));
     },
   };
 }
