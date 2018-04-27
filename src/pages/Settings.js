@@ -19,6 +19,7 @@ type SettingsType = {
   removeTimeData: () => void,
   removeProjectData: () => void,
   importData: (data: any) => void,
+  alert: (message: string) => void,
 };
 
 type SettingsState = {
@@ -102,15 +103,15 @@ class Settings extends Component<SettingsType, SettingsState> {
       const importData = parseImportData(JSON.parse(jsonString));
 
       if (!validData(importData)) {
-        alert('The provided JSON is not a valid Thyme timesheet');
+        this.props.alert('The provided JSON is not a valid Thyme timesheet');
         return;
       }
 
       this.props.importData(importData);
 
-      alert('Import successful');
+      this.props.alert('Import successful');
     } catch (e) {
-      alert(e.message);
+      this.props.alert(e.message);
     }
   }
 
