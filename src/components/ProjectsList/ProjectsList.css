@@ -18,17 +18,3 @@
   min-width: 200px;
   margin-right: 12px;
 }
-
-.ProjectList__button {
-  border: 0;
-  background: none;
-  padding: 0;
-  margin: 0;
-  height: 16px;
-  width: 16px;
-  cursor: pointer;
-}
-
-.ProjectList__button-image {
-  max-width: 100%;
-}

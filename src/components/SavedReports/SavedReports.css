@@ -18,17 +18,3 @@
   justify-content: space-between;
   margin: 12px 0;
 }
-
-.Report__button {
-  border: 0;
-  background: none;
-  padding: 0;
-  margin: 0;
-  height: 16px;
-  width: 16px;
-  cursor: pointer;
-}
-
-.Report__button-image {
-  max-width: 100%;
-}

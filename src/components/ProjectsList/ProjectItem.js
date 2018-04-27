@@ -2,7 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Table, Input, Confirm } from 'semantic-ui-react';
+import { Table, Input, Confirm, Popup, Button, Icon } from 'semantic-ui-react';
 
 import { isDescendant } from '../../core/projects';
 
@@ -11,7 +11,6 @@ import { alert } from '../../actions/app';
 
 import ProjectInput from '../ProjectInput';
 import ProjectsList from './ProjectsList';
-import remove from './remove.svg';
 
 function projectValues(props) {
   return {
@@ -107,9 +106,16 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
             <ProjectInput handleChange={this.onChangeParent} value={project.parent} excludeValue />
           </Table.Cell>
           <Table.Cell width={1}>
-            <button onClick={this.onRemoveEntry} className="ProjectList__button">
-              <img className="ProjectList__button-image" src={remove} alt="Remove entry" />
-            </button>
+            <Popup
+              inverted
+              trigger={(
+                <Button icon onClick={this.onRemoveEntry}>
+                  <Icon name="remove" />
+                </Button>
+              )}
+              content="Remove project"
+            />
+
             <Confirm
               open={confirmDelete}
               content="Are you sure you want to remove this project?"
