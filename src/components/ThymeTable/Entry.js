@@ -266,23 +266,41 @@ class Entry extends Component<EntryType, EntryStateType> {
           <Button.Group size="small">
             {!hasId && (
               <Fragment>
-                <Button
-                  icon
-                  color="blue"
-                  onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
-                >
-                  <Icon name={tracking ? 'pause' : 'play'} />
-                </Button>
-                <Button icon onClick={this.onAddEntry}>
-                  <Icon name="add" />
-                </Button>
+                <Popup
+                  inverted
+                  trigger={(
+                    <Button
+                      icon
+                      color="blue"
+                      onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+                    >
+                      <Icon name={tracking ? 'pause' : 'play'} />
+                    </Button>
+                  )}
+                  content={tracking ? 'Stop tracking time' : 'Start time tracking'}
+                />
+                <Popup
+                  inverted
+                  trigger={(
+                    <Button icon onClick={this.onAddEntry}>
+                      <Icon name="add" />
+                    </Button>
+                  )}
+                  content="Add this entry"
+                />
               </Fragment>
             )}
             {hasId && (
               <Fragment>
-                <Button icon onClick={this.onOpenConfirm}>
-                  <Icon name="remove" />
-                </Button>
+                <Popup
+                  inverted
+                  trigger={(
+                    <Button icon onClick={this.onOpenConfirm}>
+                      <Icon name="remove" />
+                    </Button>
+                  )}
+                  content="Remove this entry"
+                />
 
                 <Confirm
                   open={confirm}
