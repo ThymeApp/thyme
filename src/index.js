@@ -20,9 +20,9 @@ import registerServiceWorker from './registerServiceWorker';
 const store = createStore(
   reducers,
   loadState(),
-  compose(process.env.NODE_ENV === 'development' &&
+  compose(process.env.NODE_ENV === 'development' ?
     // eslint-disable-next-line no-underscore-dangle
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : undefined),
 );
 
 store.subscribe(throttle(() => {
