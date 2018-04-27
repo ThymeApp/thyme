@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import format from 'date-fns/format';
 import { Table, Confirm } from 'semantic-ui-react';
 import classnames from 'classnames';
@@ -240,14 +240,6 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     return (
       <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>
-        <Confirm
-          open={confirm}
-          content="Are you sure you want to remove this entry?"
-          confirmButton="Remove entry"
-          size="mini"
-          onCancel={this.onCancelConfirm}
-          onConfirm={this.onRemoveEntry}
-        />
         <Table.Cell width={1}>
           <DateInput
             setRef={this.onSetDateInputRef}
@@ -295,9 +287,19 @@ class Entry extends Component<EntryType, EntryStateType> {
             </div>
           )}
           {hasId && (
-            <button onClick={this.onOpenConfirm} className="ThymeEntry__button">
-              <img className="ThymeEntry__button-image" src={remove} alt="Remove entry" />
-            </button>
+            <Fragment>
+              <button onClick={this.onOpenConfirm} className="ThymeEntry__button">
+                <img className="ThymeEntry__button-image" src={remove} alt="Remove entry" />
+              </button>
+              <Confirm
+                open={confirm}
+                content="Are you sure you want to remove this entry?"
+                confirmButton="Remove entry"
+                size="mini"
+                onCancel={this.onCancelConfirm}
+                onConfirm={this.onRemoveEntry}
+              />
+            </Fragment>
           )}
         </Table.Cell>
       </Table.Row>
