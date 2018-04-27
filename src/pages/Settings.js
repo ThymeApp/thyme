@@ -23,34 +23,32 @@ type SettingsType = {
 
 type SettingsState = {
   confirmImport: boolean,
+  confirmRemoveTimesheet: boolean,
+  confirmRemoveProjects: boolean,
 }
 
 class Settings extends Component<SettingsType, SettingsState> {
   constructor(props) {
     super(props);
 
-    this.onRemoveTime = () => {
-      if (window.confirm('Are you SUPER sure you want to remove all timesheet data?')) {
-        props.removeTimeData();
-      }
-    };
+    this.onRemoveTime = () => { this.setState({ confirmRemoveTimesheet: true }); };
+    this.onConfirmRemoveTime = () => this.props.removeTimeData();
 
-    this.onRemoveProjects = () => {
-      if (window.confirm('Are you SUPER sure you want to remove all projects data?')) {
-        props.removeProjectData();
-      }
-    };
+    this.onRemoveProjects = () => { this.setState({ confirmRemoveProjects: true }); };
+    this.onConfirmRemoveProjects = () => this.props.removeProjectData();
 
     this.onImportData = () => { this.setState({ confirmImport: true }); };
+    this.onOpenImportInput = this.openImportInput.bind(this);
 
     this.onCancelConfirm = () => {
       this.setState({
         confirmImport: false,
+        confirmRemoveTimesheet: false,
+        confirmRemoveProjects: false,
       });
     };
 
     this.onExportData = this.exportData.bind(this);
-    this.onOpenImportInput = this.openImportInput.bind(this);
 
     // create file upload element
     const input = document.createElement('input');
@@ -63,11 +61,15 @@ class Settings extends Component<SettingsType, SettingsState> {
 
     this.state = {
       confirmImport: false,
+      confirmRemoveTimesheet: false,
+      confirmRemoveProjects: false,
     };
   }
 
   onRemoveTime: () => void;
+  onConfirmRemoveTime: () => void;
   onRemoveProjects: () => void;
+  onConfirmRemoveProjects: () => void;
   onExportData: () => void;
   onOpenImportInput: () => void;
   onImportData: () => void;
@@ -129,6 +131,8 @@ class Settings extends Component<SettingsType, SettingsState> {
   render() {
     const {
       confirmImport,
+      confirmRemoveTimesheet,
+      confirmRemoveProjects,
     } = this.state;
 
     return (
@@ -149,7 +153,24 @@ class Settings extends Component<SettingsType, SettingsState> {
 
         <Header as="h3">Delete data</Header>
         <Button color="red" onClick={this.onRemoveTime}>Remove timesheet data</Button>
+        <Confirm
+          open={confirmRemoveTimesheet}
+          content="Are you SUPER sure you want to remove all timesheet data?"
+          confirmButton="Remove data"
+          size="mini"
+          onCancel={this.onCancelConfirm}
+          onConfirm={this.onConfirmRemoveTime}
+        />
+
         <Button color="red" onClick={this.onRemoveProjects}>Remove project data</Button>
+        <Confirm
+          open={confirmRemoveProjects}
+          content="Are you SUPER sure you want to remove all projects data?"
+          confirmButton="Remove data"
+          size="mini"
+          onCancel={this.onCancelConfirm}
+          onConfirm={this.onConfirmRemoveProjects}
+        />
 
         <Header as="h3">About</Header>
         Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
