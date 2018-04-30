@@ -7,8 +7,11 @@ import FileSaver from 'file-saver';
 import format from 'date-fns/format';
 
 import { stateToExport, validData, parseImportData } from '../core/importExport';
+import NumberInput from '../components/NumberInput';
+import { valueFromEventTarget } from '../core/dom';
 
 import { importJSONData, alert } from '../actions/app';
+import { updateSetting } from '../actions/settings';
 import { truncateTime } from '../actions/time';
 import { truncateProjects } from '../actions/projects';
 
@@ -20,6 +23,7 @@ type SettingsType = {
   removeProjectData: () => void,
   importData: (data: any) => void,
   alert: (message: string) => void,
+  updateSetting: (name: string, value: string) => void,
 };
 
 type SettingsState = {
@@ -66,7 +70,7 @@ class Settings extends Component<SettingsType, SettingsState> {
       confirmRemoveProjects: false,
     };
   }
-
+  onChangeRounding: () => void;
   onRemoveTime: () => void;
   onConfirmRemoveTime: () => void;
   onRemoveProjects: () => void;
@@ -75,6 +79,10 @@ class Settings extends Component<SettingsType, SettingsState> {
   onOpenImportInput: () => void;
   onImportData: () => void;
   onCancelConfirm: () => void;
+  onChangeRounding(input) {
+    const roundValue = valueFromEventTarget(input.target);
+    this.props.updateSetting('rounding', roundValue);
+  }
   uploadInput: HTMLInputElement;
 
   exportData() {
@@ -114,6 +122,7 @@ class Settings extends Component<SettingsType, SettingsState> {
       this.props.alert(e.message);
     }
   }
+
 
   handleFileChange(e) {
     if (e.target instanceof HTMLInputElement === false) {
@@ -172,7 +181,8 @@ class Settings extends Component<SettingsType, SettingsState> {
           onCancel={this.onCancelConfirm}
           onConfirm={this.onConfirmRemoveProjects}
         />
-
+        <Header as="h3">Rounding</Header>
+        <NumberInput onKeyPress={this.onChangeRounding} onChange={this.onChangeRounding} title="The minutes that the timer rounds to" />
         <Header as="h3">About</Header>
         Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
         It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
@@ -201,6 +211,10 @@ function mapDispatchToProps(dispatch) {
 
     importData(data) {
       dispatch(importJSONData(data));
+    },
+
+    updateSetting(name, value) {
+      dispatch(updateSetting(name: string, value: string));
     },
 
     alert(message: string) {
