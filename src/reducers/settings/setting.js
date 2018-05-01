@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-function name(state = null, action) {
+function name(state = '', action) {
   switch (action.type) {
-    case 'SET_SETTINGS':
+    case 'ADD_SETTING':
       return action.name;
     case 'UPDATE_SETTING':
       return action.name;
@@ -13,9 +13,9 @@ function name(state = null, action) {
 
 function value(state = '', action) {
   switch (action.type) {
-    case 'UPDATE_SETTINGS':
+    case 'ADD_SETTING':
       return action.value;
-    case 'SET_SETTINGS':
+    case 'UPDATE_SETTING':
       return action.value;
     default:
       return state;

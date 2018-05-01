@@ -54,6 +54,7 @@ class Settings extends Component<SettingsType, SettingsState> {
     };
 
     this.onExportData = this.exportData.bind(this);
+    this.onChangeRounding = this.exportData.bind(this);
 
     // create file upload element
     const input = document.createElement('input');
@@ -78,11 +79,14 @@ class Settings extends Component<SettingsType, SettingsState> {
   onExportData: () => void;
   onOpenImportInput: () => void;
   onImportData: () => void;
-  onCancelConfirm: () => void;
-  onChangeRounding(input) {
-    const roundValue = valueFromEventTarget(input.target);
+  onCancelConfirm: () => void;  
+
+  onChangeRounding(event) {
+    console.log(this.props)
+    const roundValue = valueFromEventTarget(event.target);
     this.props.updateSetting('rounding', roundValue);
   }
+
   uploadInput: HTMLInputElement;
 
   exportData() {
@@ -182,7 +186,7 @@ class Settings extends Component<SettingsType, SettingsState> {
           onConfirm={this.onConfirmRemoveProjects}
         />
         <Header as="h3">Rounding</Header>
-        <NumberInput onKeyPress={this.onChangeRounding} onChange={this.onChangeRounding} title="The minutes that the timer rounds to" />
+        <NumberInput onChange={this.onChangeRounding} title="The minutes that the timer rounds to" />
         <Header as="h3">About</Header>
         Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
         It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
@@ -214,7 +218,7 @@ function mapDispatchToProps(dispatch) {
     },
 
     updateSetting(name, value) {
-      dispatch(updateSetting(name: string, value: string));
+      dispatch(updateSetting(name, value));
     },
 
     alert(message: string) {

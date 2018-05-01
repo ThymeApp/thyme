@@ -8,9 +8,10 @@ export function updateSetting(name: string, value: string) {
   };
 }
 
-export function setSettings(settings: array) {
+export function addSetting(name: string, value: string) {
   return {
-    type: 'SET_SETTINGS',
-    settings,
+    type: 'ADD_SETTING',
+    name,
+    value,
   };
 }

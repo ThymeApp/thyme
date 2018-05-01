@@ -10,19 +10,7 @@ function byName(state = {}, action) {
         [action.name]: setting(state[action.name], action),
         [action.value]: setting(state[action.value], action),
       };
-    default:
-      return state;
-  }
-}
-
-function allNames(state = [], action) {
-  switch (action.type) {
-    case 'SET_SETTINGS':
-      return {
-        ...state,
-        [action.name]: setting(state[action.name], action),
-        [action.value]: setting(state[action.value], action),
-      };
+    case 'ADD_SETTING':
     default:
       return state;
   }
@@ -31,5 +19,4 @@ function allNames(state = [], action) {
 
 export default combineReducers({
   byName,
-  allNames,
 });
