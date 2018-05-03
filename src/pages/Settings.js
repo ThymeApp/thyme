@@ -116,11 +116,7 @@ class Settings extends Component<SettingsType, SettingsState> {
   }
 
   handleFileChange(e) {
-    if (e.target instanceof HTMLInputElement === false) {
-      return;
-    }
-
-    if (e.target.files instanceof FileList) {
+    if (e.target instanceof HTMLInputElement && e.target.files instanceof FileList) {
       const reader = new FileReader();
       reader.onload = (ev) => {
         this.handleImportData(ev.target.result);
