@@ -42,7 +42,7 @@ export function projectTimeEntries(
   time: Array<timeType>,
   from: Date | string,
   to: Date | string,
-) {
+): Array<timeType> {
   const startOfDayFrom = startOfDay(from);
   const endOfDayTo = endOfDay(to);
 
