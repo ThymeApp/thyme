@@ -3,15 +3,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, compose, applyMiddleware } from 'redux';
-import throttle from 'lodash/throttle';
+import { createStore, compose } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import 'semantic-ui-css/semantic.min.css';
 
-import { loadState, saveState } from './core/localStorage';
+import { loadState, saveOnStoreChange } from './core/localStorage';
 
-import migrate from './middleware/migrate';
 import reducers from './reducers';
 
 import App from './components/App';
@@ -22,19 +20,13 @@ const reduxDevTools = process.env.NODE_ENV === 'development' ?
   // eslint-disable-next-line no-underscore-dangle
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : undefined;
 
+const initialState = loadState();
+
 const store = createStore(
   reducers,
-  loadState(),
-  compose(
-    reduxDevTools,
-    applyMiddleware(migrate),
-  ),
+  initialState,
+  compose(reduxDevTools),
 );
-
-// save changes to store to localStorage
-store.subscribe(throttle(() => {
-  saveState(store.getState());
-}, 1000));
 
 ReactDOM.render(
   <Provider store={store}>
@@ -46,3 +38,4 @@ ReactDOM.render(
 );
 
 registerServiceWorker();
+saveOnStoreChange(store);
