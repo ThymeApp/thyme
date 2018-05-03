@@ -28,7 +28,7 @@ class ReportFilters extends Component<ReportFiltersType> {
   onFilterToggle: (e: Event) => void;
 
   toggleFilter(e: Event) {
-    if (typeof e.target.name === 'string') {
+    if (e.target instanceof HTMLInputElement && typeof e.target.name === 'string') {
       this.props.toggleFilter(e.target.name || null);
     }
   }
