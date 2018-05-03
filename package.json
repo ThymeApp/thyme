@@ -33,7 +33,7 @@
         "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
     },
     "devDependencies": {
-        "babel-eslint": "^8.2.1",
+        "babel-eslint": "^8.2.3",
         "eslint": "^4.15.0",
         "eslint-config-airbnb": "^16.1.0",
         "eslint-plugin-flowtype": "^2.41.0",
