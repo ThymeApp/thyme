@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import type { Element } from 'react';
 
 import ProjectItem from './ProjectItem';
 
@@ -12,7 +13,11 @@ type ProjectsListType = {
   level?: number,
 };
 
-function ProjectsList({ projects, parent = '', level = 1 }: ProjectsListType) {
+function ProjectsList({
+  projects,
+  parent = '',
+  level = 1,
+}: ProjectsListType): Array<Element<ProjectItem>> {
   return projects
     .filter(item => (parent === '' && item.parent === null) || item.parent === parent)
     .map(project => (
