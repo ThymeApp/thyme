@@ -1,9 +1,8 @@
 // @flow
 
-export function updateSetting(name: string, value: string) {
+export function setRounding(value: string) {
   return {
-    type: 'UPDATE_SETTING',
-    name,
+    type: 'SET_ROUNDING',
     value,
   };
 }

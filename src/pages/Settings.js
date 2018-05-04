@@ -11,7 +11,7 @@ import NumberInput from '../components/NumberInput';
 import { valueFromEventTarget } from '../core/dom';
 
 import { importJSONData, alert } from '../actions/app';
-import { updateSetting } from '../actions/settings';
+import { setRounding } from '../actions/settings';
 import { truncateTime } from '../actions/time';
 import { truncateProjects } from '../actions/projects';
 
@@ -23,7 +23,7 @@ type SettingsType = {
   removeProjectData: () => void,
   importData: (data: any) => void,
   alert: (message: string) => void,
-  updateSetting: (name: string, value: string) => void,
+  setRounding: (value: string) => void,
 };
 
 type SettingsState = {
@@ -54,7 +54,7 @@ class Settings extends Component<SettingsType, SettingsState> {
     };
 
     this.onExportData = this.exportData.bind(this);
-    this.onChangeRounding = this.exportData.bind(this);
+    this.onChangeRounding = this.onChangeRounding.bind(this);
 
     // create file upload element
     const input = document.createElement('input');
@@ -82,9 +82,9 @@ class Settings extends Component<SettingsType, SettingsState> {
   onCancelConfirm: () => void;  
 
   onChangeRounding(event) {
-    console.log(this.props)
+    console.log(this.props);
     const roundValue = valueFromEventTarget(event.target);
-    this.props.updateSetting('rounding', roundValue);
+    this.props.setRounding(roundValue);
   }
 
   uploadInput: HTMLInputElement;
@@ -186,7 +186,7 @@ class Settings extends Component<SettingsType, SettingsState> {
           onConfirm={this.onConfirmRemoveProjects}
         />
         <Header as="h3">Rounding</Header>
-        <NumberInput onChange={this.onChangeRounding} title="The minutes that the timer rounds to" />
+        <NumberInput onChange={this.onChangeRounding} title="The minutes that the timer rounds to" value={this.props.settings.rounding}/>
         <Header as="h3">About</Header>
         Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
         It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
@@ -198,9 +198,9 @@ class Settings extends Component<SettingsType, SettingsState> {
 }
 
 function mapStateToProps(state) {
-  const { time, projects, reports } = state;
+  const { time, projects, reports, settings } = state;
 
-  return { time, projects, reports };
+  return { time, projects, reports, settings };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -217,8 +217,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(importJSONData(data));
     },
 
-    updateSetting(name, value) {
-      dispatch(updateSetting(name, value));
+    setRounding(value) {
+      dispatch(setRounding(value));
     },
 
     alert(message: string) {

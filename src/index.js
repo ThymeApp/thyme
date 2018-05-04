@@ -17,6 +17,9 @@ import App from './components/App';
 import Routes from './Routes';
 import registerServiceWorker from './registerServiceWorker';
 
+
+console.log(reducers);
+
 const store = createStore(
   reducers,
   loadState(),
@@ -24,6 +27,8 @@ const store = createStore(
     // eslint-disable-next-line no-underscore-dangle
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : undefined),
 );
+
+console.log(store.getState());
 
 store.subscribe(throttle(() => {
   saveState(store.getState());
