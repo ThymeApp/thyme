@@ -1,6 +1,10 @@
 // @flow
 
 export function convertStartAndEndToTimestamps(input: any) {
+  if (!input.time) {
+    return input;
+  }
+
   return {
     ...input,
     time: {

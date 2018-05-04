@@ -3,6 +3,7 @@ import { convertStartAndEndToTimestamps } from '../migrations';
 describe('convertStartAndEndToTimestamps', () => {
   it('Converts to correct time stamp fields', () => {
     const state = {
+      dontTouchMe: 'hey',
       time: {
         byId: {
           B1C2f2z_G: {
@@ -24,6 +25,7 @@ describe('convertStartAndEndToTimestamps', () => {
     const outcome = convertStartAndEndToTimestamps(state);
 
     expect(outcome).toEqual({
+      dontTouchMe: 'hey',
       time: {
         byId: {
           B1C2f2z_G: {
@@ -79,7 +81,15 @@ describe('convertStartAndEndToTimestamps', () => {
     });
   });
 
-  it('Doesn\'t fail when time property is missing');
+  it('Ignores conversion when time property is missing', () => {
+    const state = {
+      noTime: true,
+    };
 
-  it('Leaves other properties alone');
+    const outcome = convertStartAndEndToTimestamps(state);
+
+    expect(outcome).toEqual({
+      noTime: true,
+    });
+  });
 });
