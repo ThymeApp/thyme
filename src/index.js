@@ -11,6 +11,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { loadState, saveOnStoreChange } from './core/localStorage';
 
 import reducers from './reducers';
+import runMigrations from './migrations';
 
 import App from './components/App';
 import Routes from './Routes';
@@ -20,7 +21,7 @@ const reduxDevTools = process.env.NODE_ENV === 'development' ?
   // eslint-disable-next-line no-underscore-dangle
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : undefined;
 
-const initialState = loadState();
+const initialState = runMigrations(loadState());
 
 const store = createStore(
   reducers,
