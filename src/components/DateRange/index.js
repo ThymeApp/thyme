@@ -17,7 +17,7 @@ class DateRange extends Component<DateRangeType> {
 
     this.toggleToday = () => { props.changeDateRange('today'); };
     this.toggleThisWeek = () => { props.changeDateRange('week'); };
-    this.toggleWeekToDate = () => {props.changeDateRange('weekToDate')}
+    this.toggleWeekToDate = () => { props.changeDateRange('weekToDate'); };
     this.toggleLastMonth = () => { props.changeDateRange('month'); };
     this.toggleOlder = () => { props.changeDateRange('older'); };
   }
