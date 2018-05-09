@@ -2,8 +2,6 @@
 
 import { combineReducers } from 'redux';
 
-import setting from './setting';
-
 function alert(state = {}, action) {
   switch (action.type) {
     case 'SET_ALERT':

@@ -6,12 +6,11 @@ import { Input } from 'semantic-ui-react';
 type NumberInputType = {
   value: string,
   onChange: (e: Event) => void,
-  onKeyPress: (e: KeyboardEvent) => void,
   title: string,
 }
 
 function NumberInput({
-  value, onChange, onKeyPress, title,
+  value, onChange, title,
 }: NumberInputType) {
   return (
     <Input
@@ -19,7 +18,6 @@ function NumberInput({
       type="number"
       value={value}
       onChange={onChange}
-      onKeyPress={onKeyPress}
       size="small"
     />
   );

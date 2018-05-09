@@ -19,6 +19,7 @@ type SettingsType = {
   time: any,
   projects: any,
   reports: any,
+  settings: any,
   removeTimeData: () => void,
   removeProjectData: () => void,
   importData: (data: any) => void,
@@ -79,10 +80,9 @@ class Settings extends Component<SettingsType, SettingsState> {
   onExportData: () => void;
   onOpenImportInput: () => void;
   onImportData: () => void;
-  onCancelConfirm: () => void;  
+  onCancelConfirm: () => void;
 
   onChangeRounding(event) {
-    console.log(this.props);
     const roundValue = valueFromEventTarget(event.target);
     this.props.setRounding(roundValue);
   }
@@ -186,7 +186,7 @@ class Settings extends Component<SettingsType, SettingsState> {
           onConfirm={this.onConfirmRemoveProjects}
         />
         <Header as="h3">Rounding</Header>
-        <NumberInput onChange={this.onChangeRounding} title="The minutes that the timer rounds to" value={this.props.settings.rounding}/>
+        <NumberInput onChange={this.onChangeRounding} title="The minutes that the timer rounds to" value={this.props.settings.rounding} />
         <Header as="h3">About</Header>
         Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
         It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
@@ -198,9 +198,13 @@ class Settings extends Component<SettingsType, SettingsState> {
 }
 
 function mapStateToProps(state) {
-  const { time, projects, reports, settings } = state;
+  const {
+    time, projects, reports, settings,
+  } = state;
 
-  return { time, projects, reports, settings };
+  return {
+    time, projects, reports, settings,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
