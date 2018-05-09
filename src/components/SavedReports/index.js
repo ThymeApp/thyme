@@ -2,11 +2,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Button, Header, Confirm } from 'semantic-ui-react';
+import { Input, Button, Header, Confirm, Icon, Popup } from 'semantic-ui-react';
 
 import { addReport, removeReport, setReport } from '../../actions/reports';
-
-import remove from './remove.svg';
 
 import './SavedReports.css';
 
@@ -122,9 +120,17 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
                   {report.name}
                 </Button>
 
-                <button onClick={this.onRemoveReport} className="Report__button">
-                  <img className="Report__button-image" src={remove} alt="Remove entry" />
-                </button>
+                <Popup
+                  inverted
+                  style={{ float: 'right' }}
+                  trigger={(
+                    <Button icon onClick={this.onRemoveReport}>
+                      <Icon name="remove" />
+                    </Button>
+                  )}
+                  content="Remove this report"
+                />
+
                 <Confirm
                   open={confirmDelete}
                   content="Are you are you want to remove this report?"

@@ -15,7 +15,13 @@ type exportStateType = {
   },
 };
 
-export function stateToExport({ time, projects, reports }: exportStateType) {
+type exportType = {
+  time: Array<timePropertyType>,
+  projects: Array<projectType>,
+  reports: Array<reportType>,
+};
+
+export function stateToExport({ time, projects, reports }: exportStateType): exportType {
   return {
     time: time.allIds.map(id => time.byId[id]),
     projects: projects.allIds.map(id => projects.byId[id]),
