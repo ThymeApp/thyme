@@ -19,9 +19,8 @@ declare type projectTreeWithTimeType = projectTreeType & { time: number, entries
 
 declare type timePropertyType = {
   project: string | null,
-  date: string,
-  start: string,
-  end: string,
+  start: Date,
+  end: Date,
   notes: string,
 }
 

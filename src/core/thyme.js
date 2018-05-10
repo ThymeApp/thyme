@@ -8,7 +8,7 @@ import startOfDay from 'date-fns/start_of_day';
 import endOfDay from 'date-fns/end_of_day';
 import leftPad from 'left-pad';
 
-export function calculateDuration(from: string, to: string): number {
+export function calculateDuration(from: Date, to: Date): number {
   if (isBefore(to, from)) {
     return 0;
   }
@@ -23,7 +23,7 @@ export function formatDuration(duration: number): string {
   return `${leftPad(hours, 2, 0)}:${leftPad(minutes, 2, 0)}`;
 }
 
-export function timeElapsed(from: string, to: string) {
+export function timeElapsed(from: Date, to: Date) {
   if (from === '' || to === '') {
     return 'Invalid time';
   }
