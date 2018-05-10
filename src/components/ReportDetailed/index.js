@@ -57,8 +57,8 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
               {projects.map(project => project.entries.map(entry => (
                 <Table.Row key={entry.id}>
                   <Table.Cell>{format(entry.start, 'DD/MM/YYYY')}</Table.Cell>
-                  <Table.Cell>{entry.start}</Table.Cell>
-                  <Table.Cell>{entry.end}</Table.Cell>
+                  <Table.Cell>{format(entry.start, 'HH:mm')}</Table.Cell>
+                  <Table.Cell>{format(entry.end, 'HH:mm')}</Table.Cell>
                   <Table.Cell>{timeElapsed(entry.start, entry.end)}</Table.Cell>
                   <Table.Cell>{project.nameTree.join(' > ')}</Table.Cell>
                   <Table.Cell>{entry.notes}</Table.Cell>
