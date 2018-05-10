@@ -29,6 +29,7 @@ store.subscribe(throttle(() => {
   saveState(store.getState());
 }, 1000));
 
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter basename={process.env.PUBLIC_URL}>
