@@ -46,7 +46,7 @@ class DateRange extends Component<DateRangeType> {
           This week
         </Menu.Item>
         <Menu.Item
-          active={dateRange === 'week'}
+          active={dateRange === 'weekToDate'}
           onClick={this.toggleWeekToDate}
         >
           Week to date
