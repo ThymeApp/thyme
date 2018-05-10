@@ -9,17 +9,11 @@ import endOfDay from 'date-fns/end_of_day';
 import leftPad from 'left-pad';
 
 export function calculateDuration(from: string, to: string): number {
-  const [fromHour, fromMinute] = from.split(':');
-  const [toHour, toMinute] = to.split(':');
-
-  const fromDate = Date.UTC(2000, 0, 1, parseInt(fromHour, 10), parseInt(fromMinute, 10), 0);
-  const toDate = Date.UTC(2000, 0, 1, parseInt(toHour, 10), parseInt(toMinute, 10), 0);
-
-  if (toDate < fromDate) {
+  if (isBefore(to, from)) {
     return 0;
   }
 
-  return differenceInMinutes(toDate, fromDate);
+  return differenceInMinutes(to, from);
 }
 
 export function formatDuration(duration: number): string {
@@ -48,8 +42,8 @@ export function projectTimeEntries(
 
   return time
     .filter(entry => entry.project === project.id)
-    .filter(entry => isAfter(entry.date, startOfDayFrom) || isEqual(entry.date, startOfDayFrom))
-    .filter(entry => isBefore(entry.date, endOfDayTo) || isEqual(entry.date, endOfDayTo));
+    .filter(entry => isAfter(entry.start, startOfDayFrom) || isEqual(entry.start, startOfDayFrom))
+    .filter(entry => isBefore(entry.end, endOfDayTo) || isEqual(entry.end, endOfDayTo));
 }
 
 export function totalProjectTime(
