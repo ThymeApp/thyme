@@ -13,11 +13,11 @@ import DateRange from '../components/DateRange';
 import ThymeTable from '../components/ThymeTable';
 
 const now = new Date();
-const today = entry => isToday(entry.date);
-const thisWeek = entry => isThisWeek(entry.date, { weekStartsOn: 1 });
-const weekToDate = entry => isAfter(entry.date, subDays(now, 7));
-const lastMonth = entry => isAfter(entry.date, subMonths(now, 1));
-const older = entry => isBefore(entry.date, subMonths(now, 1));
+const today = (entry: timeType) => isToday(entry.start);
+const thisWeek = (entry: timeType) => isThisWeek(entry.start, { weekStartsOn: 1 });
+const weekToDate = (entry: timeType) => isAfter(entry.start, subDays(now, 7));
+const lastMonth = (entry: timeType) => isAfter(entry.start, subMonths(now, 1));
+const older = (entry: timeType) => isBefore(entry.start, subMonths(now, 1));
 
 function dateRangeFilter(dateRange: dateRanges) {
   switch (dateRange) {

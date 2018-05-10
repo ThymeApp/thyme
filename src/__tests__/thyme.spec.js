@@ -5,24 +5,20 @@ import { totalProjectTime } from '../core/thyme';
 describe('Calculate total project time', () => {
   const times = [{
     project: null,
-    date: '2018-01-03',
-    start: '10:00',
-    end: '12:00',
+    start: '2018-01-03T10:00:00.000Z',
+    end: '2018-01-03T12:00:00.000Z',
   }, {
     project: 'ABCDEF',
-    date: '2018-01-03',
-    start: '10:00',
-    end: '12:00',
+    start: '2018-01-03T10:00:00.000Z',
+    end: '2018-01-03T12:00:00.000Z',
   }, {
     project: 'ABCDEF',
-    date: '2018-01-04',
-    start: '10:00',
-    end: '15:00',
+    start: '2018-01-04T10:00:00.000Z',
+    end: '2018-01-04T15:00:00.000Z',
   }, {
     project: 'ABCDEF',
-    date: '2018-02-03',
-    start: '10:00',
-    end: '12:00',
+    start: '2018-02-03T10:00:00.000Z',
+    end: '2018-02-03T12:00:00.000Z',
   }];
 
   it('Calculates the sum of durations for a project', () => {

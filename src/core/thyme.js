@@ -8,18 +8,12 @@ import startOfDay from 'date-fns/start_of_day';
 import endOfDay from 'date-fns/end_of_day';
 import leftPad from 'left-pad';
 
-export function calculateDuration(from: string, to: string): number {
-  const [fromHour, fromMinute] = from.split(':');
-  const [toHour, toMinute] = to.split(':');
-
-  const fromDate = Date.UTC(2000, 0, 1, parseInt(fromHour, 10), parseInt(fromMinute, 10), 0);
-  const toDate = Date.UTC(2000, 0, 1, parseInt(toHour, 10), parseInt(toMinute, 10), 0);
-
-  if (toDate < fromDate) {
+export function calculateDuration(from: Date, to: Date): number {
+  if (isBefore(to, from)) {
     return 0;
   }
 
-  return differenceInMinutes(toDate, fromDate);
+  return differenceInMinutes(to, from);
 }
 
 export function formatDuration(duration: number): string {
@@ -29,7 +23,7 @@ export function formatDuration(duration: number): string {
   return `${leftPad(hours, 2, 0)}:${leftPad(minutes, 2, 0)}`;
 }
 
-export function timeElapsed(from: string, to: string) {
+export function timeElapsed(from: Date, to: Date) {
   if (from === '' || to === '') {
     return 'Invalid time';
   }
@@ -48,8 +42,8 @@ export function projectTimeEntries(
 
   return time
     .filter(entry => entry.project === project.id)
-    .filter(entry => isAfter(entry.date, startOfDayFrom) || isEqual(entry.date, startOfDayFrom))
-    .filter(entry => isBefore(entry.date, endOfDayTo) || isEqual(entry.date, endOfDayTo));
+    .filter(entry => isAfter(entry.start, startOfDayFrom) || isEqual(entry.start, startOfDayFrom))
+    .filter(entry => isBefore(entry.end, endOfDayTo) || isEqual(entry.end, endOfDayTo));
 }
 
 export function totalProjectTime(

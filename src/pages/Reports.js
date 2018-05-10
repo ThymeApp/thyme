@@ -40,14 +40,11 @@ function Reports({ allProjects, projects }: ReportsType) {
 }
 
 function sortByTime(a, b) {
-  const aDate = `${a.date} ${a.start}`;
-  const bDate = `${b.date} ${b.start}`;
-
-  if (isBefore(aDate, bDate)) {
+  if (isBefore(a.start, b.start)) {
     return -1;
   }
 
-  if (isAfter(aDate, bDate)) {
+  if (isAfter(a.start, b.start)) {
     return 1;
   }
 

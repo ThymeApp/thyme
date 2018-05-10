@@ -1,4 +1,6 @@
 // @flow
+import throttle from 'lodash/throttle';
+import type { Store } from 'redux';
 
 function loadItem(key: string): any | typeof undefined {
   try {
@@ -45,4 +47,11 @@ export function saveTemporaryItem(state: tempTimePropertyType): void {
 
 export function clearTemporaryItem() {
   removeItem('ThymeTempItem');
+}
+
+export function saveOnStoreChange(store: Store) {
+  // save changes from store to localStorage
+  store.subscribe(throttle(() => {
+    saveState(store.getState());
+  }, 1000));
 }

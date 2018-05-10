@@ -1,22 +1,11 @@
 // @flow
 
 import { combineReducers } from 'redux';
-import startOfDay from 'date-fns/start_of_day';
 
 function id(state = null, action) {
   switch (action.type) {
     case 'ADD_TIME':
       return action.id;
-    default:
-      return state;
-  }
-}
-
-function date(state = startOfDay(new Date()), action) {
-  switch (action.type) {
-    case 'ADD_TIME':
-    case 'UPDATE_TIME':
-      return action.date;
     default:
       return state;
   }
@@ -88,7 +77,6 @@ function updatedAt(state = new Date(), action) {
 const time = combineReducers({
   id,
   project,
-  date,
   start,
   end,
   notes,
