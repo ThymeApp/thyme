@@ -3,6 +3,10 @@
 import React, { Component, Fragment } from 'react';
 import format from 'date-fns/format';
 import startOfDay from 'date-fns/start_of_day';
+import isEqual from 'date-fns/is_equal';
+import setHours from 'date-fns/set_hours';
+import setMinutes from 'date-fns/set_minutes';
+import parse from 'date-fns/parse';
 import { Table, Confirm, Button, Icon, Popup } from 'semantic-ui-react';
 import classnames from 'classnames';
 
@@ -17,9 +21,9 @@ import NotesInput from '../NotesInput';
 
 import './Entry.css';
 
-function defaultState(props = {}): timePropertyType {
-  const defaultStart = startOfDay(new Date());
+const defaultStart = startOfDay(new Date());
 
+function defaultState(props = {}): timePropertyType {
   return {
     start: props.start || defaultStart,
     end: props.end || defaultStart,
@@ -47,9 +51,9 @@ class Entry extends Component<EntryType, EntryStateType> {
   constructor(props: EntryType) {
     super(props);
 
-    this.onDateChange = e => this.onValueChange('date', valueFromEventTarget(e.target));
-    this.onStartTimeChange = e => this.onValueChange('start', valueFromEventTarget(e.target));
-    this.onEndTimeChange = e => this.onValueChange('end', valueFromEventTarget(e.target));
+    this.onDateChange = e => this.onStartDateChange(valueFromEventTarget(e.target));
+    this.onStartTimeChange = e => this.onTimeChange('start', valueFromEventTarget(e.target));
+    this.onEndTimeChange = e => this.onTimeChange('end', valueFromEventTarget(e.target));
     this.onProjectChange =
       (e, project) => this.onValueChange('project', project === null ? null : project.value);
     this.onNotesChange = e => this.onValueChange('notes', valueFromEventTarget(e.target));
@@ -96,7 +100,41 @@ class Entry extends Component<EntryType, EntryStateType> {
   onOpenConfirm: () => void;
   onCancelConfirm: () => void;
 
-  onValueChange(key: string, value: string | null) {
+  onStartDateChange(value: string | null) {
+    if (!value) {
+      return;
+    }
+
+    const start = parse(`${value} ${format(this.state.entry.start, 'HH:mm')}`);
+    const end = parse(`${value} ${format(this.state.entry.end, 'HH:mm')}`);
+
+    this.updateEntry({
+      start,
+      end,
+    });
+
+    this.setState({
+      entry: {
+        ...this.state.entry,
+        start,
+        end,
+      },
+    });
+  }
+
+  onTimeChange(key: string, value: string | null) {
+    if (!value) {
+      return;
+    }
+
+    const [hours, minutes] = value.split(':');
+    const newDate =
+      setMinutes(setHours(this.state.entry[key], parseInt(hours, 10)), parseInt(minutes, 10));
+
+    this.onValueChange(key, newDate);
+  }
+
+  onValueChange(key: string, value: string | Date | null) {
     this.updateEntry({
       [key]: value,
     });
@@ -116,7 +154,7 @@ class Entry extends Component<EntryType, EntryStateType> {
     if (this.state.tracking) {
       const entry = {
         ...this.state.entry,
-        end: format(new Date(), 'HH:mm'),
+        end: new Date(),
       };
 
       // update state of component
@@ -128,13 +166,13 @@ class Entry extends Component<EntryType, EntryStateType> {
   }
 
   startTimeTracking() {
-    const startTime = format(new Date(), 'HH:mm');
+    const startTime = new Date();
 
     this.setState({
       tracking: true,
       entry: {
         ...this.state.entry,
-        start: this.state.entry.start === '00:00' ? startTime : this.state.entry.start,
+        start: isEqual(this.state.entry.start, defaultStart) ? startTime : this.state.entry.start,
         end: startTime,
       },
     });
