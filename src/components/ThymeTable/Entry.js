@@ -2,6 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import format from 'date-fns/format';
+import startOfDay from 'date-fns/start_of_day';
 import { Table, Confirm, Button, Icon, Popup } from 'semantic-ui-react';
 import classnames from 'classnames';
 
@@ -17,10 +18,11 @@ import NotesInput from '../NotesInput';
 import './Entry.css';
 
 function defaultState(props = {}): timePropertyType {
+  const defaultStart = startOfDay(new Date());
+
   return {
-    date: format(props.date || new Date(), 'YYYY-MM-DD'),
-    start: props.start || '00:00',
-    end: props.end || '00:00',
+    start: props.start || defaultStart,
+    end: props.end || defaultStart,
     project: props.project || null,
     notes: props.notes || '',
   };
@@ -224,7 +226,6 @@ class Entry extends Component<EntryType, EntryStateType> {
     const { entry } = this.props;
     const { tracking, confirm } = this.state;
     const {
-      date,
       start,
       end,
       project,
@@ -240,14 +241,22 @@ class Entry extends Component<EntryType, EntryStateType> {
             setRef={this.onSetDateInputRef}
             onKeyPress={this.onKeyPress}
             onChange={this.onDateChange}
-            value={date}
+            value={format(start, 'YYYY-MM-DD')}
           />
         </Table.Cell>
         <Table.Cell width={1}>
-          <TimeInput onKeyPress={this.onKeyPress} onChange={this.onStartTimeChange} value={start} />
+          <TimeInput
+            onKeyPress={this.onKeyPress}
+            onChange={this.onStartTimeChange}
+            value={format(start, 'HH:mm')}
+          />
         </Table.Cell>
         <Table.Cell width={1}>
-          <TimeInput onKeyPress={this.onKeyPress} onChange={this.onEndTimeChange} value={end} />
+          <TimeInput
+            onKeyPress={this.onKeyPress}
+            onChange={this.onEndTimeChange}
+            value={format(end, 'HH:mm')}
+          />
         </Table.Cell>
         <Table.Cell width={1}>
           {timeElapsed(start, end)}
