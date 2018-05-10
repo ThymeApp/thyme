@@ -15,7 +15,7 @@ import ThymeTable from '../components/ThymeTable';
 const now = new Date();
 const today = entry => isToday(entry.date);
 const thisWeek = entry => isThisWeek(entry.date, { weekStartsOn: 1 });
-const weekToDate = entry => subDays(entry.date, 7);
+const weekToDate = entry => isAfter(entry.date, subDays(now, 7));
 const lastMonth = entry => isAfter(entry.date, subMonths(now, 1));
 const older = entry => isBefore(entry.date, subMonths(now, 1));
 
