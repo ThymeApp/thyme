@@ -7,6 +7,7 @@ import isThisWeek from 'date-fns/is_this_week';
 import isAfter from 'date-fns/is_after';
 import isBefore from 'date-fns/is_before';
 import subMonths from 'date-fns/sub_months';
+import subDays from 'date-fns/sub_days';
 
 import DateRange from '../components/DateRange';
 import ThymeTable from '../components/ThymeTable';
@@ -14,6 +15,7 @@ import ThymeTable from '../components/ThymeTable';
 const now = new Date();
 const today = entry => isToday(entry.date);
 const thisWeek = entry => isThisWeek(entry.date, { weekStartsOn: 1 });
+const weekToDate = entry => isAfter(entry.date, subDays(now, 7));
 const lastMonth = entry => isAfter(entry.date, subMonths(now, 1));
 const older = entry => isBefore(entry.date, subMonths(now, 1));
 
@@ -25,6 +27,8 @@ function dateRangeFilter(dateRange: dateRanges) {
       return lastMonth;
     case 'week':
       return thisWeek;
+    case 'weekToDate':
+      return weekToDate;
     default:
       return today;
   }
