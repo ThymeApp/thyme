@@ -38,7 +38,6 @@ type importStateType = {
 function validTimeEntry(entry) {
   return !(typeof entry.id !== 'string' ||
     (entry.project !== null && typeof entry.project !== 'string') ||
-    typeof entry.date !== 'string' ||
     typeof entry.start !== 'string' ||
     typeof entry.end !== 'string' ||
     typeof entry.notes !== 'string' ||
