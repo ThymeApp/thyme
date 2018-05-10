@@ -129,7 +129,13 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     const [hours, minutes] = value.split(':');
     const newDate =
-      setMinutes(setHours(this.state.entry[key], parseInt(hours, 10)), parseInt(minutes, 10));
+      setHours(
+        setMinutes(
+          this.state.entry[key],
+          parseInt(minutes, 10),
+        ),
+        parseInt(hours, 10),
+      );
 
     this.onValueChange(key, newDate);
   }
