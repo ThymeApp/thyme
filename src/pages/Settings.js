@@ -8,7 +8,7 @@ import format from 'date-fns/format';
 
 import { stateToExport, validData, parseImportData } from '../core/importExport';
 
-import { importJSONData, alert } from '../actions/app';
+import { importJSONData, alert, migrateStoreData } from '../actions/app';
 import { truncateTime } from '../actions/time';
 import { truncateProjects } from '../actions/projects';
 
@@ -197,6 +197,7 @@ function mapDispatchToProps(dispatch) {
 
     importData(data) {
       dispatch(importJSONData(data));
+      dispatch(migrateStoreData());
     },
 
     alert(message: string) {

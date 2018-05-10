@@ -13,6 +13,10 @@ export function importJSONData(data: importDataType) {
   };
 }
 
+export function migrateStoreData() {
+  return { type: 'MIGRATE_STORE_DATA' };
+}
+
 export function alert(message: string) {
   return {
     type: 'SET_ALERT',
