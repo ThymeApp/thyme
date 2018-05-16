@@ -7,7 +7,7 @@ import FileSaver from 'file-saver';
 import format from 'date-fns/format';
 
 import { stateToExport, validData, parseImportData } from '../core/importExport';
-import NumberInput from '../components/NumberInput';
+import RoundingInput from '../components/RoundingInput';
 import { valueFromEventTarget } from '../core/dom';
 
 import { importJSONData, alert, migrateStoreData } from '../actions/app';
@@ -56,6 +56,7 @@ class Settings extends Component<SettingsType, SettingsState> {
 
     this.onExportData = this.exportData.bind(this);
     this.onChangeRounding = this.onChangeRounding.bind(this);
+    this.changeRounding = this.changeRounding.bind(this);
 
     // create file upload element
     const input = document.createElement('input');
@@ -73,6 +74,7 @@ class Settings extends Component<SettingsType, SettingsState> {
     };
   }
   onChangeRounding: () => void;
+  changeRounding: () => void;
   onRemoveTime: () => void;
   onConfirmRemoveTime: () => void;
   onRemoveProjects: () => void;
@@ -85,6 +87,9 @@ class Settings extends Component<SettingsType, SettingsState> {
   onChangeRounding(event) {
     const roundValue = valueFromEventTarget(event.target);
     this.props.setRounding(roundValue);
+  }
+  changeRounding(rounding: string) {
+    this.props.setRounding(rounding);
   }
 
   uploadInput: HTMLInputElement;
@@ -182,7 +187,7 @@ class Settings extends Component<SettingsType, SettingsState> {
           onConfirm={this.onConfirmRemoveProjects}
         />
         <Header as="h3">Rounding</Header>
-        <NumberInput onChange={this.onChangeRounding} title="The minutes that the timer rounds to" value={this.props.settings.rounding} />
+        <RoundingInput onChange={this.onChangeRounding} title="The minutes that the timer rounds to" value={this.props.settings.rounding} changeRounding={this.changeRounding}/>
         <Header as="h3">About</Header>
         Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
         It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
