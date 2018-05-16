@@ -174,6 +174,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   startTimeTracking() {
     const startTime = new Date();
 
+    
     this.setState({
       tracking: true,
       entry: {
@@ -276,8 +277,8 @@ class Entry extends Component<EntryType, EntryStateType> {
       notes,
     } = this.state.entry;
 
-    const hasId = Boolean(entry && !!entry.id);
-
+    const hasId = Boolean(entry && !!entry.id);   
+    const duration = timeElapsed(start, end);
     return (
       <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>
         <Table.Cell width={1}>
@@ -302,8 +303,8 @@ class Entry extends Component<EntryType, EntryStateType> {
             value={format(end, 'HH:mm')}
           />
         </Table.Cell>
-        <Table.Cell width={1}>
-          {timeElapsed(start, end)}
+        <Table.Cell width={1} >
+          {duration.split(':')[0]} <span className={classnames({ 'Duration--tracking': this.state.tracking })}>:</span> {duration.split(':')[1]}
         </Table.Cell>
         <Table.Cell width={3}>
           <ProjectInput
