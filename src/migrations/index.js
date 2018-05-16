@@ -1,7 +1,7 @@
 // @flow
 
 export function convertStartAndEndToTimestamps(input: any) {
-  if (!input.time) {
+  if (!input || !input.time) {
     return input;
   }
 
@@ -14,8 +14,8 @@ export function convertStartAndEndToTimestamps(input: any) {
 
         const isOldTime = /^\d{2}:\d{2}$/;
         if (
-          !prev.date &&
-          !prev.start.toString().match(isOldTime) &&
+          !prev.date ||
+          !prev.start.toString().match(isOldTime) ||
           !prev.end.toString().match(isOldTime)
         ) {
           // no need to convert
