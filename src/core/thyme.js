@@ -6,6 +6,7 @@ import isBefore from 'date-fns/is_before';
 import isEqual from 'date-fns/is_equal';
 import startOfDay from 'date-fns/start_of_day';
 import endOfDay from 'date-fns/end_of_day';
+import startOfMinute from 'date-fns/start_of_minute';
 import leftPad from 'left-pad';
 
 export function calculateDuration(from: Date, to: Date): number {
@@ -13,7 +14,7 @@ export function calculateDuration(from: Date, to: Date): number {
     return 0;
   }
 
-  return differenceInMinutes(to, from);
+  return differenceInMinutes(startOfMinute(to), startOfMinute(from));
 }
 
 export function formatDuration(duration: number): string {
