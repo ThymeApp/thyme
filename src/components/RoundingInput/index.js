@@ -18,24 +18,16 @@ const options = [
   { key: '60', text: '60', value: '60' },
 ];
 
-
-
-class  NumberInput  extends React.Component<NumberInputType>{
-  constructor(props){
+class NumberInput extends React.Component<NumberInputType> {
+  constructor(props:NumberInputType) {
     super(props);
-    this.state = {
-      value: props.value
-    };
     this.onDropdownChange = this.onDropdownChange.bind(this);
-   }
-  onDropdownChange(event, data)
-  {
-    this.setState({value: data.value});
+  }
+  onDropdownChange(event:any, data:any) {
     this.props.changeRounding(data.value);
-    
   }
   render() {
-    const { title, onChange, value }  = this.props; 
+    const { title, onChange, value } = this.props;
     return (
       <Input
         title={title}

@@ -36,6 +36,7 @@ function dateRangeFilter(dateRange: dateRanges) {
 
 type TimeType = {
   entries: Array<timeType>,
+  settings: Object,
 };
 
 function sortByTime(a, b) {
@@ -53,24 +54,24 @@ function sortByTime(a, b) {
   return 0;
 }
 
-function Time({ entries }: TimeType) {
+function Time({ entries, settings }: TimeType) {
   return (
     <div style={{ paddingLeft: '1%', paddingRight: '1%' }}>
       <DateRange />
-      <ThymeTable entries={entries} />
+      <ThymeTable entries={entries} settings={settings} />
     </div>
   );
 }
 
 function mapStateToProps(state) {
   const { allIds, byId, dateRange } = state.time;
-
+  const { settings } = state;
   const entries = allIds.map(id => byId[id]).filter(dateRangeFilter(dateRange));
 
   // sort entries
   entries.sort(sortByTime);
 
-  return { entries };
+  return { entries, settings };
 }
 
 export default connect(mapStateToProps)(Time);
