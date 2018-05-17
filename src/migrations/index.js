@@ -15,6 +15,8 @@ export function convertStartAndEndToTimestamps(input: any) {
         const isOldTime = /^\d{2}:\d{2}$/;
         if (
           !prev.date ||
+          !prev.start ||
+          !prev.end ||
           !prev.start.toString().match(isOldTime) ||
           !prev.end.toString().match(isOldTime)
         ) {
