@@ -1,14 +1,20 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
+import classnames from 'classnames';
+
 import format from 'date-fns/format';
 import startOfDay from 'date-fns/start_of_day';
 import isEqual from 'date-fns/is_equal';
 import setHours from 'date-fns/set_hours';
 import setMinutes from 'date-fns/set_minutes';
 import parse from 'date-fns/parse';
-import { Table, Confirm, Button, Icon, Popup } from 'semantic-ui-react';
-import classnames from 'classnames';
+
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
+import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
+import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
 import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
 import { timeElapsed } from '../../core/thyme';

@@ -2,9 +2,12 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Menu } from 'semantic-ui-react';
+
 import isAfter from 'date-fns/is_after';
 import isBefore from 'date-fns/is_before';
+
+import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
+import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
 import { sortedProjects } from '../core/projects';
 import { totalProjectTime, projectTimeEntries } from '../core/thyme';

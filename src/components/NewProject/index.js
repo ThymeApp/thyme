@@ -2,7 +2,9 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Input } from 'semantic-ui-react';
+
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 import { valueFromEventTarget } from '../../core/dom';
 

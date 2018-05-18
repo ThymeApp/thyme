@@ -1,7 +1,8 @@
 // @flow
 
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+
+import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
 import { formatDuration } from '../../core/thyme';
 

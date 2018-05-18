@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table } from 'semantic-ui-react';
+
+import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
 import { updateTime, removeTime } from '../../actions/time';
 import { addProject } from '../../actions/projects';

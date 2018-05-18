@@ -2,13 +2,16 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Input } from 'semantic-ui-react';
+
 import format from 'date-fns/format';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/start_of_week';
 import subDays from 'date-fns/sub_days';
 import endOfWeek from 'date-fns/end_of_week';
 import subMonths from 'date-fns/sub_months';
+
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 import { updateDateRange } from '../../actions/reports';
 import { valueFromEventTarget } from '../../core/dom';

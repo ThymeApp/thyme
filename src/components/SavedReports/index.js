@@ -2,7 +2,13 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input, Button, Header, Confirm, Icon, Popup } from 'semantic-ui-react';
+
+import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
+import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
+import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import { addReport, removeReport, setReport } from '../../actions/reports';
 
