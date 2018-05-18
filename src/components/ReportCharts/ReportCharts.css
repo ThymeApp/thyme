@@ -1,5 +1,22 @@
 .ReportCharts {
-  height: 300px;
-  position: relative;
+  display: flex;
   margin: 30px 0;
+}
+
+.ReportCharts__Legend {
+  padding: 0;
+  margin-left: 20px;
+  list-style-type: none;
+}
+
+.ReportCharts__Legend-Colour {
+  display: inline-block;
+  border-left: 40px solid white;
+  height: 14px;
+  margin: 0 8px -2px 0;
+}
+
+.ReportCharts__Charts {
+  width: 300px;
+  height: 300px;
 }
