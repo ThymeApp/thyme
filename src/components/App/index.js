@@ -14,6 +14,8 @@ import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 
 import { clearAlert } from '../../actions/app';
 
+import Account from '../Account';
+
 import thyme from './Thyme.svg';
 import './App.css';
 import './print.css';
@@ -54,6 +56,9 @@ function App({
           {AppLink('Reports', '/reports', location.pathname)}
           {AppLink('Projects', '/projects', location.pathname)}
           {AppLink('Settings', '/settings', location.pathname)}
+          <Menu.Menu position="right">
+            <Menu.Item><Account /></Menu.Item>
+          </Menu.Menu>
         </Container>
       </Menu>
       <Container fluid style={{ marginTop: '5em' }}>
