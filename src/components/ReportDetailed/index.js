@@ -1,8 +1,11 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Table, Accordion, Icon } from 'semantic-ui-react';
 import format from 'date-fns/format';
+
+import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
+import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 
 import { timeElapsed } from '../../core/thyme';
 

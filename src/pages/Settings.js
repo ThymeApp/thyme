@@ -2,9 +2,14 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Button, Confirm } from 'semantic-ui-react';
 import FileSaver from 'file-saver';
+
 import format from 'date-fns/format';
+
+import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
+import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
 import { stateToExport, validData, parseImportData } from '../core/importExport';
 

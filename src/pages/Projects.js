@@ -2,7 +2,10 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Header, Divider } from 'semantic-ui-react';
+
+import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
+import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
+import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 
 import { sortedProjects } from '../core/projects';
 

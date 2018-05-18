@@ -2,7 +2,13 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Table, Input, Confirm, Popup, Button, Icon } from 'semantic-ui-react';
+
+import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
+import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
+import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import { isDescendant } from '../../core/projects';
 

@@ -5,8 +5,12 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Container, Image, Menu, Modal } from 'semantic-ui-react';
 import classnames from 'classnames';
+
+import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
+import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
+import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
+import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 
 import { clearAlert } from '../../actions/app';
 

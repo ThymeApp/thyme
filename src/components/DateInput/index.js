@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Input } from 'semantic-ui-react';
+import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 type DateInputType = {
   value: string,
