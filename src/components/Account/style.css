@@ -1,0 +1,10 @@
+.Account__Submit-Bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ui.form .Account__Submit-Bar .field,
+.Account__Submit-Bar .button.basic {
+  margin: 0;
+}

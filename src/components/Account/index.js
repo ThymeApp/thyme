@@ -6,6 +6,8 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
+import './style.css';
+
 type AccountState = {
   isOpen: boolean,
   isLoading: boolean,
@@ -57,7 +59,7 @@ class Account extends Component<*, AccountState> {
     return (
       <div>
         <Popup
-          trigger={<Button inverted>Log in to Sync</Button>}
+          trigger={<Button inverted>Log in to sync</Button>}
           open={isOpen}
           position="bottom right"
           on="click"
@@ -65,7 +67,7 @@ class Account extends Component<*, AccountState> {
           onOpen={this.handleOpen}
         >
           <Form
-            style={{ width: 300 }}
+            style={{ width: 230 }}
             loading={isLoading}
             onSubmit={this.onSubmit}
           >
@@ -93,7 +95,11 @@ class Account extends Component<*, AccountState> {
                 placeholder="Your password"
               />
             </Form.Field>
-            <Form.Button primary>Login</Form.Button>
+            <section className="Account__Submit-Bar">
+              <Form.Button primary>Login</Form.Button>
+              or
+              <Button basic>Register</Button>
+            </section>
           </Form>
         </Popup>
       </div>
