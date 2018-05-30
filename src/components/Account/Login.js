@@ -46,6 +46,7 @@ class Login extends Component<*, LoginState> {
             type="text"
             size="small"
             name="email"
+            autoComplete="username email"
             value={email}
             onChange={this.handleInput}
             placeholder="Your email address"
@@ -58,6 +59,7 @@ class Login extends Component<*, LoginState> {
             type="password"
             size="small"
             name="password"
+            autoComplete="current-password"
             value={password}
             onChange={this.handleInput}
             placeholder="Your password"
