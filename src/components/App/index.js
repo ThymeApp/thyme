@@ -14,6 +14,8 @@ import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 
 import { clearAlert } from '../../actions/app';
 
+import Notifier from '../Notifier';
+
 import thyme from './Thyme.svg';
 import './App.css';
 import './print.css';
@@ -66,6 +68,7 @@ function App({
             { key: 'OK', content: 'OK', positive: true },
           ]}
         />
+        <Notifier />
 
         {children}
       </Container>

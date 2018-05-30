@@ -1,0 +1,14 @@
+.Notifier {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 5em;
+  width: 100%;
+  padding: 0 2em;
+  z-index: 100;
+}
+
+.clickable {
+  cursor: pointer;
+}
