@@ -13,6 +13,7 @@ import Entry from './Entry';
 
 type ThymeTableType = {
   entries: Array<timeType>,
+  settings: Object,
   onEntryUpdate: (entry: timePropertyType) => void,
   onEntryRemove: (id: string) => void,
   onAddProject: (project: string) => string,
@@ -20,6 +21,7 @@ type ThymeTableType = {
 
 function ThymeTable({
   entries,
+  settings,
   onEntryUpdate,
   onEntryRemove,
   onAddProject,
@@ -44,6 +46,7 @@ function ThymeTable({
             onUpdate={onEntryUpdate}
             onAddNewProject={onAddProject}
             entry={entry}
+            rounding={settings.rounding}
           />
         ))}
         <NewTime onAddNewProject={onAddProject} />

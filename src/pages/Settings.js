@@ -12,8 +12,11 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
 import { stateToExport, validData, parseImportData } from '../core/importExport';
+import RoundingInput from '../components/RoundingInput';
+import { valueFromEventTarget } from '../core/dom';
 
 import { importJSONData, alert, migrateStoreData } from '../actions/app';
+import { setRounding } from '../actions/settings';
 import { truncateTime } from '../actions/time';
 import { truncateProjects } from '../actions/projects';
 
@@ -21,10 +24,12 @@ type SettingsType = {
   time: any,
   projects: any,
   reports: any,
+  settings: any,
   removeTimeData: () => void,
   removeProjectData: () => void,
   importData: (data: any) => void,
   alert: (message: string) => void,
+  setRounding: (value: string) => void,
 };
 
 type SettingsState = {
@@ -55,6 +60,8 @@ class Settings extends Component<SettingsType, SettingsState> {
     };
 
     this.onExportData = this.exportData.bind(this);
+    this.onChangeRounding = this.onChangeRounding.bind(this);
+    this.changeRounding = this.changeRounding.bind(this);
 
     // create file upload element
     const input = document.createElement('input');
@@ -71,7 +78,8 @@ class Settings extends Component<SettingsType, SettingsState> {
       confirmRemoveProjects: false,
     };
   }
-
+  onChangeRounding: () => void;
+  changeRounding: () => void;
   onRemoveTime: () => void;
   onConfirmRemoveTime: () => void;
   onRemoveProjects: () => void;
@@ -80,6 +88,15 @@ class Settings extends Component<SettingsType, SettingsState> {
   onOpenImportInput: () => void;
   onImportData: () => void;
   onCancelConfirm: () => void;
+
+  onChangeRounding(event) {
+    const roundValue = valueFromEventTarget(event.target);
+    this.props.setRounding(roundValue);
+  }
+  changeRounding(rounding: string) {
+    this.props.setRounding(rounding);
+  }
+
   uploadInput: HTMLInputElement;
 
   exportData() {
@@ -119,6 +136,7 @@ class Settings extends Component<SettingsType, SettingsState> {
       this.props.alert(e.message);
     }
   }
+
 
   handleFileChange(e) {
     if (e.target instanceof HTMLInputElement && e.target.files instanceof FileList) {
@@ -173,7 +191,8 @@ class Settings extends Component<SettingsType, SettingsState> {
           onCancel={this.onCancelConfirm}
           onConfirm={this.onConfirmRemoveProjects}
         />
-
+        <Header as="h3">Rounding</Header>
+        <RoundingInput onChange={this.onChangeRounding} title="The minutes that the timer rounds to" value={this.props.settings.rounding} changeRounding={this.changeRounding}/>
         <Header as="h3">About</Header>
         Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
         It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
@@ -185,9 +204,13 @@ class Settings extends Component<SettingsType, SettingsState> {
 }
 
 function mapStateToProps(state) {
-  const { time, projects, reports } = state;
+  const {
+    time, projects, reports, settings,
+  } = state;
 
-  return { time, projects, reports };
+  return {
+    time, projects, reports, settings,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -203,6 +226,10 @@ function mapDispatchToProps(dispatch) {
     importData(data) {
       dispatch(importJSONData(data));
       dispatch(migrateStoreData());
+    },
+
+    setRounding(value) {
+      dispatch(setRounding(value));
     },
 
     alert(message: string) {

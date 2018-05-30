@@ -51,6 +51,7 @@ type EntryStateType = {
   entry: timePropertyType,
   tracking: boolean,
   confirm: boolean,
+  rounding: number,
 };
 
 class Entry extends Component<EntryType, EntryStateType> {
@@ -60,6 +61,9 @@ class Entry extends Component<EntryType, EntryStateType> {
     this.onDateChange = e => this.onStartDateChange(valueFromEventTarget(e.target));
     this.onStartTimeChange = e => this.onTimeChange('start', valueFromEventTarget(e.target));
     this.onEndTimeChange = e => this.onTimeChange('end', valueFromEventTarget(e.target));
+    this.onStartTimeBlur = e => this.onTimeBlur('start', valueFromEventTarget(e.target));
+    this.onEndTimeBlur = e => this.onTimeBlur('end', valueFromEventTarget(e.target));
+
     this.onProjectChange =
       (e, project) => this.onValueChange('project', project === null ? null : project.value);
     this.onNotesChange = e => this.onValueChange('notes', valueFromEventTarget(e.target));
@@ -94,6 +98,8 @@ class Entry extends Component<EntryType, EntryStateType> {
   onDateChange: (e: Event) => void;
   onStartTimeChange: (e: Event) => void;
   onEndTimeChange: (e: Event) => void;
+  onStartTimeBlur: (e: Event) => void;
+  onEndTimeBlur: (e: Event) => void;
   onProjectChange: (e: Event, project: { value: string, label: string }) => void;
   onNotesChange: (e: Event) => void;
   onKeyPress: (e: KeyboardEvent) => void;
@@ -134,6 +140,35 @@ class Entry extends Component<EntryType, EntryStateType> {
     }
 
     const [hours, minutes] = value.split(':');
+    const newDate =
+      setHours(
+        setMinutes(
+          this.state.entry[key],
+          parseInt(minutes, 10),
+        ),
+        parseInt(hours, 10),
+      );
+
+    this.onValueChange(key, newDate);
+  }
+
+  onTimeBlur(key: string, value: string)
+  {
+    if (!value) {
+      return;
+    }
+
+    let [hours, minutes] = value.split(':');
+    minutes = parseInt(minutes, 10);
+    hours = parseInt(hours, 10);
+    const dividedMins = minutes / 15;
+    if (dividedMins % 1 > 0.5) {
+      minutes = Math.ceil(minutes / 15) * 15;
+    }
+    else {
+      minutes = Math.floor(minutes / 15) * 15;
+    }
+    hours = minutes === 60 ? hours + 1 : hours;
     const newDate =
       setHours(
         setMinutes(
@@ -300,6 +335,7 @@ class Entry extends Component<EntryType, EntryStateType> {
             onKeyPress={this.onKeyPress}
             onChange={this.onStartTimeChange}
             value={format(start, 'HH:mm')}
+            onBlur={this.onStartTimeBlur}
           />
         </Table.Cell>
         <Table.Cell width={1}>
@@ -307,6 +343,7 @@ class Entry extends Component<EntryType, EntryStateType> {
             onKeyPress={this.onKeyPress}
             onChange={this.onEndTimeChange}
             value={format(end, 'HH:mm')}
+            onBlur={this.onEndTimeBlur}
           />
         </Table.Cell>
         <Table.Cell width={1}>
