@@ -9,6 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 
 import { loadState, saveOnStoreChange } from './core/localStorage';
+import './core/analytics';
 
 import reducers from './reducers';
 import runMigrations from './migrations';
