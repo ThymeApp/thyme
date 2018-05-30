@@ -1,9 +1,9 @@
 .Notifier {
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: 5em;
+  top: 4.5em;
   width: 100%;
   padding: 0 2em;
   z-index: 100;
