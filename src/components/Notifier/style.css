@@ -7,8 +7,10 @@
   width: 100%;
   padding: 0 2em;
   z-index: 100;
+  pointer-events: none;
 }
 
-.clickable {
+.Notifier .message {
   cursor: pointer;
+  pointer-events: auto;
 }
