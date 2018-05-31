@@ -34,7 +34,7 @@ export function loadState(): {} | typeof undefined {
 }
 
 export function saveState(state: {}): void {
-  saveItem(state, 'ThymeState');
+  saveItem({ ...state, app: undefined }, 'ThymeState');
 }
 
 export function loadTemporaryItem(): tempTimePropertyType | typeof undefined {

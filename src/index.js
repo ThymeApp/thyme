@@ -9,6 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 
 import { loadState, saveOnStoreChange } from './core/localStorage';
+import './core/analytics';
 
 import reducers from './reducers';
 import runMigrations from './migrations';
@@ -38,5 +39,5 @@ ReactDOM.render(
   document.getElementById('root') || document.createElement('div'),
 );
 
-registerServiceWorker();
+registerServiceWorker(store.dispatch);
 saveOnStoreChange(store);

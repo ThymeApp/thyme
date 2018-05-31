@@ -10,6 +10,10 @@
 // To learn more about the benefits of this model, read https://goo.gl/KwvDNy.
 // This link also includes instructions on opting out of this behavior.
 
+import { updateAvailable } from './actions/app';
+
+let dispatch = () => {};
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
   // [::1] is the IPv6 localhost address.
@@ -20,7 +24,9 @@ const isLocalhost = Boolean(
   )
 );
 
-export default function register() {
+export default function register(storeDispatch) {
+  dispatch = storeDispatch;
+
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
@@ -67,7 +73,7 @@ function registerValidSW(swUrl) {
               // the fresh content will have been added to the cache.
               // It's the perfect time to display a "New content is
               // available; please refresh." message in your web app.
-              console.log('New content is available; please refresh.');
+              dispatch(updateAvailable());
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a

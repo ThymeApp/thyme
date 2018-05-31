@@ -9,6 +9,18 @@ import endOfDay from 'date-fns/end_of_day';
 import startOfMinute from 'date-fns/start_of_minute';
 import leftPad from 'left-pad';
 
+export function sortByTime(a: timeType, b: timeType) {
+  if (isBefore(a.start, b.start)) {
+    return -1;
+  }
+
+  if (isAfter(a.start, b.start)) {
+    return 1;
+  }
+
+  return 0;
+}
+
 export function calculateDuration(from: Date, to: Date): number {
   if (isBefore(to, from)) {
     return 0;

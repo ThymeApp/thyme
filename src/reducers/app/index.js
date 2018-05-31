@@ -13,6 +13,16 @@ function alert(state: string = '', action) {
   }
 }
 
+function update(state: boolean = false, action) {
+  switch (action.type) {
+    case 'UPDATE_AVAILABLE':
+      return true;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   alert,
+  update,
 });
