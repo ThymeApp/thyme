@@ -39,5 +39,5 @@ ReactDOM.render(
   document.getElementById('root') || document.createElement('div'),
 );
 
-registerServiceWorker();
+registerServiceWorker(store);
 saveOnStoreChange(store);

@@ -27,3 +27,7 @@ export function alert(message: string) {
 export function clearAlert() {
   return { type: 'CLEAR_ALERT' };
 }
+
+export function updateAvailable() {
+  return { type: 'UPDATE_AVAILABLE' };
+}
