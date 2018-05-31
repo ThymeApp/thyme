@@ -12,7 +12,7 @@
 
 import { updateAvailable } from './actions/app';
 
-let reduxStore;
+let dispatch = () => {};
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -24,8 +24,8 @@ const isLocalhost = Boolean(
   )
 );
 
-export default function register(store) {
-  reduxStore = store;
+export default function register(storeDispatch) {
+  dispatch = storeDispatch;
 
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -73,7 +73,7 @@ function registerValidSW(swUrl) {
               // the fresh content will have been added to the cache.
               // It's the perfect time to display a "New content is
               // available; please refresh." message in your web app.
-              reduxStore.dispatch(updateAvailable());
+              dispatch(updateAvailable());
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
