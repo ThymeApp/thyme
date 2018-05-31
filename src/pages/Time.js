@@ -12,6 +12,8 @@ import subDays from 'date-fns/sub_days';
 import DateRange from '../components/DateRange';
 import ThymeTable from '../components/ThymeTable';
 
+import { sortByTime } from '../core/thyme';
+
 const now = new Date();
 const today = (entry: timeType) => isToday(entry.start);
 const thisWeek = (entry: timeType) => isThisWeek(entry.start, { weekStartsOn: 1 });
@@ -37,21 +39,6 @@ function dateRangeFilter(dateRange: dateRanges) {
 type TimeType = {
   entries: Array<timeType>,
 };
-
-function sortByTime(a, b) {
-  const aDate = `${a.date} ${a.start}`;
-  const bDate = `${b.date} ${b.start}`;
-
-  if (isBefore(aDate, bDate)) {
-    return -1;
-  }
-
-  if (isAfter(aDate, bDate)) {
-    return 1;
-  }
-
-  return 0;
-}
 
 function Time({ entries }: TimeType) {
   return (

@@ -3,14 +3,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import isAfter from 'date-fns/is_after';
-import isBefore from 'date-fns/is_before';
-
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
 import { sortedProjects } from '../core/projects';
-import { totalProjectTime, projectTimeEntries } from '../core/thyme';
+import { totalProjectTime, projectTimeEntries, sortByTime } from '../core/thyme';
 
 import ReportTable from '../components/ReportTable';
 import ReportFilters from '../components/ReportFilters';
@@ -40,18 +37,6 @@ function Reports({ allProjects, projects }: ReportsType) {
       <SavedReports />
     </Container>
   );
-}
-
-function sortByTime(a, b) {
-  if (isBefore(a.start, b.start)) {
-    return -1;
-  }
-
-  if (isAfter(a.start, b.start)) {
-    return 1;
-  }
-
-  return 0;
 }
 
 function mapStateToProps(state) {
