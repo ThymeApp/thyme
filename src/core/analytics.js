@@ -1,18 +1,15 @@
-window.dataLayer = window.dataLayer || [];
-
-function gtag() {
-  window.dataLayer.push(arguments); // eslint-disable-line prefer-rest-params
-}
+/* eslint-disable */
 
 if (process.env.NODE_ENV !== 'development') {
-  const script = document.createElement('script');
-  script.setAttribute('async', 'async');
-  script.setAttribute('src', 'https://www.googletagmanager.com/gtag/js?id=UA-120052266-1');
+  (function(f, a, t, h, o, m){
+    a[h]=a[h]||function(){
+      (a[h].q=a[h].q||[]).push(arguments)
+    };
+    o=f.createElement('script'),
+      m=f.getElementsByTagName('script')[0];
+    o.async=1; o.src=t; o.id='fathom-script';
+    m.parentNode.insertBefore(o,m)
+  })(document, window, '//thyme.usesfathom.com/tracker.js', 'fathom');
 
-  if (document.body) {
-    document.body.appendChild(script);
-
-    gtag('js', new Date());
-    gtag('config', 'UA-120052266-1');
-  }
+  fathom('trackPageview');
 }
