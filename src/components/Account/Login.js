@@ -1,77 +1,65 @@
 // @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
+import { Field, reduxForm } from 'redux-form';
+import type { FormProps } from 'redux-form';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
+import renderField from '../FormField/renderField';
+
 type LoginProps = {
-  inView: boolean,
+  inView: boolean;
   goToRegister: (e: Event) => void;
-};
+} & FormProps;
 
 type LoginState = {
-  email: string,
-  password: string,
-  isLoading: boolean,
+  isLoading: boolean;
 };
 
 class Login extends Component<LoginProps, LoginState> {
-  state = {
-    email: '',
-    password: '',
-    isLoading: false,
-  };
+  state = { isLoading: false };
 
   onSubmit = () => {
     this.setState({ isLoading: true });
   };
 
-  handleInput = (e: SyntheticEvent<HTMLButtonElement>) => {
-    if (e.target instanceof HTMLInputElement) {
-      this.setState({
-        [e.currentTarget.name]: e.currentTarget.value,
-      });
-    }
-  };
-
   render() {
-    const { email, password, isLoading } = this.state;
-    const { inView, goToRegister } = this.props;
+    const { isLoading } = this.state;
+    const {
+      inView,
+      goToRegister,
+      handleSubmit,
+    } = this.props;
 
     return (
       <Form
         className={classnames('Login', { 'Login--visible': inView })}
         loading={isLoading}
-        onSubmit={this.onSubmit}
+        onSubmit={handleSubmit(this.onSubmit)}
+        noValidate
       >
-        <Form.Field>
-          <label htmlFor="email">Email address</label>
-          <Input
-            id="email"
-            type="text"
-            size="small"
-            name="email"
-            autoComplete="username email"
-            value={email}
-            onChange={this.handleInput}
-            placeholder="Your email address"
-          />
-        </Form.Field>
-        <Form.Field>
-          <label htmlFor="password">Password</label>
-          <Input
-            id="password"
-            type="password"
-            size="small"
-            name="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={this.handleInput}
-            placeholder="Your password"
-          />
-        </Form.Field>
+        <Field
+          label="Email address"
+          name="email"
+          required
+          component={renderField}
+          type="email"
+          autoComplete="username email"
+          placeholder="Your email address"
+        />
+
+        <Field
+          label="Password"
+          name="password"
+          required
+          component={renderField}
+          type="password"
+          autoComplete="current-password"
+          placeholder="Your password"
+        />
+
         <section className="Account__Submit-Bar">
           <Form.Button primary>Login</Form.Button>
           or
@@ -87,4 +75,24 @@ class Login extends Component<LoginProps, LoginState> {
   }
 }
 
-export default Login;
+const validate = (values) => {
+  const errors = {};
+  const required = 'Required field';
+
+  if (!values.email) {
+    errors.email = required;
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  if (!values.password) {
+    errors.password = required;
+  }
+
+  return errors;
+};
+
+export default reduxForm({
+  form: 'login',
+  validate,
+})(Login);
