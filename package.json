@@ -18,6 +18,7 @@
         "react-scripts": "^1.1.4",
         "react-svg-piechart": "^2.1.0",
         "redux": "^4.0.0",
+        "redux-form": "^7.3.0",
         "semantic-ui-css": "^2.2.12",
         "semantic-ui-react": "^0.80.0",
         "shortid": "^2.2.8",
