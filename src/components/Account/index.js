@@ -14,6 +14,13 @@ type AccountState = {
   view: 'login' | 'register',
 }
 
+function preventDefault(cb: (e: Event) => void) {
+  return (e: Event) => {
+    e.preventDefault();
+    cb(e);
+  };
+}
+
 class Account extends Component<*, AccountState> {
   state = {
     isOpen: false,
@@ -22,8 +29,8 @@ class Account extends Component<*, AccountState> {
 
   handleOpen = () => this.setState({ isOpen: true });
   handleClose = () => this.setState({ isOpen: false });
-  goToLogin = () => this.setState({ view: 'login' });
-  goToRegister = (e: Event) => { e.preventDefault(); this.setState({ view: 'register' }); };
+  goToLogin = preventDefault(() => this.setState({ view: 'login' }));
+  goToRegister = preventDefault(() => this.setState({ view: 'register' }));
 
   render() {
     const { isOpen, view } = this.state;
