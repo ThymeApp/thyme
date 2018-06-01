@@ -1,7 +1,7 @@
 // @flow
 
 import { combineReducers } from 'redux';
-import formReducer from 'redux-form/lib/reducer';
+import { reducer as formReducer } from 'redux-form';
 
 import runMigrations from '../migrations';
 
