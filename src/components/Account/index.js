@@ -5,21 +5,28 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import Login from './Login';
+import Register from './Register';
 
 import './style.css';
 
 type AccountState = {
   isOpen: boolean,
+  view: 'login' | 'register',
 }
 
 class Account extends Component<*, AccountState> {
-  state = { isOpen: false };
+  state = {
+    isOpen: false,
+    view: 'login',
+  };
 
   handleOpen = () => this.setState({ isOpen: true });
   handleClose = () => this.setState({ isOpen: false });
+  goToLogin = () => this.setState({ view: 'login' });
+  goToRegister = (e: Event) => { e.preventDefault(); this.setState({ view: 'register' }); };
 
   render() {
-    const { isOpen } = this.state;
+    const { isOpen, view } = this.state;
 
     return (
       <div>
@@ -31,7 +38,16 @@ class Account extends Component<*, AccountState> {
           onClose={this.handleClose}
           onOpen={this.handleOpen}
         >
-          <Login />
+          <div className="Account-PopUp">
+            <Login
+              inView={view === 'login'}
+              goToRegister={this.goToRegister}
+            />
+            <Register
+              inView={view === 'register'}
+              goToLogin={this.goToLogin}
+            />
+          </div>
         </Popup>
       </div>
     );

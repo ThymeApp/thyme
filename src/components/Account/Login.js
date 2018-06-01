@@ -1,9 +1,15 @@
 // @flow
 import React, { Component } from 'react';
+import classnames from 'classnames';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+
+type LoginProps = {
+  inView: boolean,
+  goToRegister: (e: Event) => void;
+};
 
 type LoginState = {
   email: string,
@@ -11,7 +17,7 @@ type LoginState = {
   isLoading: boolean,
 };
 
-class Login extends Component<*, LoginState> {
+class Login extends Component<LoginProps, LoginState> {
   state = {
     email: '',
     password: '',
@@ -32,10 +38,11 @@ class Login extends Component<*, LoginState> {
 
   render() {
     const { email, password, isLoading } = this.state;
+    const { inView, goToRegister } = this.props;
 
     return (
       <Form
-        style={{ width: 230 }}
+        className={classnames('Login', { 'Login--visible': inView })}
         loading={isLoading}
         onSubmit={this.onSubmit}
       >
@@ -68,7 +75,12 @@ class Login extends Component<*, LoginState> {
         <section className="Account__Submit-Bar">
           <Form.Button primary>Login</Form.Button>
           or
-          <Button basic>Register</Button>
+          <Button
+            basic
+            onClick={goToRegister}
+          >
+            Register
+          </Button>
         </section>
       </Form>
     );

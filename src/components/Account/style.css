@@ -8,3 +8,31 @@
 .Account__Submit-Bar .button.basic {
   margin: 0;
 }
+
+.Account-PopUp {
+  overflow: hidden;
+  display: flex;
+  width: 230px;
+}
+
+.Login, .Register {
+  width: 230px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.Login {
+  transform: translateX(-100%);
+}
+
+.Login--visible {
+  transform: none;
+}
+
+.Register {
+  transition: transform 0.2s ease;
+}
+
+.Register--visible {
+  transform: translateX(-100%);
+}
