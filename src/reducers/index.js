@@ -1,6 +1,7 @@
 // @flow
 
 import { combineReducers } from 'redux';
+import formReducer from 'redux-form/lib/reducer';
 
 import runMigrations from '../migrations';
 
@@ -14,6 +15,7 @@ const combinedReducers = combineReducers({
   time,
   projects,
   reports,
+  form: formReducer,
 });
 
 export default (state: any, action: { type: string }) => {
