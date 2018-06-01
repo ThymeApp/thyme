@@ -1,28 +1,25 @@
 // @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
+import { Field, reduxForm } from 'redux-form';
+import type { FormProps } from 'redux-form';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+
+import renderField from '../FormField/renderField';
 
 type RegisterProps = {
   inView: boolean;
   goToLogin: (e: Event) => void;
-};
+} & FormProps;
 
 type RegisterState = {
-  email: string,
-  password: string,
-  confirmPassword: string,
-  isLoading: boolean,
+  isLoading: boolean;
 };
 
 class Register extends Component<RegisterProps, RegisterState> {
   state = {
-    email: '',
-    password: '',
-    confirmPassword: '',
     isLoading: false,
   };
 
@@ -30,68 +27,46 @@ class Register extends Component<RegisterProps, RegisterState> {
     this.setState({ isLoading: true });
   };
 
-  handleInput = (e: SyntheticEvent<HTMLButtonElement>) => {
-    if (e.target instanceof HTMLInputElement) {
-      this.setState({
-        [e.currentTarget.name]: e.currentTarget.value,
-      });
-    }
-  };
-
   render() {
-    const {
-      email,
-      password,
-      confirmPassword,
-      isLoading,
-    } = this.state;
-    const { inView, goToLogin } = this.props;
+    const { isLoading } = this.state;
+    const { inView, goToLogin, handleSubmit } = this.props;
 
     return (
       <Form
         className={classnames('Register', { 'Register--visible': inView })}
         loading={isLoading}
-        onSubmit={this.onSubmit}
+        onSubmit={handleSubmit(this.onSubmit)}
       >
-        <Form.Field>
-          <label htmlFor="register-email">Email address</label>
-          <Input
-            id="register-email"
-            type="text"
-            size="small"
-            name="email"
-            autoComplete="username email"
-            value={email}
-            onChange={this.handleInput}
-            placeholder="Your email address"
-          />
-        </Form.Field>
-        <Form.Field>
-          <label htmlFor="register-password">Password</label>
-          <Input
-            id="register-password"
-            type="password"
-            size="small"
-            name="password"
-            autoComplete="off"
-            value={password}
-            onChange={this.handleInput}
-            placeholder="Enter a password"
-          />
-        </Form.Field>
-        <Form.Field>
-          <label htmlFor="confirm-password">Confirm password</label>
-          <Input
-            id="confirm-password"
-            type="password"
-            size="small"
-            name="confirmPassword"
-            autoComplete="off"
-            value={confirmPassword}
-            onChange={this.handleInput}
-            placeholder="Confirm password"
-          />
-        </Form.Field>
+        <Field
+          label="Email address"
+          name="email"
+          required
+          component={renderField}
+          type="email"
+          autoComplete="username email"
+          placeholder="Your email address"
+        />
+
+        <Field
+          label="Password"
+          name="password"
+          required
+          component={renderField}
+          type="password"
+          autoComplete="off"
+          placeholder="Enter a password"
+        />
+
+        <Field
+          label="Confirm password"
+          name="confirmPassword"
+          required
+          component={renderField}
+          type="password"
+          autoComplete="off"
+          placeholder="Confirm your password"
+        />
+
         <section className="Account__Submit-Bar">
           <Form.Button primary>Register</Form.Button>
           or
@@ -107,4 +82,30 @@ class Register extends Component<RegisterProps, RegisterState> {
   }
 }
 
-export default Register;
+const validate = (values) => {
+  const errors = {};
+  const required = 'Required field';
+
+  if (!values.email) {
+    errors.email = required;
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  if (!values.password) {
+    errors.password = required;
+  }
+
+  if (!values.confirmPassword) {
+    errors.confirmPassword = required;
+  } else if (values.password !== values.confirmPassword) {
+    errors.confirmPassword = 'Entered password do not match';
+  }
+
+  return errors;
+};
+
+export default reduxForm({
+  form: 'register',
+  validate,
+})(Register);
