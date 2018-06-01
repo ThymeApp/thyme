@@ -34,7 +34,12 @@ export function loadState(): {} | typeof undefined {
 }
 
 export function saveState(state: {}): void {
-  saveItem({ ...state, app: undefined }, 'ThymeState');
+  // persist everything but the app and form state
+  saveItem({
+    ...state,
+    app: undefined,
+    form: undefined,
+  }, 'ThymeState');
 }
 
 export function loadTemporaryItem(): tempTimePropertyType | typeof undefined {
