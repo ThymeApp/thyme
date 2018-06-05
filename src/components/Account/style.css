@@ -42,3 +42,7 @@
 .Register--visible {
   transform: translateX(-100%);
 }
+
+.Account-PopUp .message.small {
+  padding: 1em;
+}

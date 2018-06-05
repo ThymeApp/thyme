@@ -1,42 +1,51 @@
 // @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import type { FormProps } from 'redux-form';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
 import renderField from '../FormField/renderField';
+
+import { registerUser } from './api';
 
 type RegisterProps = {
   inView: boolean;
   goToLogin: (e: Event) => void;
 } & FormProps;
 
-type RegisterState = {
-  isLoading: boolean;
-};
-
-class Register extends Component<RegisterProps, RegisterState> {
-  state = {
-    isLoading: false,
-  };
-
-  onSubmit = () => {
-    this.setState({ isLoading: true });
+class Register extends Component<RegisterProps> {
+  onSubmit = ({ email, password }) => {
+    return registerUser(email, password)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((e) => {
+        throw new SubmissionError({ _error: e.message });
+      });
   };
 
   render() {
-    const { isLoading } = this.state;
-    const { inView, goToLogin, handleSubmit } = this.props;
+    const {
+      inView,
+      error,
+      submitting,
+      goToLogin,
+      handleSubmit,
+    } = this.props;
 
     return (
       <Form
         className={classnames('Register', { 'Register--visible': inView })}
-        loading={isLoading}
+        loading={submitting}
         onSubmit={handleSubmit(this.onSubmit)}
+        noValidate
       >
+        { error && <Message color="red" size="small">{ error }</Message> }
+
         <Field
           label="Email address"
           name="email"
