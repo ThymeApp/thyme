@@ -1,9 +1,13 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
+import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
+
+import { logout } from '../../actions/account';
 
 import Status from './Status';
 import Login from './Login';
@@ -12,12 +16,13 @@ import Register from './Register';
 import './style.css';
 
 type AccountProps = {
-  jwt: string | null,
+  logout: () => void;
+  jwt: string | null;
 }
 
 type AccountState = {
-  isOpen: boolean,
-  view: 'login' | 'register',
+  isOpen: boolean;
+  view: 'login' | 'register';
 }
 
 function preventDefault(cb: (e: Event) => void) {
@@ -33,8 +38,10 @@ class Account extends Component<AccountProps, AccountState> {
     view: 'login',
   };
 
+  onLogout = () => this.props.logout();
   handleOpen = () => this.setState({ isOpen: true });
   handleClose = () => this.setState({ isOpen: false });
+
   goToLogin = preventDefault(() => this.setState({ view: 'login' }));
   goToRegister = preventDefault(() => this.setState({ view: 'register' }));
 
@@ -43,30 +50,45 @@ class Account extends Component<AccountProps, AccountState> {
     const { isOpen, view } = this.state;
 
     return (
-      <div>
-        {jwt && <Status />}
-        {!jwt && (
-          <Popup
-            trigger={<Button inverted>Log in to sync</Button>}
-            open={isOpen}
-            position="bottom right"
-            on="click"
-            onClose={this.handleClose}
-            onOpen={this.handleOpen}
+
+      <Popup
+        className="Account-PopUp"
+        trigger={(
+          <Button
+            secondary={!!jwt}
+            inverted={!jwt}
           >
-            <div className="Account-PopUp">
-              <Login
-                inView={view === 'login'}
-                goToRegister={this.goToRegister}
-              />
-              <Register
-                inView={view === 'register'}
-                goToLogin={this.goToLogin}
-              />
-            </div>
-          </Popup>
+            { jwt ? <Status /> : 'Log in to sync' }
+          </Button>
         )}
-      </div>
+        open={isOpen}
+        position="bottom right"
+        on="click"
+        onClose={this.handleClose}
+        onOpen={this.handleOpen}
+      >
+        { jwt ? (
+          <Menu vertical>
+            <Menu.Item
+              name="logout"
+              onClick={this.onLogout}
+            >
+              Logout
+            </Menu.Item>
+          </Menu>
+        ) : (
+          <div className="Account-PopUp-Content">
+            <Login
+              inView={view === 'login'}
+              goToRegister={this.goToRegister}
+            />
+            <Register
+              inView={view === 'register'}
+              goToLogin={this.goToLogin}
+            />
+          </div>
+        )}
+      </Popup>
     );
   }
 }
@@ -77,4 +99,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Account);
+export default connect(
+  mapStateToProps,
+  dispatch => bindActionCreators({ logout }, dispatch),
+)(Account);

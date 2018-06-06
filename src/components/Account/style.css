@@ -9,7 +9,7 @@
   margin: 0;
 }
 
-.Account-PopUp {
+.Account-PopUp-Content {
   overflow: hidden;
   display: flex;
   width: 300px;
@@ -45,4 +45,12 @@
 
 .Account-PopUp .message.small {
   padding: 1em;
+}
+
+.ui.popup.Account-PopUp {
+  padding: 0;
+}
+
+.ui.popup .Account-PopUp-Content {
+  margin: .833em 1em;
 }

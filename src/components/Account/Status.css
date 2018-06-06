@@ -1,11 +1,6 @@
-.Status {
-  transition: color 0.5s ease;
-}
-
 .Status::before {
   content: "•";
   margin-right: 5px;
-  transition: color 0.5s ease;
 }
 
 .Status--connected::before {
