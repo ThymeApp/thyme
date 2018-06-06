@@ -1,8 +1,21 @@
+.Status {
+  transition: color 0.5s ease;
+}
+
 .Status::before {
   content: "•";
   margin-right: 5px;
+  transition: color 0.5s ease;
 }
 
 .Status--connected::before {
   color: #00cc68;
+}
+
+.Status--offline {
+  color: #ff0060;
+}
+
+.Status--offline::before {
+  color: #ff0060;
 }

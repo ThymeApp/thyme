@@ -24,14 +24,31 @@ type StatusProps = {
   connectionState: ConnectionStates;
 }
 
-class Status extends Component<StatusProps> {
+type StatusState = {
+  online: boolean;
+};
+
+class Status extends Component<StatusProps, StatusState> {
+  state = {
+    online: navigator.onLine,
+  };
+
   componentDidMount() {
     this.checkToken();
+
+    window.addEventListener('online', this.goOnline);
+    window.addEventListener('offline', this.goOffline);
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
+
+    window.removeEventListener('online', this.goOnline);
+    window.removeEventListener('offline', this.goOffline);
   }
+
+  goOnline = () => this.setState({ online: true });
+  goOffline = () => this.setState({ online: false });
 
   timeout: TimeoutID;
 
@@ -60,10 +77,13 @@ class Status extends Component<StatusProps> {
 
   render() {
     const { connectionState } = this.props;
+    const { online } = this.state;
+
+    const status: ConnectionStates = online ? connectionState : 'offline';
 
     return (
-      <div className={classnames('Status', `Status--${connectionState}`)}>
-        {connectionState}
+      <div className={classnames('Status', `Status--${status}`)}>
+        {status}
       </div>
     );
   }
