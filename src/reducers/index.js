@@ -5,16 +5,18 @@ import { reducer as formReducer } from 'redux-form';
 
 import runMigrations from '../migrations';
 
+import account from './account';
 import app from './app';
-import time from './time';
 import projects from './projects';
 import reports from './reports';
+import time from './time';
 
 const combinedReducers = combineReducers({
+  account,
   app,
-  time,
   projects,
   reports,
+  time,
   form: formReducer,
 });
 

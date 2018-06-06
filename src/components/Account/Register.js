@@ -1,5 +1,7 @@
 // @flow
 import React, { Component } from 'react';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import type { FormProps } from 'redux-form';
@@ -8,9 +10,11 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
+import { registerAccount } from '../../actions/account';
+
 import renderField from '../FormField/renderField';
 
-import { registerUser } from './api';
+import { registerUser as regiserUserOnApi } from './api';
 
 type RegisterProps = {
   inView: boolean;
@@ -18,15 +22,14 @@ type RegisterProps = {
 } & FormProps;
 
 class Register extends Component<RegisterProps> {
-  onSubmit = ({ email, password }) => {
-    return registerUser(email, password)
+  onSubmit = ({ email, password }) =>
+    (regiserUserOnApi(email, password)
       .then((result) => {
-        console.log(result);
+        this.props.registerAccount(result);
       })
       .catch((e) => {
         throw new SubmissionError({ _error: e.message });
-      });
-  };
+      }));
 
   render() {
     const {
@@ -114,7 +117,10 @@ const validate = (values) => {
   return errors;
 };
 
-export default reduxForm({
-  form: 'register',
-  validate,
-})(Register);
+export default compose(
+  connect(null, dispatch => bindActionCreators({ registerAccount }, dispatch)),
+  reduxForm({
+    form: 'register',
+    validate,
+  }),
+)(Register);
