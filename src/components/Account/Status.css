@@ -1,0 +1,8 @@
+.Status::before {
+  content: "•";
+  margin-right: 5px;
+}
+
+.Status--connected::before {
+  color: #00cc68;
+}
