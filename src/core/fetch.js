@@ -21,14 +21,16 @@ export function post(url: string, data: any) {
     },
   )
     .then((response) => {
-      const jsonData = response.json();
-
       if (!response.ok) {
-        return jsonData.then((err) => {
-          throw new Error(err.message);
-        });
+        return response.json()
+          .then((err) => {
+            throw new Error(err.message);
+          })
+          .catch(() => {
+            throw new Error(response.statusText);
+          });
       }
 
-      return jsonData;
+      return response.json();
     });
 }
