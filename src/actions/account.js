@@ -6,3 +6,7 @@ export function registerAccount(token: string | null = null) {
     token,
   };
 }
+
+export function logout() {
+  return { type: 'LOG_OUT' };
+}
