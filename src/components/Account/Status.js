@@ -18,6 +18,7 @@ import './Status.css';
 type ConnectionStates = 'connected' | 'syncing' | 'offline';
 
 type StatusProps = {
+  closePopup: () => void;
   updateToken: (token: string) => void;
   logout: () => void;
   jwt: string;
@@ -34,6 +35,8 @@ class Status extends Component<StatusProps, StatusState> {
   };
 
   componentDidMount() {
+    this.props.closePopup();
+
     this.checkToken();
 
     window.addEventListener('online', this.goOnline);

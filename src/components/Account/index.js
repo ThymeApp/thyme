@@ -58,7 +58,7 @@ class Account extends Component<AccountProps, AccountState> {
             secondary={!!jwt}
             inverted={!jwt}
           >
-            { jwt ? <Status /> : 'Log in to sync' }
+            { jwt ? <Status closePopup={this.handleClose} /> : 'Log in to sync' }
           </Button>
         )}
         open={isOpen}
