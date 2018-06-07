@@ -1,34 +1,41 @@
 // @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { Field, reduxForm } from 'redux-form';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import type { FormProps } from 'redux-form';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
+import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+
+import { loginAccount } from '../../actions/account';
 
 import renderField from '../FormField/renderField';
 
+import { login } from './api';
+
 type LoginProps = {
   inView: boolean;
+  loginAccount: (token: string) => void;
   goToRegister: (e: Event) => void;
 } & FormProps;
 
-type LoginState = {
-  isLoading: boolean;
-};
-
-class Login extends Component<LoginProps, LoginState> {
-  state = { isLoading: false };
-
-  onSubmit = () => {
-    this.setState({ isLoading: true });
-  };
+class Login extends Component<LoginProps> {
+  onSubmit = ({ email, password }) => login(email, password)
+    .then((result) => {
+      this.props.loginAccount(result);
+    })
+    .catch((e) => {
+      throw new SubmissionError({ _error: e.message });
+    });
 
   render() {
-    const { isLoading } = this.state;
     const {
       inView,
+      error,
+      submitting,
       goToRegister,
       handleSubmit,
     } = this.props;
@@ -36,10 +43,11 @@ class Login extends Component<LoginProps, LoginState> {
     return (
       <Form
         className={classnames('Login', { 'Login--visible': inView })}
-        loading={isLoading}
+        loading={submitting}
         onSubmit={handleSubmit(this.onSubmit)}
         noValidate
       >
+        { error && <Message color="red" size="small">{ error }</Message> }
         <Field
           label="Email address"
           name="email"
@@ -92,7 +100,10 @@ const validate = (values) => {
   return errors;
 };
 
-export default reduxForm({
-  form: 'login',
-  validate,
-})(Login);
+export default compose(
+  connect(null, dispatch => bindActionCreators({ loginAccount }, dispatch)),
+  reduxForm({
+    form: 'login',
+    validate,
+  }),
+)(Login);

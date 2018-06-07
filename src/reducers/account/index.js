@@ -8,6 +8,7 @@ function jwt(state: string | null = null, action) {
       return null;
     case 'ACCOUNT_UPDATE_TOKEN':
     case 'ACCOUNT_REGISTER':
+    case 'ACCOUNT_LOGIN':
       return action.token;
     default:
       return state;

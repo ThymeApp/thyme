@@ -22,14 +22,13 @@ type RegisterProps = {
 } & FormProps;
 
 class Register extends Component<RegisterProps> {
-  onSubmit = ({ email, password }) =>
-    (regiserUserOnApi(email, password)
-      .then((result) => {
-        this.props.registerAccount(result);
-      })
-      .catch((e) => {
-        throw new SubmissionError({ _error: e.message });
-      }));
+  onSubmit = ({ email, password }) => regiserUserOnApi(email, password)
+    .then((result) => {
+      this.props.registerAccount(result);
+    })
+    .catch((e) => {
+      throw new SubmissionError({ _error: e.message });
+    });
 
   render() {
     const {
