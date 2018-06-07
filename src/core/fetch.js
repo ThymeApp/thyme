@@ -48,8 +48,13 @@ export function post(url: string, data: any) {
           .then((err) => {
             throw new Error(err.message);
           })
-          .catch(() => {
-            throw new Error(response.statusText);
+          .catch((err) => {
+            // if json failed to parse
+            if (err.name === '‌SyntaxError') {
+              throw new Error(response.statusText);
+            }
+
+            throw err;
           });
       }
 
