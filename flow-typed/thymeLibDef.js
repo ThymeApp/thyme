@@ -50,3 +50,7 @@ declare type RouterMatch = {
   path: string,
   url: string,
 };
+
+declare type RouterHistory = {
+  push: (path: string) => void;
+};

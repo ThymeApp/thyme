@@ -1,7 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
+import { withRouter } from 'react-router';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
@@ -16,6 +17,7 @@ import Register from './Register';
 import './style.css';
 
 type AccountProps = {
+  history: RouterHistory;
   logout: () => void;
   jwt: string | null;
 }
@@ -44,6 +46,10 @@ class Account extends Component<AccountProps, AccountState> {
 
   goToLogin = preventDefault(() => this.setState({ view: 'login' }));
   goToRegister = preventDefault(() => this.setState({ view: 'register' }));
+  goToSettings = () => {
+    this.props.history.push('/settings');
+    this.handleClose();
+  };
 
   render() {
     const { jwt } = this.props;
@@ -69,6 +75,12 @@ class Account extends Component<AccountProps, AccountState> {
       >
         { jwt ? (
           <Menu vertical>
+            <Menu.Item
+              name="settings"
+              onClick={this.goToSettings}
+            >
+              Account settings
+            </Menu.Item>
             <Menu.Item
               name="logout"
               onClick={this.onLogout}
@@ -99,7 +111,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  dispatch => bindActionCreators({ logout }, dispatch),
+export default compose(
+  withRouter,
+  connect(
+    mapStateToProps,
+    dispatch => bindActionCreators({ logout }, dispatch),
+  ),
 )(Account);
