@@ -57,7 +57,7 @@ class Status extends Component<StatusProps, StatusState> {
     this.timeout = setTimeout(() => this.checkToken(), 60000);
 
     const parsedJwt = parseJwt(this.props.jwt);
-    const isOk = isBefore(new Date(), addDays(parsedJwt.iat * 1000, 1));
+    const isOk = parsedJwt.iat && isBefore(new Date(), addDays(parsedJwt.iat * 1000, 1));
 
     // token is still okay to use
     if (isOk) {
