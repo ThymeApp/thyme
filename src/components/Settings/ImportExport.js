@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import format from 'date-fns/format';
 import FileSaver from 'file-saver';
@@ -99,7 +99,7 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
     const { confirmImport } = this.state;
 
     return (
-      <div>
+      <Fragment>
         <Header as="h3">Export / Import</Header>
         <Button color="blue" onClick={this.exportData}>Export data</Button>
         <Button color="green" onClick={this.importData}>Import data</Button>
@@ -111,7 +111,7 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
           onCancel={this.onCancelConfirm}
           onConfirm={this.openImportInput}
         />
-      </div>
+      </Fragment>
     );
   }
 }
