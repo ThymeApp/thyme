@@ -22,6 +22,9 @@ class DeleteData extends Component<*, DeleteDataState> {
     confirmRemoveProjects: false,
   };
 
+  onRemoveTime = () => { this.setState({ confirmRemoveTimesheet: true }); };
+  onRemoveProjects = () => { this.setState({ confirmRemoveProjects: true }); };
+
   onCancelConfirm = () => {
     this.setState({
       confirmRemoveTimesheet: false,
@@ -29,13 +32,12 @@ class DeleteData extends Component<*, DeleteDataState> {
     });
   };
 
-  onRemoveTime = () => { this.setState({ confirmRemoveTimesheet: true }); };
-  onRemoveProjects = () => { this.setState({ confirmRemoveProjects: true }); };
   onConfirmRemoveTime = () => {
     this.onCancelConfirm();
     this.props.removeTimeData();
     this.props.alert('All time data has been removed');
   };
+
   onConfirmRemoveProjects = () => {
     this.onCancelConfirm();
     this.props.removeProjectData();
