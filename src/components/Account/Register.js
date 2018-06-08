@@ -10,9 +10,9 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
-import { registerAccount } from '../../actions/account';
-
 import renderField from '../FormField/renderField';
+
+import { registerAccount } from '../../actions/account';
 
 import { registerUser as regiserUserOnApi } from './api';
 

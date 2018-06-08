@@ -5,6 +5,7 @@ import React from 'react';
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 
+import Account from '../components/Settings/Account';
 import ImportExport from '../components/Settings/ImportExport';
 import DeleteData from '../components/Settings/DeleteData';
 
@@ -13,6 +14,7 @@ function Settings() {
     <Container>
       <Header as="h1">Settings</Header>
 
+      <Account />
       <ImportExport />
       <DeleteData />
 
