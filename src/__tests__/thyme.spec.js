@@ -1,5 +1,3 @@
-
-
 import { totalProjectTime } from '../core/thyme';
 
 describe('Calculate total project time', () => {

@@ -16,9 +16,9 @@ type exportStateType = {
 };
 
 type exportType = {
-  time: Array<timePropertyType>,
-  projects: Array<projectType>,
-  reports: Array<reportType>,
+  time: Array<timeType>,
+  projects: Array<timeType>,
+  reports: Array<timeType>,
 };
 
 export function stateToExport({ time, projects, reports }: exportStateType): exportType {
@@ -72,4 +72,29 @@ export function validData({ time, projects, reports }: importStateType) {
     !Array.isArray(time) || !Array.isArray(projects) || !Array.isArray(reports) ||
     !time.every(validTimeEntry) || !projects.every(validProjectEntry) ||
     !reports.every(validReportEntry));
+}
+
+function mergeOverwrite(oldList: any[] = [], newList: any[] = [], overwrite: boolean = true) {
+  return [
+    ...oldList.map((time) => {
+      if (!overwrite || newList.length === 0) {
+        return time;
+      }
+
+      return newList.find(item => item.id === time.id) || time;
+    }),
+    ...newList.filter(time => !oldList.find(item => item.id === time.id)),
+  ];
+}
+
+export function mergeImport(
+  currentData: exportType,
+  newData: exportType,
+  overwrite: boolean = true,
+): exportType {
+  return {
+    time: mergeOverwrite(currentData.time, newData.time, overwrite),
+    projects: mergeOverwrite(currentData.projects, newData.projects, overwrite),
+    reports: mergeOverwrite(currentData.reports, newData.reports, overwrite),
+  };
 }
