@@ -1,5 +1,7 @@
 // @flow
 
+import isBefore from 'date-fns/is_before';
+
 type exportStateType = {
   time: {
     allIds: Array<string>,
@@ -81,7 +83,17 @@ function mergeOverwrite(oldList: any[] = [], newList: any[] = [], overwrite: boo
         return time;
       }
 
-      return newList.find(item => item.id === time.id) || time;
+      const newItem = newList.find(item => item.id === time.id);
+
+      // return old time entry if updateAt is later then imported item
+      if (
+        newItem && newItem.updatedAt &&
+        time.updatedAt && isBefore(newItem.updatedAt, time.updatedAt)
+      ) {
+        return time;
+      }
+
+      return newItem || time;
     }),
     ...newList.filter(time => !oldList.find(item => item.id === time.id)),
   ];

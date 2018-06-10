@@ -64,6 +64,49 @@ describe('Merging data', () => {
     expect(mergeImport(currentData, newData)).toEqual(output);
   });
 
+  it('Uses updatedAt to compare which is more important', () => {
+    const currentData = {
+      time: [
+        {
+          id: 'abcdefg',
+          start: '2018-06-08T12:15:00.000Z',
+          end: '2018-06-08T14:15:00.000Z',
+          updatedAt: '2018-06-08T14:15:00.000Z',
+          notes: 'Testing Thyme',
+        },
+      ],
+    };
+
+    const newData = {
+      time: [
+        {
+          id: 'abcdefg',
+          start: '2018-07-08T12:15:00.000Z',
+          end: '2018-07-08T14:15:00.000Z',
+          updatedAt: '2018-06-08T14:00:00.000Z',
+          notes: 'Testing Thyme',
+        },
+      ],
+    };
+
+    const output = {
+      time: [
+        {
+          id: 'abcdefg',
+          start: '2018-06-08T12:15:00.000Z',
+          end: '2018-06-08T14:15:00.000Z',
+          updatedAt: '2018-06-08T14:15:00.000Z',
+          notes: 'Testing Thyme',
+        },
+      ],
+      projects: [],
+      reports: [],
+    };
+
+    expect(mergeImport(currentData, newData)).toEqual(output);
+    expect(mergeImport(newData, currentData)).toEqual(output);
+  });
+
   it('Add new entries to current time values', () => {
     const currentData = {
       time: [
