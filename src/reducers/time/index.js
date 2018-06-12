@@ -1,7 +1,6 @@
 // @flow
 
 import { combineReducers } from 'redux';
-import pick from 'lodash/pick';
 
 import time from './time';
 
@@ -23,7 +22,13 @@ function byId(state = {}, action) {
       }), {});
     // remove item
     case 'REMOVE_TIME':
-      return pick(state, Object.keys(state).filter(item => item !== action.id));
+      return {
+        ...state,
+        [action.id]: {
+          ...state[action.id],
+          removed: true,
+        },
+      };
     case 'TRUNCATE_TIME':
       return {};
     case 'IMPORT_JSON_DATA':
@@ -40,10 +45,6 @@ function allIds(state = [], action) {
   switch (action.type) {
     case 'ADD_TIME':
       return [...state, action.id];
-    case 'REMOVE_TIME':
-      return state.filter(id => id !== action.id);
-    case 'TRUNCATE_TIME':
-      return [];
     case 'IMPORT_JSON_DATA':
       return action.time.map(item => item.id);
     default:
