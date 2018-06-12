@@ -9,6 +9,7 @@ function byId(state = {}, action) {
     // targeted updates
     case 'ADD_TIME':
     case 'UPDATE_TIME':
+    case 'REMOVE_TIME':
       return {
         ...state,
         [action.id]: time(state[action.id], action),
@@ -20,22 +21,10 @@ function byId(state = {}, action) {
         ...newState,
         [key]: time(state[key], action),
       }), {});
-    // remove item
-    case 'REMOVE_TIME':
-      return {
-        ...state,
-        [action.id]: {
-          ...state[action.id],
-          removed: true,
-        },
-      };
     case 'TRUNCATE_TIME':
       return Object.keys(state).reduce((acc, key) => ({
         ...acc,
-        [key]: {
-          ...state[key],
-          removed: true,
-        },
+        [key]: time(state[key], action),
       }), {});
     case 'IMPORT_JSON_DATA':
       return action.time.reduce((newState, item) => ({
