@@ -30,6 +30,7 @@ declare type tempTimePropertyType = {
 
 declare type timeType = {
   id: string,
+  removed?: boolean,
   createdAt: string,
   updatedAt: string,
 } & timePropertyType;
