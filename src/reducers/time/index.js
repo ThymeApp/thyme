@@ -30,7 +30,13 @@ function byId(state = {}, action) {
         },
       };
     case 'TRUNCATE_TIME':
-      return {};
+      return Object.keys(state).reduce((acc, key) => ({
+        ...acc,
+        [key]: {
+          ...state[key],
+          removed: true,
+        },
+      }), {});
     case 'IMPORT_JSON_DATA':
       return action.time.reduce((newState, item) => ({
         ...newState,
