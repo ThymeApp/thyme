@@ -18,6 +18,7 @@
         "react-scripts": "^1.1.4",
         "react-svg-piechart": "^2.1.0",
         "redux": "^4.0.0",
+        "redux-devtools-extension": "^2.13.2",
         "redux-form": "^7.4.0",
         "reselect": "^3.0.1",
         "semantic-ui-css": "^2.3.1",

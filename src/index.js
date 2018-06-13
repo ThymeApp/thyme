@@ -3,7 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, compose } from 'redux';
+import { createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { BrowserRouter } from 'react-router-dom';
 
 import 'semantic-ui-css/semantic.min.css';
@@ -19,16 +20,12 @@ import App from './components/App';
 import Routes from './Routes';
 import registerServiceWorker from './registerServiceWorker';
 
-const reduxDevTools = process.env.NODE_ENV === 'development' ?
-  // eslint-disable-next-line no-underscore-dangle
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : undefined;
-
 const initialState = runMigrations(loadState());
 
 const store = createStore(
   reducers,
   initialState,
-  compose(reduxDevTools),
+  composeWithDevTools()(),
 );
 
 registerServiceWorker(store.dispatch);
