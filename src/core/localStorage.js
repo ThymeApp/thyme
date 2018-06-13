@@ -1,4 +1,5 @@
 // @flow
+
 import throttle from 'lodash/throttle';
 import type { Store } from 'redux';
 

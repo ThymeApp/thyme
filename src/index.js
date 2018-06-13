@@ -10,6 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 
 import { loadState, saveOnStoreChange } from './core/localStorage';
+import syncOnUpdate from './core/sync';
 import './core/analytics';
 import { setupStateResolver } from './core/fetch';
 
@@ -25,11 +26,12 @@ const initialState = runMigrations(loadState());
 const store = createStore(
   reducers,
   initialState,
-  composeWithDevTools()(),
+  composeWithDevTools({})(),
 );
 
 registerServiceWorker(store.dispatch);
 saveOnStoreChange(store);
+syncOnUpdate(store);
 setupStateResolver(() => store.getState());
 
 ReactDOM.render(
