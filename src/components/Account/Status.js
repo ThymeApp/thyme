@@ -56,25 +56,27 @@ class Status extends Component<StatusProps, StatusState> {
     window.removeEventListener('offline', this.goOffline);
   }
 
-  getStateFromServer = async (tokenValid: boolean) => {
+  getStateFromServer = (tokenValid: boolean) => {
     if (!tokenValid) {
       return;
     }
 
     const { state } = this.props;
-    const fromServer = await getState();
-    const currentState = stateToExport(state);
 
-    // check if the local state is up to date
-    if (isEqual(currentState, fromServer)) {
-      return;
-    }
+    getState().then((fromServer) => {
+      const currentState = stateToExport(state);
 
-    // merge server state with current state
-    const newState = mergeImport(currentState, fromServer);
+      // check if the local state is up to date
+      if (isEqual(currentState, fromServer)) {
+        return;
+      }
 
-    // save merged state to store
-    this.props.importJSONData(newState);
+      // merge server state with current state
+      const newState = mergeImport(currentState, fromServer);
+
+      // save merged state to store
+      this.props.importJSONData(newState);
+    });
   };
 
   goOnline = () => this.setState({ online: true });
