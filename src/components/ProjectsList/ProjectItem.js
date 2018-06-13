@@ -80,6 +80,7 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
     this.onRemoveProject = () => {
       const { project, onRemoveProject } = this.props;
 
+      this.onCancelConfirm();
       onRemoveProject(project.id);
     };
 
