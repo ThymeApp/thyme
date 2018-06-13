@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
-import { sortedProjects } from '../../core/projects';
+import { sortedProjects } from '../../selectors/projects';
 
 type ProjectInputType = {
   placeholder?: string,
@@ -45,10 +45,7 @@ function ProjectInput({
 }
 
 function mapStateToProps(state) {
-  const { allIds, byId } = state.projects;
-  const projects = allIds.map(id => byId[id]);
-
-  return { projects: sortedProjects(projects) };
+  return { projects: sortedProjects(state) };
 }
 
 export default connect(mapStateToProps)(ProjectInput);

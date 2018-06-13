@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
-import { sortedProjects } from '../core/projects';
 import { totalProjectTime, projectTimeEntries, sortByTime } from '../core/thyme';
 
 import ReportTable from '../components/ReportTable';
@@ -15,6 +14,8 @@ import ReportRange from '../components/ReportRange';
 import ReportCharts from '../components/ReportCharts';
 import ReportDetailed from '../components/ReportDetailed';
 import SavedReports from '../components/SavedReports';
+
+import { sortedProjects } from '../selectors/projects';
 
 type ReportsType = {
   allProjects: Array<projectTreeWithTimeType>,
@@ -40,14 +41,14 @@ function Reports({ allProjects, projects }: ReportsType) {
 }
 
 function mapStateToProps(state) {
-  const { projects, time, reports } = state;
+  const { time, reports } = state;
   const { filters, from, to } = reports;
 
   const mappedTime = time.allIds.map(id => time.byId[id]);
 
   const allProjects = [
     { id: null, name: 'No project', nameTree: ['No project'] },
-    ...sortedProjects(projects.allIds.map(id => projects.byId[id])),
+    ...sortedProjects(state),
   ].map(project => ({
     ...project,
     time: totalProjectTime(project, mappedTime, from, to) / 60,
