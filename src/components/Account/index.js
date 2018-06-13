@@ -10,6 +10,8 @@ import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
 import { logout } from '../../actions/account';
 
+import { isLoggedIn } from '../../selectors/account';
+
 import Status from './Status';
 import Login from './Login';
 import Register from './Register';
@@ -19,7 +21,7 @@ import './style.css';
 type AccountProps = {
   history: RouterHistory;
   logout: () => void;
-  jwt: string | null;
+  loggedIn: boolean;
 }
 
 type AccountState = {
@@ -52,7 +54,7 @@ class Account extends Component<AccountProps, AccountState> {
   };
 
   render() {
-    const { jwt } = this.props;
+    const { loggedIn } = this.props;
     const { isOpen, view } = this.state;
 
     return (
@@ -61,10 +63,10 @@ class Account extends Component<AccountProps, AccountState> {
         className="Account-PopUp"
         trigger={(
           <Button
-            secondary={!!jwt}
-            inverted={!jwt}
+            secondary={loggedIn}
+            inverted={!loggedIn}
           >
-            { jwt ? <Status closePopup={this.handleClose} /> : 'Log in to sync' }
+            { loggedIn ? <Status closePopup={this.handleClose} /> : 'Log in to sync' }
           </Button>
         )}
         open={isOpen}
@@ -73,7 +75,7 @@ class Account extends Component<AccountProps, AccountState> {
         onClose={this.handleClose}
         onOpen={this.handleOpen}
       >
-        { jwt ? (
+        { loggedIn ? (
           <Menu vertical>
             <Menu.Item
               name="settings"
@@ -107,7 +109,7 @@ class Account extends Component<AccountProps, AccountState> {
 
 function mapStateToProps(state) {
   return {
-    jwt: state.account.jwt,
+    loggedIn: isLoggedIn(state),
   };
 }
 
