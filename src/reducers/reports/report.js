@@ -47,6 +47,15 @@ function to(state: Date = new Date(), action): Date {
   }
 }
 
+function removed(state = false, action) {
+  switch (action.type) {
+    case 'REMOVE_REPORT':
+      return true;
+    default:
+      return state;
+  }
+}
+
 function createdAt(state = new Date(), action) {
   switch (action.type) {
     case 'ADD_REPORT':
@@ -62,5 +71,6 @@ export default combineReducers({
   filters,
   from,
   to,
+  removed,
   createdAt,
 });

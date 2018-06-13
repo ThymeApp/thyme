@@ -29,11 +29,12 @@ declare type storeShape = {
 };
 
 declare type reportType = {
-  id: string,
-  name: string,
-  from: string,
-  to: string,
-  createdAt: string,
+  id: string;
+  name: string;
+  from: string;
+  to: string;
+  removed?: boolean;
+  createdAt: string;
 };
 
 declare type projectType = {

@@ -12,6 +12,8 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import { addReport, removeReport, setReport } from '../../actions/reports';
 
+import { getAllReports, getFilters, getTo, getFrom } from '../../selectors/reports';
+
 import './SavedReports.css';
 
 type SavedReportsProps = {
@@ -155,21 +157,11 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
 }
 
 function mapStateToProps(state) {
-  const {
-    filters,
-    from,
-    to,
-    allIds,
-    byId,
-  } = state.reports;
-
-  const savedReports = allIds.map(id => byId[id]);
-
   return {
-    filters,
-    from,
-    to,
-    savedReports,
+    filters: getFilters(state),
+    from: getFrom(state),
+    to: getTo(state),
+    savedReports: getAllReports(state),
   };
 }
 
