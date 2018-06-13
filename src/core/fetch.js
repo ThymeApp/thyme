@@ -17,7 +17,7 @@ function jwt(): string | null {
   return null;
 }
 
-export function setupStore(stateResolver: () => any) {
+export function setupStateResolver(stateResolver: () => any) {
   getState = stateResolver;
 }
 

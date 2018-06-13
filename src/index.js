@@ -10,7 +10,7 @@ import 'semantic-ui-css/semantic.min.css';
 
 import { loadState, saveOnStoreChange } from './core/localStorage';
 import './core/analytics';
-import { setupStore as setupStoreForFetch } from './core/fetch';
+import { setupStateResolver } from './core/fetch';
 
 import reducers from './reducers';
 import runMigrations from './migrations';
@@ -33,7 +33,7 @@ const store = createStore(
 
 registerServiceWorker(store.dispatch);
 saveOnStoreChange(store);
-setupStoreForFetch(() => store.getState());
+setupStateResolver(() => store.getState());
 
 ReactDOM.render(
   <Provider store={store}>
