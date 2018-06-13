@@ -14,7 +14,7 @@ import { sync, syncFailed, syncSuccess } from '../actions/app';
 
 let prevState: exportType = { time: [], projects: [], reports: [] };
 
-async function syncWithApi(state: storeShape, dispatch: Dispatch) {
+function syncWithApi(state: storeShape, dispatch: Dispatch) {
   if (!isLoggedIn(state)) {
     return;
   }
@@ -25,17 +25,16 @@ async function syncWithApi(state: storeShape, dispatch: Dispatch) {
     return;
   }
 
-  try {
-    dispatch(sync());
+  dispatch(sync());
 
-    await post('/save-state', newState);
-
-    prevState = newState;
-
-    dispatch(syncSuccess());
-  } catch (e) {
-    dispatch(syncFailed(e));
-  }
+  post('/save-state', newState)
+    .then(() => {
+      prevState = newState;
+      dispatch(syncSuccess());
+    })
+    .catch((e) => {
+      dispatch(syncFailed(e));
+    });
 }
 
 export default function syncOnUpdate(store: Store) {
