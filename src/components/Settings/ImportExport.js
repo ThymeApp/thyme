@@ -13,9 +13,7 @@ import { importJSONData, alert, migrateStoreData } from '../../actions/app';
 import { parseImportData, stateToExport, validData } from '../../core/importExport';
 
 type ImportExportProps = {
-  time: any;
-  projects: any;
-  reports: any;
+  state: storeShape;
   importData: (data: any) => void;
   alert: (message: string) => void;
 }
@@ -54,9 +52,9 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
   };
 
   exportData = () => {
-    const { time, projects, reports } = this.props;
+    const { state } = this.props;
 
-    const stateToSave = stateToExport({ time, projects, reports });
+    const stateToSave = stateToExport(state);
 
     const blob = new Blob(
       [JSON.stringify(stateToSave)],
@@ -116,7 +114,7 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
   }
 }
 
-const mapStateToProps = ({ time, projects, reports }) => ({ time, projects, reports });
+const mapStateToProps = state => ({ state });
 
 function mapDispatchToProps(dispatch) {
   return {
