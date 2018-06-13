@@ -1,8 +1,46 @@
 // @flow
 
-import throttle from 'lodash/throttle';
-import type { Store } from 'redux';
+import debounce from 'lodash/debounce';
+import isEqual from 'lodash/isEqual';
+import type { Store, Dispatch } from 'redux';
 
-const syncOnUpdate = (store: Store) => next => action => next(action);
+import { post } from './fetch';
+import { stateToExport } from './importExport';
+import type { exportType } from './importExport';
 
-export default syncOnUpdate;
+import { isLoggedIn } from '../selectors/account';
+
+import { sync, syncFailed, syncSuccess } from '../actions/app';
+
+let prevState: exportType = { time: [], projects: [], reports: [] };
+
+async function syncWithApi(state: storeShape, dispatch: Dispatch) {
+  if (!isLoggedIn(state)) {
+    return;
+  }
+
+  const newState = stateToExport(state);
+
+  if (isEqual(prevState, newState)) {
+    return;
+  }
+
+  try {
+    dispatch(sync());
+
+    await post('/save-state', newState);
+
+    prevState = newState;
+
+    dispatch(syncSuccess());
+  } catch (e) {
+    dispatch(syncFailed(e));
+  }
+}
+
+export default function syncOnUpdate(store: Store) {
+  // save changes from store to localStorage
+  store.subscribe(debounce(() => {
+    syncWithApi(store.getState(), store.dispatch);
+  }, 2000));
+}

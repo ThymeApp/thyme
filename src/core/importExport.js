@@ -2,7 +2,7 @@
 
 import isBefore from 'date-fns/is_before';
 
-type exportType = {
+export type exportType = {
   time: Array<timeType>,
   projects: Array<projectType>,
   reports: Array<reportType>,

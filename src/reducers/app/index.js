@@ -22,7 +22,20 @@ function update(state: boolean = false, action) {
   }
 }
 
+function syncing(state: boolean = false, action) {
+  switch (action.type) {
+    case 'SYNC_FAILED':
+    case 'SYNC_SUCCESS':
+      return false;
+    case 'SYNC':
+      return true;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   alert,
   update,
+  syncing,
 });

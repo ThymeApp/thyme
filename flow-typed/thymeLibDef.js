@@ -2,6 +2,9 @@ declare type storeShape = {
   account: {
     jwt: string | null;
   };
+  app: {
+    syncing: boolean;
+  };
   time: {
     byId: {
       [key: string]: timeType;
