@@ -31,6 +31,16 @@ function name(state = '', action) {
   }
 }
 
+function removed(state = false, action) {
+  switch (action.type) {
+    case 'TRUNCATE_PROJECTS':
+    case 'REMOVE_PROJECT':
+      return true;
+    default:
+      return state;
+  }
+}
+
 function createdAt(state = new Date(), action) {
   switch (action.type) {
     case 'ADD_PROJECT':
@@ -54,6 +64,7 @@ const project = combineReducers({
   id,
   parent,
   name,
+  removed,
   createdAt,
   updatedAt,
 });
