@@ -19,6 +19,7 @@
         "react-svg-piechart": "^2.1.0",
         "redux": "^4.0.0",
         "redux-form": "^7.3.0",
+        "reselect": "^3.0.1",
         "semantic-ui-css": "^2.3.1",
         "semantic-ui-react": "^0.80.2",
         "shortid": "^2.2.8",
