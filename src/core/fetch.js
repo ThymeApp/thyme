@@ -21,7 +21,7 @@ export function setupStateResolver(stateResolver: () => any) {
   getState = stateResolver;
 }
 
-export function post(url: string, data: any) {
+function request(method: 'POST' | 'GET' = 'GET', url: string, data?: any) {
   const token = jwt();
 
   const authorization = token ? {
@@ -31,14 +31,14 @@ export function post(url: string, data: any) {
   return fetch(
     createUrl(url),
     {
-      body: JSON.stringify(data),
+      method,
+      body: data ? JSON.stringify(data) : undefined,
       cache: 'no-cache',
       credentials: 'same-origin',
       headers: {
         ...authorization,
         'content-type': 'application/json',
       },
-      method: 'POST',
       mode: 'cors',
     },
   )
@@ -60,4 +60,12 @@ export function post(url: string, data: any) {
 
       return response.json();
     });
+}
+
+export function post(url: string, data: any) {
+  return request('POST', url, data);
+}
+
+export function get(url: string) {
+  return request('GET', url);
 }

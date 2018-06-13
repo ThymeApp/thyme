@@ -1,6 +1,6 @@
 // @flow
 
-type importDataType = {
+export type importDataType = {
   time: Array<timeType>,
   projects: Array<projectType>,
   reports: Array<reportType>,
