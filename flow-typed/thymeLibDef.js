@@ -1,3 +1,27 @@
+declare type storeShape = {
+  time: {
+    byId: {
+      [key: string]: timeType;
+    };
+    allIds: string[];
+  };
+  projects: {
+    byId: {
+      [key: string]: projectType;
+    };
+    allIds: string[];
+  };
+  reports: {
+    byId: {
+      [key: string]: reportType;
+    };
+    allIds: string[];
+    filters: Array<string | null>;
+    from: Date | string;
+    to: Date | string;
+  }
+};
+
 declare type reportType = {
   id: string,
   name: string,

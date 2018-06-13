@@ -16,6 +16,8 @@ import ReportDetailed from '../components/ReportDetailed';
 import SavedReports from '../components/SavedReports';
 
 import { sortedProjects } from '../selectors/projects';
+import { getAllTimeEntries } from '../selectors/time';
+import { getFilters, getFrom, getTo } from '../selectors/reports';
 
 type ReportsType = {
   allProjects: Array<projectTreeWithTimeType>,
@@ -41,10 +43,10 @@ function Reports({ allProjects, projects }: ReportsType) {
 }
 
 function mapStateToProps(state) {
-  const { time, reports } = state;
-  const { filters, from, to } = reports;
-
-  const mappedTime = time.allIds.map(id => time.byId[id]);
+  const mappedTime = getAllTimeEntries(state);
+  const filters = getFilters(state);
+  const from = getFrom(state);
+  const to = getTo(state);
 
   const allProjects = [
     { id: null, name: 'No project', nameTree: ['No project'] },

@@ -11,7 +11,7 @@ import isAfter from 'date-fns/is_after';
 
 import { sortByTime } from '../core/thyme';
 
-const getAllTimeEntries = state =>
+export const getAllTimeEntries = (state: storeShape): timeType[] =>
   state.time.allIds
     .map(id => state.time.byId[id])
     .filter(time => !time.removed);
