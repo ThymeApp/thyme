@@ -34,7 +34,9 @@ type SavedReportsProps = {
 
 type SaveReportsState = {
   name: string,
-  confirmDelete: boolean,
+  confirmDelete: {
+    [key: string]: boolean;
+  },
 };
 
 class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
@@ -61,20 +63,27 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
       this.addReport();
     };
 
-    this.onRemoveReport = () => this.setState({ confirmDelete: true });
-    this.onCancelConfirm = () => this.setState({ confirmDelete: false });
+    this.onCancelConfirm = () => this.setState({ confirmDelete: {} });
 
     this.state = {
       name: '',
-      confirmDelete: false,
+      confirmDelete: {},
     };
   }
 
   onAddReport: (e: Event) => void;
   onUpdateName: (e: Event) => void;
   onKeyPress: (e: KeyboardEvent) => void;
-  onRemoveReport: () => void;
   onCancelConfirm: () => void;
+
+  onRemoveReport = (id: string) => {
+    this.setState({
+      confirmDelete: {
+        ...this.state.confirmDelete,
+        [id]: true,
+      },
+    });
+  };
 
   updateName(name: string) {
     this.setState({ name });
@@ -132,7 +141,7 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
                   inverted
                   style={{ float: 'right' }}
                   trigger={(
-                    <Button icon onClick={this.onRemoveReport}>
+                    <Button icon onClick={() => this.onRemoveReport(report.id)}>
                       <Icon name="remove" />
                     </Button>
                   )}
@@ -140,12 +149,15 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
                 />
 
                 <Confirm
-                  open={confirmDelete}
+                  open={confirmDelete[report.id]}
                   content="Are you are you want to remove this report?"
                   confirmButton="Remove report"
                   size="mini"
                   onCancel={this.onCancelConfirm}
-                  onConfirm={() => { this.onCancelConfirm(); this.props.removeReport(report.id); }}
+                  onConfirm={() => {
+                    this.onCancelConfirm();
+                    this.props.removeReport(report.id);
+                  }}
                 />
               </div>
             ))}
