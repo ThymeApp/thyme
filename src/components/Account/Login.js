@@ -69,7 +69,7 @@ class Login extends Component<LoginProps> {
         />
 
         <section className="Account__Submit-Bar">
-          <Form.Button primary fluid>Login</Form.Button>
+          <Form.Button primary fluid>Log in</Form.Button>
         </section>
 
         <section className="Account__Sub-Bar">
