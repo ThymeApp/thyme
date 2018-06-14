@@ -16,7 +16,5 @@ module.exports = {
       aspects: ['noHref', 'invalidHref', 'preferButton'],
     }],
     'jsx-a11y/label-has-for': 0,
-    // disable until nice confirms and alerts are made
-    'no-alert': 0,
   },
 };
