@@ -69,14 +69,19 @@ class Login extends Component<LoginProps> {
         />
 
         <section className="Account__Submit-Bar">
-          <Form.Button primary>Login</Form.Button>
-          or
+          <Form.Button primary fluid>Login</Form.Button>
+        </section>
+
+        <section className="Account__Sub-Bar">
+          Do not have an account?
+
           <Button
+            labelPosition="right"
             basic
+            color="blue"
             onClick={goToRegister}
-          >
-            Register
-          </Button>
+            content="Register"
+          />
         </section>
       </Form>
     );

@@ -4,9 +4,25 @@
   justify-content: space-between;
 }
 
+.Account__Sub-Bar {
+  margin: 2em 0 1em 0;
+  text-align: center;
+}
+
+.Account__Sub-Bar .ui.basic.button,
+.Account__Sub-Bar .ui.basic.button:hover {
+  box-shadow: none!important;
+  margin-left: 5px;
+}
+
+.Account__Sub-Bar .ui.basic.button:hover {
+  text-decoration: underline;
+}
+
 .ui.form .Account__Submit-Bar .field,
 .Account__Submit-Bar .button.basic {
   margin: 0;
+  width: 100%;
 }
 
 .Account-PopUp-Content {

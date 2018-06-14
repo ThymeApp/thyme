@@ -7,8 +7,8 @@ import { Field, reduxForm, SubmissionError } from 'redux-form';
 import type { FormProps } from 'redux-form';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 import renderField from '../FormField/renderField';
 
@@ -79,14 +79,19 @@ class Register extends Component<RegisterProps> {
         />
 
         <section className="Account__Submit-Bar">
-          <Form.Button primary>Register</Form.Button>
-          or
+          <Form.Button primary fluid>Register</Form.Button>
+        </section>
+
+        <section className="Account__Sub-Bar">
+          Already have an account?
+
           <Button
+            labelPosition="right"
             basic
+            color="blue"
             onClick={goToLogin}
-          >
-            Log in
-          </Button>
+            content="Log in"
+          />
         </section>
       </Form>
     );
