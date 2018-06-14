@@ -33,10 +33,10 @@ function AppLink(name, path, currentPath) {
 }
 
 type AppType = {
-  location: RouterLocation,
-  children: any,
-  alertMessage: string,
-  onCloseAlert: () => void,
+  location: RouterLocation;
+  children: any;
+  alertMessage: string;
+  onCloseAlert: () => void;
 }
 
 function App({
