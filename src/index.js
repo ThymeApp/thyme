@@ -3,13 +3,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, compose } from 'redux';
+import { createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { BrowserRouter } from 'react-router-dom';
 
 import 'semantic-ui-css/semantic.min.css';
 
 import { loadState, saveOnStoreChange } from './core/localStorage';
+import syncOnUpdate from './core/sync';
 import './core/analytics';
+import { setupStateResolver } from './core/fetch';
 
 import reducers from './reducers';
 import runMigrations from './migrations';
@@ -18,17 +21,18 @@ import App from './components/App';
 import Routes from './Routes';
 import registerServiceWorker from './registerServiceWorker';
 
-const reduxDevTools = process.env.NODE_ENV === 'development' ?
-  // eslint-disable-next-line no-underscore-dangle
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : undefined;
-
 const initialState = runMigrations(loadState());
 
 const store = createStore(
   reducers,
   initialState,
-  compose(reduxDevTools),
+  composeWithDevTools({})(),
 );
+
+registerServiceWorker(store.dispatch);
+saveOnStoreChange(store);
+syncOnUpdate(store);
+setupStateResolver(() => store.getState());
 
 ReactDOM.render(
   <Provider store={store}>
@@ -38,6 +42,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root') || document.createElement('div'),
 );
-
-registerServiceWorker(store.dispatch);
-saveOnStoreChange(store);

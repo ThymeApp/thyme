@@ -264,6 +264,9 @@ class Entry extends Component<EntryType, EntryStateType> {
   removeEntry() {
     const { entry, onRemove } = this.props;
 
+    // close the confirm
+    this.onCancelConfirm();
+
     if (
       entry && entry.id &&
       typeof onRemove === 'function'

@@ -1,23 +1,20 @@
 // @flow
 
 import { combineReducers } from 'redux';
-import pick from 'lodash/pick';
 import startOfWeek from 'date-fns/start_of_week';
 import endOfWeek from 'date-fns/end_of_week';
 
-import savedReport from './savedReport';
+import report from './report';
 
 function byId(state = {}, action) {
   switch (action.type) {
     // targeted updates
     case 'ADD_REPORT':
+    case 'REMOVE_REPORT':
       return {
         ...state,
-        [action.id]: savedReport(state[action.id], action),
+        [action.id]: report(state[action.id], action),
       };
-    // remove item
-    case 'REMOVE_REPORT':
-      return pick(state, Object.keys(state).filter(item => item !== action.id));
     case 'IMPORT_JSON_DATA':
       return action.reports.reduce((newState, item) => ({
         ...newState,
@@ -32,8 +29,6 @@ function allIds(state = [], action) {
   switch (action.type) {
     case 'ADD_REPORT':
       return [...state, action.id];
-    case 'REMOVE_REPORT':
-      return state.filter(id => id !== action.id);
     case 'IMPORT_JSON_DATA':
       return action.reports.map(item => item.id);
     default:

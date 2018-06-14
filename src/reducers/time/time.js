@@ -55,6 +55,16 @@ function notes(state = '', action) {
   }
 }
 
+function removed(state = false, action) {
+  switch (action.type) {
+    case 'TRUNCATE_TIME':
+    case 'REMOVE_TIME':
+      return true;
+    default:
+      return state;
+  }
+}
+
 function createdAt(state = new Date(), action) {
   switch (action.type) {
     case 'ADD_TIME':
@@ -80,6 +90,7 @@ const time = combineReducers({
   start,
   end,
   notes,
+  removed,
   createdAt,
   updatedAt,
 });

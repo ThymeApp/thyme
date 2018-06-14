@@ -1,27 +1,14 @@
 // @flow
 
-type exportStateType = {
-  time: {
-    allIds: Array<string>,
-    byId: {},
-  },
-  projects: {
-    allIds: Array<string>,
-    byId: {},
-  },
-  reports: {
-    allIds: Array<string>,
-    byId: {},
-  },
-};
+import isBefore from 'date-fns/is_before';
 
-type exportType = {
-  time: Array<timePropertyType>,
+export type exportType = {
+  time: Array<timeType>,
   projects: Array<projectType>,
   reports: Array<reportType>,
 };
 
-export function stateToExport({ time, projects, reports }: exportStateType): exportType {
+export function stateToExport({ time, projects, reports }: storeShape): exportType {
   return {
     time: time.allIds.map(id => time.byId[id]),
     projects: projects.allIds.map(id => projects.byId[id]),
@@ -72,4 +59,39 @@ export function validData({ time, projects, reports }: importStateType) {
     !Array.isArray(time) || !Array.isArray(projects) || !Array.isArray(reports) ||
     !time.every(validTimeEntry) || !projects.every(validProjectEntry) ||
     !reports.every(validReportEntry));
+}
+
+function mergeOverwrite(oldList: any[] = [], newList: any[] = [], overwrite: boolean = true) {
+  return [
+    ...oldList.map((time) => {
+      if (!overwrite || newList.length === 0) {
+        return time;
+      }
+
+      const newItem = newList.find(item => item.id === time.id);
+
+      // return old time entry if updateAt is later then imported item
+      if (
+        newItem && newItem.updatedAt &&
+        time.updatedAt && isBefore(newItem.updatedAt, time.updatedAt)
+      ) {
+        return time;
+      }
+
+      return newItem || time;
+    }),
+    ...newList.filter(time => !oldList.find(item => item.id === time.id)),
+  ];
+}
+
+export function mergeImport(
+  currentData: exportType,
+  newData: exportType,
+  overwrite: boolean = true,
+): exportType {
+  return {
+    time: mergeOverwrite(currentData.time, newData.time, overwrite),
+    projects: mergeOverwrite(currentData.projects, newData.projects, overwrite),
+    reports: mergeOverwrite(currentData.reports, newData.reports, overwrite),
+  };
 }

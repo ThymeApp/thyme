@@ -44,7 +44,7 @@ function getProjectTree(
   return projectNames;
 }
 
-export function sortedProjects(projects: Array<projectType>): Array<projectTreeType> {
+export function sortProjects(projects: Array<projectType>): Array<projectTreeType> {
   const named = projects
     .map(project => ({
       ...project,

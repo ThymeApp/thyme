@@ -1,6 +1,6 @@
 // @flow
 
-type importDataType = {
+export type importDataType = {
   time: Array<timeType>,
   projects: Array<projectType>,
   reports: Array<reportType>,
@@ -30,4 +30,16 @@ export function clearAlert() {
 
 export function updateAvailable() {
   return { type: 'UPDATE_AVAILABLE' };
+}
+
+export function sync() {
+  return { type: 'SYNC' };
+}
+
+export function syncFailed(error: Error) {
+  return { type: 'SYNC_FAILED', error };
+}
+
+export function syncSuccess() {
+  return { type: 'SYNC_SUCCESS' };
 }

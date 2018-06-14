@@ -7,12 +7,12 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 
-import { sortedProjects } from '../core/projects';
+import { sortedProjects } from '../selectors/projects';
 
 import NewProject from '../components/NewProject';
 import ProjectsList from '../components/ProjectsList';
 
-function Projects({ projects }: { projects: Array<projectType> }) {
+function Projects({ projects }: { projects: Array<projectTreeType> }) {
   return (
     <Container>
       <Header as="h1">Projects</Header>
@@ -20,17 +20,14 @@ function Projects({ projects }: { projects: Array<projectType> }) {
       <section>
         <NewProject />
         <Divider />
-        <ProjectsList projects={sortedProjects(projects)} />
+        <ProjectsList projects={projects} />
       </section>
     </Container>
   );
 }
 
 function mapStateToProps(state) {
-  const { allIds, byId } = state.projects;
-  const projects = allIds.map(id => byId[id]);
-
-  return { projects };
+  return { projects: sortedProjects(state) };
 }
 
 export default connect(mapStateToProps)(Projects);

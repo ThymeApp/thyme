@@ -1,5 +1,6 @@
 // @flow
-import throttle from 'lodash/throttle';
+
+import debounce from 'lodash/debounce';
 import type { Store } from 'redux';
 
 function loadItem(key: string): any | typeof undefined {
@@ -34,7 +35,12 @@ export function loadState(): {} | typeof undefined {
 }
 
 export function saveState(state: {}): void {
-  saveItem({ ...state, app: undefined }, 'ThymeState');
+  // persist everything but the app and form state
+  saveItem({
+    ...state,
+    app: undefined,
+    form: undefined,
+  }, 'ThymeState');
 }
 
 export function loadTemporaryItem(): tempTimePropertyType | typeof undefined {
@@ -51,7 +57,7 @@ export function clearTemporaryItem() {
 
 export function saveOnStoreChange(store: Store) {
   // save changes from store to localStorage
-  store.subscribe(throttle(() => {
+  store.subscribe(debounce(() => {
     saveState(store.getState());
   }, 1000));
 }

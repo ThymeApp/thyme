@@ -14,6 +14,7 @@ import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 
 import { clearAlert } from '../../actions/app';
 
+import Account from '../Account';
 import Notifier from '../Notifier';
 
 import thyme from './Thyme.svg';
@@ -32,10 +33,10 @@ function AppLink(name, path, currentPath) {
 }
 
 type AppType = {
-  location: RouterLocation,
-  children: any,
-  alertMessage: string,
-  onCloseAlert: () => void,
+  location: RouterLocation;
+  children: any;
+  alertMessage: string;
+  onCloseAlert: () => void;
 }
 
 function App({
@@ -56,6 +57,9 @@ function App({
           {AppLink('Reports', '/reports', location.pathname)}
           {AppLink('Projects', '/projects', location.pathname)}
           {AppLink('Settings', '/settings', location.pathname)}
+          <Menu.Menu position="right">
+            <Menu.Item><Account /></Menu.Item>
+          </Menu.Menu>
         </Container>
       </Menu>
       <Container fluid style={{ marginTop: '5em' }}>
