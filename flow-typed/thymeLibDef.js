@@ -30,6 +30,7 @@ declare type storeShape = {
   app: {
     alert: string;
     syncing: boolean;
+    update: boolean;
   };
   time: timeShape;
   projects: projectsShape;
