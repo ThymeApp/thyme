@@ -3,6 +3,7 @@ declare type timeShape = {
     [key: string]: timeType;
   };
   allIds: string[];
+  dateRange: dateRanges;
 };
 
 declare type projectsShape = {
