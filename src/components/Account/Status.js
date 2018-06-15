@@ -17,6 +17,8 @@ import { importJSONData } from '../../actions/app';
 import type { importDataType } from '../../actions/app';
 
 import { getDataToExport } from '../../selectors/importExport';
+import { getJwt } from '../../selectors/account';
+import { isSyncing } from '../../selectors/app';
 
 import { refreshToken, getState } from './api';
 
@@ -131,8 +133,8 @@ class Status extends Component<StatusProps, StatusState> {
 function mapStateToProps(state) {
   return {
     exportState: getDataToExport(state),
-    jwt: state.account.jwt,
-    connectionState: state.app.syncing ? 'syncing' : 'connected',
+    jwt: getJwt(state),
+    connectionState: isSyncing(state) ? 'syncing' : 'connected',
   };
 }
 
