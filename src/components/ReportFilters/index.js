@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 import { resetFilters, toggleFilter } from '../../actions/reports';
 
+import { getFilters } from '../../selectors/reports';
+
 import './ReportFilters.css';
 
 type ReportFiltersType = {
@@ -57,9 +59,7 @@ class ReportFilters extends Component<ReportFiltersType> {
 }
 
 function mapStateToProps(state) {
-  const { filters } = state.reports;
-
-  return { filters };
+  return { filters: getFilters(state) };
 }
 
 function mapDispatchToProps(dispatch) {

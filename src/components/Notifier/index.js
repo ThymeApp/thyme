@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 
+import { updateAvailable } from '../../selectors/app';
+
 import './style.css';
 
 type NotifierType = {
@@ -16,9 +18,7 @@ class Notifier extends Component<NotifierType> {
   reloadWindow = () => window.location.reload();
 
   render() {
-    const { updateAvailable } = this.props;
-
-    if (!updateAvailable) {
+    if (!this.props.updateAvailable) {
       return null;
     }
 
@@ -39,7 +39,7 @@ class Notifier extends Component<NotifierType> {
 
 function mapStateToProps(state) {
   return {
-    updateAvailable: state.app.update,
+    updateAvailable: updateAvailable(state),
   };
 }
 

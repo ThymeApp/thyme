@@ -11,9 +11,12 @@ import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import { importJSONData, alert, migrateStoreData } from '../../actions/app';
 
 import { parseImportData, stateToExport, validData } from '../../core/importExport';
+import type { toExportType } from '../../core/importExport';
+
+import { getDataToExport } from '../../selectors/importExport';
 
 type ImportExportProps = {
-  state: storeShape;
+  exportState: toExportType;
   importData: (data: any) => void;
   alert: (message: string) => void;
 }
@@ -52,9 +55,9 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
   };
 
   exportData = () => {
-    const { state } = this.props;
+    const { exportState } = this.props;
 
-    const stateToSave = stateToExport(state);
+    const stateToSave = stateToExport(exportState);
 
     const blob = new Blob(
       [JSON.stringify(stateToSave)],
@@ -114,7 +117,7 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
   }
 }
 
-const mapStateToProps = state => ({ state });
+const mapStateToProps = state => ({ exportState: getDataToExport(state) });
 
 function mapDispatchToProps(dispatch) {
   return {

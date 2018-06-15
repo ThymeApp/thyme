@@ -1,31 +1,40 @@
+declare type timeShape = {
+  byId: {
+    [key: string]: timeType;
+  };
+  allIds: string[];
+  dateRange: dateRanges;
+};
+
+declare type projectsShape = {
+  byId: {
+    [key: string]: projectType;
+  };
+  allIds: string[];
+};
+
+declare type reportsShape = {
+  byId: {
+    [key: string]: reportType;
+  };
+  allIds: string[];
+  filters: Array<string | null>;
+  from: Date | string;
+  to: Date | string;
+};
+
 declare type storeShape = {
   account: {
     jwt: string | null;
   };
   app: {
+    alert: string;
     syncing: boolean;
+    update: boolean;
   };
-  time: {
-    byId: {
-      [key: string]: timeType;
-    };
-    allIds: string[];
-  };
-  projects: {
-    byId: {
-      [key: string]: projectType;
-    };
-    allIds: string[];
-  };
-  reports: {
-    byId: {
-      [key: string]: reportType;
-    };
-    allIds: string[];
-    filters: Array<string | null>;
-    from: Date | string;
-    to: Date | string;
-  }
+  time: timeShape;
+  projects: projectsShape;
+  reports: reportsShape;
 };
 
 declare type reportType = {

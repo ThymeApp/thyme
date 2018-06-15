@@ -14,7 +14,10 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 import { updateDateRange } from '../../actions/reports';
+
 import { valueFromEventTarget } from '../../core/dom';
+
+import { getFrom, getTo } from '../../selectors/reports';
 
 type ReportRangeType = {
   from: Date,
@@ -97,11 +100,9 @@ class ReportRange extends Component<ReportRangeType> {
 }
 
 function mapStateToProps(state) {
-  const { from, to } = state.reports;
-
   return {
-    from: format(from, 'YYYY-MM-DD'),
-    to: format(to, 'YYYY-MM-DD'),
+    from: format(getFrom(state), 'YYYY-MM-DD'),
+    to: format(getTo(state), 'YYYY-MM-DD'),
   };
 }
 

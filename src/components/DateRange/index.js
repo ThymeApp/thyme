@@ -6,6 +6,8 @@ import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
 import { changeDateRange } from '../../actions/time';
 
+import { getDateRange } from '../../selectors/time';
+
 type DateRangeType = {
   dateRange: dateRanges,
   changeDateRange: (dateRange: dateRanges) => void,
@@ -69,9 +71,7 @@ class DateRange extends Component<DateRangeType> {
 }
 
 function mapStateToProps(state) {
-  const { dateRange } = state.time;
-
-  return { dateRange };
+  return { dateRange: getDateRange(state) };
 }
 
 function mapDispatchToProps(dispatch) {

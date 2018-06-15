@@ -15,7 +15,7 @@ export const getAllTimeEntries = (state: storeShape): timeType[] =>
   state.time.allIds
     .map(id => state.time.byId[id])
     .filter(time => !time.removed);
-const getDateRange = state => state.time.dateRange;
+export const getDateRange = (state: storeShape) => state.time.dateRange;
 
 const now = new Date();
 const today = (entry: timeType) => isToday(entry.start);
