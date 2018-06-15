@@ -10,10 +10,13 @@ import addDays from 'date-fns/add_days';
 
 import parseJwt from '../../core/jwt';
 import { mergeImport, stateToExport } from '../../core/importExport';
+import type { toExportType } from '../../core/importExport';
 
 import { logout, updateToken } from '../../actions/account';
 import { importJSONData } from '../../actions/app';
 import type { importDataType } from '../../actions/app';
+
+import { getDataToExport } from '../../selectors/importExport';
 
 import { refreshToken, getState } from './api';
 
@@ -22,7 +25,7 @@ import './Status.css';
 type ConnectionStates = 'connected' | 'syncing' | 'offline';
 
 type StatusProps = {
-  state: storeShape;
+  exportState: toExportType;
   jwt: string;
   closePopup: () => void;
   updateToken: (token: string) => void;
@@ -61,10 +64,10 @@ class Status extends Component<StatusProps, StatusState> {
       return;
     }
 
-    const { state } = this.props;
+    const { exportState } = this.props;
 
     getState().then((fromServer) => {
-      const currentState = stateToExport(state);
+      const currentState = stateToExport(exportState);
 
       // check if the local state is up to date
       if (isEqual(currentState, fromServer)) {
@@ -127,7 +130,7 @@ class Status extends Component<StatusProps, StatusState> {
 
 function mapStateToProps(state) {
   return {
-    state,
+    exportState: getDataToExport(state),
     jwt: state.account.jwt,
     connectionState: state.app.syncing ? 'syncing' : 'connected',
   };

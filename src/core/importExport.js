@@ -2,13 +2,19 @@
 
 import isBefore from 'date-fns/is_before';
 
+export type toExportType = {
+  time: timeShape;
+  projects: projectsShape;
+  reports: reportsShape;
+};
+
 export type exportType = {
   time: Array<timeType>,
   projects: Array<projectType>,
   reports: Array<reportType>,
 };
 
-export function stateToExport({ time, projects, reports }: storeShape): exportType {
+export function stateToExport({ time, projects, reports }: toExportType): exportType {
   return {
     time: time.allIds.map(id => time.byId[id]),
     projects: projects.allIds.map(id => projects.byId[id]),
