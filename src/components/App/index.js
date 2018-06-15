@@ -14,6 +14,8 @@ import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 
 import { clearAlert } from '../../actions/app';
 
+import { getAlert } from '../../selectors/app';
+
 import Account from '../Account';
 import Notifier from '../Notifier';
 
@@ -82,7 +84,7 @@ function App({
 
 function mapStateToProps(state) {
   return {
-    alertMessage: state.app.alert,
+    alertMessage: getAlert(state),
   };
 }
 

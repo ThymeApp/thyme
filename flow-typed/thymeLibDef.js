@@ -27,6 +27,7 @@ declare type storeShape = {
     jwt: string | null;
   };
   app: {
+    alert: string;
     syncing: boolean;
   };
   time: timeShape;
