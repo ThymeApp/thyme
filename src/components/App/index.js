@@ -23,10 +23,14 @@ import thyme from './Thyme.svg';
 import './App.css';
 import './print.css';
 
-function AppLink(name, path, currentPath) {
+function AppLink(name, path, currentPath, exact = false) {
   return (
     <Link
-      className={classnames('item', { active: currentPath === path })}
+      className={classnames('item', {
+        active: exact ?
+          currentPath === path :
+          currentPath.indexOf(path) === 0,
+      })}
       to={path}
     >
       {name}
@@ -55,7 +59,7 @@ function App({
             <Image size="mini" src={thyme} alt="Thyme" style={{ width: 24, marginRight: '1.5em' }} />
             Thyme
           </Menu.Item>
-          {AppLink('Timesheet', '/', location.pathname)}
+          {AppLink('Timesheet', '/', location.pathname, true)}
           {AppLink('Reports', '/reports', location.pathname)}
           {AppLink('Projects', '/projects', location.pathname)}
           {AppLink('Settings', '/settings', location.pathname)}
