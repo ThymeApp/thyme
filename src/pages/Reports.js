@@ -20,11 +20,12 @@ import { getAllTimeEntries } from '../selectors/time';
 import { getFilters, getFrom, getTo, getById } from '../selectors/reports';
 
 type ReportsType = {
+  filters: string[],
   allProjects: Array<projectTreeWithTimeType>;
   projects: Array<projectTreeWithTimeType>;
 };
 
-function Reports({ allProjects, projects }: ReportsType) {
+function Reports({ allProjects, filters, projects }: ReportsType) {
   return (
     <Container>
       <Menu style={{ border: 0, boxShadow: 'none' }}>
@@ -33,7 +34,7 @@ function Reports({ allProjects, projects }: ReportsType) {
           <ReportRange />
         </Menu.Menu>
       </Menu>
-      <ReportFilters projects={allProjects} />
+      <ReportFilters projects={allProjects} filters={filters} />
       <ReportCharts projects={projects} />
       <ReportTable projects={projects} />
       <ReportDetailed projects={projects} />
@@ -43,7 +44,7 @@ function Reports({ allProjects, projects }: ReportsType) {
 }
 
 function mapStateToProps(state, props) {
-  const report = getById(state, props.match.params.reportId);
+  const report = getById(state, props.match.params.reportId) || {};
 
   const mappedTime = getAllTimeEntries(state);
   const filters = report.filters || getFilters(state);
@@ -61,6 +62,7 @@ function mapStateToProps(state, props) {
 
   return {
     allProjects,
+    filters,
     projects: allProjects.filter(project => filters.indexOf(project.id) > -1),
   };
 }

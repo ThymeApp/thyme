@@ -1,11 +1,10 @@
 // @flow
 
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { resetFilters, toggleFilter } from '../../actions/reports';
-
-import { getFilters } from '../../selectors/reports';
 
 import './ReportFilters.css';
 
@@ -17,23 +16,15 @@ type ReportFiltersType = {
 };
 
 class ReportFilters extends Component<ReportFiltersType> {
-  constructor() {
-    super();
-
-    this.onFilterToggle = this.toggleFilter.bind(this);
-  }
-
   componentDidMount() {
     this.props.resetFilters(this.props.projects.map(project => project.id));
   }
 
-  onFilterToggle: (e: Event) => void;
-
-  toggleFilter(e: Event) {
+  onFilterToggle = (e: Event) => {
     if (e.target instanceof HTMLInputElement && typeof e.target.name === 'string') {
       this.props.toggleFilter(e.target.name || null);
     }
-  }
+  };
 
   render() {
     const { filters, projects } = this.props;
@@ -58,20 +49,7 @@ class ReportFilters extends Component<ReportFiltersType> {
   }
 }
 
-function mapStateToProps(state) {
-  return { filters: getFilters(state) };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    resetFilters(projects: Array<string>) {
-      dispatch(resetFilters(projects));
-    },
-
-    toggleFilter(project: string | null) {
-      dispatch(toggleFilter(project));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ReportFilters);
+export default connect(
+  null,
+  dispatch => bindActionCreators({ resetFilters, toggleFilter }, dispatch),
+)(ReportFilters);
