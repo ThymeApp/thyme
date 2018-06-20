@@ -9,10 +9,10 @@ import { resetFilters, toggleFilter } from '../../actions/reports';
 import './ReportFilters.css';
 
 type ReportFiltersType = {
-  filters: Array<string>,
-  projects: Array<projectTreeWithTimeType>,
-  toggleFilter: (project: string | null) => void,
-  resetFilters: (projects: Array<string>) => void,
+  filters: Array<string>;
+  projects: Array<projectTreeWithTimeType>;
+  toggleFilter: (project: string | null) => void;
+  resetFilters: (projects: Array<string>) => void;
 };
 
 class ReportFilters extends Component<ReportFiltersType> {
