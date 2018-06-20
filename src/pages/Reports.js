@@ -17,11 +17,11 @@ import SavedReports from '../components/SavedReports';
 
 import { sortedProjects } from '../selectors/projects';
 import { getAllTimeEntries } from '../selectors/time';
-import { getFilters, getFrom, getTo } from '../selectors/reports';
+import { getFilters, getFrom, getTo, getById } from '../selectors/reports';
 
 type ReportsType = {
-  allProjects: Array<projectTreeWithTimeType>,
-  projects: Array<projectTreeWithTimeType>,
+  allProjects: Array<projectTreeWithTimeType>;
+  projects: Array<projectTreeWithTimeType>;
 };
 
 function Reports({ allProjects, projects }: ReportsType) {
@@ -42,11 +42,13 @@ function Reports({ allProjects, projects }: ReportsType) {
   );
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+  const report = getById(state, props.match.params.reportId);
+
   const mappedTime = getAllTimeEntries(state);
-  const filters = getFilters(state);
-  const from = getFrom(state);
-  const to = getTo(state);
+  const filters = report.filters || getFilters(state);
+  const from = report.from || getFrom(state);
+  const to = report.to || getTo(state);
 
   const allProjects = [
     { id: null, name: 'No project', nameTree: ['No project'] },
