@@ -35,15 +35,6 @@ export function addReport(name: string, filters: Array<string>, from: Date, to: 
   };
 }
 
-export function setReport(filters: Array<string>, from: Date, to: Date) {
-  return {
-    type: 'SET_REPORT',
-    filters,
-    from,
-    to,
-  };
-}
-
 export function removeReport(id: string) {
   return { type: 'REMOVE_REPORT', id };
 }

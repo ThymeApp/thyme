@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
@@ -10,7 +11,7 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
-import { addReport, removeReport, setReport } from '../../actions/reports';
+import { addReport, removeReport } from '../../actions/reports';
 
 import { getAllReports, getFilters, getTo, getFrom } from '../../selectors/reports';
 
@@ -29,7 +30,6 @@ type SavedReportsProps = {
   }>,
   addReport: (name: string, filters: Array<string>, from: Date, to: Date) => void,
   removeReport: (id: string) => void,
-  setReport: (filters: Array<string>, from: Date, to: Date) => void,
 };
 
 type SaveReportsState = {
@@ -130,12 +130,7 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
                 className="SavedReports__report"
                 key={report.id}
               >
-                <Button
-                  basic
-                  onClick={() => this.props.setReport(report.filters, report.from, report.to)}
-                >
-                  {report.name}
-                </Button>
+                <Link className="ui basic button" to={`/reports/${report.id}`}>{report.name}</Link>
 
                 <Popup
                   inverted
@@ -185,10 +180,6 @@ function mapDispatchToProps(dispatch) {
 
     removeReport(id: string) {
       dispatch(removeReport(id));
-    },
-
-    setReport(filters, from, to) {
-      dispatch(setReport(filters, from, to));
     },
   };
 }
