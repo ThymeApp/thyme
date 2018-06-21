@@ -1,28 +1,19 @@
 // @flow
 
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-import { resetFilters, toggleFilter } from '../../actions/reports';
 
 import './ReportFilters.css';
 
 type ReportFiltersType = {
   filters: Array<string>;
   projects: Array<projectTreeWithTimeType>;
-  toggleFilter: (project: string | null) => void;
-  resetFilters: (projects: Array<string>) => void;
+  onToggle: (project: string | null) => void;
 };
 
 class ReportFilters extends Component<ReportFiltersType> {
-  componentDidMount() {
-    this.props.resetFilters(this.props.projects.map(project => project.id));
-  }
-
   onFilterToggle = (e: Event) => {
     if (e.target instanceof HTMLInputElement && typeof e.target.name === 'string') {
-      this.props.toggleFilter(e.target.name || null);
+      this.props.onToggle(e.target.name);
     }
   };
 
@@ -49,7 +40,4 @@ class ReportFilters extends Component<ReportFiltersType> {
   }
 }
 
-export default connect(
-  null,
-  dispatch => bindActionCreators({ resetFilters, toggleFilter }, dispatch),
-)(ReportFilters);
+export default ReportFilters;
