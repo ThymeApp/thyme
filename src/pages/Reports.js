@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 
 import startOfWeek from 'date-fns/start_of_week';
 import endOfWeek from 'date-fns/end_of_week';
@@ -22,7 +23,16 @@ import { sortedProjects } from '../selectors/projects';
 import { getAllTimeEntries } from '../selectors/time';
 import { getFilters, getFrom, getTo, getById } from '../selectors/reports';
 
+function currentQueryString() {
+  return queryString.parse(window.location.search);
+}
+
+function queryStringFilters() {
+  return currentQueryString().filter;
+}
+
 type ReportsType = {
+  report: reportType | {};
   filters: string[],
   allProjects: Array<projectTreeWithTimeType>;
   projects: Array<projectTreeWithTimeType>;
@@ -31,8 +41,9 @@ type ReportsType = {
 class Reports extends Component<ReportsType> {
   onToggleFilter = (filter: string | null) => {
     const defaultFilters = this.props.allProjects.map(project => project.id);
+    const currentFilters = this.props.report.filters || queryStringFilters() || defaultFilters;
 
-    console.log(filter);
+    console.log(filter, currentFilters);
   };
 
   render() {
@@ -80,12 +91,12 @@ function mapStateToProps(state, props) {
   }));
 
   const defaultFilters = allProjects.map(project => project.id);
-
-  const filters = report.filters || defaultFilters;
+  const filters = report.filters || queryStringFilters() || defaultFilters;
 
   return {
     allProjects,
     filters,
+    report,
     projects: allProjects.filter(project => filters.indexOf(project.id) > -1),
   };
 }
