@@ -1,10 +1,9 @@
 // @flow
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
-import format from 'date-fns/format';
 import parse from 'date-fns/parse';
+import format from 'date-fns/format';
 import startOfWeek from 'date-fns/start_of_week';
 import subDays from 'date-fns/sub_days';
 import endOfWeek from 'date-fns/end_of_week';
@@ -13,15 +12,11 @@ import subMonths from 'date-fns/sub_months';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
-import { updateDateRange } from '../../actions/reports';
-
 import { valueFromEventTarget } from '../../core/dom';
 
-import { getFrom, getTo } from '../../selectors/reports';
-
 type ReportRangeType = {
-  from: Date,
-  to: Date,
+  from: Date | string,
+  to: Date | string,
   updateDateRange: (from: Date, to: Date) => void,
 };
 
@@ -54,7 +49,7 @@ class ReportRange extends Component<ReportRangeType> {
   onLastMonth: () => void;
   onWeekToDate: () => void;
 
-  updateRange(key, value) {
+  updateRange(key: 'from' | 'to', value: string) {
     const from = key === 'from' ? value : this.props.from;
     const to = key === 'to' ? value : this.props.to;
 
@@ -82,7 +77,7 @@ class ReportRange extends Component<ReportRangeType> {
         <Input
           onChange={this.onUpdateFrom}
           type="date"
-          value={from}
+          value={format(from, 'YYYY-MM-DD')}
           name="from"
           size="small"
         />
@@ -90,7 +85,7 @@ class ReportRange extends Component<ReportRangeType> {
         <Input
           onChange={this.onUpdateTo}
           type="date"
-          value={to}
+          value={format(to, 'YYYY-MM-DD')}
           name="to"
           size="small"
         />
@@ -99,19 +94,4 @@ class ReportRange extends Component<ReportRangeType> {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    from: format(getFrom(state), 'YYYY-MM-DD'),
-    to: format(getTo(state), 'YYYY-MM-DD'),
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    updateDateRange(from, to) {
-      dispatch(updateDateRange(from, to));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ReportRange);
+export default ReportRange;

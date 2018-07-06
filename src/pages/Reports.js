@@ -37,6 +37,8 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
 
 type ReportsType = {
   history: RouterHistory;
+  from: Date | string,
+  to: Date | string,
   report: reportType | null;
   filters: string[],
   allProjects: Array<projectTreeWithTimeType>;
@@ -49,6 +51,10 @@ class Reports extends Component<ReportsType> {
     const { from, to } = this.currentDateRange();
 
     this.updateReport(nextFilters, from, to);
+  };
+
+  onUpdateDateRange = (from: Date, to: Date) => {
+    this.updateReport(this.currentFilters(), from, to);
   };
 
   updateReport(nextFilters, from, to) {
@@ -74,14 +80,24 @@ class Reports extends Component<ReportsType> {
   }
 
   render() {
-    const { allProjects, filters, projects } = this.props;
+    const {
+      allProjects,
+      filters,
+      projects,
+      from,
+      to,
+    } = this.props;
 
     return (
       <Container>
         <Menu style={{ border: 0, boxShadow: 'none' }}>
           <Menu.Header as="h1" style={{ margin: 0 }}>Reports</Menu.Header>
           <Menu.Menu position="right">
-            <ReportRange />
+            <ReportRange
+              from={from}
+              to={to}
+              updateDateRange={this.onUpdateDateRange}
+            />
           </Menu.Menu>
         </Menu>
         <ReportFilters
@@ -122,6 +138,8 @@ function mapStateToProps(state, props) {
     allProjects,
     filters,
     report,
+    from,
+    to,
     projects: allProjects.filter(project => filters.indexOf(project.id) > -1),
   };
 }
