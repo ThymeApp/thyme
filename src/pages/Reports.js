@@ -2,12 +2,12 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import queryString from 'query-string';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
 import { totalProjectTime, projectTimeEntries, sortByTime } from '../core/thyme';
+import { queryStringFilters, queryStringFrom, queryStringTo } from '../core/reportQueryString';
 
 import ReportTable from '../components/ReportTable';
 import ReportFilters from '../components/ReportFilters';
@@ -18,15 +18,8 @@ import SavedReports from '../components/SavedReports';
 
 import { sortedProjects } from '../selectors/projects';
 import { getAllTimeEntries } from '../selectors/time';
-import { getFilters, getFrom, getTo, getById } from '../selectors/reports';
+import { getById } from '../selectors/reports';
 
-function currentQueryString() {
-  return queryString.parse(window.location.search);
-}
-
-function queryStringFilters() {
-  return currentQueryString().filter;
-}
 
 type ReportsType = {
   report: reportType | {};
@@ -72,8 +65,9 @@ function mapStateToProps(state, props) {
   const report = getById(state, props.match.params.reportId) || {};
 
   const mappedTime = getAllTimeEntries(state);
-  const from = report.from || getFrom(state);
-  const to = report.to || getTo(state);
+
+  const from = report.from || queryStringFrom();
+  const to = report.to || queryStringTo();
 
   const allProjects = [
     { id: null, name: 'No project', nameTree: ['No project'] },
