@@ -2,6 +2,7 @@
   display: block;
   margin: 12px 0;
   line-height: 1.2em;
+  float: right;
 }
 
 .Report__filters-label {
