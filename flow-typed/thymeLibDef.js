@@ -48,7 +48,7 @@ declare type reportType = {
 };
 
 declare type projectType = {
-  id: string | null;
+  id: string;
   parent: string | null;
   name: string;
   removed?: boolean;
