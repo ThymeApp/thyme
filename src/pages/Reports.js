@@ -92,7 +92,7 @@ class Reports extends Component<ReportsType> {
         <ReportCharts projects={projects} />
         <ReportTable projects={projects} />
         <ReportDetailed projects={projects} />
-        <SavedReports />
+        <SavedReports filters={filters} />
       </Container>
     );
   }
