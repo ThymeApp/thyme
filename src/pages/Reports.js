@@ -104,14 +104,14 @@ class Reports extends Component<ReportsType> {
         <Grid divided="vertically">
           <Grid.Row columns={2}>
             <Grid.Column>
+              <ReportCharts projects={projects} />
+            </Grid.Column>
+            <Grid.Column width={4} floated="right">
               <ReportFilters
                 projects={allProjects}
                 filters={filters}
                 onToggle={this.onToggleFilter}
               />
-            </Grid.Column>
-            <Grid.Column>
-              <ReportCharts projects={projects} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
