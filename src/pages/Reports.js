@@ -108,7 +108,11 @@ class Reports extends Component<ReportsType> {
         <ReportCharts projects={projects} />
         <ReportTable projects={projects} />
         <ReportDetailed projects={projects} />
-        <SavedReports filters={filters} />
+        <SavedReports
+          from={from}
+          to={to}
+          filters={filters}
+        />
       </Container>
     );
   }

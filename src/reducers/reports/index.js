@@ -1,8 +1,6 @@
 // @flow
 
 import { combineReducers } from 'redux';
-import startOfWeek from 'date-fns/start_of_week';
-import endOfWeek from 'date-fns/end_of_week';
 
 import report from './report';
 
@@ -36,27 +34,7 @@ function allIds(state = [], action) {
   }
 }
 
-function from(state: Date = startOfWeek(new Date(), { weekStartsOn: 1 }), action): Date {
-  switch (action.type) {
-    case 'UPDATE_DATE_RANGE':
-      return action.from;
-    default:
-      return state;
-  }
-}
-
-function to(state: Date = endOfWeek(new Date(), { weekStartsOn: 1 }), action): Date {
-  switch (action.type) {
-    case 'UPDATE_DATE_RANGE':
-      return action.to;
-    default:
-      return state;
-  }
-}
-
 export default combineReducers({
   byId,
   allIds,
-  from,
-  to,
 });
