@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
+import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid';
 
 import { totalProjectTime, projectTimeEntries, sortByTime } from '../core/thyme';
 import {
@@ -100,12 +101,20 @@ class Reports extends Component<ReportsType> {
             />
           </Menu.Menu>
         </Menu>
-        <ReportFilters
-          projects={allProjects}
-          filters={filters}
-          onToggle={this.onToggleFilter}
-        />
-        <ReportCharts projects={projects} />
+        <Grid divided="vertically">
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              <ReportFilters
+                projects={allProjects}
+                filters={filters}
+                onToggle={this.onToggleFilter}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <ReportCharts projects={projects} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         <ReportTable projects={projects} />
         <ReportDetailed projects={projects} />
         <SavedReports
