@@ -42,6 +42,7 @@ declare type reportType = {
   name: string;
   from: string;
   to: string;
+  filters: Array<string | null>;
   removed?: boolean;
   createdAt: string;
 };

@@ -1,77 +1,51 @@
 // @flow
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
-import { resetFilters, toggleFilter } from '../../actions/reports';
-
-import { getFilters } from '../../selectors/reports';
+import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
+import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 
 import './ReportFilters.css';
 
 type ReportFiltersType = {
-  filters: Array<string>,
-  projects: Array<projectTreeWithTimeType>,
-  toggleFilter: (project: string | null) => void,
-  resetFilters: (projects: Array<string>) => void,
+  filters: Array<string>;
+  projects: Array<projectTreeWithTimeType>;
+  onToggle: (project: string | null) => void;
 };
 
 class ReportFilters extends Component<ReportFiltersType> {
-  constructor() {
-    super();
-
-    this.onFilterToggle = this.toggleFilter.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.resetFilters(this.props.projects.map(project => project.id));
-  }
-
-  onFilterToggle: (e: Event) => void;
-
-  toggleFilter(e: Event) {
-    if (e.target instanceof HTMLInputElement && typeof e.target.name === 'string') {
-      this.props.toggleFilter(e.target.name || null);
+  onFilterToggle = (e: Event, action: any) => {
+    if (action.type === 'checkbox') {
+      const { name } = action;
+      this.props.onToggle(name === '' ? null : name);
     }
-  }
+  };
 
   render() {
     const { filters, projects } = this.props;
 
     return (
       <div className="Report__filters">
-        <span className="Report__filters-label">Show:</span>
-        {projects.map(project => (
-          <label className="Report__filter" key={project.id} htmlFor={project.id}>
-            <span className="Report__filter-name">{project.name}</span>
-            <input
-              checked={filters.indexOf(project.id) > -1}
-              onChange={this.onFilterToggle}
-              type="checkbox"
-              name={project.id}
-              id={project.id}
-            />
-          </label>
-        ))}
+        <Menu vertical>
+          <Menu.Item header>
+            Filter projects:
+          </Menu.Item>
+          {projects.map(project => (
+            <Menu.Item key={project.id}>
+              <Checkbox
+                toggle
+                label={project.name}
+                checked={filters.indexOf(project.id) > -1}
+                onChange={this.onFilterToggle}
+                name={project.id}
+                id={project.id}
+              />
+            </Menu.Item>
+          ))}
+        </Menu>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return { filters: getFilters(state) };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    resetFilters(projects: Array<string>) {
-      dispatch(resetFilters(projects));
-    },
-
-    toggleFilter(project: string | null) {
-      dispatch(toggleFilter(project));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ReportFilters);
+export default ReportFilters;

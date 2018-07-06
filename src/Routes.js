@@ -11,7 +11,7 @@ import Settings from './pages/Settings';
 function Routes() {
   return (
     <Switch>
-      <Route path="/reports" component={Reports} />
+      <Route path="/reports/:reportId?" component={Reports} />
       <Route path="/projects" component={Projects} />
       <Route path="/settings" component={Settings} />
       <Route exact path="/" component={Time} />

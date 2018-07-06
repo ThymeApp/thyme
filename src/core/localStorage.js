@@ -17,7 +17,7 @@ function loadItem(key: string): any | typeof undefined {
   }
 }
 
-function saveItem(state: {}, key): void {
+function saveItem(state: any, key): void {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem(key, serializedState);
@@ -34,10 +34,16 @@ export function loadState(): {} | typeof undefined {
   return loadItem('ThymeState');
 }
 
-export function saveState(state: {}): void {
+export function saveState(state: storeShape): void {
   // persist everything but the app and form state
   saveItem({
     ...state,
+    reports: {
+      ...state.reports,
+      filters: undefined,
+      from: undefined,
+      to: undefined,
+    },
     app: undefined,
     form: undefined,
   }, 'ThymeState');
