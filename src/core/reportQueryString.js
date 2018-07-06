@@ -9,8 +9,14 @@ function currentQueryString() {
   return queryString.parse(window.location.search);
 }
 
-export function queryStringFilters() {
-  return currentQueryString().filter;
+export function queryStringFilters(): Array<string | null> | typeof undefined {
+  const filters = currentQueryString().filter;
+
+  if (filters) {
+    return !Array.isArray(filters) ? [filters] : filters;
+  }
+
+  return filters;
 }
 
 export function queryStringFrom(): Date {
@@ -31,4 +37,13 @@ export function queryStringTo(): Date {
   }
 
   return parse(to);
+}
+
+export function updateReport(
+  filter: Array<string | null>,
+  from: Date | string = queryStringFrom(),
+  to: Date | string = queryStringTo(),
+  history: RouterHistory,
+) {
+  history.push(`/reports?${queryString.stringify({ filter, from, to })}`);
 }

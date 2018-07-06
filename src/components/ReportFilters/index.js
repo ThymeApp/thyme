@@ -13,7 +13,8 @@ type ReportFiltersType = {
 class ReportFilters extends Component<ReportFiltersType> {
   onFilterToggle = (e: Event) => {
     if (e.target instanceof HTMLInputElement && typeof e.target.name === 'string') {
-      this.props.onToggle(e.target.name);
+      const { name } = e.target;
+      this.props.onToggle(name === '' ? null : name);
     }
   };
 

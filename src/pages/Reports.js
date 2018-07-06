@@ -1,13 +1,20 @@
 // @flow
 
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
 import { totalProjectTime, projectTimeEntries, sortByTime } from '../core/thyme';
-import { queryStringFilters, queryStringFrom, queryStringTo } from '../core/reportQueryString';
+import {
+  queryStringFilters,
+  queryStringFrom,
+  queryStringTo,
+  updateReport,
+} from '../core/reportQueryString';
 
 import ReportTable from '../components/ReportTable';
 import ReportFilters from '../components/ReportFilters';
@@ -20,9 +27,17 @@ import { sortedProjects } from '../selectors/projects';
 import { getAllTimeEntries } from '../selectors/time';
 import { getById } from '../selectors/reports';
 
+function toggleFilter(filters: Array<string | null>, filter: string | null) {
+  if (filters.indexOf(filter) > -1) {
+    return filters.filter(item => item !== filter);
+  }
+
+  return [...filters, filter];
+}
 
 type ReportsType = {
-  report: reportType | {};
+  history: RouterHistory;
+  report: reportType | null;
   filters: string[],
   allProjects: Array<projectTreeWithTimeType>;
   projects: Array<projectTreeWithTimeType>;
@@ -30,11 +45,33 @@ type ReportsType = {
 
 class Reports extends Component<ReportsType> {
   onToggleFilter = (filter: string | null) => {
-    const defaultFilters = this.props.allProjects.map(project => project.id);
-    const currentFilters = this.props.report.filters || queryStringFilters() || defaultFilters;
+    const nextFilters = toggleFilter(this.currentFilters(), filter);
+    const { from, to } = this.currentDateRange();
 
-    console.log(filter, currentFilters);
+    this.updateReport(nextFilters, from, to);
   };
+
+  updateReport(nextFilters, from, to) {
+    const { history } = this.props;
+
+    updateReport(nextFilters, from, to, history);
+  }
+
+  currentDateRange() {
+    const { report } = this.props;
+
+    const from = report ? report.from : queryStringFrom();
+    const to = report ? report.to : queryStringTo();
+
+    return { from, to };
+  }
+
+  currentFilters() {
+    const { report, allProjects } = this.props;
+
+    const defaultFilters = allProjects.map(project => project.id);
+    return report ? report.filters : queryStringFilters() || defaultFilters;
+  }
 
   render() {
     const { allProjects, filters, projects } = this.props;
@@ -62,12 +99,12 @@ class Reports extends Component<ReportsType> {
 }
 
 function mapStateToProps(state, props) {
-  const report = getById(state, props.match.params.reportId) || {};
+  const report = getById(state, props.match.params.reportId) || null;
 
   const mappedTime = getAllTimeEntries(state);
 
-  const from = report.from || queryStringFrom();
-  const to = report.to || queryStringTo();
+  const from = report ? report.from : queryStringFrom();
+  const to = report ? report.to : queryStringTo();
 
   const allProjects = [
     { id: null, name: 'No project', nameTree: ['No project'] },
@@ -79,7 +116,7 @@ function mapStateToProps(state, props) {
   }));
 
   const defaultFilters = allProjects.map(project => project.id);
-  const filters = report.filters || queryStringFilters() || defaultFilters;
+  const filters = report ? report.filters : queryStringFilters() || defaultFilters;
 
   return {
     allProjects,
@@ -89,4 +126,7 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps)(Reports);
+export default compose(
+  connect(mapStateToProps),
+  withRouter,
+)(Reports);

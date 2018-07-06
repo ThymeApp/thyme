@@ -42,13 +42,13 @@ declare type reportType = {
   name: string;
   from: string;
   to: string;
-  filters: string[];
+  filters: Array<string | null>;
   removed?: boolean;
   createdAt: string;
 };
 
 declare type projectType = {
-  id: string;
+  id: string | null;
   parent: string | null;
   name: string;
   removed?: boolean;
