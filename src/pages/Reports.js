@@ -4,9 +4,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
-import startOfWeek from 'date-fns/start_of_week';
-import endOfWeek from 'date-fns/end_of_week';
-
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
@@ -73,9 +70,6 @@ class Reports extends Component<ReportsType> {
 
 function mapStateToProps(state, props) {
   const report = getById(state, props.match.params.reportId) || {};
-
-  const defaultFrom = startOfWeek(new Date(), { weekStartsOn: 1 });
-  const defaultTo = endOfWeek(new Date(), { weekStartsOn: 1 });
 
   const mappedTime = getAllTimeEntries(state);
   const from = report.from || getFrom(state);
