@@ -2,7 +2,7 @@
     "name": "thyme",
     "version": "0.1.0",
     "private": false,
-    "homepage": "/app01/",
+    "homepage": "/thyme/",
     "dependencies": {
         "classnames": "^2.2.6",
         "date-fns": "^1.29.0",
