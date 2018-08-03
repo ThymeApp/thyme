@@ -287,7 +287,7 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     const hasId = Boolean(entry && !!entry.id);
     const [hours, minutes, seconds] =
-      (timeElapsed(start, end, this.state.tracking) || '00:00:00').split(':');
+      (timeElapsed(start, end, this.state.tracking, true) || '00:00:00').split(':');
 
     return (
       <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>

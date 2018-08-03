@@ -32,7 +32,7 @@ export function calculateDuration(from: Date, to: Date, precise: boolean = false
   );
 }
 
-export function formatDuration(duration: number, withSeconds: boolean = true): string {
+export function formatDuration(duration: number, withSeconds: boolean = false): string {
   const hours = Math.floor(duration / 3600);
   const minutes = Math.floor((duration / 60) % 60);
   const seconds = Math.floor(duration % 60);
@@ -42,12 +42,17 @@ export function formatDuration(duration: number, withSeconds: boolean = true): s
   return `${leftPad(hours, 2, 0)}:${leftPad(minutes, 2, 0)}${secondsString}`;
 }
 
-export function timeElapsed(from: Date, to: Date, precise: boolean = false) {
+export function timeElapsed(
+  from: Date,
+  to: Date,
+  precise: boolean = false,
+  withSeconds: boolean = false,
+) {
   if (from === '' || to === '') {
     return 'Invalid time';
   }
 
-  return formatDuration(calculateDuration(from, to, precise));
+  return formatDuration(calculateDuration(from, to, precise), withSeconds);
 }
 
 export function projectTimeEntries(

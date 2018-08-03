@@ -23,7 +23,7 @@ function ReportTable({ projects }: ReportTableType) {
         {projects.map(project => (
           <Table.Row key={project.id}>
             <Table.Cell>{project.nameTree.join(' > ')}</Table.Cell>
-            <Table.Cell textAlign="right">{formatDuration(project.time * 60, false)}</Table.Cell>
+            <Table.Cell textAlign="right">{formatDuration(project.time * 60)}</Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
@@ -31,10 +31,7 @@ function ReportTable({ projects }: ReportTableType) {
         <Table.Row>
           <Table.HeaderCell />
           <Table.HeaderCell textAlign="right">
-            {formatDuration(
-              projects.reduce((total, project) => total + (project.time * 60), 0),
-              false,
-            )}
+            {formatDuration(projects.reduce((total, project) => total + (project.time * 60), 0))}
           </Table.HeaderCell>
         </Table.Row>
       </Table.Footer>
