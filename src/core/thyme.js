@@ -32,12 +32,14 @@ export function calculateDuration(from: Date, to: Date, precise: boolean = false
   );
 }
 
-export function formatDuration(duration: number): string {
+export function formatDuration(duration: number, withSeconds: boolean = true): string {
   const hours = Math.floor(duration / 3600);
   const minutes = Math.floor((duration / 60) % 60);
   const seconds = Math.floor(duration % 60);
 
-  return `${leftPad(hours, 2, 0)}:${leftPad(minutes, 2, 0)}:${leftPad(seconds, 2, 0)}`;
+  const secondsString = withSeconds ? `:${leftPad(seconds, 2, 0)}` : '';
+
+  return `${leftPad(hours, 2, 0)}:${leftPad(minutes, 2, 0)}${secondsString}`;
 }
 
 export function timeElapsed(from: Date, to: Date, precise: boolean = false) {
