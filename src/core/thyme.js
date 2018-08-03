@@ -1,6 +1,6 @@
 // @flow
 
-import differenceInMinutes from 'date-fns/difference_in_minutes';
+import differenceInSeconds from 'date-fns/difference_in_seconds';
 import isAfter from 'date-fns/is_after';
 import isBefore from 'date-fns/is_before';
 import isEqual from 'date-fns/is_equal';
@@ -21,27 +21,31 @@ export function sortByTime(a: timeType, b: timeType) {
   return 0;
 }
 
-export function calculateDuration(from: Date, to: Date): number {
+export function calculateDuration(from: Date, to: Date, precise: boolean = false): number {
   if (isBefore(to, from)) {
     return 0;
   }
 
-  return differenceInMinutes(startOfMinute(to), startOfMinute(from));
+  return differenceInSeconds(
+    precise ? to : startOfMinute(to),
+    precise ? from : startOfMinute(from),
+  );
 }
 
 export function formatDuration(duration: number): string {
-  const hours = Math.floor(duration / 60);
-  const minutes = Math.floor(duration % 60);
+  const hours = Math.floor(duration / 3600);
+  const minutes = Math.floor((duration / 60) % 60);
+  const seconds = Math.floor(duration % 60);
 
-  return `${leftPad(hours, 2, 0)}:${leftPad(minutes, 2, 0)}`;
+  return `${leftPad(hours, 2, 0)}:${leftPad(minutes, 2, 0)}:${leftPad(seconds, 2, 0)}`;
 }
 
-export function timeElapsed(from: Date, to: Date) {
+export function timeElapsed(from: Date, to: Date, precise: boolean = false) {
   if (from === '' || to === '') {
     return 'Invalid time';
   }
 
-  return formatDuration(calculateDuration(from, to));
+  return formatDuration(calculateDuration(from, to, precise));
 }
 
 export function projectTimeEntries(
