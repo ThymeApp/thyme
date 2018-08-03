@@ -1,15 +1,3 @@
 .TableRow--tracking .ui.input input, .TableRow--tracking .ui.selection.dropdown {
-  background-color: #f4fbfb;
+  background-color: rgba(0,0,0,.02);
 }
-
-.Duration--tracking {
-    animation: blinker 1s infinite;
-  }
-  @keyframes blinker {
-    50% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 100;
-    }
-  }
