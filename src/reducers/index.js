@@ -10,6 +10,7 @@ import app from './app';
 import projects from './projects';
 import reports from './reports';
 import time from './time';
+import settings from './settings';
 
 const combinedReducers = combineReducers({
   account,
@@ -18,6 +19,7 @@ const combinedReducers = combineReducers({
   reports,
   time,
   form: formReducer,
+  settings,
 });
 
 export default (state: any, action: { type: string }) => {
