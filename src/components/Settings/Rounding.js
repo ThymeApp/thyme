@@ -1,64 +1,78 @@
 // @flow
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Header, Dropdown, Input } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 
-import { setRounding } from '../../actions/settings';
+import { setRounding, setRoundingDown } from '../../actions/settings';
 import { valueFromEventTarget } from '../../core/dom';
+import Combo from './Combo';
 
-const options = [
-  { key: '5', text: '5', value: '5' },
-  { key: '10', text: '10', value: '10' },
-  { key: '15', text: '15', value: '15' },
-  { key: '30', text: '30', value: '30' },
-  { key: '60', text: '60', value: '60' },
-];
 type RoundingProps = {
-  rounding: number;
-  setRounding: (value: number) => void;
+  rounding: string;
+  roundingDown: string;
+  setRounding: (value: string) => void;
+  setRoundingDown: (value: string) => void;
 }
 
 class Rounding extends Component<RoundingProps> {
   constructor(props) {
     super(props);
-    this.onRoundingChange = this.onRoundingChange.bind(this);
+    this.onChangeRoundingDown = this.onChangeRoundingDown.bind(this);
     this.onChangeRounding = this.onChangeRounding.bind(this);
+    this.onRoundingDownDropDownChange = this.onRoundingDownDropDownChange.bind(this);
+    this.onRoundingDropDownChange = this.onRoundingDropDownChange.bind(this);
   }
-  onRoundingChange(event, data) {
+  onRoundingDropDownChange(event, data) {
     this.props.setRounding(data.value);
   }
+  onRoundingDownDropDownChange(event, data) {
+    if (data.value < this.props.rounding) {
+      this.props.setRoundingDown(data.value);
+    }
+  }
+
 
   onChangeRounding(event) {
     const roundValue = valueFromEventTarget(event.target);
-    this.props.setRounding(roundValue);
+    const roundValueInt = parseInt(roundValue, 10);
+    if (roundValueInt <= 60) {
+      this.props.setRoundingDown(roundValue);
+    }
+    if (roundValue === '') {
+      this.props.setRoundingDown(roundValue);
+    }
+  }
+  onChangeRoundingDown(event) {
+    const roundDown = valueFromEventTarget(event.target);
+    const roundDownInt = parseInt(roundDown, 10);
+    if (roundDown < this.props.rounding && roundDownInt <= 60) {
+      this.props.setRoundingDown(roundDown);
+    }
+    if (roundDown === '') {
+      this.props.setRoundingDown(roundDown);
+    }
   }
 
   render() {
-    const { rounding } = this.props;
+    const { rounding, roundingDown } = this.props;
     return (
       <Fragment>
-        <Header as="h3">Rounding</Header>
-        <Input
-          title="The minutes that the timer rounds to"
-          type="number"
-          size="small"
-          value={rounding}
-          onChange={this.onChangeRounding}
-          label={
-            <Dropdown options={options} onChange={this.onRoundingChange} defaultValue={rounding} />
-          }
-          labelPosition="left"
-          placeholder="Duration rounding"
-        />
+
+        <Header as="h3">Rounding UP</Header>
+        <Combo title="The minutes that the end time rounds to" rounding={rounding} onInputChange={this.onChangeRounding} onDropDownChange={this.onRoundingDropDownChange} />
+
+        <Header as="h3">Rounding Down Threshold</Header>
+        <Combo title="The threshold to run down to" rounding={roundingDown} onInputChange={this.onChangeRoundingDown} onDropDownChange={this.onRoundingDownDropDownChange} />
       </Fragment>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { rounding } = state.settings;
+  const { rounding, roundingDown } = state.settings;
   return {
     rounding,
+    roundingDown,
   };
 }
 
@@ -66,6 +80,9 @@ function mapDispatchToProps(dispatch) {
   return {
     setRounding(value) {
       dispatch(setRounding(value));
+    },
+    setRoundingDown(value) {
+      dispatch(setRoundingDown(value));
     },
   };
 }
