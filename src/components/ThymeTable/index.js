@@ -13,7 +13,10 @@ import Entry from './Entry';
 
 type ThymeTableType = {
   entries: Array<timeType>,
-  settings: any,
+  settings: {
+    rounding: string,
+    roudningDown: string,
+  },
   onEntryUpdate: (entry: timePropertyType) => void,
   onEntryRemove: (id: string) => void,
   onAddProject: (project: string) => string,

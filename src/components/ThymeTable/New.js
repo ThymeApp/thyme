@@ -13,7 +13,10 @@ import Entry from './Entry';
 type NewType = {
   onEntryCreate: (entry: timePropertyType) => void,
   onAddNewProject: (project: string) => string,
-  settings: any,
+  settings: {
+    rounding: string,
+    roundingDown: string,
+  },
 };
 
 function New({ onEntryCreate, onAddNewProject, settings }: NewType) {
