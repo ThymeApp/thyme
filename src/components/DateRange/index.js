@@ -25,9 +25,13 @@ class DateRange extends Component<DateRangeType> {
   }
 
   toggleToday: () => void;
+
   toggleThisWeek: () => void;
+
   toggleWeekToDate: () => void;
+
   toggleLastMonth: () => void;
+
   toggleOlder: () => void;
 
   render() {

@@ -19,12 +19,15 @@ import { registerUser as regiserUserOnApi } from './api';
 type RegisterProps = {
   inView: boolean;
   goToLogin: (e: Event) => void;
+  onRegisterAccount: (token: string) => void;
 } & FormProps;
 
 class Register extends Component<RegisterProps> {
   onSubmit = ({ email, password }) => regiserUserOnApi(email, password)
-    .then((result) => {
-      this.props.registerAccount(result);
+    .then((token) => {
+      const { onRegisterAccount } = this.props;
+
+      onRegisterAccount(token);
     })
     .catch((e) => {
       throw new SubmissionError({ _error: e.message });
@@ -46,7 +49,11 @@ class Register extends Component<RegisterProps> {
         onSubmit={handleSubmit(this.onSubmit)}
         noValidate
       >
-        { error && <Message color="red" size="small">{ error }</Message> }
+        {error && (
+          <Message color="red" size="small">
+            {error}
+          </Message>
+        )}
 
         <Field
           label="Email address"
@@ -79,7 +86,9 @@ class Register extends Component<RegisterProps> {
         />
 
         <section className="Account__Submit-Bar">
-          <Form.Button primary fluid>Register</Form.Button>
+          <Form.Button primary fluid>
+            Register
+          </Form.Button>
         </section>
 
         <section className="Account__Sub-Bar">
@@ -122,7 +131,7 @@ const validate = (values) => {
 };
 
 export default compose(
-  connect(null, dispatch => bindActionCreators({ registerAccount }, dispatch)),
+  connect(null, dispatch => bindActionCreators({ onRegisterAccount: registerAccount }, dispatch)),
   reduxForm({
     form: 'register',
     validate,

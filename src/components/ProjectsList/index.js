@@ -10,8 +10,12 @@ function projectsListWrapper({ projects }: { projects: Array<projectTreeType> })
     <Table>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Name</Table.HeaderCell>
-          <Table.HeaderCell colSpan={2}>Parent</Table.HeaderCell>
+          <Table.HeaderCell>
+            Name
+          </Table.HeaderCell>
+          <Table.HeaderCell colSpan={2}>
+            Parent
+          </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>

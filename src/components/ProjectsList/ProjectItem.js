@@ -16,7 +16,7 @@ import { updateProject, removeProject } from '../../actions/projects';
 import { alert } from '../../actions/app';
 
 import ProjectInput from '../ProjectInput';
-import ProjectsList from './ProjectsList';
+import ProjectsList from './ProjectsList'; // eslint-disable-line import/no-cycle
 
 function projectValues(props) {
   return {
@@ -32,7 +32,7 @@ type ProjectItemType = {
   level: number;
   onUpdateProject: (project: { id: string, name: string, parent: string | null }) => void,
   onRemoveProject: (id: string) => void,
-  alert: (message: string) => void,
+  showAlert: (message: string) => void,
 };
 
 type ProjectItemState = {
@@ -40,60 +40,52 @@ type ProjectItemState = {
 };
 
 class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
-  constructor(props) {
-    super(props);
+  state = { confirmDelete: false };
 
-    this.onChangeName = (e) => {
-      this.props.onUpdateProject({
-        ...projectValues(this.props),
-        name: e.target instanceof HTMLInputElement ? e.target.value : '',
-      });
-    };
+  onChangeName = (e: Event) => {
+    const { onUpdateProject } = this.props;
 
-    this.onChangeParent = (e, parent) => {
-      const { project, projects, onUpdateProject } = this.props;
+    onUpdateProject({
+      ...projectValues(this.props),
+      name: e.target instanceof HTMLInputElement ? e.target.value : '',
+    });
+  };
 
-      const parentId = parent === null ? null : parent.value;
+  onChangeParent = (e: Event, parent: { value: string, label: string }) => {
+    const { project, projects, onUpdateProject } = this.props;
 
-      // Can't move to this project because it's a descendant
-      if (isDescendant(project.id, parentId, projects)) {
-        return;
-      }
+    const parentId = parent === null ? null : parent.value;
 
-      onUpdateProject({
-        ...projectValues(this.props),
-        parent: parentId,
-      });
-    };
+    // Can't move to this project because it's a descendant
+    if (isDescendant(project.id, parentId, projects)) {
+      return;
+    }
 
-    this.onRemoveEntry = () => {
-      const { project, projects } = this.props;
+    onUpdateProject({
+      ...projectValues(this.props),
+      parent: parentId,
+    });
+  };
 
-      if (projects.find(item => item.parent === project.id)) {
-        props.alert('This project has children, parent cannot be removed.');
-        return;
-      }
+  onRemoveEntry = () => {
+    const { project, projects, showAlert } = this.props;
 
-      this.setState({ confirmDelete: true });
-    };
+    if (projects.find(item => item.parent === project.id)) {
+      showAlert('This project has children, parent cannot be removed.');
+      return;
+    }
 
-    this.onRemoveProject = () => {
-      const { project, onRemoveProject } = this.props;
+    this.setState({ confirmDelete: true });
+  };
 
-      this.onCancelConfirm();
-      onRemoveProject(project.id);
-    };
+  onRemoveProject = () => {
+    const { project, onRemoveProject } = this.props;
 
-    this.onCancelConfirm = () => this.setState({ confirmDelete: false });
+    this.onCancelConfirm();
+    onRemoveProject(project.id);
+  };
 
-    this.state = { confirmDelete: false };
-  }
-
-  onChangeName: (e: Event) => void;
-  onChangeParent: (e: Event, project: { value: string, label: string }) => void;
-  onRemoveEntry: () => void;
-  onRemoveProject: () => void;
-  onCancelConfirm: () => void;
+  onCancelConfirm = () => this.setState({ confirmDelete: false });
 
   render() {
     const { project, projects, level } = this.props;
@@ -149,7 +141,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(removeProject(id));
     },
 
-    alert(message: string) {
+    showAlert(message: string) {
       dispatch(alert(message));
     },
   };

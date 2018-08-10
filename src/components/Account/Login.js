@@ -18,14 +18,16 @@ import { login } from './api';
 
 type LoginProps = {
   inView: boolean;
-  loginAccount: (token: string) => void;
+  onLoginAccount: (token: string) => void;
   goToRegister: (e: Event) => void;
 } & FormProps;
 
 class Login extends Component<LoginProps> {
   onSubmit = ({ email, password }) => login(email, password)
-    .then((result) => {
-      this.props.loginAccount(result);
+    .then((token) => {
+      const { onLoginAccount } = this.props;
+
+      onLoginAccount(token);
     })
     .catch((e) => {
       throw new SubmissionError({ _error: e.message });
@@ -47,7 +49,11 @@ class Login extends Component<LoginProps> {
         onSubmit={handleSubmit(this.onSubmit)}
         noValidate
       >
-        { error && <Message color="red" size="small">{ error }</Message> }
+        {error && (
+          <Message color="red" size="small">
+            {error}
+          </Message>
+        )}
         <Field
           label="Email address"
           name="email"
@@ -69,7 +75,9 @@ class Login extends Component<LoginProps> {
         />
 
         <section className="Account__Submit-Bar">
-          <Form.Button primary fluid>Log in</Form.Button>
+          <Form.Button primary fluid>
+            Log in
+          </Form.Button>
         </section>
 
         <section className="Account__Sub-Bar">
@@ -106,7 +114,7 @@ const validate = (values) => {
 };
 
 export default compose(
-  connect(null, dispatch => bindActionCreators({ loginAccount }, dispatch)),
+  connect(null, dispatch => bindActionCreators({ onLoginAccount: loginAccount }, dispatch)),
   reduxForm({
     form: 'login',
     validate,

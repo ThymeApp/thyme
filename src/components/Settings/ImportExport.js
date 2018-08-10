@@ -18,7 +18,7 @@ import { getDataToExport } from '../../selectors/importExport';
 type ImportExportProps = {
   exportState: toExportType;
   importData: (data: any) => void;
-  alert: (message: string) => void;
+  showAlert: (message: string) => void;
 }
 
 type ImportExportState = {
@@ -44,6 +44,7 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
   };
 
   onCancelConfirm = () => this.setState({ confirmImport: false });
+
   importData = () => this.setState({ confirmImport: true });
 
   openImportInput = () => {
@@ -68,19 +69,21 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
   };
 
   handleImportData = (jsonString: string) => {
-    try {
-      const importData = parseImportData(JSON.parse(jsonString));
+    const { showAlert, importData } = this.props;
 
-      if (!validData(importData)) {
-        this.props.alert('The provided JSON is not a valid Thyme timesheet');
+    try {
+      const dataToImport = parseImportData(JSON.parse(jsonString));
+
+      if (!validData(dataToImport)) {
+        showAlert('The provided JSON is not a valid Thyme timesheet');
         return;
       }
 
-      this.props.importData(importData);
+      importData(importData);
 
-      this.props.alert('Import successful');
+      showAlert('Import successful');
     } catch (e) {
-      this.props.alert(e.message);
+      showAlert(e.message);
     }
   };
 
@@ -101,9 +104,15 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
 
     return (
       <Fragment>
-        <Header as="h3">Export / Import</Header>
-        <Button color="blue" onClick={this.exportData}>Export data</Button>
-        <Button color="green" onClick={this.importData}>Import data</Button>
+        <Header as="h3">
+          Export / Import
+        </Header>
+        <Button color="blue" onClick={this.exportData}>
+          Export data
+        </Button>
+        <Button color="green" onClick={this.importData}>
+          Import data
+        </Button>
         <Confirm
           open={confirmImport}
           content="If you import data it will overwrite your current data. Wish to continue?"
@@ -126,7 +135,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(migrateStoreData());
     },
 
-    alert(message: string) {
+    showAlert(message: string) {
       dispatch(alert(message));
     },
   };
