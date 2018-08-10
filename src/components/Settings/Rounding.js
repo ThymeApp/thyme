@@ -10,8 +10,8 @@ import Combo from './Combo';
 type RoundingProps = {
   rounding: string;
   roundingDown: string;
-  setRounding: (value: string) => void;
-  setRoundingDown: (value: string) => void;
+  setRounding: (value: any) => void;
+  setRoundingDown: (value: any) => void;
 }
 
 class Rounding extends Component<RoundingProps> {
@@ -22,18 +22,23 @@ class Rounding extends Component<RoundingProps> {
     this.onRoundingDownDropDownChange = this.onRoundingDownDropDownChange.bind(this);
     this.onRoundingDropDownChange = this.onRoundingDropDownChange.bind(this);
   }
-  onRoundingDropDownChange(event, data) {
+  onRoundingDownDropDownChange: (e:Event, data:any) => void;
+  onRoundingDropDownChange: (e:Event, data:any) => void;
+  onChangeRounding: (e:Event) => void;
+  onChangeRoundingDown: (e:Event) => void;
+
+  onRoundingDropDownChange(e, data) {
     this.props.setRounding(data.value);
   }
-  onRoundingDownDropDownChange(event, data) {
+  onRoundingDownDropDownChange(e, data) {
     if (data.value < this.props.rounding) {
       this.props.setRoundingDown(data.value);
     }
   }
+  
 
-
-  onChangeRounding(event) {
-    const roundValue = valueFromEventTarget(event.target);
+  onChangeRounding(e) {
+    const roundValue = valueFromEventTarget(e.target);
     const roundValueInt = parseInt(roundValue, 10);
     if (roundValueInt <= 60) {
       this.props.setRoundingDown(roundValue);
@@ -42,8 +47,8 @@ class Rounding extends Component<RoundingProps> {
       this.props.setRoundingDown(roundValue);
     }
   }
-  onChangeRoundingDown(event) {
-    const roundDown = valueFromEventTarget(event.target);
+  onChangeRoundingDown(e) {
+    const roundDown = valueFromEventTarget(e.target);
     const roundDownInt = parseInt(roundDown, 10);
     if (roundDown < this.props.rounding && roundDownInt <= 60) {
       this.props.setRoundingDown(roundDown);

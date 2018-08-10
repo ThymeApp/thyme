@@ -13,8 +13,8 @@ const options = [
 type RoundingProps = {
   title: string,
   rounding: string,
-  onInputChange: (event: string) => void,
-  onDropDownChange: (event: string) => void,
+  onInputChange: (event: Event) => void,
+  onDropDownChange: (event: Event, data: any) => void,
 }
 
 function Combo(props: RoundingProps) {
