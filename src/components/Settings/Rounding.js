@@ -22,10 +22,10 @@ class Rounding extends Component<RoundingProps> {
     this.onRoundingDownDropDownChange = this.onRoundingDownDropDownChange.bind(this);
     this.onRoundingDropDownChange = this.onRoundingDropDownChange.bind(this);
   }
-  onRoundingDownDropDownChange: (e:Event, data:any) => void;
-  onRoundingDropDownChange: (e:Event, data:any) => void;
-  onChangeRounding: (e:Event) => void;
-  onChangeRoundingDown: (e:Event) => void;
+  onRoundingDownDropDownChange: (e: Event, data: any) => void;
+  onRoundingDropDownChange: (e: Event, data: any) => void;
+  onChangeRounding: (e: Event) => void;
+  onChangeRoundingDown: (e: Event) => void;
 
   onRoundingDropDownChange(e, data) {
     this.props.setRounding(data.value);
@@ -35,7 +35,7 @@ class Rounding extends Component<RoundingProps> {
       this.props.setRoundingDown(data.value);
     }
   }
-  
+
 
   onChangeRounding(e) {
     const roundValue = valueFromEventTarget(e.target);
