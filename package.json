@@ -3,6 +3,17 @@
     "version": "0.1.0",
     "private": false,
     "homepage": "/thyme/",
+    "scripts": {
+        "analyze": "source-map-explorer build/static/js/main.*",
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "eject": "react-scripts eject",
+        "test": "react-scripts test --env=jsdom",
+        "test:ci": "CI=true npm run test",
+        "lint": "eslint ./src",
+        "flow": "flow",
+        "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
+    },
     "dependencies": {
         "classnames": "^2.2.6",
         "date-fns": "^1.29.0",
@@ -27,16 +38,6 @@
         "shortid": "^2.2.8",
         "source-map-explorer": "^1.5.0"
     },
-    "scripts": {
-        "analyze": "source-map-explorer build/static/js/main.*",
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "eject": "react-scripts eject",
-        "test": "react-scripts test --env=jsdom",
-        "lint": "eslint ./src",
-        "flow": "flow",
-        "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
-    },
     "devDependencies": {
         "babel-eslint": "^8.2.3",
         "eslint": "^4.19.1",
@@ -45,6 +46,12 @@
         "eslint-plugin-import": "^2.12.0",
         "eslint-plugin-jsx-a11y": "^6.0.3",
         "eslint-plugin-react": "^7.9.1",
-        "flow-bin": "^0.74.0"
-    }
+        "flow-bin": "^0.74.0",
+        "pre-push": "^0.1.1"
+    },
+    "pre-push": [
+        "test:ci",
+        "lint",
+        "flow"
+    ]
 }
