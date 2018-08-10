@@ -8,6 +8,7 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Account from '../components/Settings/Account';
 import ImportExport from '../components/Settings/ImportExport';
 import DeleteData from '../components/Settings/DeleteData';
+import Rounding from '../components/Settings/Rounding';
 
 function Settings() {
   return (
@@ -17,6 +18,7 @@ function Settings() {
       <Account />
       <ImportExport />
       <DeleteData />
+      <Rounding />
 
       <Header as="h3">About</Header>
       Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.

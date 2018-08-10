@@ -13,14 +13,16 @@ import Entry from './Entry';
 type NewType = {
   onEntryCreate: (entry: timePropertyType) => void,
   onAddNewProject: (project: string) => string,
+  settings: any,
 };
 
-function New({ onEntryCreate, onAddNewProject }: NewType) {
+function New({ onEntryCreate, onAddNewProject, settings }: NewType) {
   return (
     <Entry
       tempEntry={loadTemporaryItem()}
       onAdd={onEntryCreate}
       onAddNewProject={onAddNewProject}
+      settings={settings}
     />
   );
 }
