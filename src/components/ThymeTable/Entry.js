@@ -38,13 +38,20 @@ function defaultState(props = {}): timePropertyType {
   };
 }
 
+function pad(number: number) {
+  return (number < 10 ? '0' : '') + number;
+}
+
 type EntryType = {
   entry?: timeType,
   tempEntry?: tempTimePropertyType,
+  settings: any,
   onAdd?: (entry: timePropertyType) => void,
   onRemove?: (id: string) => void,
   onUpdate?: (entry: timePropertyType) => void,
   onAddNewProject?: (project: string) => string,
+  rounding: any,
+  roundingDown: any,
 };
 
 type EntryStateType = {
@@ -73,8 +80,12 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     this.onStartTimeTracking = this.startTimeTracking.bind(this);
     this.onStopTimeTracking = this.stopTimeTracking.bind(this);
+    this.onRoundTime = this.onRoundTime.bind(this);
 
     this.onSetDateInputRef = (input) => { this.dateInput = input; };
+    this.rounding = this.props.settings.rounding;
+    this.roundingDown = this.props.settings.roundingDown;
+
 
     this.state = {
       entry: defaultState(props.entry || props.tempEntry),
@@ -105,6 +116,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   onAddNewProject: (e: Event, project: { value: string }) => void;
   onOpenConfirm: () => void;
   onCancelConfirm: () => void;
+  onRoundTime: () => void;
 
   onStartDateChange(value: string | null) {
     if (!value) {
@@ -159,8 +171,45 @@ class Entry extends Component<EntryType, EntryStateType> {
     });
   }
 
+  onRoundTime() {
+    const { end } = this.state.entry;
+    const endMinutes = parseInt(format(end, 'mm'), 10);
+    const endHours = format(end, 'HH');
+    const roundingInt = parseInt(this.rounding, 10);
+    const roundingDownInt = parseInt(this.roundingDown, 10);
+    if (endMinutes < roundingInt) {
+      if (endMinutes > roundingDownInt) {
+        const timeString = roundingInt === 60 ?
+          `${pad(parseInt(endHours, 10) + 1)}:00` :
+          `${endHours}:${pad(roundingInt)}`;
+        this.onTimeChange('end', timeString);
+      } else {
+        this.onTimeChange('end', `${endHours}:00`);
+      }
+    } else {
+      let tempMinutes = endMinutes;
+      let count = 0;
+      while (tempMinutes > roundingInt) {
+        count += 1;
+        tempMinutes -= roundingInt;
+      }
+      count += 1;
+      if (endMinutes > (roundingInt * (count - 1)) + roundingDownInt) {
+        const roundedNum = roundingInt * count;
+        const timeString = roundedNum >= 60 ?
+          `${pad(parseInt(endHours, 10) + 1)}:00` :
+          `${endHours}:${pad(roundingInt)}`;
+        this.onTimeChange('end', timeString);
+      } else {
+        this.onTimeChange('end', `${endHours}:${pad(roundingInt * (count - 1))}`);
+      }
+    }
+  }
+
   dateInput: HTMLInputElement | null;
   tickInterval: IntervalID;
+  rounding: string;
+  roundingDown: string;
 
   tickTimer() {
     if (this.state.tracking) {
@@ -261,6 +310,7 @@ class Entry extends Component<EntryType, EntryStateType> {
     }
   }
 
+
   removeEntry() {
     const { entry, onRemove } = this.props;
 
@@ -286,7 +336,8 @@ class Entry extends Component<EntryType, EntryStateType> {
     } = this.state.entry;
 
     const hasId = Boolean(entry && !!entry.id);
-    const [minutes, seconds] = (timeElapsed(start, end) || '00:00').split(':');
+    const [hours, minutes, seconds] =
+      (timeElapsed(start, end, this.state.tracking, true) || '00:00:00').split(':');
 
     return (
       <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>
@@ -313,7 +364,16 @@ class Entry extends Component<EntryType, EntryStateType> {
           />
         </Table.Cell>
         <Table.Cell width={1}>
-          {minutes}<span className={classnames({ 'Duration--tracking': this.state.tracking })}>:</span>{seconds}
+          <Button
+            onClick={this.onRoundTime}
+          >
+            Round
+          </Button>
+        </Table.Cell>
+        <Table.Cell width={1}>
+          {hours}:{minutes}{this.state.tracking && (
+            <Fragment>:{seconds}</Fragment>
+          )}
         </Table.Cell>
         <Table.Cell width={3}>
           <ProjectInput

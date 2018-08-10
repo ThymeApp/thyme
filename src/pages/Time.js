@@ -10,19 +10,20 @@ import { getCurrentTimeEntries } from '../selectors/time';
 
 type TimeType = {
   entries: Array<timeType>,
+  settings: any,
 };
 
-function Time({ entries }: TimeType) {
+function Time({ entries, settings }: TimeType) {
   return (
     <div style={{ paddingLeft: '1%', paddingRight: '1%' }}>
       <DateRange />
-      <ThymeTable entries={entries} />
+      <ThymeTable entries={entries} settings={settings} />
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  return { entries: getCurrentTimeEntries(state) };
+  return { entries: getCurrentTimeEntries(state), settings: state.settings };
 }
 
 export default connect(mapStateToProps)(Time);
