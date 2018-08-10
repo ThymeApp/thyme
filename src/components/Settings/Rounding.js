@@ -41,10 +41,10 @@ class Rounding extends Component<RoundingProps> {
     const roundValue = valueFromEventTarget(e.target);
     const roundValueInt = parseInt(roundValue, 10);
     if (roundValueInt <= 60) {
-      this.props.setRoundingDown(roundValue);
+      this.props.setRounding(roundValue);
     }
     if (roundValue === '') {
-      this.props.setRoundingDown(roundValue);
+      this.props.setRounding(roundValue);
     }
   }
   onChangeRoundingDown(e) {

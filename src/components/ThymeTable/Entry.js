@@ -50,6 +50,8 @@ type EntryType = {
   onRemove?: (id: string) => void,
   onUpdate?: (entry: timePropertyType) => void,
   onAddNewProject?: (project: string) => string,
+  rounding: any,
+  roundingDown: any,
 };
 
 type EntryStateType = {
@@ -206,6 +208,8 @@ class Entry extends Component<EntryType, EntryStateType> {
 
   dateInput: HTMLInputElement | null;
   tickInterval: IntervalID;
+  rounding: string;
+  roundingDown: string;
 
   tickTimer() {
     if (this.state.tracking) {
