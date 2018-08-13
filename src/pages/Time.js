@@ -10,7 +10,10 @@ import { getCurrentTimeEntries } from '../selectors/time';
 
 type TimeType = {
   entries: Array<timeType>,
-  settings: any,
+  settings: {
+    rounding?: string,
+    roudningDown?: string,
+  },
 };
 
 function Time({ entries, settings }: TimeType) {

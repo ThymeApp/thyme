@@ -15,7 +15,7 @@ type ThymeTableType = {
   entries: Array<timeType>,
   settings: {
     rounding: string,
-    roudningDown: string,
+    roundingDown: string,
   },
   onEntryUpdate: (entry: timePropertyType) => void,
   onEntryRemove: (id: string) => void,

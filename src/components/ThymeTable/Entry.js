@@ -45,13 +45,14 @@ function pad(number: number) {
 type EntryType = {
   entry?: timeType,
   tempEntry?: tempTimePropertyType,
-  settings: any,
+  settings: {
+    rounding: any,
+    roundingDown: any,
+  },
   onAdd?: (entry: timePropertyType) => void,
   onRemove?: (id: string) => void,
   onUpdate?: (entry: timePropertyType) => void,
   onAddNewProject?: (project: string) => string,
-  rounding: any,
-  roundingDown: any,
 };
 
 type EntryStateType = {
@@ -198,7 +199,7 @@ class Entry extends Component<EntryType, EntryStateType> {
         const roundedNum = roundingInt * count;
         const timeString = roundedNum >= 60 ?
           `${pad(parseInt(endHours, 10) + 1)}:00` :
-          `${endHours}:${pad(roundingInt)}`;
+          `${endHours}:${pad(roundingInt * count)}`;
         this.onTimeChange('end', timeString);
       } else {
         this.onTimeChange('end', `${endHours}:${pad(roundingInt * (count - 1))}`);

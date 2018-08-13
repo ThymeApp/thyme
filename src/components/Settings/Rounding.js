@@ -40,7 +40,7 @@ class Rounding extends Component<RoundingProps> {
   onChangeRounding(e) {
     const roundValue = valueFromEventTarget(e.target);
     const roundValueInt = parseInt(roundValue, 10);
-    if (roundValueInt <= 60) {
+    if (roundValueInt <= 60 && roundValueInt > 0) {
       this.props.setRounding(roundValue);
     }
     if (roundValue === '') {
@@ -50,7 +50,7 @@ class Rounding extends Component<RoundingProps> {
   onChangeRoundingDown(e) {
     const roundDown = valueFromEventTarget(e.target);
     const roundDownInt = parseInt(roundDown, 10);
-    if (roundDown < this.props.rounding && roundDownInt <= 60) {
+    if (roundDown < this.props.rounding && roundDownInt <= 60 && roundDownInt >= 0) {
       this.props.setRoundingDown(roundDown);
     }
     if (roundDown === '') {
