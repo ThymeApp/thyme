@@ -29,31 +29,31 @@ type importStateType = {
 }
 
 function validTimeEntry(entry) {
-  return !(typeof entry.id !== 'string' ||
-    (entry.project !== null && typeof entry.project !== 'string') ||
-    typeof entry.start !== 'string' ||
-    typeof entry.end !== 'string' ||
-    typeof entry.notes !== 'string' ||
-    typeof entry.createdAt !== 'string' ||
-    typeof entry.updatedAt !== 'string');
+  return !(typeof entry.id !== 'string'
+    || (entry.project !== null && typeof entry.project !== 'string')
+    || typeof entry.start !== 'string'
+    || typeof entry.end !== 'string'
+    || typeof entry.notes !== 'string'
+    || typeof entry.createdAt !== 'string'
+    || typeof entry.updatedAt !== 'string');
 }
 
 function validProjectEntry(entry) {
-  return !(typeof entry.id !== 'string' ||
-    (entry.parent !== null && typeof entry.parent !== 'string') ||
-    typeof entry.name !== 'string' ||
-    typeof entry.createdAt !== 'string' ||
-    typeof entry.updatedAt !== 'string');
+  return !(typeof entry.id !== 'string'
+    || (entry.parent !== null && typeof entry.parent !== 'string')
+    || typeof entry.name !== 'string'
+    || typeof entry.createdAt !== 'string'
+    || typeof entry.updatedAt !== 'string');
 }
 
 function validReportEntry(entry) {
-  return !(typeof entry.id !== 'string' ||
-    typeof entry.name !== 'string' ||
-    !Array.isArray(entry.filters) ||
-    !entry.filters.every(item => typeof item === 'string' || item === null) ||
-    typeof entry.from !== 'string' ||
-    typeof entry.to !== 'string' ||
-    typeof entry.createdAt !== 'string');
+  return !(typeof entry.id !== 'string'
+    || typeof entry.name !== 'string'
+    || !Array.isArray(entry.filters)
+    || !entry.filters.every(item => typeof item === 'string' || item === null)
+    || typeof entry.from !== 'string'
+    || typeof entry.to !== 'string'
+    || typeof entry.createdAt !== 'string');
 }
 
 export function parseImportData({ time = [], projects = [], reports = [] }: importStateType) {
@@ -61,10 +61,10 @@ export function parseImportData({ time = [], projects = [], reports = [] }: impo
 }
 
 export function validData({ time, projects, reports }: importStateType) {
-  return !(!time || !projects || !reports ||
-    !Array.isArray(time) || !Array.isArray(projects) || !Array.isArray(reports) ||
-    !time.every(validTimeEntry) || !projects.every(validProjectEntry) ||
-    !reports.every(validReportEntry));
+  return !(!time || !projects || !reports
+    || !Array.isArray(time) || !Array.isArray(projects) || !Array.isArray(reports)
+    || !time.every(validTimeEntry) || !projects.every(validProjectEntry)
+    || !reports.every(validReportEntry));
 }
 
 function mergeOverwrite(oldList: any[] = [], newList: any[] = [], overwrite: boolean = true) {
@@ -78,8 +78,8 @@ function mergeOverwrite(oldList: any[] = [], newList: any[] = [], overwrite: boo
 
       // return old time entry if updateAt is later then imported item
       if (
-        newItem && newItem.updatedAt &&
-        time.updatedAt && isBefore(newItem.updatedAt, time.updatedAt)
+        newItem && newItem.updatedAt
+        && time.updatedAt && isBefore(newItem.updatedAt, time.updatedAt)
       ) {
         return time;
       }

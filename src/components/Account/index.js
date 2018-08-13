@@ -20,7 +20,7 @@ import './style.css';
 
 type AccountProps = {
   history: RouterHistory;
-  logout: () => void;
+  onLogout: () => void;
   loggedIn: boolean;
 }
 
@@ -37,19 +37,29 @@ function preventDefault(cb: (e: Event) => void) {
 }
 
 class Account extends Component<AccountProps, AccountState> {
+  goToLogin = preventDefault(() => this.setState({ view: 'login' }));
+
+  goToRegister = preventDefault(() => this.setState({ view: 'register' }));
+
   state = {
     isOpen: false,
     view: 'login',
   };
 
-  onLogout = () => this.props.logout();
+  onLogout = () => {
+    const { onLogout } = this.props;
+
+    onLogout();
+  };
+
   handleOpen = () => this.setState({ isOpen: true });
+
   handleClose = () => this.setState({ isOpen: false });
 
-  goToLogin = preventDefault(() => this.setState({ view: 'login' }));
-  goToRegister = preventDefault(() => this.setState({ view: 'register' }));
   goToSettings = () => {
-    this.props.history.push('/settings');
+    const { history } = this.props;
+
+    history.push('/settings');
     this.handleClose();
   };
 
@@ -117,6 +127,6 @@ export default compose(
   withRouter,
   connect(
     mapStateToProps,
-    dispatch => bindActionCreators({ logout }, dispatch),
+    dispatch => bindActionCreators({ onLogout: logout }, dispatch),
   ),
 )(Account);

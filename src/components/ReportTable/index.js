@@ -15,15 +15,23 @@ function ReportTable({ projects }: ReportTableType) {
     <Table celled>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Project</Table.HeaderCell>
-          <Table.HeaderCell width={2}>Total spent</Table.HeaderCell>
+          <Table.HeaderCell>
+            Project
+          </Table.HeaderCell>
+          <Table.HeaderCell width={2}>
+            Total spent
+          </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
         {projects.map(project => (
           <Table.Row key={project.id}>
-            <Table.Cell>{project.nameTree.join(' > ')}</Table.Cell>
-            <Table.Cell textAlign="right">{formatDuration(project.time * 60)}</Table.Cell>
+            <Table.Cell>
+              {project.nameTree.join(' > ')}
+            </Table.Cell>
+            <Table.Cell textAlign="right">
+              {formatDuration(project.time * 60)}
+            </Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>

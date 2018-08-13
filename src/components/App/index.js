@@ -27,9 +27,9 @@ function AppLink(name, path, currentPath, exact = false) {
   return (
     <Link
       className={classnames('item', {
-        active: exact ?
-          currentPath === path :
-          currentPath.indexOf(path) === 0,
+        active: exact
+          ? currentPath === path
+          : currentPath.indexOf(path) === 0,
       })}
       to={path}
     >
@@ -64,7 +64,9 @@ function App({
           {AppLink('Projects', '/projects', location.pathname)}
           {AppLink('Settings', '/settings', location.pathname)}
           <Menu.Menu position="right">
-            <Menu.Item><Account /></Menu.Item>
+            <Menu.Item>
+              <Account />
+            </Menu.Item>
           </Menu.Menu>
         </Container>
       </Menu>

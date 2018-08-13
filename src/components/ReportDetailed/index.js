@@ -18,21 +18,17 @@ type ReportDetailedState = {
 };
 
 class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> {
-  constructor() {
-    super();
+  state = {
+    opened: false,
+  };
 
-    this.toggleDetails = () => {
-      this.setState({
-        opened: !this.state.opened,
-      });
-    };
+  toggleDetails = () => {
+    const { opened } = this.state;
 
-    this.state = {
-      opened: false,
-    };
-  }
-
-  toggleDetails: () => void;
+    this.setState({
+      opened: !opened,
+    });
+  };
 
   render() {
     const { projects } = this.props;
@@ -48,23 +44,47 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
           <Table celled>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Date</Table.HeaderCell>
-                <Table.HeaderCell>Start</Table.HeaderCell>
-                <Table.HeaderCell>End</Table.HeaderCell>
-                <Table.HeaderCell>Duration</Table.HeaderCell>
-                <Table.HeaderCell>Project</Table.HeaderCell>
-                <Table.HeaderCell>Notes</Table.HeaderCell>
+                <Table.HeaderCell>
+                  Date
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  Start
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  End
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  Duration
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  Project
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  Notes
+                </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {projects.map(project => project.entries.map(entry => (
                 <Table.Row key={entry.id}>
-                  <Table.Cell>{format(entry.start, 'DD/MM/YYYY')}</Table.Cell>
-                  <Table.Cell>{format(entry.start, 'HH:mm')}</Table.Cell>
-                  <Table.Cell>{format(entry.end, 'HH:mm')}</Table.Cell>
-                  <Table.Cell>{timeElapsed(entry.start, entry.end)}</Table.Cell>
-                  <Table.Cell>{project.nameTree.join(' > ')}</Table.Cell>
-                  <Table.Cell>{entry.notes}</Table.Cell>
+                  <Table.Cell>
+                    {format(entry.start, 'DD/MM/YYYY')}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {format(entry.start, 'HH:mm')}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {format(entry.end, 'HH:mm')}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {timeElapsed(entry.start, entry.end)}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {project.nameTree.join(' > ')}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {entry.notes}
+                  </Table.Cell>
                 </Table.Row>
               )))}
             </Table.Body>

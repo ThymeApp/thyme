@@ -11,10 +11,9 @@ import isAfter from 'date-fns/is_after';
 
 import { sortByTime } from '../core/thyme';
 
-export const getAllTimeEntries = (state: storeShape): timeType[] =>
-  state.time.allIds
-    .map(id => state.time.byId[id])
-    .filter(time => !time.removed);
+export const getAllTimeEntries = (state: storeShape): timeType[] => state.time.allIds
+  .map(id => state.time.byId[id])
+  .filter(time => !time.removed);
 export const getDateRange = (state: storeShape) => state.time.dateRange;
 
 const now = new Date();

@@ -3,7 +3,7 @@
 import React from 'react';
 import type { Element } from 'react';
 
-import ProjectItem from './ProjectItem';
+import ProjectItem from './ProjectItem'; // eslint-disable-line import/no-cycle
 
 import './ProjectsList.css';
 

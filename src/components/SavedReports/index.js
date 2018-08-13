@@ -28,8 +28,8 @@ type SavedReportsProps = {
     from: Date,
     to: Date,
   }>,
-  addReport: (name: string, filters: Array<string>, from: Date, to: Date) => void,
-  removeReport: (id: string) => void,
+  onAddReport: (name: string, filters: Array<string>, from: Date, to: Date) => void,
+  onRemoveReport: (id: string) => void,
 };
 
 type SaveReportsState = {
@@ -40,66 +40,59 @@ type SaveReportsState = {
 };
 
 class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
-  constructor() {
-    super();
+  state = {
+    name: '',
+    confirmDelete: {},
+  };
 
-    this.onUpdateName = (e: Event) => {
-      if (e.target instanceof HTMLInputElement) {
-        this.updateName(e.target.value);
-      }
-    };
+  onCancelConfirm = () => this.setState({ confirmDelete: {} });
 
-    this.onKeyPress = (e: KeyboardEvent) => {
-      // check if return is pressed
-      if (e.charCode && e.charCode === 13) {
-        e.preventDefault();
+  onUpdateName = (e: Event) => {
+    if (e.target instanceof HTMLInputElement) {
+      this.updateName(e.target.value);
+    }
+  };
 
-        this.addReport();
-      }
-    };
-
-    this.onAddReport = (e: Event) => {
-      e.preventDefault();
-      this.addReport();
-    };
-
-    this.onCancelConfirm = () => this.setState({ confirmDelete: {} });
-
-    this.state = {
-      name: '',
-      confirmDelete: {},
-    };
-  }
-
-  onAddReport: (e: Event) => void;
-  onUpdateName: (e: Event) => void;
-  onKeyPress: (e: KeyboardEvent) => void;
-  onCancelConfirm: () => void;
+  onKeyPress = (e: KeyboardEvent) => {
+    // check if return is pressed
+    if (e.charCode && e.charCode === 13) {
+      this.onAddReport(e);
+    }
+  };
 
   onRemoveReport = (id: string) => {
+    const { confirmDelete } = this.state;
+
     this.setState({
       confirmDelete: {
-        ...this.state.confirmDelete,
+        ...confirmDelete,
         [id]: true,
       },
     });
   };
 
-  updateName(name: string) {
-    this.setState({ name });
-  }
+  onAddReport = (e: Event) => {
+    e.preventDefault();
 
-  addReport() {
-    const { filters, from, to } = this.props;
+    const {
+      filters,
+      from,
+      to,
+      onAddReport,
+    } = this.props;
     const { name } = this.state;
 
     if (name === '') {
       return;
     }
 
-    this.props.addReport(name, filters, from, to);
+    onAddReport(name, filters, from, to);
 
     this.updateName('');
+  };
+
+  updateName(name: string) {
+    this.setState({ name });
   }
 
   render() {
@@ -118,10 +111,16 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
             onKeyPress={this.onKeyPress}
             style={{ marginRight: 12 }}
           />
-          <Button onClick={this.onAddReport} color="blue">Save this report</Button>
+          <Button onClick={this.onAddReport} color="blue">
+            Save this report
+          </Button>
         </form>
 
-        {savedReports.length > 0 && <Header>Saved reports</Header>}
+        {savedReports.length > 0 && (
+          <Header>
+            Saved reports
+          </Header>
+        )}
 
         {savedReports.length > 0 && (
           <div className="SavedReports__list">
@@ -130,7 +129,9 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
                 className="SavedReports__report"
                 key={report.id}
               >
-                <Link className="ui basic button" to={`/reports/${report.id}`}>{report.name}</Link>
+                <Link className="ui basic button" to={`/reports/${report.id}`}>
+                  {report.name}
+                </Link>
 
                 <Popup
                   inverted
@@ -150,8 +151,10 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
                   size="mini"
                   onCancel={this.onCancelConfirm}
                   onConfirm={() => {
+                    const { onRemoveReport } = this.props;
+
                     this.onCancelConfirm();
-                    this.props.removeReport(report.id);
+                    onRemoveReport(report.id);
                   }}
                 />
               </div>
@@ -169,11 +172,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addReport(name: string, filters: Array<string>, from: Date, to: Date) {
+    onAddReport(name: string, filters: Array<string>, from: Date, to: Date) {
       dispatch(addReport(name, filters, from, to));
     },
 
-    removeReport(id: string) {
+    onRemoveReport(id: string) {
       dispatch(removeReport(id));
     },
   };

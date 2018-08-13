@@ -30,9 +30,9 @@ type StatusProps = {
   exportState: toExportType;
   jwt: string;
   closePopup: () => void;
-  updateToken: (token: string) => void;
-  logout: () => void;
-  importJSONData: (data: importDataType) => void;
+  onLogout: () => void;
+  onUpdateToken: (token: string) => void;
+  importData: (data: importDataType) => void;
   connectionState: ConnectionStates;
 }
 
@@ -46,7 +46,9 @@ class Status extends Component<StatusProps, StatusState> {
   };
 
   componentDidMount() {
-    this.props.closePopup();
+    const { closePopup } = this.props;
+
+    closePopup();
 
     this.checkToken().then(this.getStateFromServer);
 
@@ -66,7 +68,7 @@ class Status extends Component<StatusProps, StatusState> {
       return;
     }
 
-    const { exportState } = this.props;
+    const { exportState, importData } = this.props;
 
     getState().then((fromServer) => {
       const currentState = stateToExport(exportState);
@@ -80,11 +82,12 @@ class Status extends Component<StatusProps, StatusState> {
       const newState = mergeImport(currentState, fromServer);
 
       // save merged state to store
-      this.props.importJSONData(newState);
+      importData(newState);
     });
   };
 
   goOnline = () => this.setState({ online: true });
+
   goOffline = () => this.setState({ online: false });
 
   timeout: TimeoutID;
@@ -93,7 +96,9 @@ class Status extends Component<StatusProps, StatusState> {
     // check again in 60 seconds
     this.timeout = setTimeout(() => this.checkToken(), 60000);
 
-    const parsedJwt = parseJwt(this.props.jwt);
+    const { jwt, onUpdateToken, onLogout } = this.props;
+
+    const parsedJwt = parseJwt(jwt);
     const isOk = parsedJwt.exp && isBefore(new Date(), addDays(parsedJwt.exp * 1000, -7));
 
     // token is still okay to use
@@ -104,13 +109,13 @@ class Status extends Component<StatusProps, StatusState> {
     return refreshToken()
       .then((token) => {
         // save refreshed token
-        this.props.updateToken(token);
+        onUpdateToken(token);
 
         return true;
       })
       .catch(() => {
         // token is invalid
-        this.props.logout();
+        onLogout();
 
         return false;
       });
@@ -140,5 +145,9 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  dispatch => bindActionCreators({ logout, updateToken, importJSONData }, dispatch),
+  dispatch => bindActionCreators({
+    onLogout: logout,
+    onUpdateToken: updateToken,
+    importData: importJSONData,
+  }, dispatch),
 )(Status);

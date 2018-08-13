@@ -3,7 +3,12 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
-import { Field, reduxForm, SubmissionError, initialize } from 'redux-form';
+import {
+  Field,
+  reduxForm,
+  SubmissionError,
+  initialize,
+} from 'redux-form';
 import type { FormProps } from 'redux-form';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
@@ -20,15 +25,17 @@ import { changePassword } from './api';
 
 type AccountProps = {
   loggedIn: boolean;
-  alert: (message: string) => void;
-  initialize: (form: string, data: any) => void;
+  showAlert: (message: string) => void;
+  initializeForms: (form: string, data: any) => void;
 } & FormProps;
 
 class Account extends Component<AccountProps> {
   onSubmit = ({ currentPassword, password }) => changePassword(currentPassword, password)
     .then(() => {
-      this.props.alert('Password successfully updated');
-      this.props.initialize('accountSettings', {});
+      const { showAlert, initializeForms } = this.props;
+
+      showAlert('Password successfully updated');
+      initializeForms('accountSettings', {});
     })
     .catch((e) => {
       throw new SubmissionError({ _error: e.message });
@@ -48,14 +55,20 @@ class Account extends Component<AccountProps> {
 
     return (
       <Fragment>
-        <Header as="h3">Account settings</Header>
+        <Header as="h3">
+          Account settings
+        </Header>
 
         <Form
           onSubmit={handleSubmit(this.onSubmit)}
           loading={submitting}
           noValidate
         >
-          { error && <Message color="red" size="small">{ error }</Message> }
+          {error && (
+            <Message color="red" size="small">
+              {error}
+            </Message>
+          )}
 
           <Field
             label="Current password"
@@ -87,7 +100,9 @@ class Account extends Component<AccountProps> {
             placeholder="Confirm your new password"
           />
 
-          <Form.Button primary>Update password</Form.Button>
+          <Form.Button primary>
+            Update password
+          </Form.Button>
         </Form>
       </Fragment>
     );
@@ -120,7 +135,10 @@ const mapStateToProps = state => ({ loggedIn: isLoggedIn(state) });
 export default compose(
   connect(
     mapStateToProps,
-    dispatch => bindActionCreators({ initialize, alert }, dispatch),
+    dispatch => bindActionCreators({
+      initializeForms: initialize,
+      showAlert: alert,
+    }, dispatch),
   ),
   reduxForm({
     form: 'accountSettings',

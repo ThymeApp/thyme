@@ -26,7 +26,9 @@ const renderField = ({
   meta: { touched, error, warning },
 }: FieldRenderProps) => (
   <Form.Field required={required}>
-    <label htmlFor="email">{label}</label>
+    <label htmlFor="email">
+      {label}
+    </label>
     <div>
       <Input
         {...input}
@@ -36,10 +38,17 @@ const renderField = ({
         error={Boolean(touched && error)}
         size="small"
       />
-      { touched &&
-      (
-        (error && <span className="Msg-Error">{error}</span>) ||
-        (warning && <span className="Msg-Warn">{warning}</span>)
+      { touched && (
+        (error && (
+          <span className="Msg-Error">
+            {error}
+          </span>
+        ))
+        || (warning && (
+          <span className="Msg-Warn">
+            {warning}
+          </span>
+        ))
       ) }
     </div>
   </Form.Field>
