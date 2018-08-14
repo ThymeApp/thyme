@@ -92,9 +92,9 @@ export function roundEndTime(
   let timeString: string = '';
   if (endMinutes < rounding) {
     if (endMinutes > roundingDown) {
-      timeString = rounding === 60 ?
-        `${pad(endHours + 1)}:00` :
-        `${pad(endHours)}:${pad(rounding)}`;
+      timeString = rounding === 60
+        ? `${pad(endHours + 1)}:00`
+        : `${pad(endHours)}:${pad(rounding)}`;
     } else {
       timeString = `${pad(endHours)}:00`;
     }
@@ -102,9 +102,9 @@ export function roundEndTime(
     const count: number = Math.floor(endMinutes / rounding) + 1;
     if (endMinutes > (rounding * (count - 1)) + roundingDown) {
       const roundedNum = rounding * count;
-      timeString = roundedNum >= 60 ?
-        `${pad(endHours + 1)}:00` :
-        `${pad(endHours)}:${pad(rounding * count)}`;
+      timeString = roundedNum >= 60
+        ? `${pad(endHours + 1)}:00`
+        : `${pad(endHours)}:${pad(rounding * count)}`;
     } else {
       timeString = `${pad(endHours)}:${pad(rounding * (count - 1))}`;
     }
@@ -128,9 +128,9 @@ export function roundStartTime(
     if (roundingDown >= (rounding * (count + 1)) - endMinutes) {
       timeString = `${pad(endHours)}:${pad(endMinutes)}`;
     } else {
-      timeString = rounding === 60 ?
-        `${pad(endHours)}:00` :
-        `${pad(endHours)}:${pad(rounding * count)}`;
+      timeString = rounding === 60
+        ? `${pad(endHours)}:00`
+        : `${pad(endHours)}:${pad(rounding * count)}`;
     }
   }
   return timeString;

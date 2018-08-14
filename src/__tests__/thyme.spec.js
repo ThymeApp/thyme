@@ -1,4 +1,6 @@
-import { totalProjectTime, timeElapsed, pad, roundEndTime, roundStartTime } from '../core/thyme';
+import {
+  totalProjectTime, timeElapsed, pad, roundEndTime, roundStartTime,
+} from '../core/thyme';
 
 describe('Calculate total project time', () => {
   const times = [{

@@ -61,8 +61,10 @@ type EntryStateType = {
 class Entry extends Component<EntryType, EntryStateType> {
   constructor(props: EntryType) {
     super(props);
-    this.rounding = this.props.settings.rounding;
-    this.roundingDown = this.props.settings.roundingDown;
+    const { settings } = this.props;
+    const { rounding, roundingDown } = settings;
+    this.rounding = rounding;
+    this.roundingDown = roundingDown;
     this.state = {
       entry: defaultState(props.entry || props.tempEntry),
       tracking: props.tempEntry ? props.tempEntry.tracking : false,
@@ -159,8 +161,8 @@ class Entry extends Component<EntryType, EntryStateType> {
 
   onStartTimeTracking = () => {
     const { entry } = this.state;
-    let startTime = isEqual(entry.start, defaultStart) ?
-      new Date() : entry.start;
+    let startTime = isEqual(entry.start, defaultStart)
+      ? new Date() : entry.start;
     const minutes = parseInt(format(startTime, 'mm'), 10);
     const hours = parseInt(format(startTime, 'HH'), 10);
     const rounding = parseInt(this.rounding, 10);

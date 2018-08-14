@@ -37,6 +37,10 @@ function preventDefault(cb: (e: Event) => void) {
 }
 
 class Account extends Component<AccountProps, AccountState> {
+  goToRegister = preventDefault(() => this.setState({ view: 'register' }));
+
+  goToLogin = preventDefault(() => this.setState({ view: 'login' }));
+
   state = {
     isOpen: false,
     view: 'login',
@@ -47,10 +51,6 @@ class Account extends Component<AccountProps, AccountState> {
 
     onLogout();
   };
-
-  goToRegister = preventDefault(() => this.setState({ view: 'register' }));
-
-  goToLogin = preventDefault(() => this.setState({ view: 'login' }));
 
   handleOpen = () => this.setState({ isOpen: true });
 

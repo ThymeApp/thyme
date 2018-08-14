@@ -18,20 +18,23 @@ type RoundingProps = {
 }
 
 function Combo(props: RoundingProps) {
+  const {
+    title, rounding, onInputChange, onDropDownChange,
+  } = props;
   return (
     <Input
-      title={props.title}
+      title={title}
       type="number"
       size="small"
-      value={props.rounding}
-      onChange={props.onInputChange}
-      label={
+      value={rounding}
+      onChange={onInputChange}
+      label={(
         <Dropdown
           options={options}
-          onChange={props.onDropDownChange}
-          defaultValue={props.rounding}
+          onChange={onDropDownChange}
+          defaultValue={rounding}
         />
-      }
+)}
       labelPosition="left"
       placeholder="Duration rounding"
     />
