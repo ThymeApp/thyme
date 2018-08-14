@@ -79,3 +79,53 @@ export function totalProjectTime(
   return projectTimeEntries(project, time, from, to)
     .reduce((total, entry) => total + calculateDuration(entry.start, entry.end), 0);
 }
+
+
+export function pad(number: number): string {
+  return (number < 10 ? '0' : '') + number.toString();
+}
+
+export function roundEndTime(
+  endMinutes: number, endHours: number,
+  rounding: number, roundingDown: number,
+): string {
+  let timeString: string = '';
+  if (endMinutes < rounding) {
+    if (endMinutes > roundingDown) {
+      timeString = rounding === 60 ?
+        `${pad(endHours + 1)}:00` :
+        `${endHours}:${pad(rounding)}`;
+    } else {
+      timeString = `${endHours}:00`;
+    }
+  } else {
+    const count = Math.floor(endMinutes / rounding) + 1;
+    if (endMinutes > (rounding * (count - 1)) + roundingDown) {
+      const roundedNum = rounding * count;
+      timeString = roundedNum >= 60 ?
+        `${pad(endHours + 1)}:00` :
+        `${endHours}:${pad(rounding * count)}`;
+    } else {
+      timeString = `${endHours}:${pad(rounding * (count - 1))}`;
+    }
+  }
+  return timeString;
+}
+
+export function roundStartTime(
+  endMinutes: number, endHours: number,
+  rounding: number, roundingDown: number,
+): string {
+  let timeString: string = '';
+  console.log(`end minutes < rounding : ${endMinutes < rounding}
+roundingDown > (rounding - endMinutes): ${roundingDown > (rounding - endMinutes)} roundingDown: ${roundingDown} rounding - end minutes ${rounding - endMinutes}`);
+  if (endMinutes < rounding) {
+    if (roundingDown > (rounding - endMinutes)) {
+      timeString = `${pad(endHours)}:${pad(endMinutes)}`;
+    } else {
+      timeString = `${pad(endHours)}:00`;
+    }
+  }
+  console.log(`timeString: ${timeString}`);
+  return timeString;
+}

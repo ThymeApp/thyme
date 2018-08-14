@@ -1,4 +1,4 @@
-import { totalProjectTime, timeElapsed } from '../core/thyme';
+import { totalProjectTime, timeElapsed, pad, roundEndTime, roundStartTime } from '../core/thyme';
 
 describe('Calculate total project time', () => {
   const times = [{
@@ -39,4 +39,27 @@ describe('Returns correct time differences', () => {
   // no seconds
   expect(timeElapsed('2018-01-03T10:00:10.000Z', '2018-01-03T12:00:00.000Z', true, false))
     .toBe('01:59');
+});
+
+describe('Returns rounded end time strings', () => {
+  expect(roundEndTime(27, 10, 30, 25)).toBe('10:30');
+  expect(roundEndTime(41, 10, 30, 10)).toBe('11:00');
+  expect(roundEndTime(2, 10, 5, 3)).toBe('10:00');
+  expect(roundEndTime(3, 10, 5, 2)).toBe('10:05');
+  expect(roundEndTime(17, 10, 15, 8)).toBe('10:15');
+  expect(roundEndTime(25, 10, 15, 8)).toBe('10:30');
+  expect(roundEndTime(43, 10, 10, 4)).toBe('10:40');
+  expect(roundEndTime(45, 10, 10, 4)).toBe('10:50');
+  expect(roundEndTime(1, 10, 60, 0)).toBe('11:00');
+});
+
+describe('Returns rounded start time string', () => {
+  expect(roundStartTime(2, 10, 5, 2)).toBe('10:00');
+});
+
+describe('The padding works', () => {
+  expect(pad(2)).toBe('02');
+  expect(pad(7)).toBe('07');
+  expect(pad(57)).toBe('57');
+  expect(pad(23)).toBe('23');
 });
