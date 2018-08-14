@@ -42,19 +42,32 @@ describe('Returns correct time differences', () => {
 });
 
 describe('Returns rounded end time strings', () => {
-  expect(roundEndTime(27, 10, 30, 25)).toBe('10:30');
-  expect(roundEndTime(41, 10, 30, 10)).toBe('11:00');
-  expect(roundEndTime(2, 10, 5, 3)).toBe('10:00');
-  expect(roundEndTime(3, 10, 5, 2)).toBe('10:05');
-  expect(roundEndTime(17, 10, 15, 8)).toBe('10:15');
-  expect(roundEndTime(25, 10, 15, 8)).toBe('10:30');
-  expect(roundEndTime(43, 10, 10, 4)).toBe('10:40');
-  expect(roundEndTime(45, 10, 10, 4)).toBe('10:50');
+  expect(roundEndTime(27, 8, 30, 25)).toBe('08:30');
+  expect(roundEndTime(41, 8, 30, 10)).toBe('09:00');
+  expect(roundEndTime(2, 8, 5, 3)).toBe('08:00');
+  expect(roundEndTime(3, 8, 5, 2)).toBe('08:05');
+  expect(roundEndTime(17, 8, 15, 8)).toBe('08:15');
+  expect(roundEndTime(25, 8, 15, 8)).toBe('08:30');
+  expect(roundEndTime(43, 8, 10, 4)).toBe('08:40');
+  expect(roundEndTime(45, 8, 10, 4)).toBe('08:50');
   expect(roundEndTime(1, 10, 60, 0)).toBe('11:00');
+  expect(roundEndTime(1, 8, 60, 0)).toBe('09:00');
 });
 
 describe('Returns rounded start time string', () => {
   expect(roundStartTime(2, 10, 5, 2)).toBe('10:00');
+  expect(roundStartTime(2, 10, 5, 3)).toBe('10:02');
+  expect(roundStartTime(12, 10, 5, 2)).toBe('10:10');
+  expect(roundStartTime(24, 8, 60, 0)).toBe('08:00');
+  expect(roundStartTime(44, 8, 30, 15)).toBe('08:30');
+  expect(roundStartTime(46, 8, 30, 15)).toBe('08:46');
+  expect(roundStartTime(28, 8, 60, 31)).toBe('08:00');
+  expect(roundStartTime(14, 8, 15, 10)).toBe('08:14');
+  expect(roundStartTime(12, 8, 15, 2)).toBe('08:00');
+  expect(roundStartTime(50, 8, 15, 9)).toBe('08:45');
+  expect(roundStartTime(16, 8, 10, 3)).toBe('08:10');
+  expect(roundStartTime(2, 8, 10, 7)).toBe('08:00');
+  expect(roundStartTime(12, 8, 10, 9)).toBe('08:12');
 });
 
 describe('The padding works', () => {
