@@ -123,8 +123,7 @@ export function roundStartTime(
     } else {
       timeString = `${pad(endHours)}:00`;
     }
-  }
-  else {
+  } else {
     const count: number = Math.floor(endMinutes / rounding);
     if (roundingDown >= (rounding * (count + 1)) - endMinutes) {
       timeString = `${pad(endHours)}:${pad(endMinutes)}`;
