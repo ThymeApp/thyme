@@ -195,7 +195,10 @@ class Entry extends Component<EntryType, EntryStateType> {
     const roundingDown = parseInt(this.roundingDown, 10);
     const timeString = roundStartTime(minutes, hours, rounding, roundingDown);
     const [roundedHours, roundedMinutes] = timeString.split(':');
-    startTime = setHours(setMinutes(startTime, roundedMinutes), roundedHours);
+    startTime = setHours(
+      setMinutes(startTime, parseInt(roundedMinutes, 10)),
+      parseInt(roundedHours, 10),
+    );
     this.setState({
       tracking: true,
       entry: {
