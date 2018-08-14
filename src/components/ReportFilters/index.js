@@ -16,8 +16,9 @@ type ReportFiltersType = {
 class ReportFilters extends Component<ReportFiltersType> {
   onFilterToggle = (e: Event, action: any) => {
     if (action.type === 'checkbox') {
+      const { onToggle } = this.props;
       const { name } = action;
-      this.props.onToggle(name === '' ? null : name);
+      onToggle(name === '' ? null : name);
     }
   };
 

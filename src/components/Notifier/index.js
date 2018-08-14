@@ -11,14 +11,16 @@ import { updateAvailable } from '../../selectors/app';
 import './style.css';
 
 type NotifierType = {
-  updateAvailable: boolean;
+  isUpdateAvailable: boolean;
 }
 
 class Notifier extends Component<NotifierType> {
   reloadWindow = () => window.location.reload();
 
   render() {
-    if (!this.props.updateAvailable) {
+    const { isUpdateAvailable } = this.props;
+
+    if (!isUpdateAvailable) {
       return null;
     }
 
@@ -39,7 +41,7 @@ class Notifier extends Component<NotifierType> {
 
 function mapStateToProps(state) {
   return {
-    updateAvailable: updateAvailable(state),
+    isUpdateAvailable: updateAvailable(state),
   };
 }
 

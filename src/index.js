@@ -37,7 +37,9 @@ setupStateResolver(() => store.getState());
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <App><Routes /></App>
+      <App>
+        <Routes />
+      </App>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root') || document.createElement('div'),

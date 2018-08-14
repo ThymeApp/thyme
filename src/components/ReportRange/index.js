@@ -21,39 +21,49 @@ type ReportRangeType = {
 };
 
 class ReportRange extends Component<ReportRangeType> {
-  constructor() {
-    super();
+  onUpdateFrom = (e: Event) => this.updateRange('from', valueFromEventTarget(e.target));
 
-    this.onUpdateFrom = (e: Event) => this.updateRange('from', valueFromEventTarget(e.target));
-    this.onUpdateTo = (e: Event) => this.updateRange('to', valueFromEventTarget(e.target));
+  onUpdateTo = (e: Event) => this.updateRange('to', valueFromEventTarget(e.target));
 
-    this.onToday = () => this.props.updateDateRange(new Date(), new Date());
-    this.onThisWeek = () => this.props.updateDateRange(
+  onToday = () => {
+    const { updateDateRange } = this.props;
+    updateDateRange(new Date(), new Date());
+  };
+
+  onThisWeek = () => {
+    const { updateDateRange } = this.props;
+
+    updateDateRange(
       startOfWeek(new Date(), { weekStartsOn: 1 }),
       endOfWeek(new Date(), { weekStartsOn: 1 }),
     );
-    this.onWeekToDate = () => this.props.updateDateRange(
+  };
+
+  onWeekToDate = () => {
+    const { updateDateRange } = this.props;
+
+    updateDateRange(
       subDays(new Date(), 7),
       new Date(),
     );
-    this.onLastMonth = () => this.props.updateDateRange(
+  };
+
+  onLastMonth = () => {
+    const { updateDateRange } = this.props;
+
+    updateDateRange(
       subMonths(new Date(), 1),
       new Date(),
     );
-  }
-
-  onUpdateFrom: (e: Event) => void;
-  onUpdateTo: (e: Event) => void;
-  onToday: () => void;
-  onThisWeek: () => void;
-  onLastMonth: () => void;
-  onWeekToDate: () => void;
+  };
 
   updateRange(key: 'from' | 'to', value: string) {
-    const from = key === 'from' ? value : this.props.from;
-    const to = key === 'to' ? value : this.props.to;
+    const { from, to, updateDateRange } = this.props;
 
-    this.props.updateDateRange(parse(from), parse(to));
+    const newFrom = key === 'from' ? value : from;
+    const newTo = key === 'to' ? value : to;
+
+    updateDateRange(parse(newFrom), parse(newTo));
   }
 
   render() {
@@ -81,7 +91,9 @@ class ReportRange extends Component<ReportRangeType> {
           name="from"
           size="small"
         />
-        <span style={{ marginLeft: 6, marginRight: 6 }}>to</span>
+        <span style={{ marginLeft: 6, marginRight: 6 }}>
+          to
+        </span>
         <Input
           onChange={this.onUpdateTo}
           type="date"

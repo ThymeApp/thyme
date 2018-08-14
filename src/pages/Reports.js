@@ -92,7 +92,9 @@ class Reports extends Component<ReportsType> {
     return (
       <Container>
         <Menu style={{ border: 0, boxShadow: 'none' }}>
-          <Menu.Header as="h1" style={{ margin: 0 }}>Reports</Menu.Header>
+          <Menu.Header as="h1" style={{ margin: 0 }}>
+            Reports
+          </Menu.Header>
           <Menu.Menu position="right">
             <ReportRange
               from={from}

@@ -15,7 +15,9 @@ import ProjectsList from '../components/ProjectsList';
 function Projects({ projects }: { projects: Array<projectTreeType> }) {
   return (
     <Container>
-      <Header as="h1">Projects</Header>
+      <Header as="h1">
+        Projects
+      </Header>
 
       <section>
         <NewProject />

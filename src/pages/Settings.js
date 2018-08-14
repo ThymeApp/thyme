@@ -13,18 +13,37 @@ import Rounding from '../components/Settings/Rounding';
 function Settings() {
   return (
     <Container>
-      <Header as="h1">Settings</Header>
+      <Header as="h1">
+        Settings
+      </Header>
 
       <Account />
       <ImportExport />
       <DeleteData />
       <Rounding />
 
-      <Header as="h3">About</Header>
-      Thyme is a creation by <a href="https://theclevernode.com">Gaya Kessler</a>.
-      It is <a href="https://github.com/Gaya/thyme">open source</a> and free to use.
-      All your data is stored in your own browser.
-      Issues / requests can be <a href="https://github.com/Gaya/thyme/issues">filed on Github</a>.
+      <Header as="h3">
+        About
+      </Header>
+
+      <p>
+        Thyme is a creation by&nbsp;
+        <a href="https://theclevernode.com">
+          Gaya Kessler
+        </a>
+        .
+        It is&nbsp;
+        <a href="https://github.com/Gaya/thyme">
+          open source
+        </a>
+        &nbsp;and free to use.
+        All your data is stored in your own browser.
+        Issues / requests can be&nbsp;
+        <a href="https://github.com/Gaya/thyme/issues">
+          filed on Github
+        </a>
+        .
+      </p>
     </Container>
   );
 }

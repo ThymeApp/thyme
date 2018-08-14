@@ -20,7 +20,7 @@ import './style.css';
 
 type AccountProps = {
   history: RouterHistory;
-  logout: () => void;
+  onLogout: () => void;
   loggedIn: boolean;
 }
 
@@ -42,14 +42,24 @@ class Account extends Component<AccountProps, AccountState> {
     view: 'login',
   };
 
-  onLogout = () => this.props.logout();
-  handleOpen = () => this.setState({ isOpen: true });
-  handleClose = () => this.setState({ isOpen: false });
+  onLogout = () => {
+    const { onLogout } = this.props;
+
+    onLogout();
+  };
+
+  goToRegister = preventDefault(() => this.setState({ view: 'register' }));
 
   goToLogin = preventDefault(() => this.setState({ view: 'login' }));
-  goToRegister = preventDefault(() => this.setState({ view: 'register' }));
+
+  handleOpen = () => this.setState({ isOpen: true });
+
+  handleClose = () => this.setState({ isOpen: false });
+
   goToSettings = () => {
-    this.props.history.push('/settings');
+    const { history } = this.props;
+
+    history.push('/settings');
     this.handleClose();
   };
 
@@ -117,6 +127,6 @@ export default compose(
   withRouter,
   connect(
     mapStateToProps,
-    dispatch => bindActionCreators({ logout }, dispatch),
+    dispatch => bindActionCreators({ onLogout: logout }, dispatch),
   ),
 )(Account);

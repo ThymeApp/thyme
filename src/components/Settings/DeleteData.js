@@ -11,18 +11,25 @@ import { alert } from '../../actions/app';
 import { truncateTime } from '../../actions/time';
 import { truncateProjects } from '../../actions/projects';
 
+type DeleteDataProps = {
+  removeTimeData: () => void;
+  removeProjectData: () => void;
+  showAlert: (message: string) => void;
+}
+
 type DeleteDataState = {
   confirmRemoveTimesheet: boolean;
   confirmRemoveProjects: boolean;
 }
 
-class DeleteData extends Component<*, DeleteDataState> {
+class DeleteData extends Component<DeleteDataProps, DeleteDataState> {
   state = {
     confirmRemoveTimesheet: false,
     confirmRemoveProjects: false,
   };
 
   onRemoveTime = () => { this.setState({ confirmRemoveTimesheet: true }); };
+
   onRemoveProjects = () => { this.setState({ confirmRemoveProjects: true }); };
 
   onCancelConfirm = () => {
@@ -33,15 +40,19 @@ class DeleteData extends Component<*, DeleteDataState> {
   };
 
   onConfirmRemoveTime = () => {
+    const { removeTimeData, showAlert } = this.props;
+
     this.onCancelConfirm();
-    this.props.removeTimeData();
-    this.props.alert('All time data has been removed');
+    removeTimeData();
+    showAlert('All time data has been removed');
   };
 
   onConfirmRemoveProjects = () => {
+    const { removeProjectData, showAlert } = this.props;
+
     this.onCancelConfirm();
-    this.props.removeProjectData();
-    this.props.alert('All project data has been removed');
+    removeProjectData();
+    showAlert('All project data has been removed');
   };
 
   render() {
@@ -52,8 +63,12 @@ class DeleteData extends Component<*, DeleteDataState> {
 
     return (
       <Fragment>
-        <Header as="h3">Delete data</Header>
-        <Button color="red" onClick={this.onRemoveTime}>Remove timesheet data</Button>
+        <Header as="h3">
+          Delete data
+        </Header>
+        <Button color="red" onClick={this.onRemoveTime}>
+          Remove timesheet data
+        </Button>
         <Confirm
           open={confirmRemoveTimesheet}
           content="Are you SUPER sure you want to remove all timesheet data?"
@@ -63,7 +78,9 @@ class DeleteData extends Component<*, DeleteDataState> {
           onConfirm={this.onConfirmRemoveTime}
         />
 
-        <Button color="red" onClick={this.onRemoveProjects}>Remove project data</Button>
+        <Button color="red" onClick={this.onRemoveProjects}>
+          Remove project data
+        </Button>
         <Confirm
           open={confirmRemoveProjects}
           content="Are you SUPER sure you want to remove all projects data?"
@@ -87,11 +104,10 @@ function mapDispatchToProps(dispatch) {
       dispatch(truncateProjects());
     },
 
-    alert(message: string) {
+    showAlert(message: string) {
       dispatch(alert(message));
     },
   };
 }
 
 export default connect(null, mapDispatchToProps)(DeleteData);
-

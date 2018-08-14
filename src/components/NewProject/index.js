@@ -31,22 +31,13 @@ type NewProjectType = {
 };
 
 class NewProject extends Component<NewProjectType, NewProjectStateType> {
-  constructor(props) {
-    super(props);
+  state = defaultState();
 
-    this.onNameChange = e => this.onValueChange('name', valueFromEventTarget(e.target));
-    this.onProjectChange =
-      (e, project) => this.onValueChange('parent', project === null ? null : project.value);
-    this.onKeyPress = this.keyPress.bind(this);
-    this.onSubmit = this.addNew.bind(this);
+  onNameChange = (e: Event) => this.onValueChange('name', valueFromEventTarget(e.target));
 
-    this.state = defaultState();
-  }
+  onProjectChange = (e: Event, project: { value: string, label: string }) => this.onValueChange('parent', project === null ? null : project.value);
 
-  onNameChange: (e: Event) => void;
-  onProjectChange: (e: Event, project: { value: string, label: string }) => void;
-  onKeyPress: (e: KeyboardEvent) => void;
-  onSubmit: () => void;
+  onSubmit = () => this.addNew();
 
   onValueChange(key: string, value: string | null) {
     this.setState({
@@ -54,17 +45,18 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
     });
   }
 
-  keyPress(e: KeyboardEvent) {
+  onKeyPress = (e: KeyboardEvent) => {
     // check if return is pressed
     if (e.charCode && e.charCode === 13) {
       this.addNew();
     }
-  }
+  };
 
   addNew() {
     const { onAddProject } = this.props;
+    const { name } = this.state;
 
-    if (this.state.name.trim() === '') {
+    if (name.trim() === '') {
       return;
     }
 
@@ -92,7 +84,9 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
           style={{ marginRight: 12 }}
         />
         <ProjectInput placeholder="Select parent..." handleChange={this.onProjectChange} value={parent} />
-        <Button style={{ marginLeft: 12 }} color="blue" onClick={this.onSubmit}>Add project</Button>
+        <Button style={{ marginLeft: 12 }} color="blue" onClick={this.onSubmit}>
+          Add project
+        </Button>
       </div>
     );
   }

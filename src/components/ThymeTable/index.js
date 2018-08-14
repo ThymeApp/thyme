@@ -33,12 +33,24 @@ function ThymeTable({
     <Table basic="very">
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Date</Table.HeaderCell>
-          <Table.HeaderCell>Start</Table.HeaderCell>
-          <Table.HeaderCell>End</Table.HeaderCell>
-          <Table.HeaderCell>Duration</Table.HeaderCell>
-          <Table.HeaderCell>Project</Table.HeaderCell>
-          <Table.HeaderCell colSpan={2}>Notes</Table.HeaderCell>
+          <Table.HeaderCell>
+            Date
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            Start
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            End
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            Duration
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            Project
+          </Table.HeaderCell>
+          <Table.HeaderCell colSpan={2}>
+            Notes
+          </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
