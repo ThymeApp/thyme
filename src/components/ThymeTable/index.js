@@ -36,7 +36,6 @@ function ThymeTable({
           <Table.HeaderCell>Date</Table.HeaderCell>
           <Table.HeaderCell>Start</Table.HeaderCell>
           <Table.HeaderCell>End</Table.HeaderCell>
-          <Table.HeaderCell />
           <Table.HeaderCell>Duration</Table.HeaderCell>
           <Table.HeaderCell>Project</Table.HeaderCell>
           <Table.HeaderCell colSpan={2}>Notes</Table.HeaderCell>

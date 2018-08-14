@@ -17,7 +17,7 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
 import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
-import { timeElapsed } from '../../core/thyme';
+import { timeElapsed, roundEndTime, roundStartTime } from '../../core/thyme';
 import { valueFromEventTarget } from '../../core/dom';
 
 import DateInput from '../DateInput';
@@ -38,39 +38,6 @@ function defaultState(props = {}): timePropertyType {
   };
 }
 
-function pad(number: number) {
-  return (number < 10 ? '0' : '') + number;
-}
-
-function roundDownTime(endMinutes: number, endHours: number, rounding: number, roundingDown: number): string {
-  let timeString: string = '';
-  if (endMinutes < rounding) {
-    if (endMinutes > roundingDown) {
-      timeString = rounding === 60 ?
-        `${pad(parseInt(endHours, 10) + 1)}:00` :
-        `${endHours}:${pad(rounding)}`;
-    } else {
-      timeString = `${endHours}:00`;
-    }
-  } else {
-    let tempMinutes = endMinutes;
-    let count = 0;
-    while (tempMinutes > rounding) {
-      count += 1;
-      tempMinutes -= rounding;
-    }
-    count += 1;
-    if (endMinutes > (rounding * (count - 1)) + roundingDown) {
-      const roundedNum = rounding * count;
-      timeString = roundedNum >= 60 ?
-        `${pad(parseInt(endHours, 10) + 1)}:00` :
-        `${endHours}:${pad(rounding * count)}`;
-    } else {
-      timeString = `${endHours}:${pad(rounding * (count - 1))}`;
-    }
-  }
-  return timeString;
-}
 
 type EntryType = {
   entry?: timeType,
@@ -111,7 +78,6 @@ class Entry extends Component<EntryType, EntryStateType> {
 
     this.onStartTimeTracking = this.startTimeTracking.bind(this);
     this.onStopTimeTracking = this.stopTimeTracking.bind(this);
-    this.onRoundTime = this.onRoundTime.bind(this);
 
     this.onSetDateInputRef = (input) => { this.dateInput = input; };
     this.rounding = this.props.settings.rounding;
@@ -147,7 +113,6 @@ class Entry extends Component<EntryType, EntryStateType> {
   onAddNewProject: (e: Event, project: { value: string }) => void;
   onOpenConfirm: () => void;
   onCancelConfirm: () => void;
-  onRoundTime: () => void;
 
   onStartDateChange(value: string | null) {
     if (!value) {
@@ -201,17 +166,6 @@ class Entry extends Component<EntryType, EntryStateType> {
       },
     });
   }
-
-  onRoundTime() {
-    const { end } = this.state.entry;
-    const endMinutes = parseInt(format(end, 'mm'), 10);
-    const endHours = format(end, 'HH');
-    const roundingInt = parseInt(this.rounding, 10);
-    const roundingDownInt = parseInt(this.roundingDown, 10);
-    const timeString = roundDownTime(endMinutes, endHours, roundingInt, roundingDownInt);
-    this.onTimeChange('end', timeString);
-  }
-
   dateInput: HTMLInputElement | null;
   tickInterval: IntervalID;
   rounding: string;
@@ -233,19 +187,33 @@ class Entry extends Component<EntryType, EntryStateType> {
   }
 
   startTimeTracking() {
-    const startTime = new Date();
-
+    let startTime = isEqual(this.state.entry.start, defaultStart) ?
+      new Date() : this.state.entry.start;
+    const minutes = parseInt(format(startTime, 'mm'), 10);
+    const hours = parseInt(format(startTime, 'HH'), 10);
+    const rounding = parseInt(this.rounding, 10);
+    const roundingDown = parseInt(this.roundingDown, 10);
+    const timeString = roundStartTime(minutes, hours, rounding, roundingDown);
+    const [roundedHours, roundedMinutes] = timeString.split(':');
+    startTime = setHours(setMinutes(startTime, roundedMinutes), roundedHours);
     this.setState({
       tracking: true,
       entry: {
         ...this.state.entry,
-        start: isEqual(this.state.entry.start, defaultStart) ? startTime : this.state.entry.start,
+        start: startTime,
         end: startTime,
       },
     });
   }
 
   stopTimeTracking() {
+    const { end } = this.state.entry;
+    const endMinutes = parseInt(format(end, 'mm'), 10);
+    const endHours = parseInt(format(end, 'HH'), 10);
+    const roundingInt = parseInt(this.rounding, 10);
+    const roundingDownInt = parseInt(this.roundingDown, 10);
+    const timeString = roundEndTime(endMinutes, endHours, roundingInt, roundingDownInt);
+    this.onTimeChange('end', timeString);
     this.setState({
       tracking: false,
     });
@@ -368,13 +336,6 @@ class Entry extends Component<EntryType, EntryStateType> {
             onChange={this.onEndTimeChange}
             value={format(end, 'HH:mm')}
           />
-        </Table.Cell>
-        <Table.Cell width={1}>
-          <Button
-            onClick={this.onRoundTime}
-          >
-            Round
-          </Button>
         </Table.Cell>
         <Table.Cell width={1}>
           {hours}:{minutes}{this.state.tracking && (
