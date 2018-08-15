@@ -2,8 +2,8 @@
 
 import { createSelector } from 'reselect';
 
-import isThisWeek from 'date-fns/is_this_week';
-import isToday from 'date-fns/is_today';
+import isSameWeek from 'date-fns/is_same_week';
+import isSameDay from 'date-fns/is_same_day';
 import subDays from 'date-fns/sub_days';
 import subMonths from 'date-fns/sub_months';
 import isBefore from 'date-fns/is_before';
@@ -16,8 +16,8 @@ export const getAllTimeEntries = (state: storeShape): timeType[] => state.time.a
   .filter(time => !time.removed);
 export const getDateRange = (state: storeShape) => state.time.dateRange;
 
-const today = (entry: timeType) => isToday(entry.start);
-const thisWeek = (entry: timeType) => isThisWeek(entry.start, { weekStartsOn: 1 });
+const today = now => (entry: timeType) => isSameDay(entry.start, now);
+const thisWeek = now => (entry: timeType) => isSameWeek(entry.start, now, { weekStartsOn: 1 });
 const weekToDate = now => (entry: timeType) => isAfter(entry.start, subDays(now, 7));
 const lastMonth = now => (entry: timeType) => isAfter(entry.start, subMonths(now, 1));
 const older = now => (entry: timeType) => isBefore(entry.start, subMonths(now, 1));
@@ -29,11 +29,11 @@ function dateRangeFilter(dateRange: dateRanges, now: Date) {
     case 'month':
       return lastMonth(now);
     case 'week':
-      return thisWeek;
+      return thisWeek(now);
     case 'weekToDate':
       return weekToDate(now);
     default:
-      return today;
+      return today(now);
   }
 }
 
