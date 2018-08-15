@@ -59,41 +59,63 @@ describe('DateRange', () => {
   const dateRangeWrapper = page.find('DateRange');
 
   it('renders date ranges', () => {
+    // click on "today"
+    dateRangeWrapper.find('.menu .item').at(0).simulate('click');
+
     expect(dateRangeWrapper.find('.menu .item').length).toBe(5);
   });
 
   it('renders today\'s entries when picking today', () => {
-    // click on "today"
-    dateRangeWrapper.find('.menu .item')[0].simulate('click');
-
-    expect(page.find('Entry').length).toBe(2);
-  });
-
-  it('renders today\'s entries when picking this week', () => {
-    // click on "today"
-    dateRangeWrapper.find('.menu .item')[1].simulate('click');
-
     expect(page.find('Entry').length).toBe(3);
   });
 
-  it('renders today\'s entries when picking last 7 days', () => {
-    // click on "today"
-    dateRangeWrapper.find('.menu .item')[2].simulate('click');
+  it('renders this week\'s entries when picking this week', () => {
+    // click on "this week"
+    dateRangeWrapper.find('.menu .item').at(1).simulate('click');
 
     expect(page.find('Entry').length).toBe(4);
   });
 
-  it('renders today\'s entries when picking last month', () => {
-    // click on "today"
-    dateRangeWrapper.find('.menu .item')[3].simulate('click');
+  it('renders entries when picking last 7 days', () => {
+    // click on "week to date"
+    dateRangeWrapper.find('.menu .item').at(2).simulate('click');
 
     expect(page.find('Entry').length).toBe(5);
   });
 
-  it('renders today\'s entries when picking older', () => {
-    // click on "today"
-    dateRangeWrapper.find('.menu .item')[4].simulate('click');
+  it('renders entries when picking last month', () => {
+    // click on "last month"
+    dateRangeWrapper.find('.menu .item').at(3).simulate('click');
 
-    expect(page.find('Entry').length).toBe(1);
+    expect(page.find('Entry').length).toBe(6);
   });
+
+  it('renders old entries when picking older', () => {
+    // click on "older"
+    dateRangeWrapper.find('.menu .item').at(4).simulate('click');
+
+    expect(page.find('Entry').length).toBe(2);
+  });
+});
+
+describe('ThymeTable', () => {
+  const store = createStore();
+  const page = mount(
+    <Provider store={store}>
+      <Time now={parse('2018-08-14T19:00:00.000Z')} />
+    </Provider>,
+  );
+  const timeTableWrapper = page.find('ThymeTable');
+
+  it('Has the correct starting date', () => {
+    expect(timeTableWrapper.find('DateInput').prop('value')).toBe('2018-08-14');
+  });
+
+  // it('Renders duration when times changes', () => {
+  //   // change start time at 01:00 and end time to 03:00
+  //   timeTableWrapper.find('TimeInput').at(0).simulate('change', { target: { value: '01:00' } });
+  //   timeTableWrapper.find('TimeInput').at(1).simulate('change', { target: { value: '03:00' } });
+  //
+  //   expect(timeTableWrapper.find('.EntryDuration').at(1).text()).toBe('02:00');
+  // });
 });

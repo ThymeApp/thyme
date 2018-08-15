@@ -318,7 +318,10 @@ class Entry extends Component<EntryType, EntryStateType> {
             value={format(end, 'HH:mm')}
           />
         </Table.Cell>
-        <Table.Cell width={1}>
+        <Table.Cell
+          className="EntryDuration"
+          width={1}
+        >
           {hours}
           :
           {minutes}
