@@ -111,11 +111,17 @@ describe('ThymeTable', () => {
     expect(timeTableWrapper.find('DateInput').prop('value')).toBe('2018-08-14');
   });
 
-  // it('Renders duration when times changes', () => {
-  //   // change start time at 01:00 and end time to 03:00
-  //   timeTableWrapper.find('TimeInput').at(0).simulate('change', { target: { value: '01:00' } });
-  //   timeTableWrapper.find('TimeInput').at(1).simulate('change', { target: { value: '03:00' } });
-  //
-  //   expect(timeTableWrapper.find('.EntryDuration').at(1).text()).toBe('02:00');
-  // });
+  it('Renders duration when times changes', () => {
+    // change start time at 01:00 and end time to 03:00
+    const startTime = document.createElement('input');
+    startTime.value = '01:00';
+
+    const endTime = document.createElement('input');
+    endTime.value = '03:00';
+
+    timeTableWrapper.find('TimeInput').at(0).simulate('change', { target: startTime });
+    timeTableWrapper.find('TimeInput').at(1).simulate('change', { target: endTime });
+
+    expect(timeTableWrapper.find('.EntryDuration').at(0).text()).toBe('02:00');
+  });
 });
