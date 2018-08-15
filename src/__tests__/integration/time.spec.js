@@ -119,8 +119,8 @@ describe('ThymeTable', () => {
     const endTime = document.createElement('input');
     endTime.value = '03:00';
 
-    timeTableWrapper.find('TimeInput').at(0).simulate('change', { target: startTime });
-    timeTableWrapper.find('TimeInput').at(1).simulate('change', { target: endTime });
+    timeTableWrapper.find('input[type="time"]').at(0).simulate('change', { target: startTime });
+    timeTableWrapper.find('input[type="time"]').at(1).simulate('change', { target: endTime });
 
     expect(timeTableWrapper.find('.EntryDuration').at(0).text()).toBe('02:00');
   });
