@@ -27,9 +27,9 @@ import NotesInput from '../NotesInput';
 
 import './Entry.css';
 
-const defaultStart = startOfDay(new Date());
+function defaultState(props = {}, now: Date): timePropertyType {
+  const defaultStart = startOfDay(now);
 
-function defaultState(props = {}): timePropertyType {
   return {
     start: props.start || defaultStart,
     end: props.end || defaultStart,
@@ -39,6 +39,7 @@ function defaultState(props = {}): timePropertyType {
 }
 
 type EntryType = {
+  now: Date,
   entry?: timeType,
   tempEntry?: tempTimePropertyType,
   onAdd?: (entry: timePropertyType) => void,
@@ -58,7 +59,7 @@ class Entry extends Component<EntryType, EntryStateType> {
     super(props);
 
     this.state = {
-      entry: defaultState(props.entry || props.tempEntry),
+      entry: defaultState(props.entry || props.tempEntry, props.now),
       tracking: props.tempEntry ? props.tempEntry.tracking : false,
       confirm: false,
     };
@@ -152,6 +153,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   }
 
   onStartTimeTracking = () => {
+    const { now } = this.props;
     const { entry } = this.state;
 
     const startTime = new Date();
@@ -160,7 +162,7 @@ class Entry extends Component<EntryType, EntryStateType> {
       tracking: true,
       entry: {
         ...entry,
-        start: isEqual(entry.start, defaultStart) ? startTime : entry.start,
+        start: isEqual(entry.start, startOfDay(now)) ? startTime : entry.start,
         end: startTime,
       },
     });
@@ -178,7 +180,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   };
 
   onAddEntry = () => {
-    const { onAdd } = this.props;
+    const { now, onAdd } = this.props;
     const { entry } = this.state;
 
     if (typeof onAdd === 'function') {
@@ -194,7 +196,7 @@ class Entry extends Component<EntryType, EntryStateType> {
       // reset item
       this.setState({
         tracking: false,
-        entry: defaultState(),
+        entry: defaultState({}, now),
       });
 
       // clear item from localStorage

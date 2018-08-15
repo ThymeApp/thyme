@@ -10,14 +10,17 @@ import { getCurrentTimeEntries } from '../selectors/time';
 
 type TimeType = {
   entries: Array<timeType>,
-  now?: Date, // eslint-disable-line react/no-unused-prop-types
+  now?: Date,
 };
 
-function Time({ entries }: TimeType) {
+function Time({ entries, now = new Date() }: TimeType) {
   return (
     <div style={{ paddingLeft: '1%', paddingRight: '1%' }}>
       <DateRange />
-      <ThymeTable entries={entries} />
+      <ThymeTable
+        entries={entries}
+        now={now}
+      />
     </div>
   );
 }
