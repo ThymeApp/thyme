@@ -16,32 +16,31 @@ export const getAllTimeEntries = (state: storeShape): timeType[] => state.time.a
   .filter(time => !time.removed);
 export const getDateRange = (state: storeShape) => state.time.dateRange;
 
-const now = new Date();
 const today = (entry: timeType) => isToday(entry.start);
 const thisWeek = (entry: timeType) => isThisWeek(entry.start, { weekStartsOn: 1 });
-const weekToDate = (entry: timeType) => isAfter(entry.start, subDays(now, 7));
-const lastMonth = (entry: timeType) => isAfter(entry.start, subMonths(now, 1));
-const older = (entry: timeType) => isBefore(entry.start, subMonths(now, 1));
+const weekToDate = now => (entry: timeType) => isAfter(entry.start, subDays(now, 7));
+const lastMonth = now => (entry: timeType) => isAfter(entry.start, subMonths(now, 1));
+const older = now => (entry: timeType) => isBefore(entry.start, subMonths(now, 1));
 
-function dateRangeFilter(dateRange: dateRanges) {
+function dateRangeFilter(dateRange: dateRanges, now: Date) {
   switch (dateRange) {
     case 'older':
-      return older;
+      return older(now);
     case 'month':
-      return lastMonth;
+      return lastMonth(now);
     case 'week':
       return thisWeek;
     case 'weekToDate':
-      return weekToDate;
+      return weekToDate(now);
     default:
       return today;
   }
 }
 
-export const getCurrentTimeEntries = createSelector(
+export const getCurrentTimeEntries = (now: Date) => createSelector(
   [getAllTimeEntries, getDateRange],
   (timeEntries, dateRange) => {
-    const entries = timeEntries.filter(dateRangeFilter(dateRange));
+    const entries = timeEntries.filter(dateRangeFilter(dateRange, now));
 
     // sort entries
     entries.sort(sortByTime);

@@ -10,6 +10,7 @@ import { getCurrentTimeEntries } from '../selectors/time';
 
 type TimeType = {
   entries: Array<timeType>,
+  now?: Date, // eslint-disable-line react/no-unused-prop-types
 };
 
 function Time({ entries }: TimeType) {
@@ -21,8 +22,10 @@ function Time({ entries }: TimeType) {
   );
 }
 
-function mapStateToProps(state) {
-  return { entries: getCurrentTimeEntries(state) };
+function mapStateToProps(state, props: TimeType) {
+  const { now } = props;
+
+  return { entries: getCurrentTimeEntries(now || new Date())(state) };
 }
 
 export default connect(mapStateToProps)(Time);
