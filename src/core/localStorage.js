@@ -27,7 +27,11 @@ function saveItem(state: any, key): void {
 }
 
 function removeItem(key: string) {
-  localStorage.removeItem(key);
+  try {
+    localStorage.removeItem(key);
+  } catch (e) {
+    // silently fail
+  }
 }
 
 export function loadState(): {} | typeof undefined {

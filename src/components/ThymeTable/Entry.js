@@ -339,7 +339,7 @@ class Entry extends Component<EntryType, EntryStateType> {
             handleChange={this.onProjectChange}
           />
         </Table.Cell>
-        <Table.Cell>
+        <Table.Cell className="EntryNotes">
           <NotesInput onKeyPress={this.onKeyPress} onChange={this.onNotesChange} value={notes} />
         </Table.Cell>
         <Table.Cell textAlign="right" style={{ width: 1, whiteSpace: 'nowrap' }}>
@@ -362,7 +362,11 @@ class Entry extends Component<EntryType, EntryStateType> {
                 <Popup
                   inverted
                   trigger={(
-                    <Button icon onClick={this.onAddEntry}>
+                    <Button
+                      className="EntrySubmit"
+                      icon
+                      onClick={this.onAddEntry}
+                    >
                       <Icon name="add" />
                     </Button>
                   )}
