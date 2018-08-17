@@ -16,8 +16,8 @@ type RoundingProps = {
     rounding: number,
     roundingDirection: string,
   };
-  setStartTimeRounding: (rounding: number, roundingDirection: string) => void;
-  setEndTimeRounding: (rounding: number, roundingDirection: string) => void;
+  SetStartTimeRounding: (rounding: number, roundingDirection: string) => void;
+  SetEndTimeRounding: (rounding: number, roundingDirection: string) => void;
 }
 
 class Rounding extends Component<RoundingProps> {
@@ -38,33 +38,33 @@ class Rounding extends Component<RoundingProps> {
   onEndTimeRoundingChange: (e: Event) => void;
 
   onStartTimeDirectionChange(e, data) {
-    const { startTimeRounding, setStartTimeRounding } = this.props;
-    setStartTimeRounding(startTimeRounding.rounding, data.value);
+    const { startTimeRounding, SetStartTimeRounding } = this.props;
+    SetStartTimeRounding(startTimeRounding.rounding, data.value);
   }
 
   onEndTimeDirectionChange(e, data) {
-    const { endTimeRounding, setEndTimeRounding } = this.props;
-    setEndTimeRounding(endTimeRounding.rounding, data.value);
+    const { endTimeRounding, SetEndTimeRounding } = this.props;
+    SetEndTimeRounding(endTimeRounding.rounding, data.value);
   }
 
 
   onStartTimeRoundingChange(e) {
-    const { setStartTimeRounding, startTimeRounding } = this.props;
-    const roundValue = valueFromEventTarget(e.target);
+    const { SetStartTimeRounding, startTimeRounding } = this.props;
+    const roundValue = parseInt(valueFromEventTarget(e.target), 10);
     if (roundValue > 0 && roundValue <= 60) {
-      setStartTimeRounding(roundValue, startTimeRounding.roundingDirection);
+      SetStartTimeRounding(roundValue, startTimeRounding.roundingDirection);
     } else if (roundValue === '') {
-      setStartTimeRounding(roundValue, startTimeRounding.roundingDirection);
+      SetStartTimeRounding(roundValue, startTimeRounding.roundingDirection);
     }
   }
 
   onEndTimeRoundingChange(e) {
-    const { setEndTimeRounding, endTimeRounding } = this.props;
-    const roundValue = valueFromEventTarget(e.target);
+    const { SetEndTimeRounding, endTimeRounding } = this.props;
+    const roundValue = parseInt(valueFromEventTarget(e.target), 10);
     if (roundValue > 0 && roundValue <= 60) {
-      setEndTimeRounding(roundValue, endTimeRounding.roundingDirection);
+      SetEndTimeRounding(roundValue, endTimeRounding.roundingDirection);
     } else if (roundValue === '') {
-      setEndTimeRounding(roundValue, endTimeRounding.roundingDirection);
+      SetEndTimeRounding(roundValue, endTimeRounding.roundingDirection);
     }
   }
 
@@ -108,10 +108,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setStartTimeRounding(rounding: number, roundingDirection: string) {
+    SetStartTimeRounding(rounding: number, roundingDirection: string) {
       dispatch(setStartTimeRounding(rounding, roundingDirection));
     },
-    setEndTimeRounding(rounding: number, roundingDirection: string) {
+    SetEndTimeRounding(rounding: number, roundingDirection: string) {
       dispatch(setEndTimeRounding(rounding, roundingDirection));
     },
   };

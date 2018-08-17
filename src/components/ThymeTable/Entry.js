@@ -46,11 +46,11 @@ type EntryType = {
   entry?: timeType,
   tempEntry?: tempTimePropertyType,
   rounding: {
-    startTimeRounding?: {
+    startTimeRounding: {
       rounding: number,
       roundingDirection: string,
     },
-    endTimeRounding?: {
+    endTimeRounding: {
       rounding: number,
       roundingDirection: string,
     },
@@ -168,20 +168,19 @@ class Entry extends Component<EntryType, EntryStateType> {
     const { now } = this.props;
     const { entry } = this.state;
     const { rounding } = this.props;
-    const { startTimeRounding } = rounding;
     let startTime = isEqual(entry.start, startOfDay(now)) ? new Date() : entry.start;
     const minutes = parseInt(format(startTime, 'mm'), 10);
     const hours = parseInt(format(startTime, 'HH'), 10);
     let timeString = '';
-    switch (startTimeRounding.roundingDirection) {
+    switch (rounding.startTimeRounding.roundingDirection) {
       case 'up':
-        timeString = roundTimeUp(minutes, hours, startTimeRounding.rounding);
+        timeString = roundTimeUp(minutes, hours, rounding.startTimeRounding.rounding);
         break;
       case 'down':
-        timeString = roundTimeDown(minutes, hours, startTimeRounding.rounding);
+        timeString = roundTimeDown(minutes, hours, rounding.startTimeRounding.rounding);
         break;
       default:
-        timeString = roundTimeAutomatically(minutes, hours, startTimeRounding.rounding);
+        timeString = roundTimeAutomatically(minutes, hours, rounding.startTimeRounding.rounding);
     }
     const [roundedHours, roundedMinutes] = timeString.split(':');
     startTime = setHours(
