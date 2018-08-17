@@ -32,6 +32,7 @@ saveOnStoreChange(store);
 syncOnUpdate(store);
 setupStateResolver(() => store.getState());
 
+// when on main domain, serve app from /thyme, all other cases serve from /
 const basename = window.location.hostname === 'usethyme.com'
   ? '/thyme/'
   : process.env.PUBLIC_URL;
