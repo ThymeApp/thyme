@@ -130,3 +130,31 @@ export function roundStartTime(
   }
   return timeString;
 }
+
+export function roundTimeUp(minutes: number, hours: number, rounding: number) {
+  let timeString: string = '';
+  timeString = rounding === 60 ? `${leftPad(hours + 1, 2, 0)}:00` : '';
+  const roundedNum = rounding * Math.ceil(minutes / rounding);
+  timeString = roundedNum === 60
+    ? `${leftPad(hours + 1, 2, 0)}:00`
+    : `${leftPad(hours, 2, 0)}:${leftPad(roundedNum, 2, 0)}`;
+  return timeString;
+}
+
+export function roundTimeDown(minutes: number, hours: number, rounding: number) {
+  let timeString: string = '';
+  const roundedNum = rounding * Math.floor(minutes / rounding);
+  timeString = `${leftPad(hours, 2, 0)}:${leftPad(roundedNum, 2, 0)}`;
+  return timeString;
+}
+
+export function roundTimeAutomatically(minutes: number, hours: number, rounding: number) {
+  let timeString: string = '';
+  if (minutes % rounding >= rounding / 2) {
+    timeString = roundTimeUp(minutes, hours, rounding);
+  }
+  else {
+    timeString = roundTimeDown(minutes, hours, rounding);
+  }
+  return timeString;
+}
