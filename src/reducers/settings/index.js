@@ -1,24 +1,26 @@
+// @flow
 import { combineReducers } from 'redux';
 
-function rounding(state = 5, action) {
+function startTimeRounding(state = { rounding: 5, roundingDirection: 'down' }, action) {
   switch (action.type) {
-    case 'ROUNDING':
-      return action.value;
+    case 'START_TIME':
+      return { rounding: action.rounding, roundingDirection: action.roundingDirection };
     default:
       return state;
   }
 }
-function roundingDown(state = 2, action) {
+
+function endTimeRounding(state = { rounding: 5, roundingDirection: 'up' }, action) {
   switch (action.type) {
-    case 'ROUNDING_DOWN':
-      return action.value;
+    case 'END_TIME':
+      return { rounding: action.rounding, roundingDirection: action.roundingDirection };
     default:
       return state;
   }
 }
 const setting = combineReducers({
-  rounding,
-  roundingDown,
+  startTimeRounding,
+  endTimeRounding,
 });
 
 export default setting;

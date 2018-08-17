@@ -1,14 +1,16 @@
 // @flow
 
-export function setRounding(value: string) {
+export function setStartTimeRounding(rounding: number, roundingDirection: string) {
   return {
-    type: 'ROUNDING',
-    value,
+    type: 'START_TIME',
+    rounding,
+    roundingDirection,
   };
 }
-export function setRoundingDown(value: string) {
+export function setEndTimeRounding(rounding: number, roundingDirection: string) {
   return {
-    type: 'ROUNDING_DOWN',
-    value,
+    type: 'END_TIME',
+    rounding,
+    roundingDirection,
   };
 }

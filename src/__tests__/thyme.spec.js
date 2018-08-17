@@ -1,5 +1,5 @@
 import {
-  totalProjectTime, timeElapsed, pad, roundEndTime, roundStartTime,
+  totalProjectTime, timeElapsed, roundEndTime, roundStartTime,
 } from '../core/thyme';
 
 describe('Calculate total project time', () => {
@@ -70,11 +70,4 @@ describe('Returns rounded start time string', () => {
   expect(roundStartTime(16, 8, 10, 3)).toBe('08:10');
   expect(roundStartTime(2, 8, 10, 7)).toBe('08:00');
   expect(roundStartTime(12, 8, 10, 9)).toBe('08:12');
-});
-
-describe('The padding works', () => {
-  expect(pad(2)).toBe('02');
-  expect(pad(7)).toBe('07');
-  expect(pad(57)).toBe('57');
-  expect(pad(23)).toBe('23');
 });

@@ -80,11 +80,6 @@ export function totalProjectTime(
     .reduce((total, entry) => total + calculateDuration(entry.start, entry.end), 0);
 }
 
-
-export function pad(number: number): string {
-  return (number < 10 ? '0' : '') + number.toString();
-}
-
 export function roundEndTime(
   endMinutes: number, endHours: number,
   rounding: number, roundingDown: number,
@@ -93,20 +88,20 @@ export function roundEndTime(
   if (endMinutes < rounding) {
     if (endMinutes > roundingDown) {
       timeString = rounding === 60
-        ? `${pad(endHours + 1)}:00`
-        : `${pad(endHours)}:${pad(rounding)}`;
+        ? `${leftPad(endHours + 1, 2, 0)}:00`
+        : `${leftPad(endHours, 2, 0)}:${leftPad(rounding, 2, 0)}`;
     } else {
-      timeString = `${pad(endHours)}:00`;
+      timeString = `${leftPad(endHours, 2, 0)}:00`;
     }
   } else {
     const count: number = Math.floor(endMinutes / rounding) + 1;
     if (endMinutes > (rounding * (count - 1)) + roundingDown) {
       const roundedNum = rounding * count;
       timeString = roundedNum >= 60
-        ? `${pad(endHours + 1)}:00`
-        : `${pad(endHours)}:${pad(rounding * count)}`;
+        ? `${leftPad(endHours + 1, 2, 0)}:00`
+        : `${leftPad(endHours, 2, 0)}:${leftPad(rounding * count, 2, 0)}`;
     } else {
-      timeString = `${pad(endHours)}:${pad(rounding * (count - 1))}`;
+      timeString = `${leftPad(endHours, 2, 0)}:${leftPad(rounding * (count - 1), 2, 0)}`;
     }
   }
   return timeString;
@@ -119,18 +114,18 @@ export function roundStartTime(
   let timeString: string = '';
   if (endMinutes < rounding) {
     if (roundingDown >= rounding - endMinutes) {
-      timeString = `${pad(endHours)}:${pad(endMinutes)}`;
+      timeString = `${leftPad(endHours, 2, 0)}:${leftPad(endMinutes, 2, 0)}`;
     } else {
-      timeString = `${pad(endHours)}:00`;
+      timeString = `${leftPad(endHours, 2, 0)}:00`;
     }
   } else {
     const count: number = Math.floor(endMinutes / rounding);
     if (roundingDown >= (rounding * (count + 1)) - endMinutes) {
-      timeString = `${pad(endHours)}:${pad(endMinutes)}`;
+      timeString = `${leftPad(endHours, 2, 0)}:${leftPad(endMinutes, 2, 0)}`;
     } else {
       timeString = rounding === 60
-        ? `${pad(endHours)}:00`
-        : `${pad(endHours)}:${pad(rounding * count)}`;
+        ? `${leftPad(endHours, 2, 0)}:00`
+        : `${leftPad(endHours, 2, 0)}:${leftPad(rounding * count, 2, 0)}`;
     }
   }
   return timeString;
