@@ -32,9 +32,13 @@ saveOnStoreChange(store);
 syncOnUpdate(store);
 setupStateResolver(() => store.getState());
 
+const basename = window.location.hostname === 'usethyme.com'
+  ? '/thyme/'
+  : process.env.PUBLIC_URL;
+
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter basename={basename}>
       <App>
         <Routes />
       </App>
