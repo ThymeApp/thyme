@@ -29,9 +29,9 @@ import NotesInput from '../NotesInput';
 
 import './Entry.css';
 
-const defaultStart = startOfDay(new Date());
+function defaultState(props = {}, now: Date): timePropertyType {
+  const defaultStart = startOfDay(now);
 
-function defaultState(props = {}): timePropertyType {
   return {
     start: props.start || defaultStart,
     end: props.end || defaultStart,
@@ -42,6 +42,7 @@ function defaultState(props = {}): timePropertyType {
 
 
 type EntryType = {
+  now: Date,
   entry?: timeType,
   tempEntry?: tempTimePropertyType,
   rounding: {
@@ -70,7 +71,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   constructor(props: EntryType) {
     super(props);
     this.state = {
-      entry: defaultState(props.entry || props.tempEntry),
+      entry: defaultState(props.entry || props.tempEntry, props.now),
       tracking: props.tempEntry ? props.tempEntry.tracking : false,
       confirm: false,
     };
@@ -164,11 +165,11 @@ class Entry extends Component<EntryType, EntryStateType> {
   }
 
   onStartTimeTracking = () => {
+    const { now } = this.props;
     const { entry } = this.state;
     const { rounding } = this.props;
     const { startTimeRounding } = rounding;
-    let startTime = isEqual(entry.start, defaultStart)
-      ? new Date() : entry.start;
+    let startTime = isEqual(entry.start, startOfDay(now)) ? new Date() : entry.start;
     const minutes = parseInt(format(startTime, 'mm'), 10);
     const hours = parseInt(format(startTime, 'HH'), 10);
     let timeString = '';
@@ -225,7 +226,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   };
 
   onAddEntry = () => {
-    const { onAdd } = this.props;
+    const { now, onAdd } = this.props;
     const { entry } = this.state;
 
     if (typeof onAdd === 'function') {
@@ -241,7 +242,7 @@ class Entry extends Component<EntryType, EntryStateType> {
       // reset item
       this.setState({
         tracking: false,
-        entry: defaultState(),
+        entry: defaultState({}, now),
       });
 
       // clear item from localStorage
@@ -363,7 +364,10 @@ class Entry extends Component<EntryType, EntryStateType> {
             value={format(end, 'HH:mm')}
           />
         </Table.Cell>
-        <Table.Cell width={1}>
+        <Table.Cell
+          className="EntryDuration"
+          width={1}
+        >
           {hours}
           :
           {minutes}
@@ -381,7 +385,7 @@ class Entry extends Component<EntryType, EntryStateType> {
             handleChange={this.onProjectChange}
           />
         </Table.Cell>
-        <Table.Cell>
+        <Table.Cell className="EntryNotes">
           <NotesInput onKeyPress={this.onKeyPress} onChange={this.onNotesChange} value={notes} />
         </Table.Cell>
         <Table.Cell textAlign="right" style={{ width: 1, whiteSpace: 'nowrap' }}>
@@ -404,7 +408,11 @@ class Entry extends Component<EntryType, EntryStateType> {
                 <Popup
                   inverted
                   trigger={(
-                    <Button icon onClick={this.onAddEntry}>
+                    <Button
+                      className="EntrySubmit"
+                      icon
+                      onClick={this.onAddEntry}
+                    >
                       <Icon name="add" />
                     </Button>
                   )}

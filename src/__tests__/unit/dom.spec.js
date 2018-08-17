@@ -1,4 +1,4 @@
-import { valueFromEventTarget } from '../core/dom';
+import { valueFromEventTarget } from '../../core/dom';
 
 describe('value from event target', () => {
   it('Gets the value from the event target or returns empty string', () => {

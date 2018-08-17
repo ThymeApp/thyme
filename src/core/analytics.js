@@ -1,6 +1,8 @@
 /* eslint-disable */
 
-if (process.env.NODE_ENV !== 'development') {
+const skipEnvs = ['development', 'test'];
+
+if (skipEnvs.indexOf(process.env.NODE_ENV) === -1) {
   (function(f, a, t, h, o, m){
     a[h]=a[h]||function(){
       (a[h].q=a[h].q||[]).push(arguments)

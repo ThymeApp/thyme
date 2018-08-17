@@ -23,6 +23,7 @@ type ThymeTableType = {
       roundingDirection: string,
     },
   },
+  now: Date,
   onEntryUpdate: (entry: timePropertyType) => void,
   onEntryRemove: (id: string) => void,
   onAddProject: (project: string) => string,
@@ -30,6 +31,7 @@ type ThymeTableType = {
 
 function ThymeTable({
   entries,
+  now,
   onEntryUpdate,
   onEntryRemove,
   onAddProject,
@@ -70,7 +72,11 @@ function ThymeTable({
             rounding={rounding}
           />
         ))}
-        <NewTime onAddNewProject={onAddProject} rounding={rounding} />
+        <NewTime
+          now={now}
+          onAddNewProject={onAddProject}
+          rounding={rounding}
+        />
       </Table.Body>
     </Table>
   );

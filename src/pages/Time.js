@@ -21,19 +21,20 @@ type TimeType = {
       roundingDirection: string,
     },
   },
+  now?: Date,
 };
 
-function Time({ entries, rounding }: TimeType) {
+function Time({ entries, now = new Date(), rounding }: TimeType) {
   return (
     <div style={{ paddingLeft: '1%', paddingRight: '1%' }}>
       <DateRange />
-      <ThymeTable entries={entries} rounding={rounding} />
+      <ThymeTable entries={entries} rounding={rounding} now={now} />
     </div>
   );
 }
 
-function mapStateToProps(state) {
-  return { entries: getCurrentTimeEntries(state), rounding: getRounding(state) };
+function mapStateToProps(state, props: TimeType) {
+  const { now } = props;
+  return { entries: getCurrentTimeEntries(now || new Date())(state), rounding: getRounding(state) };
 }
-
 export default connect(mapStateToProps)(Time);
