@@ -1,5 +1,6 @@
 import {
-  totalProjectTime, timeElapsed, roundEndTime, roundStartTime, roundTimeUp, roundTimeDown, roundTimeAutomatically
+  totalProjectTime, timeElapsed, roundEndTime, roundStartTime, roundTimeUp, roundTimeDown,
+  roundTimeAutomatically,
 } from '../core/thyme';
 
 describe('Calculate total project time', () => {

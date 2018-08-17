@@ -13,19 +13,25 @@ import Entry from './Entry';
 type NewType = {
   onEntryCreate: (entry: timePropertyType) => void,
   onAddNewProject: (project: string) => string,
-  settings: {
-    rounding: string,
-    roundingDown: string,
+  rounding: {
+    startTimeRounding?: {
+      rounding: number,
+      roundingDirection: string,
+    },
+    endTimeRounding?: {
+      rounding: number,
+      roundingDirection: string,
+    },
   },
 };
 
-function New({ onEntryCreate, onAddNewProject, settings }: NewType) {
+function New({ onEntryCreate, onAddNewProject, rounding }: NewType) {
   return (
     <Entry
       tempEntry={loadTemporaryItem()}
       onAdd={onEntryCreate}
       onAddNewProject={onAddNewProject}
-      settings={settings}
+      rounding={rounding}
     />
   );
 }

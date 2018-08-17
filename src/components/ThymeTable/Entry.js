@@ -17,7 +17,9 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
 import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
-import { timeElapsed, roundEndTime, roundStartTime } from '../../core/thyme';
+import {
+  timeElapsed, roundTimeUp, roundTimeDown, roundTimeAutomatically,
+} from '../../core/thyme';
 import { valueFromEventTarget } from '../../core/dom';
 
 import DateInput from '../DateInput';
@@ -42,9 +44,15 @@ function defaultState(props = {}): timePropertyType {
 type EntryType = {
   entry?: timeType,
   tempEntry?: tempTimePropertyType,
-  settings: {
-    rounding: any,
-    roundingDown: any,
+  rounding: {
+    startTimeRounding?: {
+      rounding: number,
+      roundingDirection: string,
+    },
+    endTimeRounding?: {
+      rounding: number,
+      roundingDirection: string,
+    },
   },
   onAdd?: (entry: timePropertyType) => void,
   onRemove?: (id: string) => void,
@@ -61,10 +69,6 @@ type EntryStateType = {
 class Entry extends Component<EntryType, EntryStateType> {
   constructor(props: EntryType) {
     super(props);
-    const { settings } = this.props;
-    const { rounding, roundingDown } = settings;
-    this.rounding = rounding;
-    this.roundingDown = roundingDown;
     this.state = {
       entry: defaultState(props.entry || props.tempEntry),
       tracking: props.tempEntry ? props.tempEntry.tracking : false,
@@ -161,13 +165,23 @@ class Entry extends Component<EntryType, EntryStateType> {
 
   onStartTimeTracking = () => {
     const { entry } = this.state;
+    const { rounding } = this.props;
+    const { startTimeRounding } = rounding;
     let startTime = isEqual(entry.start, defaultStart)
       ? new Date() : entry.start;
     const minutes = parseInt(format(startTime, 'mm'), 10);
     const hours = parseInt(format(startTime, 'HH'), 10);
-    const rounding = parseInt(this.rounding, 10);
-    const roundingDown = parseInt(this.roundingDown, 10);
-    const timeString = roundStartTime(minutes, hours, rounding, roundingDown);
+    let timeString = '';
+    switch (startTimeRounding.roundingDirection) {
+      case 'up':
+        timeString = roundTimeUp(minutes, hours, startTimeRounding.rounding);
+        break;
+      case 'down':
+        timeString = roundTimeDown(minutes, hours, startTimeRounding.rounding);
+        break;
+      default:
+        timeString = roundTimeAutomatically(minutes, hours, startTimeRounding.rounding);
+    }
     const [roundedHours, roundedMinutes] = timeString.split(':');
     startTime = setHours(
       setMinutes(startTime, parseInt(roundedMinutes, 10)),
@@ -185,12 +199,22 @@ class Entry extends Component<EntryType, EntryStateType> {
 
   onStopTimeTracking = () => {
     const { entry } = this.state;
+    const { rounding } = this.props;
+    const { endTimeRounding } = rounding;
     const { end } = entry;
-    const endMinutes = parseInt(format(end, 'mm'), 10);
-    const endHours = parseInt(format(end, 'HH'), 10);
-    const roundingInt = parseInt(this.rounding, 10);
-    const roundingDownInt = parseInt(this.roundingDown, 10);
-    const timeString = roundEndTime(endMinutes, endHours, roundingInt, roundingDownInt);
+    const minutes = parseInt(format(end, 'mm'), 10);
+    const hours = parseInt(format(end, 'HH'), 10);
+    let timeString = '';
+    switch (endTimeRounding.roundingDirection) {
+      case 'up':
+        timeString = roundTimeUp(minutes, hours, endTimeRounding.rounding);
+        break;
+      case 'down':
+        timeString = roundTimeDown(minutes, hours, endTimeRounding.rounding);
+        break;
+      default:
+        timeString = roundTimeAutomatically(minutes, hours, endTimeRounding.rounding);
+    }
     this.onTimeChange('end', timeString);
     this.setState({
       tracking: false,

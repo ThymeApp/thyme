@@ -152,8 +152,7 @@ export function roundTimeAutomatically(minutes: number, hours: number, rounding:
   let timeString: string = '';
   if (minutes % rounding >= rounding / 2) {
     timeString = roundTimeUp(minutes, hours, rounding);
-  }
-  else {
+  } else {
     timeString = roundTimeDown(minutes, hours, rounding);
   }
   return timeString;
