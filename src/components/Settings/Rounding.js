@@ -50,8 +50,9 @@ class Rounding extends Component<RoundingProps> {
 
   onStartTimeRoundingChange(e) {
     const { SetStartTimeRounding, startTimeRounding } = this.props;
-    const roundValue = parseInt(valueFromEventTarget(e.target), 10);
-    if (roundValue > 0 && roundValue <= 60) {
+    const roundValue = valueFromEventTarget(e.target);
+    const roundValueInt = parseInt(roundValue, 10);
+    if (roundValueInt > 0 && roundValueInt <= 60) {
       SetStartTimeRounding(roundValue, startTimeRounding.roundingDirection);
     } else if (roundValue === '') {
       SetStartTimeRounding(roundValue, startTimeRounding.roundingDirection);
@@ -60,8 +61,9 @@ class Rounding extends Component<RoundingProps> {
 
   onEndTimeRoundingChange(e) {
     const { SetEndTimeRounding, endTimeRounding } = this.props;
-    const roundValue = parseInt(valueFromEventTarget(e.target), 10);
-    if (roundValue > 0 && roundValue <= 60) {
+    const roundValue = valueFromEventTarget(e.target);
+    const roundValueInt = parseInt(roundValue, 10);
+    if (roundValueInt > 0 && roundValueInt <= 60) {
       SetEndTimeRounding(roundValue, endTimeRounding.roundingDirection);
     } else if (roundValue === '') {
       SetEndTimeRounding(roundValue, endTimeRounding.roundingDirection);
