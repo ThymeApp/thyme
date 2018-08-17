@@ -11,13 +11,15 @@ import { addTime } from '../../actions/time';
 import Entry from './Entry';
 
 type NewType = {
+  now: Date,
   onEntryCreate: (entry: timePropertyType) => void,
   onAddNewProject: (project: string) => string,
 };
 
-function New({ onEntryCreate, onAddNewProject }: NewType) {
+function New({ now, onEntryCreate, onAddNewProject }: NewType) {
   return (
     <Entry
+      now={now}
       tempEntry={loadTemporaryItem()}
       onAdd={onEntryCreate}
       onAddNewProject={onAddNewProject}

@@ -1,4 +1,4 @@
-import { convertStartAndEndToTimestamps } from '../migrations';
+import { convertStartAndEndToTimestamps } from '../../migrations/index';
 
 describe('convertStartAndEndToTimestamps', () => {
   it('Converts to correct time stamp fields', () => {

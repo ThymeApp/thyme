@@ -1,4 +1,4 @@
-import { totalProjectTime, timeElapsed } from '../core/thyme';
+import { totalProjectTime, timeElapsed } from '../../core/thyme';
 
 describe('Calculate total project time', () => {
   const times = [{

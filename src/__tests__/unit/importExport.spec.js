@@ -1,4 +1,4 @@
-import { mergeImport } from '../core/importExport';
+import { mergeImport } from '../../core/importExport';
 
 describe('Merging data', () => {
   it('Overwrites current time values with new data', () => {

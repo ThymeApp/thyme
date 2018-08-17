@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -14,7 +13,7 @@ import syncOnUpdate from './core/sync';
 import './core/analytics';
 import { setupStateResolver } from './core/fetch';
 
-import reducers from './reducers';
+import createStore from './createStore';
 import runMigrations from './migrations';
 
 import App from './components/App';
@@ -24,7 +23,6 @@ import registerServiceWorker from './registerServiceWorker';
 const initialState = runMigrations(loadState());
 
 const store = createStore(
-  reducers,
   initialState,
   composeWithDevTools({})(),
 );
