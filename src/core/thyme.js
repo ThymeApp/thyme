@@ -80,57 +80,6 @@ export function totalProjectTime(
     .reduce((total, entry) => total + calculateDuration(entry.start, entry.end), 0);
 }
 
-export function roundEndTime(
-  endMinutes: number, endHours: number,
-  rounding: number, roundingDown: number,
-): string {
-  let timeString: string = '';
-  if (endMinutes < rounding) {
-    if (endMinutes > roundingDown) {
-      timeString = rounding === 60
-        ? `${leftPad(endHours + 1, 2, 0)}:00`
-        : `${leftPad(endHours, 2, 0)}:${leftPad(rounding, 2, 0)}`;
-    } else {
-      timeString = `${leftPad(endHours, 2, 0)}:00`;
-    }
-  } else {
-    const count: number = Math.floor(endMinutes / rounding) + 1;
-    if (endMinutes > (rounding * (count - 1)) + roundingDown) {
-      const roundedNum = rounding * count;
-      timeString = roundedNum >= 60
-        ? `${leftPad(endHours + 1, 2, 0)}:00`
-        : `${leftPad(endHours, 2, 0)}:${leftPad(rounding * count, 2, 0)}`;
-    } else {
-      timeString = `${leftPad(endHours, 2, 0)}:${leftPad(rounding * (count - 1), 2, 0)}`;
-    }
-  }
-  return timeString;
-}
-
-export function roundStartTime(
-  endMinutes: number, endHours: number,
-  rounding: number, roundingDown: number,
-): string {
-  let timeString: string = '';
-  if (endMinutes < rounding) {
-    if (roundingDown >= rounding - endMinutes) {
-      timeString = `${leftPad(endHours, 2, 0)}:${leftPad(endMinutes, 2, 0)}`;
-    } else {
-      timeString = `${leftPad(endHours, 2, 0)}:00`;
-    }
-  } else {
-    const count: number = Math.floor(endMinutes / rounding);
-    if (roundingDown >= (rounding * (count + 1)) - endMinutes) {
-      timeString = `${leftPad(endHours, 2, 0)}:${leftPad(endMinutes, 2, 0)}`;
-    } else {
-      timeString = rounding === 60
-        ? `${leftPad(endHours, 2, 0)}:00`
-        : `${leftPad(endHours, 2, 0)}:${leftPad(rounding * count, 2, 0)}`;
-    }
-  }
-  return timeString;
-}
-
 export function roundTimeUp(minutes: number, hours: number, rounding: number) {
   let timeString: string = '';
   timeString = rounding === 60 ? `${leftPad(hours + 1, 2, 0)}:00` : '';
