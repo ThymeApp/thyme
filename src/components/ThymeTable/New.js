@@ -14,15 +14,27 @@ type NewType = {
   now: Date,
   onEntryCreate: (entry: timePropertyType) => void,
   onAddNewProject: (project: string) => string,
+  rounding: {
+    startTimeRounding?: {
+      rounding: number,
+      roundingDirection: string,
+    },
+    endTimeRounding?: {
+      rounding: number,
+      roundingDirection: string,
+    },
+  },
 };
-
-function New({ now, onEntryCreate, onAddNewProject }: NewType) {
+function New({
+  now, onEntryCreate, onAddNewProject, rounding,
+}: NewType) {
   return (
     <Entry
       now={now}
       tempEntry={loadTemporaryItem()}
       onAdd={onEntryCreate}
       onAddNewProject={onAddNewProject}
+      rounding={rounding}
     />
   );
 }

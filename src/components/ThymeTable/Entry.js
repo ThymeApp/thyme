@@ -17,7 +17,9 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
 import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
-import { timeElapsed } from '../../core/thyme';
+import {
+  timeElapsed, roundTimeUp, roundTimeDown, roundTimeAutomatically,
+} from '../../core/thyme';
 import { valueFromEventTarget } from '../../core/dom';
 
 import DateInput from '../DateInput';
@@ -38,10 +40,21 @@ function defaultState(props = {}, now: Date): timePropertyType {
   };
 }
 
+
 type EntryType = {
   now: Date,
   entry?: timeType,
   tempEntry?: tempTimePropertyType,
+  rounding: {
+    startTimeRounding: {
+      rounding: number,
+      roundingDirection: string,
+    },
+    endTimeRounding: {
+      rounding: number,
+      roundingDirection: string,
+    },
+  },
   onAdd?: (entry: timePropertyType) => void,
   onRemove?: (id: string) => void,
   onUpdate?: (entry: timePropertyType) => void,
@@ -57,7 +70,6 @@ type EntryStateType = {
 class Entry extends Component<EntryType, EntryStateType> {
   constructor(props: EntryType) {
     super(props);
-
     this.state = {
       entry: defaultState(props.entry || props.tempEntry, props.now),
       tracking: props.tempEntry ? props.tempEntry.tracking : false,
@@ -155,22 +167,55 @@ class Entry extends Component<EntryType, EntryStateType> {
   onStartTimeTracking = () => {
     const { now } = this.props;
     const { entry } = this.state;
-
-    const startTime = new Date();
-
+    const { rounding } = this.props;
+    let startTime = isEqual(entry.start, startOfDay(now)) ? new Date() : entry.start;
+    const minutes = parseInt(format(startTime, 'mm'), 10);
+    const hours = parseInt(format(startTime, 'HH'), 10);
+    let timeString = '';
+    switch (rounding.startTimeRounding.roundingDirection) {
+      case 'up':
+        timeString = roundTimeUp(minutes, hours, rounding.startTimeRounding.rounding);
+        break;
+      case 'down':
+        timeString = roundTimeDown(minutes, hours, rounding.startTimeRounding.rounding);
+        break;
+      default:
+        timeString = roundTimeAutomatically(minutes, hours, rounding.startTimeRounding.rounding);
+    }
+    const [roundedHours, roundedMinutes] = timeString.split(':');
+    startTime = setHours(
+      setMinutes(startTime, parseInt(roundedMinutes, 10)),
+      parseInt(roundedHours, 10),
+    );
     this.setState({
       tracking: true,
       entry: {
         ...entry,
-        start: isEqual(entry.start, startOfDay(now)) ? startTime : entry.start,
+        start: startTime,
         end: startTime,
       },
     });
-  };
+  }
 
   onStopTimeTracking = () => {
     const { entry } = this.state;
-
+    const { rounding } = this.props;
+    const { endTimeRounding } = rounding;
+    const { end } = entry;
+    const minutes = parseInt(format(end, 'mm'), 10);
+    const hours = parseInt(format(end, 'HH'), 10);
+    let timeString = '';
+    switch (endTimeRounding.roundingDirection) {
+      case 'up':
+        timeString = roundTimeUp(minutes, hours, endTimeRounding.rounding);
+        break;
+      case 'down':
+        timeString = roundTimeDown(minutes, hours, endTimeRounding.rounding);
+        break;
+      default:
+        timeString = roundTimeAutomatically(minutes, hours, endTimeRounding.rounding);
+    }
+    this.onTimeChange('end', timeString);
     this.setState({
       tracking: false,
     });
