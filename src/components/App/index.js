@@ -26,21 +26,6 @@ import thyme from './Thyme.svg';
 import './App.css';
 import './print.css';
 
-function AppLink(name, path, currentPath, exact = false) {
-  return (
-    <Link
-      className={classnames('item', {
-        active: exact
-          ? currentPath === path
-          : currentPath.indexOf(path) === 0,
-      })}
-      to={path}
-    >
-      {name}
-    </Link>
-  );
-}
-
 type AppType = {
   location: RouterLocation;
   children: any;
@@ -67,6 +52,22 @@ class App extends Component<AppType, AppState> {
     this.setState({ menuOpened: false });
   };
 
+  AppLink(name, path, currentPath, exact = false) {
+    return (
+      <Link
+        className={classnames('item', {
+          active: exact
+            ? currentPath === path
+            : currentPath.indexOf(path) === 0,
+        })}
+        to={path}
+        onClick={this.handleClose}
+      >
+        {name}
+      </Link>
+    );
+  }
+
   render() {
     const {
       location,
@@ -78,10 +79,10 @@ class App extends Component<AppType, AppState> {
 
     const MenuItems = (
       <Fragment>
-        {AppLink('Timesheet', '/', location.pathname, true)}
-        {AppLink('Reports', '/reports', location.pathname)}
-        {AppLink('Projects', '/projects', location.pathname)}
-        {AppLink('Settings', '/settings', location.pathname)}
+        {this.AppLink('Timesheet', '/', location.pathname, true)}
+        {this.AppLink('Reports', '/reports', location.pathname)}
+        {this.AppLink('Projects', '/projects', location.pathname)}
+        {this.AppLink('Settings', '/settings', location.pathname)}
         <Menu.Menu position="right">
           <Menu.Item>
             <Account />
