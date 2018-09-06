@@ -8,12 +8,13 @@ import { changeDateRange } from '../../actions/time';
 
 import { getDateRange } from '../../selectors/time';
 
-type DateRangeType = {
-  dateRange: dateRanges,
-  changeDateRange: (dateRange: dateRanges) => void,
+type DateRangeProps = {
+  vertical: boolean;
+  dateRange: dateRanges;
+  changeDateRange: (dateRange: dateRanges) => void;
 };
 
-class DateRange extends Component<DateRangeType> {
+class DateRange extends Component<DateRangeProps> {
   constructor(props) {
     super(props);
 
@@ -35,10 +36,14 @@ class DateRange extends Component<DateRangeType> {
   toggleOlder: () => void;
 
   render() {
-    const { dateRange } = this.props;
+    const { dateRange, vertical = false } = this.props;
 
     return (
-      <Menu secondary style={{ marginBottom: 0 }}>
+      <Menu
+        secondary
+        vertical={vertical}
+        style={{ marginBottom: 0 }}
+      >
         <Menu.Item
           active={dateRange === 'today'}
           onClick={this.toggleToday}
