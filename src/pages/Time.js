@@ -4,6 +4,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
+import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordion';
 
@@ -42,11 +43,11 @@ class Time extends Component<TimeProps, TimeState> {
     return (
       <div className="Time">
         <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-          <Accordion fluid styled>
+          <Accordion fluid>
             <Accordion.Title
               active={filterOpen}
               onClick={this.handleToggle}
-              content="Date range / sorting"
+              content="Filters / sorting"
             />
             <Accordion.Content active={filterOpen}>
               <Header as="h5">Date range:</Header>
@@ -55,6 +56,7 @@ class Time extends Component<TimeProps, TimeState> {
               <DateSort />
             </Accordion.Content>
           </Accordion>
+          <Divider />
         </Responsive>
         <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
           <div className="Time__RangeSort">
