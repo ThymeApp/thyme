@@ -90,7 +90,7 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
             </Form.Field>
             <Form.Field>
               <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-                <label htmlFor="project-name">
+                <label>
                   Parent project
                 </label>
               </Responsive>

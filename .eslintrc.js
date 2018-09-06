@@ -16,5 +16,6 @@ module.exports = {
       aspects: ['noHref', 'invalidHref', 'preferButton'],
     }],
     'jsx-a11y/label-has-for': 0,
+    'jsx-a11y/label-has-associated-control': 0,
   },
 };
