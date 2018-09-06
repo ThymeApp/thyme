@@ -79,7 +79,7 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
         return;
       }
 
-      importData(importData);
+      importData(dataToImport);
 
       showAlert('Import successful');
     } catch (e) {
