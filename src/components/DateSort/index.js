@@ -8,8 +8,6 @@ import { changeDateSort } from '../../actions/time';
 
 import { getDateSort } from '../../selectors/time';
 
-import './DateSort.css';
-
 type DateSortType = {
   sort: sortDirection;
   toggleSorting: (sort: sortDirection) => void;
@@ -21,7 +19,6 @@ function DateSort({ sort, toggleSorting }: DateSortType) {
       <Button
         onClick={() => toggleSorting(sort)}
         labelPosition="left"
-        compact
         content={sort === 'asc' ? 'Oldest first' : 'Newest first'}
         icon={sort === 'asc' ? 'caret down' : 'caret up'}
       />

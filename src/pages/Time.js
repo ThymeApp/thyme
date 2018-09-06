@@ -9,6 +9,8 @@ import ThymeTable from '../components/ThymeTable';
 
 import { getCurrentTimeEntries } from '../selectors/time';
 
+import './Time.css';
+
 type TimeType = {
   entries: Array<timeType>,
   now?: Date,
@@ -16,9 +18,11 @@ type TimeType = {
 
 function Time({ entries, now = new Date() }: TimeType) {
   return (
-    <div style={{ paddingLeft: '1%', paddingRight: '1%' }}>
-      <DateSort />
-      <DateRange />
+    <div className="Time">
+      <div className="Time__RangeSort">
+        <DateRange />
+        <DateSort />
+      </div>
       <ThymeTable
         entries={entries}
         now={now}
