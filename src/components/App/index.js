@@ -70,7 +70,7 @@ function App({
           </Menu.Menu>
         </Container>
       </Menu>
-      <Container fluid style={{ marginTop: '5em' }}>
+      <Container fluid style={{ marginTop: '5em', marginBottom: '2em' }}>
         <Modal
           open={alertMessage !== ''}
           onClose={onCloseAlert}
