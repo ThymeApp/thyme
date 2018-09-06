@@ -127,15 +127,24 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
             <ProjectInput handleChange={this.onChangeParent} value={project.parent} excludeValue />
           </Table.Cell>
           <Table.Cell>
-            <Popup
-              inverted
-              trigger={(
-                <Button icon onClick={this.onRemoveEntry}>
-                  <Icon name="remove" />
-                </Button>
-              )}
-              content="Remove project"
-            />
+            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+              <Button icon onClick={this.onRemoveEntry}>
+                <Icon name="remove" />
+                Remove project
+              </Button>
+            </Responsive>
+
+            <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+              <Popup
+                inverted
+                trigger={(
+                  <Button icon onClick={this.onRemoveEntry}>
+                    <Icon name="remove" />
+                  </Button>
+                )}
+                content="Remove project"
+              />
+            </Responsive>
 
             <Confirm
               open={confirmDelete}
