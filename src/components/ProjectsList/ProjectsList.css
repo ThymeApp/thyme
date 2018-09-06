@@ -1,20 +1,20 @@
-.ProjectList__level-2 .ui.input input {
-  margin-left: 30px;
+.ProjectList__level-3 .ProjectList__spacer {
+  width: 20px;
 }
 
-.ProjectList__level-3 .ui.input input {
-  margin-left: 60px;
+.ProjectList__level-4 .ProjectList__spacer {
+  width: 40px;
 }
 
-.ProjectList__level-4 .ui.input input {
-  margin-left: 90px;
+.ProjectList__level-5 .ProjectList__spacer {
+  width: 60px;
 }
 
-.ProjectList__level-5 .ui.input input {
-  margin-left: 120px;
+.ProjectList__item-container {
+  display: flex;
+  align-items: center;
 }
 
-.ProjectList .Select {
-  min-width: 200px;
-  margin-right: 12px;
+.ProjectList__level-1 .icon {
+  display: none;
 }
