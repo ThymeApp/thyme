@@ -17,14 +17,11 @@ import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
 import { alert } from '../../actions/app';
 
-import { isLoggedIn } from '../../selectors/account';
-
 import renderField from '../FormField/renderField';
 
 import { changePassword } from './api';
 
 type AccountProps = {
-  loggedIn: boolean;
   showAlert: (message: string) => void;
   initializeForms: (form: string, data: any) => void;
 } & FormProps;
@@ -43,15 +40,10 @@ class Account extends Component<AccountProps> {
 
   render() {
     const {
-      loggedIn,
       submitting,
       error,
       handleSubmit,
     } = this.props;
-
-    if (!loggedIn) {
-      return null;
-    }
 
     return (
       <Fragment>
@@ -130,11 +122,9 @@ const validate = (values) => {
   return errors;
 };
 
-const mapStateToProps = state => ({ loggedIn: isLoggedIn(state) });
-
 export default compose(
   connect(
-    mapStateToProps,
+    null,
     dispatch => bindActionCreators({
       initializeForms: initialize,
       showAlert: alert,
