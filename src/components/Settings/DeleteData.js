@@ -3,7 +3,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
@@ -63,9 +62,6 @@ class DeleteData extends Component<DeleteDataProps, DeleteDataState> {
 
     return (
       <Fragment>
-        <Header as="h3">
-          Delete data
-        </Header>
         <Button color="red" onClick={this.onRemoveTime}>
           Remove timesheet data
         </Button>

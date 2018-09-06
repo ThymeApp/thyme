@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import {
@@ -11,7 +11,6 @@ import {
 } from 'redux-form';
 import type { FormProps } from 'redux-form';
 
-import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
@@ -46,57 +45,51 @@ class Account extends Component<AccountProps> {
     } = this.props;
 
     return (
-      <Fragment>
-        <Header as="h3">
-          Account settings
-        </Header>
+      <Form
+        onSubmit={handleSubmit(this.onSubmit)}
+        loading={submitting}
+        noValidate
+      >
+        {error && (
+          <Message color="red" size="small">
+            {error}
+          </Message>
+        )}
 
-        <Form
-          onSubmit={handleSubmit(this.onSubmit)}
-          loading={submitting}
-          noValidate
-        >
-          {error && (
-            <Message color="red" size="small">
-              {error}
-            </Message>
-          )}
+        <Field
+          label="Current password"
+          name="currentPassword"
+          required
+          component={renderField}
+          type="password"
+          autoComplete="off"
+          placeholder="Your current password"
+        />
 
-          <Field
-            label="Current password"
-            name="currentPassword"
-            required
-            component={renderField}
-            type="password"
-            autoComplete="off"
-            placeholder="Your current password"
-          />
+        <Field
+          label="New password"
+          name="password"
+          required
+          component={renderField}
+          type="password"
+          autoComplete="off"
+          placeholder="Enter a new password"
+        />
 
-          <Field
-            label="New password"
-            name="password"
-            required
-            component={renderField}
-            type="password"
-            autoComplete="off"
-            placeholder="Enter a new password"
-          />
+        <Field
+          label="Confirm new password"
+          name="confirmPassword"
+          required
+          component={renderField}
+          type="password"
+          autoComplete="off"
+          placeholder="Confirm your new password"
+        />
 
-          <Field
-            label="Confirm new password"
-            name="confirmPassword"
-            required
-            component={renderField}
-            type="password"
-            autoComplete="off"
-            placeholder="Confirm your new password"
-          />
-
-          <Form.Button primary>
-            Update password
-          </Form.Button>
-        </Form>
-      </Fragment>
+        <Form.Button primary>
+          Update password
+        </Form.Button>
+      </Form>
     );
   }
 }

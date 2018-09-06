@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import format from 'date-fns/format';
 import FileSaver from 'file-saver';
 
-import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
@@ -104,9 +103,6 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
 
     return (
       <Fragment>
-        <Header as="h3">
-          Export / Import
-        </Header>
         <Button color="blue" onClick={this.exportData}>
           Export data
         </Button>
