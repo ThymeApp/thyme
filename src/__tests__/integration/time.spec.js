@@ -164,7 +164,7 @@ describe('ThymeTable', () => {
     // testing updates
     notes.value = 'Updated notes';
 
-    const notesInput = page.find('ThymeTable').find('.EntryNotes input').at(0);
+    const notesInput = page.find('ThymeTable').find('.EntryNotes input').at(1);
     notesInput.simulate('change', { target: notes });
     notesInput.simulate('blur');
 

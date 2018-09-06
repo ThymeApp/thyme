@@ -4,9 +4,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DateRange from '../components/DateRange';
+import DateSort from '../components/DateSort';
 import ThymeTable from '../components/ThymeTable';
 
 import { getCurrentTimeEntries } from '../selectors/time';
+
+import './Time.css';
 
 type TimeType = {
   entries: Array<timeType>,
@@ -15,8 +18,11 @@ type TimeType = {
 
 function Time({ entries, now = new Date() }: TimeType) {
   return (
-    <div style={{ paddingLeft: '1%', paddingRight: '1%' }}>
-      <DateRange />
+    <div className="Time">
+      <div className="Time__RangeSort">
+        <DateRange />
+        <DateSort />
+      </div>
       <ThymeTable
         entries={entries}
         now={now}

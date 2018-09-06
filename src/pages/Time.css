@@ -1,0 +1,10 @@
+.Time {
+  padding: 0 1%;
+}
+
+.Time__RangeSort {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}

@@ -4,6 +4,7 @@ declare type timeShape = {
   };
   allIds: string[];
   dateRange: dateRanges;
+  dateSort: sortDirection;
 };
 
 declare type projectsShape = {
@@ -78,6 +79,7 @@ declare type timeType = {
 } & timePropertyType;
 
 declare type dateRanges = 'today' | 'week' | 'weekToDate' | 'month' | 'older';
+declare type sortDirection = 'desc' | 'asc';
 
 declare type RouterLocation = {
   pathname: string;
