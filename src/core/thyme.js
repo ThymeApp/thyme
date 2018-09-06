@@ -9,17 +9,23 @@ import endOfDay from 'date-fns/end_of_day';
 import startOfMinute from 'date-fns/start_of_minute';
 import leftPad from 'left-pad';
 
-export function sortByTime(a: timeType, b: timeType) {
-  if (isBefore(a.start, b.start)) {
+export const sortByTime = (dateSort: sortDirection) => (a: timeType, b: timeType) => {
+  if (
+    (isBefore(a.start, b.start) && dateSort === 'asc')
+    || (isBefore(b.start, a.start) && dateSort === 'desc')
+  ) {
     return -1;
   }
 
-  if (isAfter(a.start, b.start)) {
+  if (
+    (isAfter(a.start, b.start) && dateSort === 'asc')
+    || (isAfter(b.start, a.start) && dateSort === 'desc')
+  ) {
     return 1;
   }
 
   return 0;
-}
+};
 
 export function calculateDuration(from: Date, to: Date, precise: boolean = false): number {
   if (isBefore(to, from)) {

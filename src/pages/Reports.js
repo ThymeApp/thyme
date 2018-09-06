@@ -143,7 +143,7 @@ function mapStateToProps(state, props) {
   ].map(project => ({
     ...project,
     time: totalProjectTime(project, mappedTime, from, to) / 60,
-    entries: [...projectTimeEntries(project, mappedTime, from, to)].sort(sortByTime),
+    entries: [...projectTimeEntries(project, mappedTime, from, to)].sort(sortByTime('asc')),
   }));
 
   const defaultFilters = allProjects.map(project => project.id);
