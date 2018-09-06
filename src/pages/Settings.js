@@ -9,9 +9,11 @@ import Account from '../components/Settings/Account';
 import ImportExport from '../components/Settings/ImportExport';
 import DeleteData from '../components/Settings/DeleteData';
 
+import './Settings.css';
+
 function Settings() {
   return (
-    <Container>
+    <Container className="Settings">
       <Header as="h1">
         Settings
       </Header>
