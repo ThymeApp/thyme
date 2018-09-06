@@ -137,7 +137,7 @@ class App extends Component<AppType, AppState> {
                 </Responsive>
               </Container>
             </Menu>
-            <Container fluid style={{ marginTop: '5em', marginBottom: '2em' }}>
+            <Container fluid style={{ marginTop: '5em', marginBottom: '2em', minHeight: '100vh' }}>
               <Modal
                 open={alertMessage !== ''}
                 onClose={onCloseAlert}
