@@ -54,23 +54,35 @@ class Settings extends Component<SettingsProps, SettingsState> {
         <Accordion fluid styled>
           {loggedIn && (
             <Fragment>
-              <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+              <Accordion.Title
+                active={activeIndex === 0}
+                index={0}
+                onClick={this.handleClick}
+              >
                 <Icon name="dropdown" />
-                Account
+                Account settings
               </Accordion.Title>
               <Accordion.Content active={activeIndex === 0}>
                 <Account />
               </Accordion.Content>
             </Fragment>
           )}
-          <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
+          <Accordion.Title
+            active={activeIndex === 1}
+            index={1}
+            onClick={this.handleClick}
+          >
             <Icon name="dropdown" />
-            Import Export
+            Export / Import data
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 1}>
             <ImportExport />
           </Accordion.Content>
-          <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}>
+          <Accordion.Title
+            active={activeIndex === 2}
+            index={2}
+            onClick={this.handleClick}
+          >
             <Icon name="dropdown" />
             Delete data
           </Accordion.Title>
