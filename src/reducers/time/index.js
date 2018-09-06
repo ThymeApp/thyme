@@ -56,8 +56,18 @@ function dateRange(state = 'today', action): dateRanges {
   }
 }
 
+function dateSort(state = 'desc', action): sortDirection {
+  switch (action.type) {
+    case 'CHANGE_DATE_SORT':
+      return action.dateSort;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   byId,
   allIds,
   dateRange,
+  dateSort,
 });

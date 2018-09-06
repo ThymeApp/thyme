@@ -31,3 +31,10 @@ export function changeDateRange(dateRange: dateRanges) {
     dateRange,
   };
 }
+
+export function changeDateSort(dateSort: sortDirection) {
+  return {
+    type: 'CHANGE_DATE_SORT',
+    dateSort,
+  };
+}
