@@ -5,6 +5,7 @@ import format from 'date-fns/format';
 import FileSaver from 'file-saver';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
 import { importJSONData, alert, migrateStoreData } from '../../actions/app';
@@ -104,9 +105,11 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
     return (
       <Fragment>
         <Button color="blue" onClick={this.exportData}>
+          <Icon name="download" />
           Export data
         </Button>
         <Button color="green" onClick={this.importData}>
+          <Icon name="folder open" />
           Import data
         </Button>
         <Confirm

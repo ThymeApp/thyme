@@ -4,6 +4,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
 import { alert } from '../../actions/app';
@@ -63,6 +64,7 @@ class DeleteData extends Component<DeleteDataProps, DeleteDataState> {
     return (
       <Fragment>
         <Button color="red" onClick={this.onRemoveTime}>
+          <Icon name="trash" />
           Remove timesheet data
         </Button>
         <Confirm
@@ -75,6 +77,7 @@ class DeleteData extends Component<DeleteDataProps, DeleteDataState> {
         />
 
         <Button color="red" onClick={this.onRemoveProjects}>
+          <Icon name="trash" />
           Remove project data
         </Button>
         <Confirm
