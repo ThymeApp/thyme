@@ -101,8 +101,6 @@ class App extends Component<AppType, AppState> {
             vertical
             visible={menuOpened}
             onHide={this.handleClose}
-            width="thin"
-            direction="right"
           >
             {MenuItems}
           </Sidebar>
@@ -110,21 +108,30 @@ class App extends Component<AppType, AppState> {
           <Sidebar.Pusher dimmed={menuOpened}>
             <Menu fixed="top" inverted>
               <Container>
-                <Menu.Item header>
-                  <Image
-                    size="mini"
-                    src={thyme}
-                    alt="Thyme"
-                    style={{ width: 24, marginRight: '1.5em' }}
-                  />
-                  Thyme
-                </Menu.Item>
                 <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-                  <Menu.Item position="right" onClick={this.handleToggle}>
+                  <Menu.Item position="left" onClick={this.handleToggle}>
                     <Icon name="sidebar" />
+                  </Menu.Item>
+                  <Menu.Item className="App-Title">
+                    <Image
+                      size="mini"
+                      src={thyme}
+                      alt="Thyme"
+                      style={{ width: 24, marginRight: '1.5em' }}
+                    />
+                    Thyme
                   </Menu.Item>
                 </Responsive>
                 <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+                  <Menu.Item header>
+                    <Image
+                      size="mini"
+                      src={thyme}
+                      alt="Thyme"
+                      style={{ width: 24, marginRight: '1.5em' }}
+                    />
+                    Thyme
+                  </Menu.Item>
                   {MenuItems}
                 </Responsive>
               </Container>
