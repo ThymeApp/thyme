@@ -8,24 +8,35 @@ import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import { updateTime, removeTime } from '../../actions/time';
 import { addProject } from '../../actions/projects';
 
+import { getDateSort } from '../../selectors/time';
+
 import NewTime from './New';
 import Entry from './Entry';
 
 type ThymeTableType = {
-  entries: Array<timeType>,
-  now: Date,
-  onEntryUpdate: (entry: timePropertyType) => void,
-  onEntryRemove: (id: string) => void,
-  onAddProject: (project: string) => string,
+  sort: sortDirection;
+  entries: Array<timeType>;
+  now: Date;
+  onEntryUpdate: (entry: timePropertyType) => void;
+  onEntryRemove: (id: string) => void;
+  onAddProject: (project: string) => string;
 };
 
 function ThymeTable({
+  sort,
   entries,
   now,
   onEntryUpdate,
   onEntryRemove,
   onAddProject,
 }: ThymeTableType) {
+  const New = (
+    <NewTime
+      now={now}
+      onAddNewProject={onAddProject}
+    />
+  );
+
   return (
     <Table basic="very">
       <Table.Header>
@@ -51,6 +62,7 @@ function ThymeTable({
         </Table.Row>
       </Table.Header>
       <Table.Body>
+        {sort === 'desc' && New}
         {entries.map(entry => (
           <Entry
             key={entry.id}
@@ -61,13 +73,16 @@ function ThymeTable({
             now={now}
           />
         ))}
-        <NewTime
-          now={now}
-          onAddNewProject={onAddProject}
-        />
+        {sort === 'asc' && New}
       </Table.Body>
     </Table>
   );
+}
+
+function mapStateToProps(state) {
+  return {
+    sort: getDateSort(state),
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -88,4 +103,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(ThymeTable);
+export default connect(mapStateToProps, mapDispatchToProps)(ThymeTable);
