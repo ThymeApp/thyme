@@ -38,7 +38,7 @@ class DateRange extends Component<DateRangeType> {
     const { dateRange } = this.props;
 
     return (
-      <Menu secondary>
+      <Menu secondary style={{ marginBottom: 0 }}>
         <Menu.Item
           active={dateRange === 'today'}
           onClick={this.toggleToday}
