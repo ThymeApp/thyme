@@ -1,5 +1,5 @@
 // @flow
-import queryString from 'query-string';
+import qs from 'qs';
 
 import endOfWeek from 'date-fns/end_of_week';
 import startOfWeek from 'date-fns/start_of_week';
@@ -7,7 +7,7 @@ import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 
 function currentQueryString() {
-  return queryString.parse(window.location.search);
+  return qs.parse(window.location.search);
 }
 
 export function queryStringFilters(): Array<string | null> | typeof undefined {
@@ -46,5 +46,5 @@ export function updateReport(
   to: Date | string = queryStringTo(),
   history: RouterHistory,
 ) {
-  history.push(`/reports?${queryString.stringify({ filter, from: format(from), to: format(to) })}`);
+  history.push(`/reports?${qs.stringify({ filter, from: format(from), to: format(to) })}`);
 }
