@@ -21,14 +21,14 @@ describe('NewProject', () => {
 
   it('Add project to store', () => {
     const projectName = wrapper.find('input[name="project-name"]');
-    const submit = wrapper.find('button');
+    const form = wrapper.find('form');
 
     // change event target need to be a real input
     const target = document.createElement('input');
     target.value = 'Test project';
 
     projectName.simulate('change', { target });
-    submit.simulate('click');
+    form.simulate('submit');
 
     const state = store.getState();
 
@@ -40,7 +40,7 @@ describe('NewProject', () => {
     // fill in test project
     const projectName = wrapper.find('input[name="project-name"]');
     const projectParent = wrapper.find('ProjectInput');
-    const submit = wrapper.find('button');
+    const form = wrapper.find('form');
 
     const prevState = store.getState();
     const target = document.createElement('input');
@@ -49,7 +49,7 @@ describe('NewProject', () => {
 
     projectName.simulate('change', { target });
     projectParent.prop('handleChange')(null, { value: parent.id, label: parent.name });
-    submit.simulate('click');
+    form.simulate('submit');
 
     const state = store.getState();
     const projects = state.projects.allIds.map(id => state.projects.byId[id]);

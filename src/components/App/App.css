@@ -5,3 +5,13 @@
 body {
   height: auto;
 }
+
+.ui.menu .item.App-Title {
+  width: calc(100% - 53px);
+  justify-content: center;
+  padding: .92857143em 53px .92857143em 0;
+}
+
+.ui.menu .item.App-Title:before {
+  display: none;
+}

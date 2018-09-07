@@ -9,6 +9,7 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
+import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
 import { isDescendant } from '../../core/projects';
 
@@ -91,29 +92,59 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
     const { project, projects, level } = this.props;
     const { confirmDelete } = this.state;
 
+    const NameInput = (
+      <Input
+        type="text"
+        value={project.name}
+        onChange={this.onChangeName}
+      />
+    );
+
     return (
       <Fragment>
-        <Table.Row className="ProjectList__item">
-          <Table.Cell className={`ProjectList__level-${level}`}>
-            <Input
-              type="text"
-              value={project.name}
-              onChange={this.onChangeName}
-            />
+        <Table.Row className="ProjectList__item ui form">
+          <Table.Cell className={`ProjectList__level-${level} field`}>
+            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+              <label>
+                Project name
+              </label>
+              {NameInput}
+            </Responsive>
+            <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+              <div className="ProjectList__item-container">
+                <div className="ProjectList__spacer" />
+                <Icon name="caret right" />
+                {NameInput}
+              </div>
+            </Responsive>
           </Table.Cell>
-          <Table.Cell width={6}>
+          <Table.Cell className="field">
+            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+              <label>
+                Parent project
+              </label>
+            </Responsive>
             <ProjectInput handleChange={this.onChangeParent} value={project.parent} excludeValue />
           </Table.Cell>
-          <Table.Cell width={1}>
-            <Popup
-              inverted
-              trigger={(
-                <Button icon onClick={this.onRemoveEntry}>
-                  <Icon name="remove" />
-                </Button>
-              )}
-              content="Remove project"
-            />
+          <Table.Cell>
+            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+              <Button icon onClick={this.onRemoveEntry}>
+                <Icon name="remove" />
+                Remove project
+              </Button>
+            </Responsive>
+
+            <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+              <Popup
+                inverted
+                trigger={(
+                  <Button icon onClick={this.onRemoveEntry}>
+                    <Icon name="remove" />
+                  </Button>
+                )}
+                content="Remove project"
+              />
+            </Responsive>
 
             <Confirm
               open={confirmDelete}

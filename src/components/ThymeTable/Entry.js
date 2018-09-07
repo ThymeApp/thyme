@@ -15,6 +15,8 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
+import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
+import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
 import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
 import { timeElapsed } from '../../core/thyme';
@@ -39,19 +41,19 @@ function defaultState(props = {}, now: Date): timePropertyType {
 }
 
 type EntryType = {
-  now: Date,
-  entry?: timeType,
-  tempEntry?: tempTimePropertyType,
-  onAdd?: (entry: timePropertyType) => void,
-  onRemove?: (id: string) => void,
-  onUpdate?: (entry: timePropertyType) => void,
-  onAddNewProject?: (project: string) => string,
+  now: Date;
+  entry?: timeType;
+  tempEntry?: tempTimePropertyType;
+  onAdd?: (entry: timePropertyType) => void;
+  onRemove?: (id: string) => void;
+  onUpdate?: (entry: timePropertyType) => void;
+  onAddNewProject?: (project: string) => string;
 };
 
 type EntryStateType = {
-  entry: timePropertyType,
-  tracking: boolean,
-  confirm: boolean,
+  entry: timePropertyType;
+  tracking: boolean;
+  confirm: boolean;
 };
 
 class Entry extends Component<EntryType, EntryStateType> {
@@ -282,7 +284,11 @@ class Entry extends Component<EntryType, EntryStateType> {
 
   render() {
     const { entry } = this.props;
-    const { tracking, confirm, entry: stateEntry } = this.state;
+    const {
+      tracking,
+      confirm,
+      entry: stateEntry,
+    } = this.state;
     const {
       start,
       end,
@@ -294,111 +300,195 @@ class Entry extends Component<EntryType, EntryStateType> {
     const [hours, minutes, seconds] = (timeElapsed(start, end, tracking, true) || '00:00:00')
       .split(':');
 
-    return (
-      <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>
-        <Table.Cell width={1}>
-          <DateInput
-            setRef={this.onSetDateInputRef}
-            onKeyPress={this.onKeyPress}
-            onChange={this.onDateChange}
-            value={format(start, 'YYYY-MM-DD')}
-          />
-        </Table.Cell>
-        <Table.Cell width={1}>
-          <TimeInput
-            onKeyPress={this.onKeyPress}
-            onChange={this.onStartTimeChange}
-            value={format(start, 'HH:mm')}
-          />
-        </Table.Cell>
-        <Table.Cell width={1}>
-          <TimeInput
-            onKeyPress={this.onKeyPress}
-            onChange={this.onEndTimeChange}
-            value={format(end, 'HH:mm')}
-          />
-        </Table.Cell>
-        <Table.Cell
-          className="EntryDuration"
-          width={1}
-        >
-          {hours}
-          :
-          {minutes}
-          {tracking && (
-            <Fragment>
-              :
-              {seconds}
-            </Fragment>
-          )}
-        </Table.Cell>
-        <Table.Cell width={3}>
-          <ProjectInput
-            value={project}
-            onAddItem={this.onAddNewProject}
-            handleChange={this.onProjectChange}
-          />
-        </Table.Cell>
-        <Table.Cell className="EntryNotes">
-          <NotesInput onKeyPress={this.onKeyPress} onChange={this.onNotesChange} value={notes} />
-        </Table.Cell>
-        <Table.Cell textAlign="right" style={{ width: 1, whiteSpace: 'nowrap' }}>
-          <Button.Group size="small">
-            {!hasId && (
-              <Fragment>
-                <Popup
-                  inverted
-                  trigger={(
-                    <Button
-                      icon
-                      color="blue"
-                      onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
-                    >
-                      <Icon name={tracking ? 'pause' : 'play'} />
-                    </Button>
-                  )}
-                  content={tracking ? 'Stop tracking time' : 'Start time tracking'}
-                />
-                <Popup
-                  inverted
-                  trigger={(
-                    <Button
-                      className="EntrySubmit"
-                      icon
-                      onClick={this.onAddEntry}
-                    >
-                      <Icon name="add" />
-                    </Button>
-                  )}
-                  content="Add this entry"
-                />
-              </Fragment>
-            )}
-            {hasId && (
-              <Fragment>
-                <Popup
-                  inverted
-                  trigger={(
-                    <Button icon onClick={this.onOpenConfirm}>
-                      <Icon name="remove" />
-                    </Button>
-                  )}
-                  content="Remove this entry"
-                />
+    const StartDate = (
+      <DateInput
+        setRef={this.onSetDateInputRef}
+        onKeyPress={this.onKeyPress}
+        onChange={this.onDateChange}
+        value={format(start, 'YYYY-MM-DD')}
+      />
+    );
 
-                <Confirm
-                  open={confirm}
-                  content="Are you sure you want to remove this entry?"
-                  confirmButton="Remove entry"
-                  size="mini"
-                  onCancel={this.onCancelConfirm}
-                  onConfirm={this.onRemoveEntry}
-                />
-              </Fragment>
-            )}
-          </Button.Group>
+    const StartTime = (
+      <TimeInput
+        onKeyPress={this.onKeyPress}
+        onChange={this.onStartTimeChange}
+        value={format(start, 'HH:mm')}
+      />
+    );
+
+    const EndTime = (
+      <TimeInput
+        onKeyPress={this.onKeyPress}
+        onChange={this.onEndTimeChange}
+        value={format(end, 'HH:mm')}
+      />
+    );
+
+    const Duration = (
+      <Fragment>
+        {hours}
+        :
+        {minutes}
+        {tracking && (
+          <Fragment>
+            :
+            {seconds}
+          </Fragment>
+        )}
+      </Fragment>
+    );
+
+    const Project = (
+      <ProjectInput
+        value={project}
+        onAddItem={this.onAddNewProject}
+        handleChange={this.onProjectChange}
+      />
+    );
+
+    const Notes = (
+      <NotesInput
+        onKeyPress={this.onKeyPress}
+        onChange={this.onNotesChange}
+        value={notes}
+      />
+    );
+
+    const Actions = (
+      <Button.Group size="small">
+        {!hasId && (
+          <Fragment>
+            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+              <Button
+                icon
+                color="blue"
+                onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+                labelPosition="left"
+              >
+                <Icon name={tracking ? 'pause' : 'play'} />
+                {tracking ? 'Stop tracking time' : 'Start time tracking'}
+              </Button>
+
+              <Button
+                className="EntrySubmit"
+                icon
+                onClick={this.onAddEntry}
+                labelPosition="right"
+              >
+                <Icon name="add" />
+                Add this entry
+              </Button>
+            </Responsive>
+            <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+              <Popup
+                inverted
+                trigger={(
+                  <Button
+                    icon
+                    color="blue"
+                    onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+                  >
+                    <Icon name={tracking ? 'pause' : 'play'} />
+                  </Button>
+                )}
+                content={tracking ? 'Stop tracking time' : 'Start time tracking'}
+              />
+              <Popup
+                inverted
+                trigger={(
+                  <Button
+                    className="EntrySubmit"
+                    icon
+                    onClick={this.onAddEntry}
+                  >
+                    <Icon name="add" />
+                  </Button>
+                )}
+                content="Add this entry"
+              />
+            </Responsive>
+          </Fragment>
+        )}
+        {hasId && (
+          <Fragment>
+            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+              <Button icon onClick={this.onOpenConfirm} labelPosition="left">
+                <Icon name="remove" />
+                Remove entry
+              </Button>
+            </Responsive>
+            <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+              <Popup
+                inverted
+                trigger={(
+                  <Button icon onClick={this.onOpenConfirm}>
+                    <Icon name="remove" />
+                  </Button>
+                )}
+                content="Remove this entry"
+              />
+            </Responsive>
+
+            <Confirm
+              open={confirm}
+              content="Are you sure you want to remove this entry?"
+              confirmButton="Remove entry"
+              size="mini"
+              onCancel={this.onCancelConfirm}
+              onConfirm={this.onRemoveEntry}
+            />
+          </Fragment>
+        )}
+      </Button.Group>
+    );
+
+    const TableEntry = (
+      <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>
+        <Table.Cell width={1}>{StartDate}</Table.Cell>
+        <Table.Cell width={1}>{StartTime}</Table.Cell>
+        <Table.Cell width={1}>{EndTime}</Table.Cell>
+        <Table.Cell className="EntryDuration" width={1}>{Duration}</Table.Cell>
+        <Table.Cell width={3}>{Project}</Table.Cell>
+        <Table.Cell className="EntryNotes">{Notes}</Table.Cell>
+        <Table.Cell textAlign="right" style={{ width: 1, whiteSpace: 'nowrap' }}>
+          {Actions}
         </Table.Cell>
       </Table.Row>
+    );
+
+    const CompactEntry = (
+      <Form className={classnames('Entry', { 'Entry--tracking': tracking })}>
+        <div className="EntryDuration">
+          <Icon name="stopwatch" color={tracking ? 'blue' : 'black'} />
+          {Duration}
+        </div>
+        <Form.Group className="EntryDurationContainer">
+          <Form.Field>
+            {StartDate}
+          </Form.Field>
+          <Form.Field>
+            {StartTime}
+          </Form.Field>
+          <Form.Field>
+            {EndTime}
+          </Form.Field>
+        </Form.Group>
+        {Project}
+        {Notes}
+        {Actions}
+      </Form>
+    );
+
+    return (
+      <Fragment>
+        <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+          {CompactEntry}
+        </Responsive>
+        <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+          {TableEntry}
+        </Responsive>
+      </Fragment>
     );
   }
 }

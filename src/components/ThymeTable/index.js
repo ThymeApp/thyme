@@ -1,9 +1,10 @@
 // @flow
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
+import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
 import { updateTime, removeTime } from '../../actions/time';
 import { addProject } from '../../actions/projects';
@@ -37,7 +38,24 @@ function ThymeTable({
     />
   );
 
-  return (
+  const Entries = (
+    <Fragment>
+      {sort === 'desc' && New}
+      {entries.map(entry => (
+        <Entry
+          key={entry.id}
+          onRemove={onEntryRemove}
+          onUpdate={onEntryUpdate}
+          onAddNewProject={onAddProject}
+          entry={entry}
+          now={now}
+        />
+      ))}
+      {sort === 'asc' && New}
+    </Fragment>
+  );
+
+  const TableContent = (
     <Table basic="very">
       <Table.Header>
         <Table.Row>
@@ -62,20 +80,20 @@ function ThymeTable({
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {sort === 'desc' && New}
-        {entries.map(entry => (
-          <Entry
-            key={entry.id}
-            onRemove={onEntryRemove}
-            onUpdate={onEntryUpdate}
-            onAddNewProject={onAddProject}
-            entry={entry}
-            now={now}
-          />
-        ))}
-        {sort === 'asc' && New}
+        {Entries}
       </Table.Body>
     </Table>
+  );
+
+  return (
+    <Fragment>
+      <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+        {Entries}
+      </Responsive>
+      <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+        {TableContent}
+      </Responsive>
+    </Fragment>
   );
 }
 

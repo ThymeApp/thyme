@@ -1,10 +1,12 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
+import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
+import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
 import { valueFromEventTarget } from '../../core/dom';
 
@@ -47,13 +49,6 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
     });
   }
 
-  onKeyPress = (e: KeyboardEvent) => {
-    // check if return is pressed
-    if (e.charCode && e.charCode === 13) {
-      this.addNew();
-    }
-  };
-
   addNew() {
     const { onAddProject } = this.props;
     const { name } = this.state;
@@ -74,21 +69,44 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
 
     return (
       <div className="NewProject">
-        <Input
-          id="project-name"
-          name="project-name"
-          className="NewProject__input"
-          type="text"
-          placeholder="Project name"
-          value={name}
-          onChange={this.onNameChange}
-          onKeyPress={this.onKeyPress}
-          style={{ marginRight: 12 }}
-        />
-        <ProjectInput placeholder="Select parent..." handleChange={this.onProjectChange} value={parent} />
-        <Button style={{ marginLeft: 12 }} color="blue" onClick={this.onSubmit}>
-          Add project
-        </Button>
+        <Form onSubmit={this.onSubmit}>
+          <Form.Group widths="equal">
+            <Form.Field>
+              <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+                <label htmlFor="project-name">
+                  Project name
+                </label>
+              </Responsive>
+              <Input
+                id="project-name"
+                name="project-name"
+                className="NewProject__input"
+                type="text"
+                placeholder="Project name"
+                value={name}
+                onChange={this.onNameChange}
+                style={{ marginRight: 12 }}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+                <label>
+                  Parent project
+                </label>
+              </Responsive>
+              <ProjectInput
+                placeholder="Select parent..."
+                handleChange={this.onProjectChange}
+                value={parent}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Button color="blue" type="submit">
+                Add project
+              </Button>
+            </Form.Field>
+          </Form.Group>
+        </Form>
       </div>
     );
   }
