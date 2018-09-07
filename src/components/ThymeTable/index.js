@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
+import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
 import { updateTime, removeTime } from '../../actions/time';
 import { addProject } from '../../actions/projects';
@@ -12,7 +13,6 @@ import { getDateSort } from '../../selectors/time';
 
 import NewTime from './New';
 import Entry from './Entry';
-import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
 type ThymeTableType = {
   sort: sortDirection;
@@ -87,7 +87,9 @@ function ThymeTable({
 
   return (
     <Fragment>
-      <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth} />
+      <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+        {Entries}
+      </Responsive>
       <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
         {TableContent}
       </Responsive>
