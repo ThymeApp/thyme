@@ -33,19 +33,21 @@ function ProjectInput({
       onAddItem={onAddItem}
       options={[
         { key: null, value: null, text: 'No project' },
-        ...projects
-          .map(project => ({
-            key: project.id,
-            value: project.id,
-            text: project.nameTree.join(' > '),
-          })),
+        ...projects,
       ]}
     />
   );
 }
 
 function mapStateToProps(state) {
-  return { projects: sortedProjects(state) };
+  return {
+    projects: sortedProjects(state)
+      .map(project => ({
+        key: project.id,
+        value: project.id,
+        text: project.nameTree.join(' > '),
+      })),
+  };
 }
 
 export default connect(mapStateToProps)(ProjectInput);

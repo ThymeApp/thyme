@@ -5,6 +5,7 @@ declare type timeShape = {
   allIds: string[];
   dateRange: dateRanges;
   dateSort: sortDirection;
+  page: number;
 };
 
 declare type projectsShape = {
