@@ -65,9 +65,22 @@ function dateSort(state = 'desc', action): sortDirection {
   }
 }
 
+function page(state = 1, action): number {
+  switch (action.type) {
+    case 'CHANGE_DATE_SORT':
+    case 'CHANGE_DATE_RANGE':
+      return 1;
+    case 'CHANGE_PAGE':
+      return action.page;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   byId,
   allIds,
   dateRange,
   dateSort,
+  page,
 });

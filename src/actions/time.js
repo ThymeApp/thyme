@@ -38,3 +38,10 @@ export function changeDateSort(dateSort: sortDirection) {
     dateSort,
   };
 }
+
+export function changePage(page: number) {
+  return {
+    type: 'CHANGE_PAGE',
+    page,
+  };
+}

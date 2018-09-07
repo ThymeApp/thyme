@@ -5,20 +5,25 @@ import { connect } from 'react-redux';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
-import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordion';
+import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
+import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagination';
 
 import DateRange from '../components/DateRange';
 import DateSort from '../components/DateSort';
 import ThymeTable from '../components/ThymeTable';
 
-import { getCurrentTimeEntries } from '../selectors/time';
+import { changePage } from '../actions/time';
+
+import { getCurrentTimeEntries, getPage } from '../selectors/time';
 
 import './Time.css';
 
 type TimeProps = {
-  entries: Array<timeType>,
-  now?: Date,
+  entries: Array<timeType>;
+  now?: Date;
+  page: number;
+  changeEntriesPage: (page: number) => void;
 };
 
 type TimeState = {
@@ -30,15 +35,27 @@ class Time extends Component<TimeProps, TimeState> {
     filterOpen: false,
   };
 
+  entriesPerPage = 10;
+
   handleToggle = () => {
     const { filterOpen } = this.state;
 
     this.setState({ filterOpen: !filterOpen });
   };
 
+  handlePaginationChange = (e: Event, { activePage }: { activePage: number }) => {
+    const { changeEntriesPage } = this.props;
+
+    changeEntriesPage(activePage);
+  };
+
   render() {
-    const { entries, now = new Date() } = this.props;
+    const { entries, now = new Date(), page } = this.props;
     const { filterOpen } = this.state;
+
+    const totalPages = Math.ceil(entries.length / this.entriesPerPage);
+    const start = (page - 1) * this.entriesPerPage;
+    const end = (page * this.entriesPerPage) - 1;
 
     return (
       <div className="Time">
@@ -65,9 +82,19 @@ class Time extends Component<TimeProps, TimeState> {
           </div>
         </Responsive>
         <ThymeTable
-          entries={entries}
+          entries={entries.filter((item, index) => index <= end && index >= start)}
           now={now}
         />
+        {totalPages > 1 && (
+          <Pagination
+            firstItem={null}
+            lastItem={null}
+            activePage={page}
+            totalPages={totalPages}
+            siblingRange={2}
+            onPageChange={this.handlePaginationChange}
+          />
+        )}
       </div>
     );
   }
@@ -76,7 +103,18 @@ class Time extends Component<TimeProps, TimeState> {
 function mapStateToProps(state, props: TimeProps) {
   const { now } = props;
 
-  return { entries: getCurrentTimeEntries(now || new Date())(state) };
+  return {
+    entries: getCurrentTimeEntries(now || new Date())(state),
+    page: getPage(state),
+  };
 }
 
-export default connect(mapStateToProps)(Time);
+function mapDispatchToProps(dispatch) {
+  return {
+    changeEntriesPage(page: number) {
+      dispatch(changePage(page));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Time);

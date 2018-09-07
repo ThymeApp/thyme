@@ -16,6 +16,7 @@ export const getAllTimeEntries = (state: storeShape): timeType[] => state.time.a
   .filter(time => !time.removed);
 export const getDateRange = (state: storeShape) => state.time.dateRange;
 export const getDateSort = (state: storeShape) => state.time.dateSort;
+export const getPage = (state: storeShape) => state.time.page;
 
 const today = now => (entry: timeType) => isSameDay(entry.start, now);
 const thisWeek = now => (entry: timeType) => isSameWeek(entry.start, now, { weekStartsOn: 1 });
