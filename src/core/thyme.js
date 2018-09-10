@@ -1,5 +1,7 @@
 // @flow
 
+import leftPad from 'left-pad';
+
 import differenceInSeconds from 'date-fns/difference_in_seconds';
 import isAfter from 'date-fns/is_after';
 import isBefore from 'date-fns/is_before';
@@ -7,7 +9,9 @@ import isEqual from 'date-fns/is_equal';
 import startOfDay from 'date-fns/start_of_day';
 import endOfDay from 'date-fns/end_of_day';
 import startOfMinute from 'date-fns/start_of_minute';
-import leftPad from 'left-pad';
+import format from 'date-fns/format';
+import getMinutes from 'date-fns/get_minutes';
+import setMinutes from 'date-fns/set_minutes';
 
 export const sortByTime = (dateSort: sortDirection) => (a: timeType, b: timeType) => {
   if (
@@ -84,4 +88,14 @@ export function totalProjectTime(
 ): number {
   return projectTimeEntries(project, time, from, to)
     .reduce((total, entry) => total + calculateDuration(entry.start, entry.end), 0);
+}
+
+export const formatTime = (date: Date) => format(date, 'HH:mm');
+
+export function roundTime(minutes: number, round: rounding, date: Date): Date {
+  if (round === 'none') {
+    return date;
+  }
+
+  return setMinutes(date, Math[round](getMinutes(date) / minutes) * minutes);
 }

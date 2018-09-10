@@ -1,4 +1,9 @@
-import { totalProjectTime, timeElapsed } from '../../core/thyme';
+import {
+  totalProjectTime,
+  timeElapsed,
+  roundTime,
+  formatTime,
+} from '../../core/thyme';
 
 describe('Calculate total project time', () => {
   const times = [{
@@ -39,4 +44,27 @@ describe('Returns correct time differences', () => {
   // no seconds
   expect(timeElapsed('2018-01-03T10:00:10.000Z', '2018-01-03T12:00:00.000Z', true, false))
     .toBe('01:59');
+});
+
+
+describe('Rounding time', () => {
+  // no rounding
+  expect(formatTime(roundTime(0, 'none', new Date(2018, 0, 1, 10)))).toBe('10:00');
+  expect(formatTime(roundTime(10, 'none', new Date(2018, 0, 1, 10, 2)))).toBe('10:02');
+  expect(formatTime(roundTime(20, 'none', new Date(2018, 0, 1, 10, 6)))).toBe('10:06');
+
+  // automatic rounding
+  expect(formatTime(roundTime(5, 'round', new Date(2018, 0, 1, 10, 3)))).toBe('10:05');
+  expect(formatTime(roundTime(5, 'round', new Date(2018, 0, 1, 10, 2)))).toBe('10:00');
+  expect(formatTime(roundTime(5, 'round', new Date(2018, 0, 1, 10, 5)))).toBe('10:05');
+
+  // rounding up
+  expect(formatTime(roundTime(5, 'ceil', new Date(2018, 0, 1, 10, 3)))).toBe('10:05');
+  expect(formatTime(roundTime(5, 'ceil', new Date(2018, 0, 1, 10, 2)))).toBe('10:05');
+  expect(formatTime(roundTime(5, 'ceil', new Date(2018, 0, 1, 10, 5)))).toBe('10:05');
+
+  // rounding down
+  expect(formatTime(roundTime(5, 'floor', new Date(2018, 0, 1, 10, 3)))).toBe('10:00');
+  expect(formatTime(roundTime(5, 'floor', new Date(2018, 0, 1, 10, 2)))).toBe('10:00');
+  expect(formatTime(roundTime(5, 'floor', new Date(2018, 0, 1, 10, 5)))).toBe('10:05');
 });
