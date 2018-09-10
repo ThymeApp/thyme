@@ -8,6 +8,7 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
 
+import Rounding from '../components/Settings/Rounding';
 import Account from '../components/Settings/Account';
 import ImportExport from '../components/Settings/ImportExport';
 import DeleteData from '../components/Settings/DeleteData';
@@ -63,6 +64,10 @@ class Settings extends Component<SettingsProps, SettingsState> {
     const { loggedIn } = this.props;
 
     const items = [
+      {
+        name: 'Rounding time',
+        content: <Rounding />,
+      },
       loggedIn ? {
         name: 'Account settings',
         content: <Account />,

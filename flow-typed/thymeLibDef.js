@@ -82,6 +82,8 @@ declare type timeType = {
 declare type dateRanges = 'today' | 'week' | 'weekToDate' | 'month' | 'older';
 declare type sortDirection = 'desc' | 'asc';
 
+declare type rounding = 'none' | 'round' | 'ceil' | 'floor';
+
 declare type RouterLocation = {
   pathname: string;
   search: string;
