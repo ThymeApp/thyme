@@ -3,10 +3,11 @@
 import React, { Component } from 'react';
 
 import addMinutes from 'date-fns/add_minutes';
-import format from 'date-fns/format';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
+
+import { formatTime, roundTime } from '../../core/thyme';
 
 import './Rounding.css';
 
@@ -24,8 +25,6 @@ const roundingOptions = [
   { text: 'Down', value: 'floor' },
 ];
 
-const formatTime = (date: Date) => format(date, 'HH:mm');
-
 function roundingExample(amount: number, type: rounding) {
   if (type === 'none' || amount === 0) {
     return 'results in no automatic rounding';
@@ -39,7 +38,12 @@ function roundingExample(amount: number, type: rounding) {
   const diffDownTime = addMinutes(startTime, diffDown);
   const diffUpTime = addMinutes(startTime, diffUp);
 
-  return `results in ${formatTime(diffDownTime)} → 08:05 and ${formatTime(diffUpTime)} → 08:05`;
+  const A = formatTime(diffDownTime);
+  const B = formatTime(roundTime(amount, type, diffDownTime));
+  const C = formatTime(diffUpTime);
+  const D = formatTime(roundTime(amount, type, diffUpTime));
+
+  return `results in ${A} → ${B} and ${C} → ${D}`;
 }
 
 type RoundingState = {
@@ -81,7 +85,7 @@ class Rounding extends Component<*, RoundingState> {
               value={startAmount}
               onChange={(e, { value }) => this.setState({ startAmount: parseInt(value, 10) })}
               options={
-                [5, 10, 15, 20, 30, 45, 60]
+                [5, 10, 15, 20, 25, 30]
                   .map((amount: number) => ({ key: amount, text: `${amount} minutes`, value: amount }))
               }
               placeholder="Round to amount of minutes"
