@@ -25,16 +25,34 @@ type SettingsState = {
 };
 
 class Settings extends Component<SettingsProps, SettingsState> {
-  constructor(props: SettingsProps) {
-    super();
+  state = { activeIndex: 0 };
 
-    this.state = {
-      activeIndex: props.loggedIn ? 0 : 1,
-    };
-  }
+  settingsItem = (item: { name: string, content: any } | null, index: number) => {
+    if (!item) {
+      return null;
+    }
 
-  handleClick = (e: Event, titleProps: { index: number}) => {
-    const { index } = titleProps;
+    const { activeIndex } = this.state;
+    const { name, content } = item;
+
+    return (
+      <Fragment key={name}>
+        <Accordion.Title
+          active={activeIndex === index}
+          index={index}
+          onClick={this.handleAccordionToggle(index)}
+        >
+          <Icon name="dropdown" />
+          {name}
+        </Accordion.Title>
+        <Accordion.Content active={activeIndex === index}>
+          {content}
+        </Accordion.Content>
+      </Fragment>
+    );
+  };
+
+  handleAccordionToggle = (index: number) => () => {
     const { activeIndex } = this.state;
     const newIndex = activeIndex === index ? -1 : index;
 
@@ -42,8 +60,22 @@ class Settings extends Component<SettingsProps, SettingsState> {
   };
 
   render() {
-    const { activeIndex } = this.state;
     const { loggedIn } = this.props;
+
+    const items = [
+      loggedIn ? {
+        name: 'Account settings',
+        content: <Account />,
+      } : null,
+      {
+        name: 'Export / Import data',
+        content: <ImportExport />,
+      },
+      {
+        name: 'Delete data',
+        content: <DeleteData />,
+      },
+    ];
 
     return (
       <Container className="Settings">
@@ -52,43 +84,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
         </Header>
 
         <Accordion fluid styled>
-          {loggedIn && (
-            <Fragment>
-              <Accordion.Title
-                active={activeIndex === 0}
-                index={0}
-                onClick={this.handleClick}
-              >
-                <Icon name="dropdown" />
-                Account settings
-              </Accordion.Title>
-              <Accordion.Content active={activeIndex === 0}>
-                <Account />
-              </Accordion.Content>
-            </Fragment>
-          )}
-          <Accordion.Title
-            active={activeIndex === 1}
-            index={1}
-            onClick={this.handleClick}
-          >
-            <Icon name="dropdown" />
-            Export / Import data
-          </Accordion.Title>
-          <Accordion.Content active={activeIndex === 1}>
-            <ImportExport />
-          </Accordion.Content>
-          <Accordion.Title
-            active={activeIndex === 2}
-            index={2}
-            onClick={this.handleClick}
-          >
-            <Icon name="dropdown" />
-            Delete data
-          </Accordion.Title>
-          <Accordion.Content active={activeIndex === 2}>
-            <DeleteData />
-          </Accordion.Content>
+          {items.map(this.settingsItem)}
         </Accordion>
 
         <Header as="h3">
