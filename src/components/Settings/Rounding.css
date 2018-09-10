@@ -1,9 +1,5 @@
-.Settings .Rounding .ui.labeled.icon.button > .text {
-  display: none;
-}
-
 .Settings .Rounding .ui.labeled.icon.button {
-  padding: 18px!important;
+  padding: 12px;
   margin: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;

@@ -9,9 +9,10 @@ import isEqual from 'date-fns/is_equal';
 import startOfDay from 'date-fns/start_of_day';
 import endOfDay from 'date-fns/end_of_day';
 import startOfMinute from 'date-fns/start_of_minute';
+import startOfHour from 'date-fns/start_of_hour';
 import format from 'date-fns/format';
-import getMinutes from 'date-fns/get_minutes';
-import setMinutes from 'date-fns/set_minutes';
+import differenceInMinutes from 'date-fns/difference_in_minutes';
+import addMinutes from 'date-fns/add_minutes';
 
 export const sortByTime = (dateSort: sortDirection) => (a: timeType, b: timeType) => {
   if (
@@ -92,10 +93,17 @@ export function totalProjectTime(
 
 export const formatTime = (date: Date) => format(date, 'HH:mm');
 
-export function roundTime(minutes: number, round: rounding, date: Date): Date {
+export function roundTime(
+  minutes: number,
+  round: rounding,
+  date: Date,
+  startDate: Date = startOfHour(date),
+): Date {
   if (round === 'none') {
     return date;
   }
 
-  return setMinutes(date, Math[round](getMinutes(date) / minutes) * minutes);
+  const diffMinutes = differenceInMinutes(date, startDate);
+
+  return addMinutes(startDate, Math[round](diffMinutes / minutes) * minutes);
 }

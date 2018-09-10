@@ -48,23 +48,45 @@ describe('Returns correct time differences', () => {
 
 
 describe('Rounding time', () => {
-  // no rounding
-  expect(formatTime(roundTime(0, 'none', new Date(2018, 0, 1, 10)))).toBe('10:00');
-  expect(formatTime(roundTime(10, 'none', new Date(2018, 0, 1, 10, 2)))).toBe('10:02');
-  expect(formatTime(roundTime(20, 'none', new Date(2018, 0, 1, 10, 6)))).toBe('10:06');
+  it('Should be able to ignore rounding', () => {
+    expect(formatTime(roundTime(0, 'none', new Date(2018, 0, 1, 10)))).toBe('10:00');
+    expect(formatTime(roundTime(10, 'none', new Date(2018, 0, 1, 10, 2)))).toBe('10:02');
+    expect(formatTime(roundTime(20, 'none', new Date(2018, 0, 1, 10, 6)))).toBe('10:06');
+  });
 
-  // automatic rounding
-  expect(formatTime(roundTime(5, 'round', new Date(2018, 0, 1, 10, 3)))).toBe('10:05');
-  expect(formatTime(roundTime(5, 'round', new Date(2018, 0, 1, 10, 2)))).toBe('10:00');
-  expect(formatTime(roundTime(5, 'round', new Date(2018, 0, 1, 10, 5)))).toBe('10:05');
+  it('Should be able to round automatically', () => {
+    expect(formatTime(roundTime(5, 'round', new Date(2018, 0, 1, 10, 3)))).toBe('10:05');
+    expect(formatTime(roundTime(5, 'round', new Date(2018, 0, 1, 10, 2)))).toBe('10:00');
+    expect(formatTime(roundTime(5, 'round', new Date(2018, 0, 1, 10, 5)))).toBe('10:05');
+    expect(
+      formatTime(roundTime(45, 'round', new Date(2018, 0, 1, 11, 8), new Date(2018, 0, 1, 10, 0))),
+    ).toBe('11:30');
+    expect(
+      formatTime(roundTime(45, 'round', new Date(2018, 0, 1, 10, 30), new Date(2018, 0, 1, 10, 0))),
+    ).toBe('10:45');
+  });
 
-  // rounding up
-  expect(formatTime(roundTime(5, 'ceil', new Date(2018, 0, 1, 10, 3)))).toBe('10:05');
-  expect(formatTime(roundTime(5, 'ceil', new Date(2018, 0, 1, 10, 2)))).toBe('10:05');
-  expect(formatTime(roundTime(5, 'ceil', new Date(2018, 0, 1, 10, 5)))).toBe('10:05');
+  it('Should be able to round up', () => {
+    expect(formatTime(roundTime(5, 'ceil', new Date(2018, 0, 1, 10, 3)))).toBe('10:05');
+    expect(formatTime(roundTime(5, 'ceil', new Date(2018, 0, 1, 10, 2)))).toBe('10:05');
+    expect(formatTime(roundTime(5, 'ceil', new Date(2018, 0, 1, 10, 5)))).toBe('10:05');
+    expect(
+      formatTime(roundTime(45, 'ceil', new Date(2018, 0, 1, 10, 46), new Date(2018, 0, 1, 10, 0))),
+    ).toBe('11:30');
+    expect(
+      formatTime(roundTime(45, 'ceil', new Date(2018, 0, 1, 10, 1), new Date(2018, 0, 1, 10, 0))),
+    ).toBe('10:45');
+  });
 
-  // rounding down
-  expect(formatTime(roundTime(5, 'floor', new Date(2018, 0, 1, 10, 3)))).toBe('10:00');
-  expect(formatTime(roundTime(5, 'floor', new Date(2018, 0, 1, 10, 2)))).toBe('10:00');
-  expect(formatTime(roundTime(5, 'floor', new Date(2018, 0, 1, 10, 5)))).toBe('10:05');
+  it('Should be able to round down', () => {
+    expect(formatTime(roundTime(5, 'floor', new Date(2018, 0, 1, 10, 3)))).toBe('10:00');
+    expect(formatTime(roundTime(5, 'floor', new Date(2018, 0, 1, 10, 2)))).toBe('10:00');
+    expect(formatTime(roundTime(5, 'floor', new Date(2018, 0, 1, 10, 5)))).toBe('10:05');
+    expect(
+      formatTime(roundTime(45, 'floor', new Date(2018, 0, 1, 10, 46), new Date(2018, 0, 1, 10, 0))),
+    ).toBe('10:45');
+    expect(
+      formatTime(roundTime(45, 'floor', new Date(2018, 0, 1, 11, 1), new Date(2018, 0, 1, 10, 0))),
+    ).toBe('10:45');
+  });
 });
