@@ -2,7 +2,7 @@
 
 import { createStore } from 'redux';
 
-import reducers from './reducers/index';
+import reducers from './reducers';
 
 export default (initialState: any = {}, middleWare: any) => createStore(
   reducers,
