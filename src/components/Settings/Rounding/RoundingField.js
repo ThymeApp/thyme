@@ -45,6 +45,7 @@ function roundingExample(amount: number, type: rounding) {
 }
 
 type RoundingFieldType = {
+  label: string;
   rounding: rounding;
   amount: number;
   onChangeRounding: (rounding: rounding) => void;
@@ -52,6 +53,7 @@ type RoundingFieldType = {
 };
 
 function RoundingField({
+  label,
   rounding,
   amount,
   onChangeRounding,
@@ -61,7 +63,7 @@ function RoundingField({
 
   return (
     <Form.Field>
-      <label>Start time rounding</label>
+      <label>{label}</label>
       <div className="Rounding-Container">
         <Dropdown
           placeholder="Select rounding for start time"
@@ -79,6 +81,7 @@ function RoundingField({
         <Dropdown
           search
           searchInput={{ type: 'number' }}
+          compact
           selection
           allowAdditions
           additionLabel=""
