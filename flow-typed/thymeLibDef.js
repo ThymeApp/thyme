@@ -25,6 +25,11 @@ declare type reportsShape = {
   to: Date | string;
 };
 
+declare type settingsShape = {
+  durationRounding: rounding;
+  durationRoundingAmount: number;
+};
+
 declare type storeShape = {
   account: {
     jwt: string | null;
@@ -37,6 +42,7 @@ declare type storeShape = {
   time: timeShape;
   projects: projectsShape;
   reports: reportsShape;
+  settings: settingsShape;
 };
 
 declare type reportType = {
