@@ -39,10 +39,12 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
 
 type ReportsType = {
   history: RouterHistory;
-  from: Date | string,
-  to: Date | string,
+  from: Date | string;
+  to: Date | string;
+  detailedRound: rounding;
+  roundAmount: number;
   report: reportType | null;
-  filters: string[],
+  filters: string[];
   allProjects: Array<projectTreeWithTimeType>;
   projects: Array<projectTreeWithTimeType>;
 };
@@ -88,6 +90,8 @@ class Reports extends Component<ReportsType> {
       projects,
       from,
       to,
+      detailedRound,
+      roundAmount,
     } = this.props;
 
     return (
@@ -119,7 +123,11 @@ class Reports extends Component<ReportsType> {
           </Grid.Row>
         </Grid>
         <ReportTable projects={projects} />
-        <ReportDetailed projects={projects} />
+        <ReportDetailed
+          round={detailedRound}
+          roundAmount={roundAmount}
+          projects={projects}
+        />
         <SavedReports
           from={from}
           to={to}
@@ -168,6 +176,8 @@ function mapStateToProps(state, props) {
     report,
     from,
     to,
+    detailedRound: roundingOn === 'entries' ? durationRounding : 'none',
+    roundAmount: durationAmount,
     projects: allProjects.filter(project => filters.indexOf(project.id) > -1),
   };
 }
