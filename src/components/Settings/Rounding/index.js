@@ -4,7 +4,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
@@ -18,6 +17,7 @@ import { getDurationRounding, getDurationAmount, getRoundingOn } from '../../../
 
 import RoundingField from './RoundingField';
 import RoundingExample from './RoundingExample';
+import RoundingOn from './RoundingOn';
 
 import './Rounding.css';
 
@@ -51,31 +51,10 @@ function Rounding({
           onChangeRounding={onChangeDurationRounding}
           onChangeAmount={onChangeDurationRoundingAmount}
         />
-        <Form.Group grouped>
-          <Form.Field>
-            <label>Round durations by</label>
-          </Form.Field>
-          <Form.Field>
-            <Checkbox
-              radio
-              label="Individual entries"
-              name="roundingOn"
-              value="entries"
-              checked={roundingOn === 'entries'}
-              onChange={onChangeRoundingOn}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox
-              radio
-              label="Report totals"
-              name="roundingOn"
-              value="reports"
-              checked={roundingOn === 'reports'}
-              onChange={onChangeRoundingOn}
-            />
-          </Form.Field>
-        </Form.Group>
+        <RoundingOn
+          roundingOn={roundingOn}
+          onChange={onChangeRoundingOn}
+        />
       </Form>
       <RoundingExample
         amount={durationAmount}
@@ -98,6 +77,6 @@ export default connect(
   dispatch => bindActionCreators({
     onChangeDurationRounding: updateDurationRounding,
     onChangeDurationRoundingAmount: updateDurationRoundingAmount,
-    onChangeRoundingOn: (e, { value }) => updateRoundingOn(value),
+    onChangeRoundingOn: updateRoundingOn,
   }, dispatch),
 )(Rounding);
