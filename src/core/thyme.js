@@ -103,9 +103,22 @@ export function totalProjectTime(
   time: Array<timeType>,
   from: Date | string,
   to: Date | string,
+  roundPerEntry?: boolean = false,
+  round?: rounding = 'none',
+  roundAmount?: number = 0,
 ): number {
-  return projectTimeEntries(project, time, from, to)
-    .reduce((total, entry) => total + calculateDuration(entry.start, entry.end), 0);
+  const projectTotal = projectTimeEntries(project, time, from, to)
+    .reduce((total, entry) => total + getRoundedMinutes(
+      roundPerEntry ? round : 'none',
+      calculateDuration(entry.start, entry.end) / 60,
+      roundAmount,
+    ), 0);
+
+  return getRoundedMinutes(
+    round,
+    projectTotal,
+    roundAmount,
+  );
 }
 
 export const formatTime = (date: Date) => format(date, 'HH:mm');

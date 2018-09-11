@@ -27,6 +27,7 @@ import SavedReports from '../components/SavedReports';
 import { sortedProjects } from '../selectors/projects';
 import { getAllTimeEntries } from '../selectors/time';
 import { getById } from '../selectors/reports';
+import { getDurationRounding, getDurationAmount, getRoundingOn } from '../selectors/settings';
 
 function toggleFilter(filters: Array<string | null>, filter: string | null) {
   if (filters.indexOf(filter) > -1) {
@@ -132,6 +133,10 @@ class Reports extends Component<ReportsType> {
 function mapStateToProps(state, props) {
   const report = getById(state, props.match.params.reportId) || null;
 
+  const durationRounding = getDurationRounding(state);
+  const durationAmount = getDurationAmount(state);
+  const roundingOn = getRoundingOn(state);
+
   const mappedTime = getAllTimeEntries(state);
 
   const from = report ? report.from : queryStringFrom();
@@ -142,7 +147,15 @@ function mapStateToProps(state, props) {
     ...sortedProjects(state),
   ].map(project => ({
     ...project,
-    time: totalProjectTime(project, mappedTime, from, to) / 60,
+    time: totalProjectTime(
+      project,
+      mappedTime,
+      from,
+      to,
+      roundingOn === 'entries',
+      durationRounding,
+      durationAmount,
+    ),
     entries: [...projectTimeEntries(project, mappedTime, from, to)].sort(sortByTime('asc')),
   }));
 
