@@ -8,11 +8,7 @@ import Message from 'semantic-ui-react/dist/commonjs/collections/Message/Message
 
 import { formatTime, roundTime } from '../../../core/thyme';
 
-function roundingExample(amount: number, type: rounding) {
-  if (type === 'none' || amount === 0) {
-    return 'no automatic rounding';
-  }
-
+function timeRoundingText(amount: number, type: rounding) {
   const startTime = new Date(2018, 0, 1, 8);
 
   const diffDown = amount % 2 === 1 ? Math.floor(amount / 2) : (amount / 2) - 1;
@@ -37,16 +33,36 @@ function roundingExample(amount: number, type: rounding) {
   return `${A} becomes ${B} - ${C} becomes ${D}`;
 }
 
+function roundingOnText(roundingOn) {
+  if (roundingOn === 'reports') {
+    return 'on report totals.';
+  }
+
+  return 'for every entry on the timesheet.';
+}
+
+function roundingExample(amount: number, type: rounding, roundingOn: roundableOn) {
+  if (type === 'none' || amount === 0) {
+    return 'no automatic rounding';
+  }
+
+  const timeRoundingInfo = timeRoundingText(amount, type);
+  const roundingOnInfo = roundingOnText(roundingOn);
+
+  return `Example: ${timeRoundingInfo} ${roundingOnInfo}`;
+}
+
 type RoundingExampleProps = {
   amount: number;
   rounding: rounding;
+  roundingOn: roundableOn;
 };
 
-function RoundingExample({ amount, rounding }: RoundingExampleProps) {
+function RoundingExample({ amount, rounding, roundingOn }: RoundingExampleProps) {
   return (
     <Message attached="bottom">
       <Icon name="info circle" />
-      {roundingExample(amount, rounding)}
+      {roundingExample(amount, rounding, roundingOn)}
     </Message>
   );
 }

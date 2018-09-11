@@ -53,12 +53,12 @@ function Rounding({
         />
         <Form.Group grouped>
           <Form.Field>
-            <label>Round time on</label>
+            <label>Round durations by</label>
           </Form.Field>
           <Form.Field>
             <Checkbox
               radio
-              label="Per entry"
+              label="Individual entries"
               name="roundingOn"
               value="entries"
               checked={roundingOn === 'entries'}
@@ -77,7 +77,11 @@ function Rounding({
           </Form.Field>
         </Form.Group>
       </Form>
-      <RoundingExample amount={durationAmount} rounding={durationRounding} />
+      <RoundingExample
+        amount={durationAmount}
+        rounding={durationRounding}
+        roundingOn={roundingOn}
+      />
     </div>
   );
 }
