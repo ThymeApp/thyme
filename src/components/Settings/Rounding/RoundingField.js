@@ -25,7 +25,7 @@ const roundingOptions = [
 
 function roundingExample(amount: number, type: rounding) {
   if (type === 'none' || amount === 0) {
-    return 'results in no automatic rounding';
+    return 'no automatic rounding';
   }
 
   const startTime = new Date(2018, 0, 1, 8);
@@ -41,7 +41,15 @@ function roundingExample(amount: number, type: rounding) {
   const C = formatTime(diffUpTime);
   const D = formatTime(roundTime(amount, type, diffUpTime, startTime));
 
-  return `results in ${A} → ${B} and ${C} → ${D}`;
+  if (type === 'ceil') {
+    return `${A} becomes ${B}`;
+  }
+
+  if (type === 'floor') {
+    return `${C} becomes ${D}`;
+  }
+
+  return `${A} becomes ${B} - ${C} becomes ${D}`;
 }
 
 type RoundingFieldType = {
