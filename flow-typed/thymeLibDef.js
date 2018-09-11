@@ -28,6 +28,7 @@ declare type reportsShape = {
 declare type settingsShape = {
   durationRounding: rounding;
   durationRoundingAmount: number;
+  roundingOn: roundableOn;
 };
 
 declare type storeShape = {
@@ -89,6 +90,7 @@ declare type dateRanges = 'today' | 'week' | 'weekToDate' | 'month' | 'older';
 declare type sortDirection = 'desc' | 'asc';
 
 declare type rounding = 'none' | 'round' | 'ceil' | 'floor';
+declare type roundableOn = 'entries' | 'reports';
 
 declare type RouterLocation = {
   pathname: string;

@@ -13,3 +13,10 @@ export function updateDurationRoundingAmount(amount: number) {
     amount,
   };
 }
+
+export function updateRoundingOn(roundingOn: roundableOn) {
+  return {
+    type: 'UPDATE_ROUNDING_ON',
+    roundingOn,
+  };
+}

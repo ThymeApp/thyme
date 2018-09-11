@@ -20,7 +20,17 @@ function durationRoundingAmount(state: number = 5, action) {
   }
 }
 
+function roundingOn(state: roundableOn = 'entries', action) {
+  switch (action.type) {
+    case 'UPDATE_ROUNDING_ON':
+      return action.roundingOn;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   durationRounding,
   durationRoundingAmount,
+  roundingOn,
 });
