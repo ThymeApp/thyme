@@ -53,17 +53,34 @@ export function formatDuration(duration: number, withSeconds: boolean = false): 
   return `${leftPad(hours, 2, 0)}:${leftPad(minutes, 2, 0)}${secondsString}`;
 }
 
+function getRoundedMinutes(round: rounding, diffMinutes: number, roundAmount: number) {
+  if (round === 'none') {
+    return diffMinutes;
+  }
+
+  return Math[round](diffMinutes / roundAmount) * roundAmount;
+}
+
 export function timeElapsed(
   from: Date,
   to: Date,
   precise: boolean = false,
   withSeconds: boolean = false,
+  round?: rounding = 'none',
+  roundAmount?: number = 0,
 ) {
   if (from === '' || to === '') {
     return 'Invalid time';
   }
 
-  return formatDuration(calculateDuration(from, to, precise), withSeconds);
+  return formatDuration(
+    getRoundedMinutes(
+      round,
+      calculateDuration(from, to, precise) / 60,
+      roundAmount,
+    ) * 60,
+    withSeconds,
+  );
 }
 
 export function projectTimeEntries(
@@ -94,7 +111,7 @@ export function totalProjectTime(
 export const formatTime = (date: Date) => format(date, 'HH:mm');
 
 export function roundTime(
-  minutes: number,
+  roundAmount: number,
   round: rounding,
   date: Date,
   startDate: Date = startOfHour(date),
@@ -105,5 +122,5 @@ export function roundTime(
 
   const diffMinutes = differenceInMinutes(date, startDate);
 
-  return addMinutes(startDate, Math[round](diffMinutes / minutes) * minutes);
+  return addMinutes(startDate, getRoundedMinutes(round, diffMinutes, roundAmount));
 }

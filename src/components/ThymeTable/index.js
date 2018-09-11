@@ -10,6 +10,7 @@ import { updateTime, removeTime } from '../../actions/time';
 import { addProject } from '../../actions/projects';
 
 import { getDateSort } from '../../selectors/time';
+import { getDurationRounding, getDurationAmount, getRoundingOn } from '../../selectors/settings';
 
 import NewTime from './New';
 import Entry from './Entry';
@@ -18,6 +19,8 @@ type ThymeTableType = {
   sort: sortDirection;
   entries: Array<timeType>;
   now: Date;
+  round: rounding;
+  roundAmount: number;
   onEntryUpdate: (entry: timePropertyType) => void;
   onEntryRemove: (id: string) => void;
   onAddProject: (project: string) => string;
@@ -27,6 +30,8 @@ function ThymeTable({
   sort,
   entries,
   now,
+  round,
+  roundAmount,
   onEntryUpdate,
   onEntryRemove,
   onAddProject,
@@ -47,6 +52,8 @@ function ThymeTable({
           onRemove={onEntryRemove}
           onUpdate={onEntryUpdate}
           onAddNewProject={onAddProject}
+          round={round}
+          roundAmount={roundAmount}
           entry={entry}
           now={now}
         />
@@ -98,8 +105,12 @@ function ThymeTable({
 }
 
 function mapStateToProps(state) {
+  const roundingOn = getRoundingOn(state);
+
   return {
     sort: getDateSort(state),
+    round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
+    roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
   };
 }
 
