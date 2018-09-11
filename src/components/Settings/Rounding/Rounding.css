@@ -8,7 +8,6 @@
 .Settings .Rounding .ui.search.dropdown {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  margin-right: 8px;
   width: auto;
   flex-grow: 1;
 }

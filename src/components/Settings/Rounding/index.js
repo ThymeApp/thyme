@@ -3,54 +3,44 @@
 import React, { Component } from 'react';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
+import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
 import RoundingField from './RoundingField';
+import RoundingExample from './RoundingExample';
 
 import './Rounding.css';
 
 type RoundingState = {
-  startAmount: number,
-  startRounding: rounding,
-  endAmount: number,
-  endRounding: rounding,
+  durationAmount: number,
+  durationRounding: rounding,
 }
 
 class Index extends Component<*, RoundingState> {
   state = {
-    startAmount: 5,
-    startRounding: 'floor',
-    endAmount: 5,
-    endRounding: 'ceil',
+    durationAmount: 5,
+    durationRounding: 'round',
   };
 
   render() {
-    const {
-      startRounding,
-      startAmount,
-      endRounding,
-      endAmount,
-    } = this.state;
+    const { durationAmount, durationRounding } = this.state;
 
     return (
-      <Form className="Rounding">
-        <Form.Group widths="equal">
+      <div>
+        <Message attached info>
+          Setting duration rounding will round the durations shown in the timesheet and on
+          reports.
+        </Message>
+        <Form className="Rounding attached fluid segment">
           <RoundingField
-            label="Start time rounding"
-            rounding={startRounding}
-            amount={startAmount}
-            onChangeRounding={(round: rounding) => this.setState({ startRounding: round })}
-            onChangeAmount={(amount: number) => this.setState({ startAmount: amount })}
+            label="Duration rounding"
+            rounding={durationRounding}
+            amount={durationAmount}
+            onChangeRounding={(round: rounding) => this.setState({ durationRounding: round })}
+            onChangeAmount={(amount: number) => this.setState({ durationAmount: amount })}
           />
-
-          <RoundingField
-            label="End time rounding"
-            rounding={endRounding}
-            amount={endAmount}
-            onChangeRounding={(round: rounding) => this.setState({ endRounding: round })}
-            onChangeAmount={(amount: number) => this.setState({ endAmount: amount })}
-          />
-        </Form.Group>
-      </Form>
+        </Form>
+        <RoundingExample amount={durationAmount} rounding={durationRounding} />
+      </div>
     );
   }
 }

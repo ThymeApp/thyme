@@ -65,7 +65,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
 
     const items = [
       {
-        name: 'Rounding time',
+        name: 'Duration time rounding',
         content: <Rounding />,
       },
       loggedIn ? {
