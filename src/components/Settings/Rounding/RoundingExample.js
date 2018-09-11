@@ -38,7 +38,7 @@ function roundingOnText(roundingOn) {
     return 'on report totals.';
   }
 
-  return 'for every entry on the timesheet.';
+  return 'for every entry on the timesheet and reports.';
 }
 
 function roundingExample(amount: number, type: rounding, roundingOn: roundableOn) {
@@ -60,7 +60,7 @@ type RoundingExampleProps = {
 
 function RoundingExample({ amount, rounding, roundingOn }: RoundingExampleProps) {
   return (
-    <Message attached="bottom">
+    <Message info attached="bottom">
       <Icon name="info circle" />
       {roundingExample(amount, rounding, roundingOn)}
     </Message>

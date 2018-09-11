@@ -40,8 +40,9 @@ function Rounding({
 }: RoundingProps) {
   return (
     <div>
-      <Message attached info>
-        Setting duration rounding will round the durations shown in the timesheet and on reports.
+      <Message attached>
+        Setting duration rounding will round the durations shown in the timesheet and on the
+        reports according to your preferences.
       </Message>
       <Form className="Rounding attached fluid segment">
         <RoundingField

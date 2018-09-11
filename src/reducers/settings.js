@@ -11,7 +11,7 @@ function durationRounding(state: rounding = 'none', action) {
   }
 }
 
-function durationRoundingAmount(state: number = 5, action) {
+function durationRoundingAmount(state: number = 15, action) {
   switch (action.type) {
     case 'UPDATE_DURATION_ROUNDING_AMOUNT':
       return action.amount;

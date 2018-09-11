@@ -88,9 +88,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
           Settings
         </Header>
 
-        <Accordion fluid styled>
-          {items.map(this.settingsItem)}
-        </Accordion>
+        <Accordion fluid styled>{items.map(this.settingsItem)}</Accordion>
 
         <Header as="h3">
           About

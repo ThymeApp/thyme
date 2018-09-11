@@ -13,7 +13,7 @@ const roundingIcon = {
 };
 
 const roundingOptions = [
-  { text: 'No rounding', value: 'none' },
+  { text: 'Disabled', value: 'none' },
   { text: 'Nearest', value: 'round' },
   { text: 'Up', value: 'ceil' },
   { text: 'Down', value: 'floor' },
