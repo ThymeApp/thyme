@@ -40,24 +40,26 @@ function defaultState(props = {}, now: Date): timePropertyType {
   };
 }
 
-type EntryType = {
+type EntryProps = {
   now: Date;
   entry?: timeType;
   tempEntry?: tempTimePropertyType;
+  round?: rounding;
+  roundAmount?: number;
   onAdd?: (entry: timePropertyType) => void;
   onRemove?: (id: string) => void;
   onUpdate?: (entry: timePropertyType) => void;
   onAddNewProject?: (project: string) => string;
 };
 
-type EntryStateType = {
+type EntryState = {
   entry: timePropertyType;
   tracking: boolean;
   confirm: boolean;
 };
 
-class Entry extends Component<EntryType, EntryStateType> {
-  constructor(props: EntryType) {
+class Entry extends Component<EntryProps, EntryState> {
+  constructor(props: EntryProps) {
     super(props);
 
     this.state = {
@@ -283,7 +285,7 @@ class Entry extends Component<EntryType, EntryStateType> {
   tickInterval: IntervalID;
 
   render() {
-    const { entry } = this.props;
+    const { entry, round, roundAmount } = this.props;
     const {
       tracking,
       confirm,
@@ -297,8 +299,10 @@ class Entry extends Component<EntryType, EntryStateType> {
     } = stateEntry;
 
     const hasId = Boolean(entry && !!entry.id);
-    const [hours, minutes, seconds] = (timeElapsed(start, end, tracking, true) || '00:00:00')
-      .split(':');
+    const [hours, minutes, seconds] = (
+      timeElapsed(start, end, tracking, true, round, roundAmount)
+      || '00:00:00'
+    ).split(':');
 
     const StartDate = (
       <DateInput

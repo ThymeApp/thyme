@@ -27,6 +27,7 @@ import SavedReports from '../components/SavedReports';
 import { sortedProjects } from '../selectors/projects';
 import { getAllTimeEntries } from '../selectors/time';
 import { getById } from '../selectors/reports';
+import { getDurationRounding, getDurationAmount, getRoundingOn } from '../selectors/settings';
 
 function toggleFilter(filters: Array<string | null>, filter: string | null) {
   if (filters.indexOf(filter) > -1) {
@@ -38,10 +39,12 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
 
 type ReportsType = {
   history: RouterHistory;
-  from: Date | string,
-  to: Date | string,
+  from: Date | string;
+  to: Date | string;
+  detailedRound: rounding;
+  roundAmount: number;
   report: reportType | null;
-  filters: string[],
+  filters: string[];
   allProjects: Array<projectTreeWithTimeType>;
   projects: Array<projectTreeWithTimeType>;
 };
@@ -87,6 +90,8 @@ class Reports extends Component<ReportsType> {
       projects,
       from,
       to,
+      detailedRound,
+      roundAmount,
     } = this.props;
 
     return (
@@ -118,7 +123,11 @@ class Reports extends Component<ReportsType> {
           </Grid.Row>
         </Grid>
         <ReportTable projects={projects} />
-        <ReportDetailed projects={projects} />
+        <ReportDetailed
+          round={detailedRound}
+          roundAmount={roundAmount}
+          projects={projects}
+        />
         <SavedReports
           from={from}
           to={to}
@@ -132,6 +141,10 @@ class Reports extends Component<ReportsType> {
 function mapStateToProps(state, props) {
   const report = getById(state, props.match.params.reportId) || null;
 
+  const durationRounding = getDurationRounding(state);
+  const durationAmount = getDurationAmount(state);
+  const roundingOn = getRoundingOn(state);
+
   const mappedTime = getAllTimeEntries(state);
 
   const from = report ? report.from : queryStringFrom();
@@ -142,7 +155,15 @@ function mapStateToProps(state, props) {
     ...sortedProjects(state),
   ].map(project => ({
     ...project,
-    time: totalProjectTime(project, mappedTime, from, to) / 60,
+    time: totalProjectTime(
+      project,
+      mappedTime,
+      from,
+      to,
+      roundingOn === 'entries',
+      durationRounding,
+      durationAmount,
+    ),
     entries: [...projectTimeEntries(project, mappedTime, from, to)].sort(sortByTime('asc')),
   }));
 
@@ -155,6 +176,8 @@ function mapStateToProps(state, props) {
     report,
     from,
     to,
+    detailedRound: roundingOn === 'entries' ? durationRounding : 'none',
+    roundAmount: durationAmount,
     projects: allProjects.filter(project => filters.indexOf(project.id) > -1),
   };
 }

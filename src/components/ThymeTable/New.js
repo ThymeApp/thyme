@@ -19,6 +19,7 @@ type NewType = {
 function New({ now, onEntryCreate, onAddNewProject }: NewType) {
   return (
     <Entry
+      round="none"
       now={now}
       tempEntry={loadTemporaryItem()}
       onAdd={onEntryCreate}

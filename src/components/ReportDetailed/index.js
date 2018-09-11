@@ -10,7 +10,9 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import { timeElapsed } from '../../core/thyme';
 
 type ReportDetailedType = {
-  projects: Array<projectTreeWithTimeType>,
+  round: rounding;
+  roundAmount: number;
+  projects: Array<projectTreeWithTimeType>;
 };
 
 type ReportDetailedState = {
@@ -31,7 +33,7 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
   };
 
   render() {
-    const { projects } = this.props;
+    const { round, roundAmount, projects } = this.props;
     const { opened } = this.state;
 
     return (
@@ -77,7 +79,14 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
                     {format(entry.end, 'HH:mm')}
                   </Table.Cell>
                   <Table.Cell>
-                    {timeElapsed(entry.start, entry.end)}
+                    {timeElapsed(
+                      entry.start,
+                      entry.end,
+                      false,
+                      false,
+                      round,
+                      roundAmount,
+                    )}
                   </Table.Cell>
                   <Table.Cell>
                     {project.nameTree.join(' > ')}

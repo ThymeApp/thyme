@@ -1,0 +1,18 @@
+.Settings .Rounding .ui.labeled.icon.button {
+  padding: 12px;
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.Settings .Rounding .ui.search.dropdown {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  width: auto;
+  flex-grow: 1;
+}
+
+.Rounding-Container {
+  display: flex;
+  max-width: 350px;
+}
