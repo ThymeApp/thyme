@@ -40,6 +40,8 @@ export default function register(storeDispatch, basename) {
     window.addEventListener('load', () => {
       const swUrl = `${basename}/service-worker.js`;
 
+      console.log(swUrl);
+
       if (isLocalhost) {
         // This is running on localhost. Lets check if a service worker still exists or not.
         checkValidServiceWorker(swUrl);
