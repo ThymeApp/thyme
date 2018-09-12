@@ -29,7 +29,7 @@ const store = createStore(
 
 // when on main domain, serve app from /thyme, all other cases serve from /
 const basename = window.location.hostname === 'usethyme.com'
-  ? 'https://usethyme.com/thyme/'
+  ? 'thyme/'
   : process.env.PUBLIC_URL;
 
 registerServiceWorker(store.dispatch, basename);

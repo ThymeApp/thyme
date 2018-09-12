@@ -38,7 +38,7 @@ export default function register(storeDispatch, basename) {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${basename !== '' ? '/' : ''}${basename}/service-worker.js`;
+      const swUrl = `${basename === 'thyme/' ? 'https://usethyme.com/thyme' : ''}/service-worker.js`;
 
       if (isLocalhost) {
         // This is running on localhost. Lets check if a service worker still exists or not.
