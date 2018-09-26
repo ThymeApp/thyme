@@ -7,7 +7,7 @@ import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 
 function currentQueryString() {
-  return qs.parse(window.location.search);
+  return qs.parse(window.location.search, { ignoreQueryPrefix: true });
 }
 
 export function queryStringFilters(): Array<string | null> | typeof undefined {
