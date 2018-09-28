@@ -6,4 +6,9 @@
   .App .Report__filters {
     display: none;
   }
+
+  .ReportRange__Input input {
+    width: auto;
+    border: 0;
+  }
 }

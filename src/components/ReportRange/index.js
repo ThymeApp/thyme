@@ -84,13 +84,31 @@ class ReportRange extends Component<ReportRangeType> {
 
     return (
       <div className="ReportRange">
+        <div className="ReportRange__Presets">
+          <Button basic size="small" onClick={this.onToday}>
+            Today
+          </Button>
+          <Button basic size="small" onClick={this.onThisWeek}>
+            This week
+          </Button>
+          <Button basic size="small" onClick={this.onWeekToDate}>
+            Week to date
+          </Button>
+          <Button basic size="small" onClick={this.onThisMonth}>
+            This month
+          </Button>
+          <Button basic size="small" onClick={this.onLastMonth}>
+            Last month
+          </Button>
+        </div>
+
         <div className="ReportRange__Input">
           <Input
             onChange={this.onUpdateFrom}
             type="date"
             value={format(from, 'YYYY-MM-DD')}
             name="from"
-            size="small"
+            size="mini"
           />
           <span style={{ marginLeft: 6, marginRight: 6 }}>
             to
@@ -100,26 +118,8 @@ class ReportRange extends Component<ReportRangeType> {
             type="date"
             value={format(to, 'YYYY-MM-DD')}
             name="to"
-            size="small"
+            size="mini"
           />
-        </div>
-
-        <div className="ReportRange__Presets">
-          <Button basic onClick={this.onToday}>
-            Today
-          </Button>
-          <Button basic onClick={this.onThisWeek}>
-            This week
-          </Button>
-          <Button basic onClick={this.onWeekToDate}>
-            Week to date
-          </Button>
-          <Button basic onClick={this.onThisMonth}>
-            This month
-          </Button>
-          <Button basic onClick={this.onLastMonth}>
-            Last month
-          </Button>
         </div>
       </div>
     );
