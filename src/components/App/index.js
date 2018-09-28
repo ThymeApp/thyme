@@ -129,7 +129,7 @@ class App extends Component<AppType, AppState> {
                   </Menu.Item>
                 </Responsive>
                 <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-                  <Menu.Item header>
+                  <Link className="header item" to="/">
                     <Image
                       size="mini"
                       src={thyme}
@@ -137,7 +137,7 @@ class App extends Component<AppType, AppState> {
                       style={{ width: 24, marginRight: '1.5em' }}
                     />
                     Thyme
-                  </Menu.Item>
+                  </Link>
                   {MenuItems}
                 </Responsive>
               </Container>
