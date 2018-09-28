@@ -2,11 +2,7 @@
 
 A little web app which allows you to log time data.
 
----
-
 ### [Use Thyme in your browser right now](https://usethyme.com)
-
----
 
 [![Build Status](https://travis-ci.org/Gaya/thyme.svg?branch=master)](https://travis-ci.org/Gaya/thyme)
 
@@ -31,8 +27,6 @@ Create reports with detailed information spent per project over selected periods
 - Ability to sync data in the [Thyme Capsule](https://github.com/Gaya/thyme-capsule)
 - Sync over multiple devices
 
----
-
 ## How to use
 
 Thyme has been made to be as easy as possible to use. However, there is also documentation available
@@ -40,8 +34,6 @@ at [https://usethyme.com/documentation/](https://usethyme.com/documentation/) fo
 
 If you have questions you can leave issues on this repository or send a message to
 [support@usethyme.com](mailto:support@usethyme.com)
-
----
 
 ## Screenshots
 
@@ -61,8 +53,6 @@ If you have questions you can leave issues on this repository or send a message 
 1. Clone the repository and run `npm install`.
 2. Use `npm build` to build the application. Assets will be available in `build/`.
 3. Change the location of [Thyme Capsule](https://github.com/Gaya/thyme-capsule) by setting the `REACT_APP_API_ROOT` environment variable before building.
-
----
 
 ## Made with Create React App
 
