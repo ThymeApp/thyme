@@ -85,8 +85,8 @@ class App extends Component<AppType, AppState> {
         {this.AppLink('Reports', '/reports')}
         {this.AppLink('Projects', '/projects')}
         {this.AppLink('Settings', '/settings')}
-        <a href="https://usethyme.com/documentation" className="item">
-          Documentation
+        <a href="https://usethyme.com/" className="item">
+          Go to website
         </a>
         <Menu.Menu position="right">
           <Menu.Item>
