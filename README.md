@@ -4,6 +4,8 @@ A little web app which allows you to log time data.
 
 ### [Use Thyme in your browser right now](https://usethyme.com)
 
+---
+
 [![Build Status](https://travis-ci.org/Gaya/thyme.svg?branch=master)](https://travis-ci.org/Gaya/thyme)
 
 Thyme is a time logging web application which enables you to add and store time spent on different 
