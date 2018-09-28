@@ -33,6 +33,16 @@ Create reports with detailed information spent per project over selected periods
 
 ---
 
+## How to use
+
+Thyme has been made to be as easy as possible to use. However, there is also documentation available
+at [https://usethyme.com/documentation/](https://usethyme.com/documentation/) for further reading.
+
+If you have questions you can leave issues on this repository or send a message to
+[support@usethyme.com](mailto:support@usethyme.com)
+
+---
+
 ## Screenshots
 
 ![Timesheets screen](/public/screenshot_timesheets.png)
@@ -43,16 +53,6 @@ Create reports with detailed information spent per project over selected periods
 
 ![Projects screen](/public/screenshot_projects.png)
 > Adding and adjusting projects
-
----
-
-## How to use
-
-Thyme has been made to be as easy as possible to use. However, there is also documentation available
-at [https://usethyme.com/documentation/](https://usethyme.com/documentation/) for further reading.
-
-If you have questions you can leave issues on this repository or send a message to
-[support@usethyme.com](mailto:support@usethyme.com)
 
 ---
 
