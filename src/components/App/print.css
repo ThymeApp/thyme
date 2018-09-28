@@ -3,6 +3,7 @@
   .SavedReports,
   .ReportRange__Presets,
   .accordion .title,
+  .Reports h1,
   .App .Report__filters {
     display: none;
   }

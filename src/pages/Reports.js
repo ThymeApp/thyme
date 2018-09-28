@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
+import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid';
 
 import { totalProjectTime, projectTimeEntries, sortByTime } from '../core/thyme';
@@ -94,7 +95,10 @@ class Reports extends Component<ReportsType> {
     } = this.props;
 
     return (
-      <Container>
+      <Container className="Reports">
+        <Header as="h1">
+          Reports
+        </Header>
         <ReportRange
           from={from}
           to={to}
