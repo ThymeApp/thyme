@@ -52,7 +52,10 @@ class App extends Component<AppType, AppState> {
     this.setState({ menuOpened: false });
   };
 
-  AppLink(name, path, currentPath, exact = false) {
+  AppLink(name, path, exact = false) {
+    const { location } = this.props;
+    const currentPath = location.pathname;
+
     return (
       <Link
         className={classnames('item', {
@@ -70,7 +73,6 @@ class App extends Component<AppType, AppState> {
 
   render() {
     const {
-      location,
       children,
       alertMessage,
       onCloseAlert,
@@ -79,10 +81,13 @@ class App extends Component<AppType, AppState> {
 
     const MenuItems = (
       <Fragment>
-        {this.AppLink('Timesheet', '/', location.pathname, true)}
-        {this.AppLink('Reports', '/reports', location.pathname)}
-        {this.AppLink('Projects', '/projects', location.pathname)}
-        {this.AppLink('Settings', '/settings', location.pathname)}
+        {this.AppLink('Timesheet', '/', true)}
+        {this.AppLink('Reports', '/reports')}
+        {this.AppLink('Projects', '/projects')}
+        {this.AppLink('Settings', '/settings')}
+        <a href="https://usethyme.com/" className="item">
+          Go to website
+        </a>
         <Menu.Menu position="right">
           <Menu.Item>
             <Account />
@@ -124,7 +129,7 @@ class App extends Component<AppType, AppState> {
                   </Menu.Item>
                 </Responsive>
                 <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-                  <Menu.Item header>
+                  <Link className="header item" to="/">
                     <Image
                       size="mini"
                       src={thyme}
@@ -132,12 +137,12 @@ class App extends Component<AppType, AppState> {
                       style={{ width: 24, marginRight: '1.5em' }}
                     />
                     Thyme
-                  </Menu.Item>
+                  </Link>
                   {MenuItems}
                 </Responsive>
               </Container>
             </Menu>
-            <Container fluid style={{ marginTop: '5em', marginBottom: '2em', minHeight: '100vh' }}>
+            <Container fluid style={{ marginTop: '5em', marginBottom: '2em' }}>
               <Modal
                 open={alertMessage !== ''}
                 onClose={onCloseAlert}
