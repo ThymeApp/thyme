@@ -25,6 +25,7 @@ Create reports with detailed information spent per project over selected periods
 - Create projects and sub-projects
 - Assign time sheet entries to projects
 - Reports of total time spent per project
+- Automatic rounding of time spent
 - Export / Import data
 - Saves to localStorage of the browser
 - Ability to sync data in the [Thyme Capsule](https://github.com/Gaya/thyme-capsule)
@@ -42,6 +43,16 @@ Create reports with detailed information spent per project over selected periods
 
 ![Projects screen](/public/screenshot_projects.png)
 > Adding and adjusting projects
+
+---
+
+## How to use
+
+Thyme has been made to be as easy as possible to use. However, there is also documentation available
+at [https://usethyme.com/documentation/](https://usethyme.com/documentation/) for further reading.
+
+If you have questions you can leave issues on this repository or send a message to
+[support@usethyme.com](mailto:support@usethyme.com)
 
 ---
 
