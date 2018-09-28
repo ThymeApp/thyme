@@ -5,14 +5,18 @@ import React, { Component } from 'react';
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 import startOfWeek from 'date-fns/start_of_week';
-import subDays from 'date-fns/sub_days';
 import endOfWeek from 'date-fns/end_of_week';
+import startOfMonth from 'date-fns/start_of_month';
+import endOfMonth from 'date-fns/end_of_month';
+import subDays from 'date-fns/sub_days';
 import subMonths from 'date-fns/sub_months';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 import { valueFromEventTarget } from '../../core/dom';
+
+import './ReportRange.css';
 
 type ReportRangeType = {
   from: Date | string,
@@ -48,6 +52,15 @@ class ReportRange extends Component<ReportRangeType> {
     );
   };
 
+  onThisMonth = () => {
+    const { updateDateRange } = this.props;
+
+    updateDateRange(
+      startOfMonth(new Date()),
+      endOfMonth(new Date()),
+    );
+  };
+
   onLastMonth = () => {
     const { updateDateRange } = this.props;
 
@@ -70,37 +83,44 @@ class ReportRange extends Component<ReportRangeType> {
     const { from, to } = this.props;
 
     return (
-      <div className="Report__period">
-        <Button basic onClick={this.onToday}>
-          Today
-        </Button>
-        <Button basic onClick={this.onThisWeek}>
-          This week
-        </Button>
-        <Button basic onClick={this.onWeekToDate}>
-          Week to date
-        </Button>
-        <Button basic onClick={this.onLastMonth}>
-          Last month
-        </Button>
+      <div className="ReportRange">
+        <div className="ReportRange__Input">
+          <Input
+            onChange={this.onUpdateFrom}
+            type="date"
+            value={format(from, 'YYYY-MM-DD')}
+            name="from"
+            size="small"
+          />
+          <span style={{ marginLeft: 6, marginRight: 6 }}>
+            to
+          </span>
+          <Input
+            onChange={this.onUpdateTo}
+            type="date"
+            value={format(to, 'YYYY-MM-DD')}
+            name="to"
+            size="small"
+          />
+        </div>
 
-        <Input
-          onChange={this.onUpdateFrom}
-          type="date"
-          value={format(from, 'YYYY-MM-DD')}
-          name="from"
-          size="small"
-        />
-        <span style={{ marginLeft: 6, marginRight: 6 }}>
-          to
-        </span>
-        <Input
-          onChange={this.onUpdateTo}
-          type="date"
-          value={format(to, 'YYYY-MM-DD')}
-          name="to"
-          size="small"
-        />
+        <div className="ReportRange__Presets">
+          <Button basic onClick={this.onToday}>
+            Today
+          </Button>
+          <Button basic onClick={this.onThisWeek}>
+            This week
+          </Button>
+          <Button basic onClick={this.onWeekToDate}>
+            Week to date
+          </Button>
+          <Button basic onClick={this.onThisMonth}>
+            This month
+          </Button>
+          <Button basic onClick={this.onLastMonth}>
+            Last month
+          </Button>
+        </div>
       </div>
     );
   }

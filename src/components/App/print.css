@@ -1,7 +1,7 @@
 @media print {
   .top.menu,
   .SavedReports,
-  .Report__period .button,
+  .ReportRange__Presets,
   .accordion .title,
   .App .Report__filters {
     display: none;
