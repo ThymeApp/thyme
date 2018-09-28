@@ -52,7 +52,10 @@ class App extends Component<AppType, AppState> {
     this.setState({ menuOpened: false });
   };
 
-  AppLink(name, path, currentPath, exact = false) {
+  AppLink(name, path, exact = false) {
+    const { location } = this.props;
+    const currentPath = location.pathname;
+
     return (
       <Link
         className={classnames('item', {
@@ -70,7 +73,6 @@ class App extends Component<AppType, AppState> {
 
   render() {
     const {
-      location,
       children,
       alertMessage,
       onCloseAlert,
@@ -79,10 +81,13 @@ class App extends Component<AppType, AppState> {
 
     const MenuItems = (
       <Fragment>
-        {this.AppLink('Timesheet', '/', location.pathname, true)}
-        {this.AppLink('Reports', '/reports', location.pathname)}
-        {this.AppLink('Projects', '/projects', location.pathname)}
-        {this.AppLink('Settings', '/settings', location.pathname)}
+        {this.AppLink('Timesheet', '/', true)}
+        {this.AppLink('Reports', '/reports')}
+        {this.AppLink('Projects', '/projects')}
+        {this.AppLink('Settings', '/settings')}
+        <a href="https://usethyme.com/documentation" className="item">
+          Documentation
+        </a>
         <Menu.Menu position="right">
           <Menu.Item>
             <Account />
