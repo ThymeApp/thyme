@@ -2,7 +2,10 @@
   display: block;
   margin: 12px 0;
   line-height: 1.2em;
-  float: right;
+}
+
+.Report__filters .ui.vertical.menu {
+  width: 100%;
 }
 
 .Report__filters-label {

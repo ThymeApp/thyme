@@ -1,15 +1,20 @@
 .SavedReports__new {
-  display: flex;
-  justify-content: flex-end;
-  margin: 24px 0;
+  margin: 10px 0 0 0;
 }
 
-.SavedReports__new input {
-  min-width: 300px;
+.SavedReports__new:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .SavedReports__new .ui.button {
-  margin: 0;
+  margin: 10px 0 0 0;
+  float: right;
+}
+
+.SavedReports__new .ui.input {
+  width: 100%;
 }
 
 .SavedReports__report {
@@ -18,3 +23,18 @@
   justify-content: space-between;
   margin: 12px 0;
 }
+
+@media (min-width: 500px) {
+  .SavedReports__new {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .SavedReports__new .ui.button {
+    margin: 0;
+  }
+  .SavedReports__new .ui.input {
+    max-width: 300px;
+  }
+}
+
+
