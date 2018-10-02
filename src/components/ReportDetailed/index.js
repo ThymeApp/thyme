@@ -39,7 +39,7 @@
     onChangePrintView = (data: any, column: any) => {
       const { printable } = this.state;
       console.log(printable);
-      printable[column] = !data.checked;
+      printable[column] = data.checked;
       this.setState({printable: printable});
   }
     
