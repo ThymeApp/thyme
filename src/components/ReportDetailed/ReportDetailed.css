@@ -1,0 +1,9 @@
+.ReportDetailed {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .ReportDetailed {
+    display: block;
+  }
+}

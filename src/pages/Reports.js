@@ -104,17 +104,19 @@ class Reports extends Component<ReportsType> {
           to={to}
           updateDateRange={this.onUpdateDateRange}
         />
-        <Grid reversed="mobile" stackable>
-          <Grid.Column width={12}>
-            <ReportCharts projects={projects} />
-          </Grid.Column>
-          <Grid.Column width={4} floated="right">
-            <ReportFilters
-              projects={allProjects}
-              filters={filters}
-              onToggle={this.onToggleFilter}
-            />
-          </Grid.Column>
+        <Grid divided="vertically" stackable style={{ marginTop: 0, marginBottom: 0 }}>
+          <Grid.Row columns={2}>
+            <Grid.Column width={12}>
+              <ReportCharts projects={projects} />
+            </Grid.Column>
+            <Grid.Column width={4} floated="right">
+              <ReportFilters
+                projects={allProjects}
+                filters={filters}
+                onToggle={this.onToggleFilter}
+              />
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
         <ReportTable projects={projects} />
         <ReportDetailed

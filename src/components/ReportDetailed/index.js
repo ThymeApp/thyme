@@ -9,6 +9,8 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 
 import { timeElapsed } from '../../core/thyme';
 
+import './ReportDetailed.css';
+
 type ReportDetailedType = {
   round: rounding;
   roundAmount: number;
@@ -37,7 +39,7 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
     const { opened } = this.state;
 
     return (
-      <Accordion>
+      <Accordion className="ReportDetailed">
         <Accordion.Title active={opened} onClick={this.toggleDetails}>
           <Icon name="dropdown" />
           Detailed view
