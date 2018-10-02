@@ -34,9 +34,9 @@
         "redux": "^4.0.0",
         "redux-devtools-extension": "^2.13.5",
         "redux-form": "^7.4.2",
-        "reselect": "^3.0.1",
-        "semantic-ui-css": "^2.3.3",
-        "semantic-ui-react": "^0.82.3",
+        "reselect": "^4.0.0",
+        "semantic-ui-css": "^2.4.0",
+        "semantic-ui-react": "^0.82.5",
         "shortid": "^2.2.13",
         "source-map-explorer": "^1.6.0"
     },
