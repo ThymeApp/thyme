@@ -10,8 +10,8 @@
         "eject": "react-scripts eject",
         "test": "react-scripts test --env=jsdom",
         "test:ci": "CI=true npm run test",
-        "lint": "eslint ./src",
         "flow": "flow",
+        "build:dev": "NODE_ENV=development webpack --config node_modules/react-scripts/config/webpack.config.dev.js",
         "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
     },
     "dependencies": {
@@ -47,11 +47,12 @@
         "eslint-plugin-jsx-a11y": "^6.1.1",
         "eslint-plugin-react": "^7.11.1",
         "flow-bin": "^0.82.0",
-        "pre-push": "^0.1.1"
+        "pre-push": "^0.1.1",
+        "webpack-cli": "^3.1.2"
     },
     "pre-push": [
         "test:ci",
-        "lint",
+        "build:dev",
         "flow"
     ],
     "browserslist": [
