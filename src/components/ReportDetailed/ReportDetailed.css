@@ -7,3 +7,13 @@
     display: block;
   }
 }
+
+@media print {
+  .no-print
+  {
+    display: none !important;
+  }
+}
+.checkbox { 
+  float: right;
+}

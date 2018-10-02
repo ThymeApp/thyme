@@ -21,16 +21,26 @@
 
   type ReportDetailedState = {
     opened: boolean,
+    printable: any, 
   };
 
   class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> {
+    
+    constructor () {
+      super();
+      this.onChangePrintView = this.onChangePrintView.bind(this);
+    }
+
     state = {
       opened: false,
+      printable: {date: true, start: true, end: true, duration: true, project: true, notes: true }
     };
 
     onChangePrintView = (data: any, column: any) => {
-      console.log(data.checked)
-      console.log(column);
+      const { printable } = this.state;
+      console.log(printable);
+      printable[column] = !data.checked;
+      this.setState({printable: printable});
   }
     
     toggleDetails = () => {
@@ -44,7 +54,8 @@
     render() {
       const { round, roundAmount, projects } = this.props;
       const { opened } = this.state;
-
+      const { printable } = this.state; 
+      const {date, start, end, duration, project, notes} = printable; 
       return (
         <Accordion className="ReportDetailed">
           <Accordion.Title active={opened} onClick={this.toggleDetails}>
@@ -58,45 +69,45 @@
             <Table celled>
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell className={date ? null : 'no-print'}>
                     Date
-                    <Checkbox toggle onClick={((e, data) => this.onChangePrintView(data, "date"))}/> 
+                    <Checkbox  toggle defaultChecked onClick={((e, data) => this.onChangePrintView(data, "date"))}/> 
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell className={start ? null : 'no-print'}>
                     Start
-                    <Checkbox toggle onClick={((e, data) => this.onChangePrintView(data, "start"))}/> 
+                    <Checkbox toggle defaultChecked onClick={((e, data) => this.onChangePrintView(data, "start"))}/> 
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell className={end ? null : 'no-print'}>
                     End
-                    <Checkbox toggle onClick={((e, data) => this.onChangePrintView(data, "end"))}/> 
+                    <Checkbox toggle defaultChecked onClick={((e, data) => this.onChangePrintView(data, "end"))}/> 
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell className={duration ? null : 'no-print'}>
                     Duration
-                    <Checkbox toggle onClick={((e, data) => this.onChangePrintView(data, "duration"))}/> 
+                    <Checkbox toggle defaultChecked onClick={((e, data) => this.onChangePrintView(data, "duration"))}/> 
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell  className={project ? null : 'no-print'}>
                     Project
-                    <Checkbox toggle onClick={((e, data) => this.onChangePrintView(data, "project"))}/> 
+                    <Checkbox toggle  defaultChecked onClick={((e, data) => this.onChangePrintView(data, "project"))}/> 
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell className={notes ? null : 'no-print'}>
                     Notes
-                    <Checkbox toggle onClick={((e, data) => this.onChangePrintView(data, "notes"))}/> 
+                    <Checkbox toggle defaultChecked   onClick={((e, data) => this.onChangePrintView(data, "notes"))}/> 
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {projects.map(project => project.entries.map(entry => (
                   <Table.Row key={entry.id}>
-                    <Table.Cell>
+                    <Table.Cell className={date ? null : 'no-print'}>
                       {format(entry.start, 'DD/MM/YYYY')}
                     </Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell className={start ? null : 'no-print'}>
                       {format(entry.start, 'HH:mm')}
                     </Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell className={end ? null : 'no-print'}>
                       {format(entry.end, 'HH:mm')}
                     </Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell className={duration ? null : 'no-print'}>
                       {timeElapsed(
                         entry.start,
                         entry.end,
@@ -106,10 +117,10 @@
                         roundAmount,
                       )}
                     </Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell className={project ? null : 'no-print'}>
                       {project.nameTree.join(' > ')}
                     </Table.Cell>
-                    <Table.Cell>
+                    <Table.Cell className={notes ? null : 'no-print'}>
                       {entry.notes}
                     </Table.Cell>
                   </Table.Row>
