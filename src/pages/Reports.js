@@ -104,7 +104,7 @@ class Reports extends Component<ReportsType> {
           to={to}
           updateDateRange={this.onUpdateDateRange}
         />
-        <Grid divided="vertically" stackable>
+        <Grid divided="vertically" stackable style={{ marginTop: 0, marginBottom: 0 }}>
           <Grid.Row columns={2}>
             <Grid.Column width={12}>
               <ReportCharts projects={projects} />

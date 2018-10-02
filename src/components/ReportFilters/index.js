@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import classnames from 'classnames';
 
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
