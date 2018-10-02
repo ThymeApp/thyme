@@ -6,6 +6,11 @@ body {
   height: auto;
 }
 
+.App .pushable,
+.App .pusher {
+  min-height: 100vh;
+}
+
 .ui.menu .item.App-Title {
   width: calc(100% - 53px);
   justify-content: center;

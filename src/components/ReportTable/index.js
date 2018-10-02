@@ -12,13 +12,13 @@ type ReportTableType = {
 
 function ReportTable({ projects }: ReportTableType) {
   return (
-    <Table celled>
+    <Table celled unstackable>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>
             Project
           </Table.HeaderCell>
-          <Table.HeaderCell width={2}>
+          <Table.HeaderCell width={2} style={{ whiteSpace: 'nowrap' }}>
             Total spent
           </Table.HeaderCell>
         </Table.Row>

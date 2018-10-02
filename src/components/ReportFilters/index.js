@@ -1,7 +1,9 @@
 // @flow
 
 import React, { Component } from 'react';
+import classnames from 'classnames';
 
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 
@@ -13,7 +15,15 @@ type ReportFiltersType = {
   onToggle: (project: string | null) => void;
 };
 
-class ReportFilters extends Component<ReportFiltersType> {
+type ReportFiltersState = {
+  isVisible: boolean;
+};
+
+class ReportFilters extends Component<ReportFiltersType, ReportFiltersState> {
+  state = {
+    isVisible: false,
+  };
+
   onFilterToggle = (e: Event, action: any) => {
     if (action.type === 'checkbox') {
       const { onToggle } = this.props;
@@ -22,16 +32,24 @@ class ReportFilters extends Component<ReportFiltersType> {
     }
   };
 
+  onToggleFiltersVisible = () => {
+    const { isVisible } = this.state;
+
+    this.setState({ isVisible: !isVisible });
+  };
+
   render() {
     const { filters, projects } = this.props;
+    const { isVisible } = this.state;
 
     return (
       <div className="Report__filters">
         <Menu vertical>
-          <Menu.Item header>
-            Filter projects:
+          <Menu.Item header as="button" onClick={this.onToggleFiltersVisible}>
+            <Icon name="triangle right" className={classnames({ isVisible })} />
+            Filter projects
           </Menu.Item>
-          {projects.map(project => (
+          {isVisible && projects.map(project => (
             <Menu.Item key={project.id}>
               <Checkbox
                 toggle

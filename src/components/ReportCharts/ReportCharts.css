@@ -1,6 +1,5 @@
 .ReportCharts {
   display: flex;
-  margin: 30px 0;
 }
 
 .ReportCharts__Legend {
@@ -18,5 +17,5 @@
 
 .ReportCharts__Charts {
   width: 300px;
-  height: 300px;
+  max-height: 300px;
 }

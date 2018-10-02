@@ -1,0 +1,38 @@
+.ReportRange__Input input {
+  width: 140px;
+}
+
+.ReportRange__Input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  margin-top: 0.5em;
+}
+
+.ReportRange__Presets {
+  flex-grow: 1;
+}
+
+.ReportRange__Presets .button {
+  margin: .25em .25em .25em 0;
+}
+
+@media only screen and (min-width: 640px) {
+  .ReportRange {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+  }
+
+  .ReportRange__Input {
+    margin-top: 0;
+    justify-content: flex-end;
+  }
+}
+
+@media print {
+  .ReportRange__Input {
+    justify-content: flex-end;
+  }
+}
