@@ -30,3 +30,22 @@
 .Report__filters .menu>.item:not(.header) {
   padding: 0;
 }
+
+.Report__filters .ui.vertical.menu button:focus {
+  outline: rgba(34, 36, 38, 0.15) solid 1px;
+}
+
+.Report__filters .ui.vertical.menu button {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  cursor: pointer;
+}
+
+.Report__filters .ui.vertical.menu button i {
+  transition: transform 0.2s ease;
+}
+
+.Report__filters .ui.vertical.menu button i.isVisible {
+  transform: rotate(90deg);
+}
