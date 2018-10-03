@@ -8,6 +8,7 @@ import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
+import classnames from 'classnames';
 
 import { timeElapsed } from '../../core/thyme';
 
@@ -21,7 +22,14 @@ type ReportDetailedType = {
 
 type ReportDetailedState = {
   opened: boolean,
-  printable: any, 
+  printable: {
+    date: boolean,
+    start: boolean,
+    end: boolean,
+    duration: boolean,
+    project: boolean,
+    notes: boolean,
+  }, 
 };
 
 class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> {
@@ -36,10 +44,14 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
     printable: {date: true, start: true, end: true, duration: true, project: true, notes: true }
   };
 
-  onChangePrintView = (data: any, column: any) => {
+  onChangePrintView = (e: Event, data: { checked: boolean, column: string }) => {
     const { printable } = this.state;
-    printable[column] = data.checked;
-    this.setState({printable: printable});
+    this.setState({
+      printable:  {
+        ...printable,   
+        [data.column]: data.checked 
+      }
+    });
 }
   
   toggleDetails = () => {
@@ -68,45 +80,45 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
           <Table celled>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell className={date ? null : 'no-print'}>
+                <Table.HeaderCell className={classnames({'no-print': date})}>
                   Date
-                  <Checkbox  toggle defaultChecked onClick={((e, data) => this.onChangePrintView(data, "date"))}/> 
+                  <Checkbox  toggle defaultChecked  column="date" onClick={this.onChangePrintView}/> 
                 </Table.HeaderCell>
-                <Table.HeaderCell className={start ? null : 'no-print'}>
+                <Table.HeaderCell className={classnames({'no-print': start})}>
                   Start
-                  <Checkbox toggle defaultChecked onClick={((e, data) => this.onChangePrintView(data, "start"))}/> 
+                  <Checkbox toggle defaultChecked column="start" onClick={this.onChangePrintView}/> 
                 </Table.HeaderCell>
-                <Table.HeaderCell className={end ? null : 'no-print'}>
+                <Table.HeaderCell className={classnames({'no-print': end})}>
                   End
-                  <Checkbox toggle defaultChecked onClick={((e, data) => this.onChangePrintView(data, "end"))}/> 
+                  <Checkbox toggle defaultChecked column="end" onClick={this.onChangePrintView}/> 
                 </Table.HeaderCell>
-                <Table.HeaderCell className={duration ? null : 'no-print'}>
+                <Table.HeaderCell className={classnames({'no-print': duration})}>
                   Duration
-                  <Checkbox toggle defaultChecked onClick={((e, data) => this.onChangePrintView(data, "duration"))}/> 
+                  <Checkbox toggle defaultChecked column="duration" onClick={this.onChangePrintView}/> 
                 </Table.HeaderCell>
-                <Table.HeaderCell  className={project ? null : 'no-print'}>
+                <Table.HeaderCell  className={classnames({'no-print': project})}>
                   Project
-                  <Checkbox toggle  defaultChecked onClick={((e, data) => this.onChangePrintView(data, "project"))}/> 
+                  <Checkbox toggle  defaultChecked column="project" onClick={this.onChangePrintView}/> 
                 </Table.HeaderCell>
-                <Table.HeaderCell className={notes ? null : 'no-print'}>
+                <Table.HeaderCell className={classnames({'no-print': notes})}>
                   Notes
-                  <Checkbox toggle defaultChecked   onClick={((e, data) => this.onChangePrintView(data, "notes"))}/> 
+                  <Checkbox toggle defaultChecked column="notes" onClick={this.onChangePrintView}/> 
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {projects.map(project => project.entries.map(entry => (
                 <Table.Row key={entry.id}>
-                  <Table.Cell className={date ? null : 'no-print'}>
+                  <Table.Cell className={classnames({'no-print': date})}>
                     {format(entry.start, 'DD/MM/YYYY')}
                   </Table.Cell>
-                  <Table.Cell className={start ? null : 'no-print'}>
+                  <Table.Cell className={classnames({'no-print': start})}>
                     {format(entry.start, 'HH:mm')}
                   </Table.Cell>
-                  <Table.Cell className={end ? null : 'no-print'}>
+                  <Table.Cell className={classnames({'no-print': end})}>
                     {format(entry.end, 'HH:mm')}
                   </Table.Cell>
-                  <Table.Cell className={duration ? null : 'no-print'}>
+                  <Table.Cell className={classnames({'no-print': duration})}>
                     {timeElapsed(
                       entry.start,
                       entry.end,
@@ -116,10 +128,10 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
                       roundAmount,
                     )}
                   </Table.Cell>
-                  <Table.Cell className={project ? null : 'no-print'}>
+                  <Table.Cell className={classnames({'no-print': project})}>
                     {project.nameTree.join(' > ')}
                   </Table.Cell>
-                  <Table.Cell className={notes ? null : 'no-print'}>
+                  <Table.Cell className={classnames({'no-print': notes})}>
                     {entry.notes}
                   </Table.Cell>
                 </Table.Row>
