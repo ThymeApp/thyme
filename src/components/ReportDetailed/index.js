@@ -78,48 +78,48 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell className={classnames({ 'no-print': !printable.date })}>
-                  Date
                   <Checkbox
+                    label="Date"
                     checked={printable.date}
                     column="date"
                     onClick={this.onChangePrintView}
                   />
                 </Table.HeaderCell>
                 <Table.HeaderCell className={classnames({ 'no-print': !printable.start })}>
-                  Start
                   <Checkbox
+                    label="Start"
                     checked={printable.start}
                     column="start"
                     onChange={this.onChangePrintView}
                   />
                 </Table.HeaderCell>
                 <Table.HeaderCell className={classnames({ 'no-print': !printable.end })}>
-                  End
                   <Checkbox
+                    label="End"
                     checked={printable.end}
                     column="end"
                     onChange={this.onChangePrintView}
                   />
                 </Table.HeaderCell>
                 <Table.HeaderCell className={classnames({ 'no-print': !printable.duration })}>
-                  Duration
                   <Checkbox
+                    label="Duration"
                     checked={printable.duration}
                     column="duration"
                     onChange={this.onChangePrintView}
                   />
                 </Table.HeaderCell>
                 <Table.HeaderCell className={classnames({ 'no-print': !printable.project })}>
-                  Project
                   <Checkbox
+                    label="Project"
                     checked={printable.project}
                     column="project"
                     onChange={this.onChangePrintView}
                   />
                 </Table.HeaderCell>
                 <Table.HeaderCell className={classnames({ 'no-print': !printable.notes })}>
-                  Notes
                   <Checkbox
+                    label="Notes"
                     checked={printable.notes}
                     column="notes"
                     onChange={this.onChangePrintView}
