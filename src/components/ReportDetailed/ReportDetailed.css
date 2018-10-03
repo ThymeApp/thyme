@@ -1,5 +1,7 @@
-.ReportDetailed {
-  display: none;
+@media only screen {
+  .ReportDetailed {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 768px) {
@@ -16,3 +18,4 @@
 .checkbox { 
   float: right;
 }
+
