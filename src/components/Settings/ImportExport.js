@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import format from 'date-fns/format';
 import FileSaver from 'file-saver';
+import type { Dispatch } from 'redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
@@ -127,7 +128,7 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
 
 const mapStateToProps = state => ({ exportState: getDataToExport(state) });
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     importData(data) {
       dispatch(importJSONData(data));

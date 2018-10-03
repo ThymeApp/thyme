@@ -2,6 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
@@ -100,7 +101,7 @@ class Time extends Component<TimeProps, TimeState> {
   }
 }
 
-function mapStateToProps(state, props: TimeProps) {
+function mapStateToProps(state: storeShape, props: TimeProps) {
   const { now } = props;
 
   return {
@@ -109,7 +110,7 @@ function mapStateToProps(state, props: TimeProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     changeEntriesPage(page: number) {
       dispatch(changePage(page));

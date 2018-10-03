@@ -48,9 +48,9 @@ export function formatDuration(duration: number, withSeconds: boolean = false): 
   const minutes = Math.floor((duration / 60) % 60);
   const seconds = Math.floor(duration % 60);
 
-  const secondsString = withSeconds ? `:${leftPad(seconds, 2, 0)}` : '';
+  const secondsString = withSeconds ? `:${leftPad(seconds.toString(), 2, 0)}` : '';
 
-  return `${leftPad(hours, 2, 0)}:${leftPad(minutes, 2, 0)}${secondsString}`;
+  return `${leftPad(hours.toString(), 2, 0)}:${leftPad(minutes.toString(), 2, 0)}${secondsString}`;
 }
 
 function getRoundedMinutes(round: rounding, diffMinutes: number, roundAmount: number) {

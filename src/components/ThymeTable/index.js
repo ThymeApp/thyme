@@ -2,6 +2,7 @@
 
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
@@ -114,7 +115,7 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     onEntryUpdate(entry) {
       dispatch(updateTime(entry));

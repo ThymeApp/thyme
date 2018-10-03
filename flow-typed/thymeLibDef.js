@@ -1,3 +1,7 @@
+// @flow
+
+import type { Store } from 'redux';
+
 declare type timeShape = {
   byId: {
     [key: string]: timeType;
@@ -110,3 +114,5 @@ declare type RouterMatch = {
 declare type RouterHistory = {
   push: (path: string) => void;
 };
+
+declare type ThymeStore = Store<storeShape, *>;

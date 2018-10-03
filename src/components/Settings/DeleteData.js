@@ -2,6 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
@@ -93,7 +94,7 @@ class DeleteData extends Component<DeleteDataProps, DeleteDataState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     removeTimeData() {
       dispatch(truncateTime());
