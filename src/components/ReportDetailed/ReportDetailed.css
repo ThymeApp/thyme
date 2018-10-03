@@ -1,3 +1,14 @@
+.ReportDetailed .ui.table thead th {
+  padding-left: 38px;
+  position: relative;
+}
+
+.ReportDetailed table th .checkbox {
+  position: absolute;
+  left: 11px;
+  top: 14px;
+}
+
 @media only screen {
   .ReportDetailed {
     display: none;
@@ -10,12 +21,14 @@
   }
 }
 
-@media print {
-  .no-print {
-    display: none !important;
+@media only print {
+  .no-print,
+  .ui.message {
+    display: none;
   }
-}
-.checkbox { 
-  float: right;
+
+  .ReportDetailed .checkbox {
+    display: none;
+  }
 }
 
