@@ -7,7 +7,7 @@ import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 
 function currentQueryString() {
-  return qs.parse(window.location.search, { ignoreQueryPrefix: true });
+  return qs.parse(window.location.search, { ignoreQueryPrefix: true, strictNullHandling: true });
 }
 
 export function queryStringFilters(): Array<string | null> | typeof undefined {
@@ -46,5 +46,13 @@ export function updateReport(
   to: Date | string = queryStringTo(),
   history: RouterHistory,
 ) {
-  history.push(`/reports?${qs.stringify({ filter, from: format(from), to: format(to) })}`);
+  const queryString = qs.stringify({
+    filter,
+    from: format(from),
+    to: format(to),
+  }, {
+    strictNullHandling: true,
+  });
+
+  history.push(`/reports?${queryString}`);
 }
