@@ -9,13 +9,13 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid';
 
-import { totalProjectTime, projectTimeEntries, sortByTime } from '../../core/thyme';
+import { totalProjectTime, projectTimeEntries, sortByTime } from 'core/thyme';
 import {
   queryStringFilters,
   queryStringFrom,
   queryStringTo,
   updateReport,
-} from '../../core/reportQueryString';
+} from 'core/reportQueryString';
 
 import ReportTable from './components/Table';
 import ReportFilters from './components/Filters';
@@ -24,9 +24,9 @@ import ReportCharts from './components/Charts';
 import ReportDetailed from './components/Detailed';
 import SavedReports from './components/SavedReports';
 
+import { getById } from './selectors';
 import { sortedProjects } from '../../selectors/projects';
 import { getAllTimeEntries } from '../../selectors/time';
-import { getById } from './selectors/reports';
 import { getDurationRounding, getDurationAmount, getRoundingOn } from '../../selectors/settings';
 
 function toggleFilter(filters: Array<string | null>, filter: string | null) {

@@ -10,7 +10,7 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
 
-import { timeElapsed } from '../../../../core/thyme';
+import { timeElapsed } from 'core/thyme';
 
 import './ReportDetailed.css';
 

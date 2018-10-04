@@ -12,9 +12,9 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
-import { addReport, removeReport } from '../../../../actions/reports';
+import { addReport, removeReport } from '../../actions';
 
-import { getAllReports } from '../../selectors/reports';
+import { getAllReports } from '../../selectors';
 
 import './SavedReports.css';
 

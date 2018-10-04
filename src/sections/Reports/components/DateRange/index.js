@@ -14,14 +14,14 @@ import subMonths from 'date-fns/sub_months';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
-import { valueFromEventTarget } from '../../../../core/dom';
+import { valueFromEventTarget } from 'core/dom';
 
 import './ReportRange.css';
 
 type ReportRangeType = {
-  from: Date | string,
-  to: Date | string,
-  updateDateRange: (from: Date, to: Date) => void,
+  from: Date | string;
+  to: Date | string;
+  updateDateRange: (from: Date, to: Date) => void;
 };
 
 class ReportRange extends Component<ReportRangeType> {
