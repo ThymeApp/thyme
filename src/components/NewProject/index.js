@@ -2,6 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
@@ -37,8 +38,10 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
 
   onNameChange = (e: Event) => this.onValueChange('name', valueFromEventTarget(e.target));
 
-  onProjectChange = (e: Event, project: { value: string, label: string }) => this.onValueChange(
-    'parent', project === null ? null : project.value,
+  onProjectChange = (e: Event, project: { value: string | null, label: string }) => (
+    this.onValueChange(
+      'parent', project === null ? null : project.value,
+    )
   );
 
   onSubmit = () => this.addNew();
@@ -112,7 +115,7 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     onAddProject(project) {
       dispatch(addProject({

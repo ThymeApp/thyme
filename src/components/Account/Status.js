@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import isEqual from 'lodash/isEqual';
+import type { Dispatch } from 'redux';
 
 import isBefore from 'date-fns/is_before';
 import addDays from 'date-fns/add_days';
@@ -143,11 +143,18 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  dispatch => bindActionCreators({
-    onLogout: logout,
-    onUpdateToken: updateToken,
-    importData: importJSONData,
-  }, dispatch),
-)(Status);
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return {
+    onLogout() {
+      dispatch(logout());
+    },
+    onUpdateToken(token: string) {
+      dispatch(updateToken(token));
+    },
+    importData(data: importDataType) {
+      dispatch(importJSONData(data));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Status);

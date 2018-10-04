@@ -6,6 +6,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
+import type { Dispatch } from 'redux';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
@@ -169,7 +170,7 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     onCloseAlert() {
       dispatch(clearAlert());

@@ -1,10 +1,11 @@
 // @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import type { FormProps } from 'redux-form';
+import type { Dispatch } from 'redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
@@ -113,8 +114,16 @@ const validate = (values) => {
   return errors;
 };
 
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return {
+    onLoginAccount(token: string) {
+      dispatch(loginAccount(token));
+    },
+  };
+}
+
 export default compose(
-  connect(null, dispatch => bindActionCreators({ onLoginAccount: loginAccount }, dispatch)),
+  connect(null, mapDispatchToProps),
   reduxForm({
     form: 'login',
     validate,

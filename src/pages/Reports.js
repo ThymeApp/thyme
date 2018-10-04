@@ -39,8 +39,8 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
 
 type ReportsType = {
   history: RouterHistory;
-  from: Date | string;
-  to: Date | string;
+  from: Date;
+  to: Date;
   detailedRound: rounding;
   roundAmount: number;
   report: reportType | null;

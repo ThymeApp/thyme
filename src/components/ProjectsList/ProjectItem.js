@@ -2,6 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
@@ -52,7 +53,7 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
     });
   };
 
-  onChangeParent = (e: Event, parent: { value: string, label: string }) => {
+  onChangeParent = (e: Event, parent: { value: string | null, label: string }) => {
     const { project, projects, onUpdateProject } = this.props;
 
     const parentId = parent === null ? null : parent.value;
@@ -162,7 +163,7 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     onUpdateProject(project: projectTreeType) {
       dispatch(updateProject(project));
