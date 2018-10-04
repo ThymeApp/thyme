@@ -9,25 +9,25 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid';
 
-import { totalProjectTime, projectTimeEntries, sortByTime } from '../core/thyme';
+import { totalProjectTime, projectTimeEntries, sortByTime } from '../../core/thyme';
 import {
   queryStringFilters,
   queryStringFrom,
   queryStringTo,
   updateReport,
-} from '../core/reportQueryString';
+} from '../../core/reportQueryString';
 
-import ReportTable from '../components/ReportTable';
-import ReportFilters from '../components/ReportFilters';
-import ReportRange from '../components/ReportRange';
-import ReportCharts from '../components/ReportCharts';
-import ReportDetailed from '../components/ReportDetailed';
-import SavedReports from '../components/SavedReports';
+import ReportTable from './components/Table';
+import ReportFilters from './components/Filters';
+import DateRange from './components/DateRange';
+import ReportCharts from './components/Charts';
+import ReportDetailed from './components/Detailed';
+import SavedReports from './components/SavedReports';
 
-import { sortedProjects } from '../selectors/projects';
-import { getAllTimeEntries } from '../selectors/time';
-import { getById } from '../selectors/reports';
-import { getDurationRounding, getDurationAmount, getRoundingOn } from '../selectors/settings';
+import { sortedProjects } from '../../selectors/projects';
+import { getAllTimeEntries } from '../../selectors/time';
+import { getById } from './selectors/reports';
+import { getDurationRounding, getDurationAmount, getRoundingOn } from '../../selectors/settings';
 
 function toggleFilter(filters: Array<string | null>, filter: string | null) {
   if (filters.indexOf(filter) > -1) {
@@ -99,7 +99,7 @@ class Reports extends Component<ReportsType> {
         <Header as="h1">
           Reports
         </Header>
-        <ReportRange
+        <DateRange
           from={from}
           to={to}
           updateDateRange={this.onUpdateDateRange}
