@@ -1,8 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { withRouter } from 'react-router';
+import type { Dispatch } from 'redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
@@ -123,10 +124,15 @@ function mapStateToProps(state) {
   };
 }
 
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return {
+    onLogout() {
+      dispatch(logout());
+    },
+  };
+}
+
 export default compose(
   withRouter,
-  connect(
-    mapStateToProps,
-    dispatch => bindActionCreators({ onLogout: logout }, dispatch),
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
 )(Account);

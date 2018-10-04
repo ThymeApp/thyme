@@ -1,7 +1,6 @@
 // @flow
 
 import debounce from 'lodash/debounce';
-import type { Store } from 'redux';
 
 function loadItem(key: string): any | typeof undefined {
   try {
@@ -65,7 +64,7 @@ export function clearTemporaryItem() {
   removeItem('ThymeTempItem');
 }
 
-export function saveOnStoreChange(store: Store) {
+export function saveOnStoreChange(store: ThymeStore) {
   // save changes from store to localStorage
   store.subscribe(debounce(() => {
     saveState(store.getState());

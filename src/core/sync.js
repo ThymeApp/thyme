@@ -2,7 +2,7 @@
 
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
-import type { Store, Dispatch } from 'redux';
+import type { Dispatch } from 'redux';
 
 import { post } from './fetch';
 import { stateToExport } from './importExport';
@@ -14,7 +14,7 @@ import { sync, syncFailed, syncSuccess } from '../actions/app';
 
 let prevState: exportType = { time: [], projects: [], reports: [] };
 
-function syncWithApi(state: storeShape, dispatch: Dispatch) {
+function syncWithApi(state: storeShape, dispatch: Dispatch<*>) {
   if (!isLoggedIn(state)) {
     return;
   }
@@ -37,7 +37,7 @@ function syncWithApi(state: storeShape, dispatch: Dispatch) {
     });
 }
 
-export default function syncOnUpdate(store: Store) {
+export default function syncOnUpdate(store: ThymeStore) {
   // save changes from store to localStorage
   store.subscribe(debounce(() => {
     syncWithApi(store.getState(), store.dispatch);

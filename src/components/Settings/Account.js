@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import { compose } from 'redux';
 import {
   Field,
   reduxForm,
@@ -10,6 +10,7 @@ import {
   initialize,
 } from 'redux-form';
 import type { FormProps } from 'redux-form';
+import type { Dispatch } from 'redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
@@ -115,14 +116,19 @@ const validate = (values) => {
   return errors;
 };
 
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return {
+    initializeForms(form: string, data: any) {
+      dispatch(initialize(form, data));
+    },
+    showAlert(message: string) {
+      dispatch(alert(message));
+    },
+  };
+}
+
 export default compose(
-  connect(
-    null,
-    dispatch => bindActionCreators({
-      initializeForms: initialize,
-      showAlert: alert,
-    }, dispatch),
-  ),
+  connect(null, mapDispatchToProps),
   reduxForm({
     form: 'accountSettings',
     validate,

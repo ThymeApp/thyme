@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import type { Dispatch } from 'redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
@@ -65,6 +65,7 @@ function Rounding({
     </div>
   );
 }
+
 function mapStateToProps(state) {
   return {
     durationRounding: getDurationRounding(state),
@@ -73,11 +74,18 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  dispatch => bindActionCreators({
-    onChangeDurationRounding: updateDurationRounding,
-    onChangeDurationRoundingAmount: updateDurationRoundingAmount,
-    onChangeRoundingOn: updateRoundingOn,
-  }, dispatch),
-)(Rounding);
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return {
+    onChangeDurationRounding(round: rounding) {
+      dispatch(updateDurationRounding(round));
+    },
+    onChangeDurationRoundingAmount(amount: number) {
+      dispatch(updateDurationRoundingAmount(amount));
+    },
+    onChangeRoundingOn(roundingOn: roundableOn) {
+      dispatch(updateRoundingOn(roundingOn));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Rounding);

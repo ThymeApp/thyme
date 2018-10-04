@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
+
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 import { changeDateSort } from '../../actions/time';
@@ -32,7 +34,7 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     toggleSorting(sort: sortDirection) {
       dispatch(changeDateSort(sort === 'asc' ? 'desc' : 'asc'));

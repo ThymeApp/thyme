@@ -3,6 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
+import type { Dispatch } from 'redux';
 
 import { loadTemporaryItem } from '../../core/localStorage';
 
@@ -28,7 +29,7 @@ function New({ now, onEntryCreate, onAddNewProject }: NewType) {
   );
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     onEntryCreate(entry: timePropertyType) {
       dispatch(addTime({

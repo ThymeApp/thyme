@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import type { Dispatch } from 'redux';
 
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
@@ -170,7 +171,7 @@ function mapStateToProps(state) {
   return { savedReports: getAllReports(state) };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     onAddReport(name: string, filters: Array<string>, from: Date, to: Date) {
       dispatch(addReport(name, filters, from, to));
