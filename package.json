@@ -10,7 +10,9 @@
         "eject": "react-scripts eject",
         "test": "react-scripts test --env=jsdom",
         "test:ci": "CI=true npm run test",
-        "lint": "eslint ./src",
+        "lint:css": "stylelint \"./src/**/*.css\"",
+        "lint:js": "eslint ./src",
+        "lint": "npm run lint:js && npm run lint:css",
         "flow": "flow",
         "build:dev": "NODE_ENV=development webpack --config node_modules/react-scripts/config/webpack.config.dev.js",
         "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
@@ -49,6 +51,8 @@
         "eslint-plugin-react": "^7.11.1",
         "flow-bin": "^0.82.0",
         "pre-push": "^0.1.1",
+        "stylelint": "^9.6.0",
+        "stylelint-config-standard": "^18.2.0",
         "webpack-cli": "^3.1.2"
     },
     "pre-push": [

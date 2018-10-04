@@ -1,5 +1,5 @@
 .page.modals.visible.transition {
-  display: flex!important;
+  display: flex !important;
 }
 
 body {
@@ -14,9 +14,9 @@ body {
 .ui.menu .item.App-Title {
   width: calc(100% - 53px);
   justify-content: center;
-  padding: .92857143em 53px .92857143em 0;
+  padding: 0.92857143em 53px 0.92857143em 0;
 }
 
-.ui.menu .item.App-Title:before {
+.ui.menu .item.App-Title::before {
   display: none;
 }

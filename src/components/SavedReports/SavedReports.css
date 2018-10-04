@@ -2,7 +2,7 @@
   margin: 2em 0 0 0;
 }
 
-.SavedReports__new:after {
+.SavedReports__new::after {
   content: "";
   display: table;
   clear: both;
@@ -29,12 +29,12 @@
     display: flex;
     justify-content: flex-end;
   }
+
   .SavedReports__new .ui.button {
     margin: 0;
   }
+
   .SavedReports__new .ui.input {
     max-width: 300px;
   }
 }
-
-
