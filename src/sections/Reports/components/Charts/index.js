@@ -3,13 +3,21 @@
 import React from 'react';
 import PieChart from 'react-svg-piechart';
 
-import Colours from './Colours';
-
 import './ReportCharts.css';
 
 type ReportChartsType = {
   projects: Array<projectTreeWithTimeType>,
 };
+
+const colours = [
+  '#00AA55',
+  '#009FD4',
+  '#B381B3',
+  '#EF4836',
+  '#AA8F00',
+  '#D47500',
+  '#939393',
+];
 
 function ReportCharts({ projects }: ReportChartsType) {
   const projectsWithTime = projects.filter(project => project.time > 0);
@@ -27,7 +35,7 @@ function ReportCharts({ projects }: ReportChartsType) {
           data={projectsWithTime.map((project, index) => ({
             title: project.name,
             value: Math.round(project.time),
-            color: Colours[index],
+            color: colours[index],
           }))}
         />
       </div>
@@ -36,7 +44,7 @@ function ReportCharts({ projects }: ReportChartsType) {
           <li key={project.id}>
             <span
               className="ReportCharts__Legend-Colour"
-              style={{ borderColor: Colours[index] }}
+              style={{ borderColor: colours[index] }}
             />
             { project.name }
           </li>
