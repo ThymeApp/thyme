@@ -42,7 +42,7 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
     },
   };
 
-  onChangePrintView = (e: Event, data: { checked: boolean, column: ReportColumn }) => {
+  onChangePrintable = (e: Event, data: { checked: boolean, column: ReportColumn }) => {
     const { printable } = this.state;
 
     this.setState({
@@ -73,7 +73,7 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
               label={`${column[0].toUpperCase()}${column.slice(1)}`}
               checked={printable[column]}
               column={column}
-              onClick={this.onChangePrintView}
+              onClick={this.onChangePrintable}
             />
           )}
           content={`Show '${column}' on printed version`}
