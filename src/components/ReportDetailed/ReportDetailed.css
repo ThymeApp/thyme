@@ -30,12 +30,20 @@
 }
 
 @media only print {
-  .no-print,
-  .ui.message {
+  .no-print {
     display: none;
   }
 
-  .ReportDetailed .checkbox {
+  .ui.popup {
+    display: none!important;
+  }
+
+  .ReportDetailed th .ui.checkbox label {
+    padding-left: 0.78571429em;
+  }
+
+  .ReportDetailed th .ui.checkbox label:before,
+  .ReportDetailed th .ui.checkbox label:after {
     display: none;
   }
 }
