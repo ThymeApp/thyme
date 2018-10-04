@@ -17,12 +17,13 @@ import {
   updateReport,
 } from 'core/reportQueryString';
 
-import ReportTable from './components/Table';
-import ReportFilters from './components/Filters';
-import DateRange from './components/DateRange';
+import ActionMenu from './components/ActionMenu';
 import ReportCharts from './components/Charts';
+import DateRange from './components/DateRange';
 import ReportDetailed from './components/Detailed';
+import ReportFilters from './components/Filters';
 import SavedReports from './components/SavedReports';
+import ReportTable from './components/Table';
 
 import { getById } from './selectors';
 import { sortedProjects } from '../../selectors/projects';
@@ -96,9 +97,16 @@ class Reports extends Component<ReportsType> {
 
     return (
       <Container className="Reports">
-        <Header as="h1">
-          Reports
-        </Header>
+        <Grid stackable columns={2} style={{ marginBottom: 0 }}>
+          <Grid.Column>
+            <Header as="h1">
+              Reports
+            </Header>
+          </Grid.Column>
+          <Grid.Column>
+            <ActionMenu />
+          </Grid.Column>
+        </Grid>
         <DateRange
           from={from}
           to={to}
