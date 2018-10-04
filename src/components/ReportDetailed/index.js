@@ -7,12 +7,14 @@ import classnames from 'classnames';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
-import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
+import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
 
 import { timeElapsed } from '../../core/thyme';
 
 import './ReportDetailed.css';
+
+type ReportColumn = 'date' | 'start' | 'end' | 'duration' | 'project' | 'notes';
 
 type ReportDetailedType = {
   round: rounding;
@@ -21,15 +23,10 @@ type ReportDetailedType = {
 };
 
 type ReportDetailedState = {
-  opened: boolean,
+  opened: boolean;
   printable: {
-    date: boolean,
-    start: boolean,
-    end: boolean,
-    duration: boolean,
-    project: boolean,
-    notes: boolean,
-  },
+    [ReportColumn]: boolean;
+  };
 };
 
 class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> {
@@ -45,8 +42,9 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
     },
   };
 
-  onChangePrintView = (e: Event, data: { checked: boolean, column: string }) => {
+  onChangePrintView = (e: Event, data: { checked: boolean, column: ReportColumn }) => {
     const { printable } = this.state;
+
     this.setState({
       printable: {
         ...printable,
@@ -63,6 +61,27 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
     });
   };
 
+  columnHeader = (column: ReportColumn) => {
+    const { printable } = this.state;
+
+    return (
+      <Table.HeaderCell className={classnames({ 'no-print': !printable[column] })}>
+        <Popup
+          inverted
+          trigger={(
+            <Checkbox
+              label={column}
+              checked={printable[column]}
+              column={column}
+              onClick={this.onChangePrintView}
+            />
+          )}
+          content={`Show '${column}' on printed version`}
+        />
+      </Table.HeaderCell>
+    );
+  };
+
   render() {
     const { round, roundAmount, projects } = this.props;
     const { opened, printable } = this.state;
@@ -77,54 +96,12 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
           <Table celled>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell className={classnames({ 'no-print': !printable.date })}>
-                  <Checkbox
-                    label="Date"
-                    checked={printable.date}
-                    column="date"
-                    onClick={this.onChangePrintView}
-                  />
-                </Table.HeaderCell>
-                <Table.HeaderCell className={classnames({ 'no-print': !printable.start })}>
-                  <Checkbox
-                    label="Start"
-                    checked={printable.start}
-                    column="start"
-                    onChange={this.onChangePrintView}
-                  />
-                </Table.HeaderCell>
-                <Table.HeaderCell className={classnames({ 'no-print': !printable.end })}>
-                  <Checkbox
-                    label="End"
-                    checked={printable.end}
-                    column="end"
-                    onChange={this.onChangePrintView}
-                  />
-                </Table.HeaderCell>
-                <Table.HeaderCell className={classnames({ 'no-print': !printable.duration })}>
-                  <Checkbox
-                    label="Duration"
-                    checked={printable.duration}
-                    column="duration"
-                    onChange={this.onChangePrintView}
-                  />
-                </Table.HeaderCell>
-                <Table.HeaderCell className={classnames({ 'no-print': !printable.project })}>
-                  <Checkbox
-                    label="Project"
-                    checked={printable.project}
-                    column="project"
-                    onChange={this.onChangePrintView}
-                  />
-                </Table.HeaderCell>
-                <Table.HeaderCell className={classnames({ 'no-print': !printable.notes })}>
-                  <Checkbox
-                    label="Notes"
-                    checked={printable.notes}
-                    column="notes"
-                    onChange={this.onChangePrintView}
-                  />
-                </Table.HeaderCell>
+                {this.columnHeader('date')}
+                {this.columnHeader('start')}
+                {this.columnHeader('end')}
+                {this.columnHeader('duration')}
+                {this.columnHeader('project')}
+                {this.columnHeader('notes')}
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -159,9 +136,6 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
               )))}
             </Table.Body>
           </Table>
-          <Message warning>
-            Checked columns will be visible in the print version of this page
-          </Message>
         </Accordion.Content>
       </Accordion>
     );
