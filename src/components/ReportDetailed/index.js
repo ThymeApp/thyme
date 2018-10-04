@@ -19,7 +19,7 @@ type ReportColumn = 'date' | 'start' | 'end' | 'duration' | 'project' | 'notes';
 type ReportDetailedType = {
   round: rounding;
   roundAmount: number;
-  projects: Array<projectTreeWithTimeType>;
+  projects: projectTreeWithTimeType[];
 };
 
 type ReportDetailedState = {
@@ -70,7 +70,7 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
           inverted
           trigger={(
             <Checkbox
-              label={column}
+              label={`${column[0].toUpperCase()}${column.slice(1)}`}
               checked={printable[column]}
               column={column}
               onClick={this.onChangePrintView}
@@ -96,12 +96,8 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
           <Table celled>
             <Table.Header>
               <Table.Row>
-                {this.columnHeader('date')}
-                {this.columnHeader('start')}
-                {this.columnHeader('end')}
-                {this.columnHeader('duration')}
-                {this.columnHeader('project')}
-                {this.columnHeader('notes')}
+                {['date', 'start', 'end', 'duration', 'project', 'notes']
+                  .map(column => this.columnHeader(column))}
               </Table.Row>
             </Table.Header>
             <Table.Body>
