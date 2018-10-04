@@ -10,6 +10,7 @@
         "eject": "react-scripts eject",
         "test": "react-scripts test --env=jsdom",
         "test:ci": "CI=true npm run test",
+        "lint": "eslint ./src",
         "flow": "flow",
         "build:dev": "NODE_ENV=development webpack --config node_modules/react-scripts/config/webpack.config.dev.js",
         "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
@@ -52,8 +53,9 @@
     },
     "pre-push": [
         "test:ci",
-        "build:dev",
-        "flow"
+        "lint",
+        "flow",
+        "build:dev"
     ],
     "browserslist": [
         ">0.2%",

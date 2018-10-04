@@ -1,5 +1,26 @@
-.ReportDetailed {
-  display: none;
+.ReportDetailed .ui.table thead th {
+  padding: 0;
+}
+
+.ReportDetailed th .ui.checkbox label:after,
+.ReportDetailed th .ui.checkbox label:before {
+  top: 13px;
+  left: 10px;
+}
+
+.ReportDetailed th .ui.checkbox {
+  display: block;
+  width: 100%;
+}
+
+.ReportDetailed th .ui.checkbox label {
+  padding: .92857143em .78571429em .92857143em 2.4em;
+}
+
+@media only screen {
+  .ReportDetailed {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 768px) {
@@ -7,3 +28,23 @@
     display: block;
   }
 }
+
+@media only print {
+  .no-print {
+    display: none;
+  }
+
+  .ui.popup {
+    display: none!important;
+  }
+
+  .ReportDetailed th .ui.checkbox label {
+    padding-left: 0.78571429em;
+  }
+
+  .ReportDetailed th .ui.checkbox label:before,
+  .ReportDetailed th .ui.checkbox label:after {
+    display: none;
+  }
+}
+
