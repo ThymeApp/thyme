@@ -17,7 +17,7 @@ function ProjectsList({
   projects,
   parent = '',
   level = 1,
-}: ProjectsListType): Array<Element<ProjectItem>> {
+}: ProjectsListType): Element<typeof ProjectItem>[] {
   return projects
     .filter(item => (parent === '' && item.parent === null) || item.parent === parent)
     .map(project => (
