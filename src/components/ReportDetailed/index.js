@@ -65,7 +65,7 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
     const { printable } = this.state;
 
     return (
-      <Table.HeaderCell className={classnames({ 'no-print': !printable[column] })}>
+      <Table.HeaderCell key={column} className={classnames({ 'no-print': !printable[column] })}>
         <Popup
           inverted
           trigger={(
