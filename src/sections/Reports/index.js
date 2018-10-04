@@ -62,10 +62,19 @@ class Reports extends Component<ReportsType> {
     this.updateReport(this.currentFilters(), from, to);
   };
 
-  updateReport(nextFilters, from, to) {
-    const { history } = this.props;
+  onSave = () => {
+    console.log('save');
+  };
 
-    updateReport(nextFilters, from, to, history);
+  onLoad = () => {
+    console.log('load');
+  };
+
+  currentFilters() {
+    const { report, allProjects } = this.props;
+
+    const defaultFilters = allProjects.map(project => project.id);
+    return report ? report.filters : queryStringFilters() || defaultFilters;
   }
 
   currentDateRange() {
@@ -77,11 +86,10 @@ class Reports extends Component<ReportsType> {
     return { from, to };
   }
 
-  currentFilters() {
-    const { report, allProjects } = this.props;
+  updateReport(nextFilters, from, to) {
+    const { history } = this.props;
 
-    const defaultFilters = allProjects.map(project => project.id);
-    return report ? report.filters : queryStringFilters() || defaultFilters;
+    updateReport(nextFilters, from, to, history);
   }
 
   render() {
@@ -104,7 +112,7 @@ class Reports extends Component<ReportsType> {
             </Header>
           </Grid.Column>
           <Grid.Column>
-            <ActionMenu />
+            <ActionMenu onSave={this.onSave} onLoad={this.onLoad} />
           </Grid.Column>
         </Grid>
         <DateRange
