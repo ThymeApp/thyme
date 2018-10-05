@@ -9,8 +9,9 @@ import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Respon
 
 import { getDurationRounding, getDurationAmount, getRoundingOn } from 'sections/Settings/selectors';
 
+import { addProject } from 'sections/Projects/actions';
+
 import { updateTime, removeTime } from '../../actions/time';
-import { addProject } from '../../actions/projects';
 
 import { getDateSort } from '../../selectors/time';
 

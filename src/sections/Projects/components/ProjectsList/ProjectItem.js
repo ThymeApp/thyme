@@ -12,12 +12,14 @@ import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
-import { isDescendant } from '../../../../core/projects';
+import { isDescendant } from 'core/projects';
 
-import { updateProject, removeProject } from '../../../../actions/projects';
-import { alert } from '../../../../actions/app';
+import { alert } from 'actions/app';
 
-import ProjectInput from '../../../../components/ProjectInput';
+import ProjectInput from 'components/ProjectInput';
+
+import { updateProject, removeProject } from '../../actions';
+
 import ProjectsList from './ProjectsList'; // eslint-disable-line import/no-cycle
 
 function projectValues(props) {

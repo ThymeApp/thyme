@@ -9,9 +9,9 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
 import { alert } from 'actions/app';
+import { truncateProjects } from 'sections/Projects/actions';
 
 import { truncateTime } from '../../../actions/time';
-import { truncateProjects } from '../../../actions/projects';
 
 type DeleteDataProps = {
   removeTimeData: () => void;
