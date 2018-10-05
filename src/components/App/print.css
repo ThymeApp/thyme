@@ -4,8 +4,14 @@
   .ReportRange__Presets,
   .accordion .title,
   .Reports h1,
+  .Reports > .grid:first-child,
+  .App .Report__filters,
   .App .Report__filters {
     display: none;
+  }
+
+  .App__Container {
+    margin: 0;
   }
 
   .ReportRange__Input input {
