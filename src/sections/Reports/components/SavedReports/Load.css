@@ -9,3 +9,13 @@
   overflow: auto;
   padding: 0;
 }
+
+.Reports__LoadTable .ui.vertical.menu {
+  width: 100%;
+}
+
+.Reports__LoadTable .ui.vertical.menu .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

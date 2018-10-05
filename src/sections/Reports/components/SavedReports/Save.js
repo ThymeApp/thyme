@@ -68,7 +68,7 @@ class Save extends Component<SaveProps, SaveState> {
 
     this.setState({ error: false });
 
-    showAlert(`Report has been saved as ${name}`);
+    showAlert(`Report has been saved as "${name}"`);
     onAddReport(name, filters, from, to);
 
     this.closeModal();

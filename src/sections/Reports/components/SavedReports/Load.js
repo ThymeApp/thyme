@@ -10,7 +10,7 @@ import type { RouterHistory } from 'react-router';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal/Modal';
-import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
+import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm/Confirm';
@@ -48,7 +48,13 @@ class Load extends Component<LoadProps, LoadState> {
     confirmDelete: {},
   };
 
-  onCancelConfirm = () => this.setState({ confirmDelete: {} });
+  onCancelConfirm = (e?: Event) => {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    this.setState({ confirmDelete: {} });
+  };
 
   openReport = (id: string) => {
     const { history, onClose } = this.props;
@@ -57,7 +63,9 @@ class Load extends Component<LoadProps, LoadState> {
     onClose();
   };
 
-  onRemoveReport = (id: string) => {
+  onRemoveReport = (id: string) => (e: Event) => {
+    e.stopPropagation();
+
     const { confirmDelete } = this.state;
 
     this.setState({
@@ -66,6 +74,16 @@ class Load extends Component<LoadProps, LoadState> {
         [id]: true,
       },
     });
+  };
+
+  removeReport = report => (e: Event) => {
+    e.stopPropagation();
+
+    const { onRemoveReport, showAlert } = this.props;
+
+    this.onCancelConfirm();
+    onRemoveReport(report.id);
+    showAlert(`Removed report "${report.name}"`);
   };
 
   render() {
@@ -81,46 +99,33 @@ class Load extends Component<LoadProps, LoadState> {
           )}
 
           {savedReports.length > 0 && (
-            <Table striped unstackable>
-              <Table.Body>
-                {savedReports.map(report => (
-                  <Table.Row key={report.id} className="Reports__LoadItem">
-                    <Table.Cell>
-                      <Button basic fluid onClick={() => this.openReport(report.id)}>
-                        {report.name}
+            <Menu vertical>
+              {savedReports.map(report => (
+                <Menu.Item key={report.id} onClick={() => this.openReport(report.id)}>
+                  {report.name}
+
+                  <Popup
+                    inverted
+                    position="top right"
+                    trigger={(
+                      <Button icon onClick={this.onRemoveReport(report.id)}>
+                        <Icon name="remove" />
                       </Button>
-                    </Table.Cell>
-                    <Table.Cell collapsing>
-                      <Popup
-                        inverted
-                        position="top right"
-                        trigger={(
-                          <Button icon onClick={() => this.onRemoveReport(report.id)}>
-                            <Icon name="remove" />
-                          </Button>
-                        )}
-                        content="Remove this report"
-                      />
+                    )}
+                    content="Remove this report"
+                  />
 
-                      <Confirm
-                        open={confirmDelete[report.id]}
-                        content="Are you are you want to remove this report?"
-                        confirmButton="Remove report"
-                        size="mini"
-                        onCancel={this.onCancelConfirm}
-                        onConfirm={() => {
-                          const { onRemoveReport, showAlert } = this.props;
-
-                          this.onCancelConfirm();
-                          onRemoveReport(report.id);
-                          showAlert(`Removed report "${report.name}"`);
-                        }}
-                      />
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
+                  <Confirm
+                    open={confirmDelete[report.id]}
+                    content="Are you are you want to remove this report?"
+                    confirmButton="Remove report"
+                    size="mini"
+                    onCancel={this.onCancelConfirm}
+                    onConfirm={this.removeReport(report)}
+                  />
+                </Menu.Item>
+              ))}
+            </Menu>
           )}
         </Modal.Content>
         <Modal.Actions>
