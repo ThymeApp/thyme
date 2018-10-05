@@ -59,7 +59,7 @@ type ReportsState = {
 class Reports extends Component<ReportsProps, ReportsState> {
   state = {
     saveOpened: false,
-    loadOpened: true,
+    loadOpened: false,
   };
 
   onToggleFilter = (filter: string | null) => {
