@@ -5,6 +5,7 @@
 }
 
 .Reports__LoadTable .ui.vertical.menu {
+  border: 0;
   width: 100%;
 }
 
