@@ -24,6 +24,7 @@ import ReportDetailed from './components/Detailed';
 import ReportFilters from './components/Filters';
 import SavedReports from './components/SavedReports';
 import ReportTable from './components/Table';
+import SaveModal from './components/SavedReports/Save';
 
 import { getById } from './selectors';
 import { sortedProjects } from '../../selectors/projects';
@@ -38,7 +39,7 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
   return [...filters, filter];
 }
 
-type ReportsType = {
+type ReportsProps = {
   history: RouterHistory;
   from: Date;
   to: Date;
@@ -50,7 +51,17 @@ type ReportsType = {
   projects: Array<projectTreeWithTimeType>;
 };
 
-class Reports extends Component<ReportsType> {
+type ReportsState = {
+  saveOpened: boolean;
+  loadOpened: boolean;
+};
+
+class Reports extends Component<ReportsProps, ReportsState> {
+  state = {
+    saveOpened: false,
+    loadOpened: false,
+  };
+
   onToggleFilter = (filter: string | null) => {
     const nextFilters = toggleFilter(this.currentFilters(), filter);
     const { from, to } = this.currentDateRange();
@@ -62,12 +73,28 @@ class Reports extends Component<ReportsType> {
     this.updateReport(this.currentFilters(), from, to);
   };
 
-  onSave = () => {
-    console.log('save');
+  onOpenSave = () => {
+    this.setState({
+      saveOpened: true,
+    });
   };
 
-  onLoad = () => {
-    console.log('load');
+  onCloseSave = () => {
+    this.setState({
+      saveOpened: false,
+    });
+  };
+
+  onOpenLoad = () => {
+    this.setState({
+      loadOpened: true,
+    });
+  };
+
+  onCloseLoad = () => {
+    this.setState({
+      loadOpened: false,
+    });
   };
 
   currentFilters() {
@@ -103,6 +130,8 @@ class Reports extends Component<ReportsType> {
       roundAmount,
     } = this.props;
 
+    const { saveOpened, loadOpened } = this.state;
+
     return (
       <Container className="Reports">
         <Grid stackable columns={2} style={{ marginBottom: 0 }}>
@@ -112,7 +141,7 @@ class Reports extends Component<ReportsType> {
             </Header>
           </Grid.Column>
           <Grid.Column>
-            <ActionMenu onSave={this.onSave} onLoad={this.onLoad} />
+            <ActionMenu onSave={this.onOpenSave} onLoad={this.onOpenLoad} />
           </Grid.Column>
         </Grid>
         <DateRange
@@ -139,6 +168,13 @@ class Reports extends Component<ReportsType> {
           round={detailedRound}
           roundAmount={roundAmount}
           projects={projects}
+        />
+        <SaveModal
+          isOpen={saveOpened}
+          from={from}
+          to={to}
+          filters={filters}
+          onClose={this.onCloseSave}
         />
         <SavedReports
           from={from}
