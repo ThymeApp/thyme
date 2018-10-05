@@ -22,15 +22,15 @@ function ActionMenu({ onSave, onLoad }: ActionMenuProps) {
       <Popup
         inverted
         position="bottom right"
-        trigger={<Button onClick={onSave} icon="save" />}
-        content="Save current report"
+        trigger={<Button onClick={onLoad} icon="folder open" />}
+        content="Load report"
       />
 
       <Popup
         inverted
         position="bottom right"
-        trigger={<Button onClick={onLoad} icon="folder open" />}
-        content="Load report"
+        trigger={<Button onClick={onSave} icon="save" />}
+        content="Save current report"
       />
 
       {hasPrint && (

@@ -117,7 +117,7 @@ class Load extends Component<LoadProps, LoadState> {
 
                   <Confirm
                     open={confirmDelete[report.id]}
-                    content="Are you are you want to remove this report?"
+                    content="Are you sure you want to remove this report?"
                     confirmButton="Remove report"
                     size="mini"
                     onCancel={this.onCancelConfirm}
