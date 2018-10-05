@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import type { Dispatch } from 'redux';
 
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
-import { addReport, removeReport } from '../../actions';
+import { removeReport } from '../../actions';
 
 import { getAllReports } from '../../selectors';
 
@@ -97,26 +96,11 @@ class SavedReports extends Component<SavedReportsProps, SaveReportsState> {
   }
 
   render() {
-    const { name, confirmDelete } = this.state;
+    const { confirmDelete } = this.state;
     const { savedReports } = this.props;
 
     return (
       <div className="SavedReports">
-        <form className="SavedReports__new">
-          <Input
-            name="report-name"
-            type="text"
-            placeholder="Report name"
-            value={name}
-            onChange={this.onUpdateName}
-            onKeyPress={this.onKeyPress}
-            style={{ marginRight: 12 }}
-          />
-          <Button onClick={this.onAddReport} color="blue">
-            Save this report
-          </Button>
-        </form>
-
         {savedReports.length > 0 && (
           <Header>
             Saved reports
@@ -173,10 +157,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
-    onAddReport(name: string, filters: Array<string>, from: Date, to: Date) {
-      dispatch(addReport(name, filters, from, to));
-    },
-
     onRemoveReport(id: string) {
       dispatch(removeReport(id));
     },

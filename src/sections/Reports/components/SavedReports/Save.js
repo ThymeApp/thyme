@@ -11,6 +11,8 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 
+import { alert } from 'actions/app';
+
 import { addReport } from '../../actions';
 
 type SaveProps = {
@@ -20,6 +22,7 @@ type SaveProps = {
   to: Date,
   onAddReport: (name: string, filters: Array<string>, from: Date, to: Date) => void,
   onClose: () => void;
+  showAlert: (message: string) => void;
 };
 
 type SaveState = {
@@ -54,6 +57,7 @@ class Save extends Component<SaveProps, SaveState> {
       from,
       to,
       onAddReport,
+      showAlert,
     } = this.props;
     const { name } = this.state;
 
@@ -64,6 +68,7 @@ class Save extends Component<SaveProps, SaveState> {
 
     this.setState({ error: false });
 
+    showAlert(`Report has been saved as ${name}`);
     onAddReport(name, filters, from, to);
 
     this.closeModal();
@@ -129,6 +134,9 @@ function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     onAddReport(name: string, filters: Array<string>, from: Date, to: Date) {
       dispatch(addReport(name, filters, from, to));
+    },
+    showAlert(message: string) {
+      dispatch(alert(message));
     },
   };
 }
