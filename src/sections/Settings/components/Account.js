@@ -15,9 +15,9 @@ import type { Dispatch } from 'redux';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
-import { alert } from '../../../actions/app';
+import { alert } from 'actions/app';
 
-import renderField from '../../../components/FormField/renderField';
+import renderField from 'components/FormField/renderField';
 
 import { changePassword } from '../api';
 

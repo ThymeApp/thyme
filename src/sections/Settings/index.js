@@ -8,12 +8,12 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
 
+import { isLoggedIn } from 'selectors/account';
+
 import Rounding from './components/Rounding';
 import Account from './components/Account';
 import ImportExport from './components/ImportExport';
 import DeleteData from './components/DeleteData';
-
-import { isLoggedIn } from '../../selectors/account';
 
 import './Settings.css';
 

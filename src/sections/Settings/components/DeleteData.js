@@ -8,7 +8,8 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
-import { alert } from '../../../actions/app';
+import { alert } from 'actions/app';
+
 import { truncateTime } from '../../../actions/time';
 import { truncateProjects } from '../../../actions/projects';
 
