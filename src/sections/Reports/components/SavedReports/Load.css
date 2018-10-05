@@ -1,9 +1,3 @@
-.Reports__LoadItem .ui.button {
-  border: 0;
-  box-shadow: none;
-  text-align: left;
-}
-
 .ui.modal > .content.Reports__LoadTable {
   max-height: 348px;
   overflow: auto;
