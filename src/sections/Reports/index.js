@@ -22,9 +22,9 @@ import ReportCharts from './components/Charts';
 import DateRange from './components/DateRange';
 import ReportDetailed from './components/Detailed';
 import ReportFilters from './components/Filters';
-import SavedReports from './components/SavedReports';
 import ReportTable from './components/Table';
 import SaveModal from './components/SavedReports/Save';
+import LoadModal from './components/SavedReports/Load';
 
 import { getById } from './selectors';
 import { sortedProjects } from '../../selectors/projects';
@@ -59,7 +59,7 @@ type ReportsState = {
 class Reports extends Component<ReportsProps, ReportsState> {
   state = {
     saveOpened: false,
-    loadOpened: false,
+    loadOpened: true,
   };
 
   onToggleFilter = (filter: string | null) => {
@@ -171,15 +171,14 @@ class Reports extends Component<ReportsProps, ReportsState> {
         />
         <SaveModal
           isOpen={saveOpened}
-          from={from}
-          to={to}
-          filters={filters}
           onClose={this.onCloseSave}
-        />
-        <SavedReports
           from={from}
           to={to}
           filters={filters}
+        />
+        <LoadModal
+          isOpen={loadOpened}
+          onClose={this.onCloseLoad}
         />
       </Container>
     );

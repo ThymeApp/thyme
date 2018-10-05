@@ -28,8 +28,8 @@ type SavedReportsProps = {
     from: Date,
     to: Date,
   }>,
-  onAddReport: (name: string, filters: Array<string>, from: Date, to: Date) => void,
   onRemoveReport: (id: string) => void,
+  onAddReport: (name: string, filters: Array<string>, from: Date, to: Date) => void,
 };
 
 type SaveReportsState = {

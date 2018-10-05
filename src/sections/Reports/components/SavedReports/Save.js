@@ -99,7 +99,7 @@ class Save extends Component<SaveProps, SaveState> {
 
     return (
       <Modal size="tiny" open={isOpen} onClose={this.closeModal}>
-        <Header content="Save current report" />
+        <Header content="Save Current Report" />
         <Modal.Content>
           <Form>
             <Form.Field>
