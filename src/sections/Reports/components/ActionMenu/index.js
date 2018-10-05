@@ -10,15 +10,23 @@ import './ActionMenu.css';
 const printPage = () => window.print();
 
 type ActionMenuProps = {
+  onNew: () => void;
   onSave: () => void;
   onLoad: () => void;
 };
 
-function ActionMenu({ onSave, onLoad }: ActionMenuProps) {
+function ActionMenu({ onNew, onSave, onLoad }: ActionMenuProps) {
   const hasPrint = !!window.print;
 
   return (
     <section className="Report__ActionMenu">
+      <Popup
+        inverted
+        position="bottom right"
+        trigger={<Button onClick={onNew} icon="file" />}
+        content="New report"
+      />
+
       <Popup
         inverted
         position="bottom right"
