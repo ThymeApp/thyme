@@ -8,10 +8,10 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
 
-import Rounding from '../../components/Settings/Rounding/index';
-import Account from '../../components/Settings/Account';
-import ImportExport from '../../components/Settings/ImportExport';
-import DeleteData from '../../components/Settings/DeleteData';
+import Rounding from './components/Rounding';
+import Account from './components/Account';
+import ImportExport from './components/ImportExport';
+import DeleteData from './components/DeleteData';
 
 import { isLoggedIn } from '../../selectors/account';
 
