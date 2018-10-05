@@ -73,6 +73,12 @@ class Reports extends Component<ReportsProps, ReportsState> {
     this.updateReport(this.currentFilters(), from, to);
   };
 
+  onNewReport = () => {
+    const { history } = this.props;
+
+    history.push('/reports');
+  };
+
   onOpenSave = () => {
     this.setState({
       saveOpened: true,
@@ -141,7 +147,11 @@ class Reports extends Component<ReportsProps, ReportsState> {
             </Header>
           </Grid.Column>
           <Grid.Column>
-            <ActionMenu onSave={this.onOpenSave} onLoad={this.onOpenLoad} />
+            <ActionMenu
+              onNew={this.onNewReport}
+              onSave={this.onOpenSave}
+              onLoad={this.onOpenLoad}
+            />
           </Grid.Column>
         </Grid>
         <DateRange

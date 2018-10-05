@@ -20,3 +20,8 @@ body {
 .ui.menu .item.App-Title::before {
   display: none;
 }
+
+.App__Container {
+  margin-top: 5em;
+  margin-bottom: 2em;
+}
