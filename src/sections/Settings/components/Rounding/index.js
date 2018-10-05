@@ -11,9 +11,9 @@ import {
   updateDurationRounding,
   updateDurationRoundingAmount,
   updateRoundingOn,
-} from '../../../actions/settings';
+} from '../../actions';
 
-import { getDurationRounding, getDurationAmount, getRoundingOn } from '../../../selectors/settings';
+import { getDurationRounding, getDurationAmount, getRoundingOn } from '../../selectors';
 
 import RoundingField from './RoundingField';
 import RoundingExample from './RoundingExample';

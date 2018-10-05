@@ -3,14 +3,15 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
+import reports from 'sections/Reports/reducers';
+import settings from 'sections/Settings/reducers';
+
 import runMigrations from '../migrations';
 
 import account from './account';
 import app from './app';
 import projects from './projects';
-import reports from '../sections/Reports/reducers';
 import time from './time';
-import settings from './settings';
 
 const combinedReducers = combineReducers({
   account,

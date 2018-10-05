@@ -9,12 +9,12 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
-import { importJSONData, alert, migrateStoreData } from '../../actions/app';
+import { importJSONData, alert, migrateStoreData } from 'actions/app';
 
-import { parseImportData, stateToExport, validData } from '../../core/importExport';
-import type { toExportType } from '../../core/importExport';
+import { parseImportData, stateToExport, validData } from 'core/importExport';
+import type { toExportType } from 'core/importExport';
 
-import { getDataToExport } from '../../selectors/importExport';
+import { getDataToExport } from 'selectors/importExport';
 
 type ImportExportProps = {
   exportState: toExportType;

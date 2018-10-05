@@ -7,11 +7,12 @@ import type { Dispatch } from 'redux';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
+import { getDurationRounding, getDurationAmount, getRoundingOn } from 'sections/Settings/selectors';
+
 import { updateTime, removeTime } from '../../actions/time';
 import { addProject } from '../../actions/projects';
 
 import { getDateSort } from '../../selectors/time';
-import { getDurationRounding, getDurationAmount, getRoundingOn } from '../../selectors/settings';
 
 import NewTime from './New';
 import Entry from './Entry';
