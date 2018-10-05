@@ -18,6 +18,7 @@ import {
 } from 'core/reportQueryString';
 
 import { getDurationRounding, getDurationAmount, getRoundingOn } from 'sections/Settings/selectors';
+import { sortedProjects } from 'sections/Projects/selectors';
 
 import ActionMenu from './components/ActionMenu';
 import ReportCharts from './components/Charts';
@@ -29,7 +30,6 @@ import SaveModal from './components/SavedReports/Save';
 import LoadModal from './components/SavedReports/Load';
 
 import { getById } from './selectors';
-import { sortedProjects } from '../../selectors/projects';
 import { getAllTimeEntries } from '../../selectors/time';
 
 function toggleFilter(filters: Array<string | null>, filter: string | null) {

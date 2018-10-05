@@ -9,11 +9,11 @@ import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
-import { valueFromEventTarget } from '../../core/dom';
+import { valueFromEventTarget } from 'core/dom';
 
-import { addProject } from '../../actions/projects';
+import ProjectInput from 'components/ProjectInput';
 
-import ProjectInput from '../ProjectInput';
+import { addProject } from '../../actions';
 
 import './NewProject.css';
 
