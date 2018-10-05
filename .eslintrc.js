@@ -18,4 +18,11 @@ module.exports = {
     'jsx-a11y/label-has-for': 0,
     'jsx-a11y/label-has-associated-control': 0,
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: ['src'],
+      },
+    },
+  },
 };

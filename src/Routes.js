@@ -3,10 +3,10 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Time from './pages/Time';
-import Reports from './pages/Reports';
-import Projects from './pages/Projects';
-import Settings from './pages/Settings';
+import Time from './sections/Time';
+import Reports from './sections/Reports';
+import Projects from './sections/Projects';
+import Settings from './sections/Settings';
 
 function Routes() {
   return (

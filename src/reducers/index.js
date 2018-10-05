@@ -8,7 +8,7 @@ import runMigrations from '../migrations';
 import account from './account';
 import app from './app';
 import projects from './projects';
-import reports from './reports';
+import reports from '../sections/Reports/reducers';
 import time from './time';
 import settings from './settings';
 

@@ -213,7 +213,7 @@ class Entry extends Component<EntryProps, EntryState> {
   onKeyPress = (e: KeyboardEvent) => {
     const { entry } = this.props;
     // check if return is pressed
-    if (e.charCode && e.charCode === 13 && !entry) {
+    if (e.key && e.key === 'Enter' && !entry) {
       this.onAddEntry();
     }
   };

@@ -1,0 +1,16 @@
+.ui.modal > .content.Reports__LoadTable {
+  max-height: 348px;
+  overflow: auto;
+  padding: 0;
+}
+
+.Reports__LoadTable .ui.vertical.menu {
+  border: 0;
+  width: 100%;
+}
+
+.Reports__LoadTable .ui.vertical.menu .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

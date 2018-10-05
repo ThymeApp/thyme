@@ -5,7 +5,7 @@ import { parse } from 'date-fns';
 
 import createStore from '../../createStore';
 
-import Time from '../../pages/Time';
+import Time from '../../sections/Time';
 
 describe('DateRange', () => {
   const store = createStore({
