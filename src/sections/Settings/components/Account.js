@@ -19,7 +19,7 @@ import { alert } from '../../actions/app';
 
 import renderField from '../FormField/renderField';
 
-import { changePassword } from './api';
+import { changePassword } from '../../sections/Settings/api';
 
 type AccountProps = {
   showAlert: (message: string) => void;

@@ -6,7 +6,7 @@ import addMinutes from 'date-fns/add_minutes';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message/Message';
 
-import { formatTime, roundTime } from '../../../core/thyme';
+import { formatTime, roundTime } from '../../../../core/thyme';
 
 function timeRoundingText(amount: number, type: rounding) {
   const startTime = new Date(2018, 0, 1, 8);
