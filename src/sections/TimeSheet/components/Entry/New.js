@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import shortid from 'shortid';
 import type { Dispatch } from 'redux';
 
-import { loadTemporaryItem } from '../../core/localStorage';
+import { loadTemporaryItem } from 'core/localStorage';
 
-import { addTime } from '../../actions/time';
+import { addTime } from '../../actions';
 
 import Entry from './Entry';
 

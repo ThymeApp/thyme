@@ -1,31 +1,26 @@
 // @flow
 
 import React from 'react';
+
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
-type DateInputType = {
+type NotesInputType = {
   value: string,
-  setRef: (input: HTMLInputElement | null) => void,
   onChange: (e: Event) => void,
   onKeyPress: (e: KeyboardEvent) => void,
 };
 
-function DateInput({
-  value,
-  setRef,
-  onChange,
-  onKeyPress,
-}: DateInputType) {
+function NotesInput({ value, onChange, onKeyPress }: NotesInputType) {
   return (
     <Input
-      type="date"
-      ref={setRef}
-      onKeyPress={onKeyPress}
+      type="text"
       onChange={onChange}
       value={value}
+      onKeyPress={onKeyPress}
       size="small"
+      style={{ width: '100%' }}
     />
   );
 }
 
-export default DateInput;
+export default NotesInput;

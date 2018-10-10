@@ -11,14 +11,13 @@ import { getDurationRounding, getDurationAmount, getRoundingOn } from 'sections/
 
 import { addProject } from 'sections/Projects/actions';
 
-import { updateTime, removeTime } from '../../actions/time';
+import { updateTime, removeTime } from '../../actions';
 
-import { getDateSort } from '../../selectors/time';
+import { getDateSort } from '../../selectors';
 
-import NewTime from './New';
-import Entry from './Entry';
+import { NewEntry, Entry } from '../Entry';
 
-type ThymeTableType = {
+type TimeTableType = {
   sort: sortDirection;
   entries: Array<timeType>;
   now: Date;
@@ -29,7 +28,7 @@ type ThymeTableType = {
   onAddProject: (project: string) => string;
 };
 
-function ThymeTable({
+function TimeTable({
   sort,
   entries,
   now,
@@ -38,9 +37,9 @@ function ThymeTable({
   onEntryUpdate,
   onEntryRemove,
   onAddProject,
-}: ThymeTableType) {
+}: TimeTableType) {
   const New = (
-    <NewTime
+    <NewEntry
       now={now}
       onAddNewProject={onAddProject}
     />
@@ -135,4 +134,4 @@ function mapDispatchToProps(dispatch: Dispatch<*>) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ThymeTable);
+export default connect(mapStateToProps, mapDispatchToProps)(TimeTable);

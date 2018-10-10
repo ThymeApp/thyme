@@ -10,28 +10,28 @@ import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordi
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagination';
 
-import DateRange from '../components/DateRange';
-import DateSort from '../components/DateSort';
-import ThymeTable from '../components/ThymeTable';
+import DateRange from './components/DateRange';
+import DateSort from './components/DateSort';
+import TimeTable from './components/Table';
 
-import { changePage } from '../actions/time';
+import { changePage } from './actions';
 
-import { getCurrentTimeEntries, getPage } from '../selectors/time';
+import { getCurrentTimeEntries, getPage } from './selectors';
 
-import './Time.css';
+import './TimeSheet.css';
 
-type TimeProps = {
+type TimeSheetProps = {
   entries: Array<timeType>;
   now?: Date;
   page: number;
   changeEntriesPage: (page: number) => void;
 };
 
-type TimeState = {
+type TimeSheetState = {
   filterOpen: boolean;
 }
 
-class Time extends Component<TimeProps, TimeState> {
+class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
   state = {
     filterOpen: false,
   };
@@ -59,7 +59,7 @@ class Time extends Component<TimeProps, TimeState> {
     const end = (page * this.entriesPerPage) - 1;
 
     return (
-      <div className="Time">
+      <div className="TimeSheet">
         <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
           <Accordion fluid>
             <Accordion.Title
@@ -77,12 +77,12 @@ class Time extends Component<TimeProps, TimeState> {
           <Divider />
         </Responsive>
         <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-          <div className="Time__RangeSort">
+          <div className="TimeSheet__RangeSort">
             <DateRange />
             <DateSort />
           </div>
         </Responsive>
-        <ThymeTable
+        <TimeTable
           entries={entries.filter((item, index) => index <= end && index >= start)}
           now={now}
         />
@@ -101,7 +101,7 @@ class Time extends Component<TimeProps, TimeState> {
   }
 }
 
-function mapStateToProps(state: storeShape, props: TimeProps) {
+function mapStateToProps(state: storeShape, props: TimeSheetProps) {
   const { now } = props;
 
   return {
@@ -118,4 +118,4 @@ function mapDispatchToProps(dispatch: Dispatch<*>) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Time);
+export default connect(mapStateToProps, mapDispatchToProps)(TimeSheet);

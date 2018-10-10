@@ -10,8 +10,7 @@ import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
 import { alert } from 'actions/app';
 import { truncateProjects } from 'sections/Projects/actions';
-
-import { truncateTime } from '../../../actions/time';
+import { truncateTime } from 'sections/TimeSheet/actions';
 
 type DeleteDataProps = {
   removeTimeData: () => void;

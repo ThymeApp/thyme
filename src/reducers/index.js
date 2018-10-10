@@ -7,11 +7,11 @@ import reports from 'sections/Reports/reducers';
 import settings from 'sections/Settings/reducers';
 import projects from 'sections/Projects/reducers';
 import account from 'sections/Account/reducers';
+import time from 'sections/TimeSheet/reducers';
 
 import runMigrations from '../migrations';
 
 import app from './app';
-import time from './time';
 
 const combinedReducers = combineReducers({
   account,

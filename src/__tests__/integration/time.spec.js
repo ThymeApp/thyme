@@ -3,9 +3,9 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { parse } from 'date-fns';
 
-import createStore from '../../createStore';
+import TimeSheet from 'sections/TimeSheet';
 
-import Time from '../../sections/Time';
+import createStore from '../../createStore';
 
 describe('DateRange', () => {
   const store = createStore({
@@ -53,7 +53,7 @@ describe('DateRange', () => {
   });
   const page = mount(
     <Provider store={store}>
-      <Time now={parse('2018-08-14T19:00:00.000Z')} />
+      <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
     </Provider>,
   );
   const dateRangeWrapper = page.find('DateRange');
@@ -98,23 +98,23 @@ describe('DateRange', () => {
   });
 });
 
-describe('ThymeTable', () => {
+describe('TimeTable', () => {
   it('Has the correct starting date', () => {
     const store = createStore();
     const page = mount(
       <Provider store={store}>
-        <Time now={parse('2018-08-14T19:00:00.000Z')} />
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
       </Provider>,
     );
 
-    expect(page.find('ThymeTable').find('DateInput').prop('value')).toBe('2018-08-14');
+    expect(page.find('TimeTable').find('DateInput').prop('value')).toBe('2018-08-14');
   });
 
   it('Renders duration when times changes', () => {
     const store = createStore();
     const page = mount(
       <Provider store={store}>
-        <Time now={parse('2018-08-14T19:00:00.000Z')} />
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
       </Provider>,
     );
 
@@ -125,17 +125,17 @@ describe('ThymeTable', () => {
     const endTime = document.createElement('input');
     endTime.value = '03:00';
 
-    page.find('ThymeTable').find('input[type="time"]').at(0).simulate('change', { target: startTime });
-    page.find('ThymeTable').find('input[type="time"]').at(1).simulate('change', { target: endTime });
+    page.find('TimeTable').find('input[type="time"]').at(0).simulate('change', { target: startTime });
+    page.find('TimeTable').find('input[type="time"]').at(1).simulate('change', { target: endTime });
 
-    expect(page.find('ThymeTable').find('.EntryDuration').at(0).text()).toBe('02:00');
+    expect(page.find('TimeTable').find('.EntryDuration').at(0).text()).toBe('02:00');
   });
 
   it('Adds and updates entry to the store', () => {
     const store = createStore();
     const page = mount(
       <Provider store={store}>
-        <Time now={parse('2018-08-14T19:00:00.000Z')} />
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
       </Provider>,
     );
 
@@ -148,11 +148,11 @@ describe('ThymeTable', () => {
     const notes = document.createElement('input');
     notes.value = 'Testing Thyme';
 
-    page.find('ThymeTable').find('input[type="time"]').at(0).simulate('change', { target: startTime });
-    page.find('ThymeTable').find('input[type="time"]').at(1).simulate('change', { target: endTime });
-    page.find('ThymeTable').find('.EntryNotes input').at(0).simulate('change', { target: notes });
+    page.find('TimeTable').find('input[type="time"]').at(0).simulate('change', { target: startTime });
+    page.find('TimeTable').find('input[type="time"]').at(1).simulate('change', { target: endTime });
+    page.find('TimeTable').find('.EntryNotes input').at(0).simulate('change', { target: notes });
 
-    page.find('ThymeTable').find('.EntrySubmit').at(0).simulate('click');
+    page.find('TimeTable').find('.EntrySubmit').at(0).simulate('click');
 
     const state = store.getState();
     const entries = state.time.allIds.map(id => state.time.byId[id]);
@@ -164,7 +164,7 @@ describe('ThymeTable', () => {
     // testing updates
     notes.value = 'Updated notes';
 
-    const notesInput = page.find('ThymeTable').find('.EntryNotes input').at(1);
+    const notesInput = page.find('TimeTable').find('.EntryNotes input').at(1);
     notesInput.simulate('change', { target: notes });
     notesInput.simulate('blur');
 
@@ -188,7 +188,7 @@ describe('ThymeTable', () => {
     });
     const page = mount(
       <Provider store={store}>
-        <Time now={parse('2018-08-14T19:00:00.000Z')} />
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
       </Provider>,
     );
 
@@ -199,15 +199,15 @@ describe('ThymeTable', () => {
     endTime.value = '12:00';
 
     // set times
-    page.find('ThymeTable').find('input[type="time"]').at(0).simulate('change', { target: startTime });
-    page.find('ThymeTable').find('input[type="time"]').at(1).simulate('change', { target: endTime });
+    page.find('TimeTable').find('input[type="time"]').at(0).simulate('change', { target: startTime });
+    page.find('TimeTable').find('input[type="time"]').at(1).simulate('change', { target: endTime });
 
     // select project
-    page.find('ThymeTable').find('input.search').simulate('click');
-    page.find('ThymeTable').find('.dropdown .item').at(1).simulate('click');
+    page.find('TimeTable').find('input.search').simulate('click');
+    page.find('TimeTable').find('.dropdown .item').at(1).simulate('click');
 
     // submit
-    page.find('ThymeTable').find('.EntrySubmit').at(0).simulate('click');
+    page.find('TimeTable').find('.EntrySubmit').at(0).simulate('click');
 
     const state = store.getState();
     const entries = state.time.allIds.map(id => state.time.byId[id]);
@@ -219,7 +219,7 @@ describe('ThymeTable', () => {
     const store = createStore();
     const page = mount(
       <Provider store={store}>
-        <Time now={parse('2018-08-14T19:00:00.000Z')} />
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
       </Provider>,
     );
 
@@ -227,8 +227,8 @@ describe('ThymeTable', () => {
     projectName.value = 'Test project';
 
     // select project
-    page.find('ThymeTable').find('input.search').simulate('change', { target: projectName });
-    page.find('ThymeTable').find('.dropdown .item').at(0).simulate('click');
+    page.find('TimeTable').find('input.search').simulate('change', { target: projectName });
+    page.find('TimeTable').find('.dropdown .item').at(0).simulate('click');
 
     const state = store.getState();
     const projects = state.projects.allIds.map(id => state.projects.byId[id]);
