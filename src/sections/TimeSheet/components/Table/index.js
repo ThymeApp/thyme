@@ -11,7 +11,7 @@ import { getDurationRounding, getDurationAmount, getRoundingOn } from 'sections/
 
 import { addProject } from 'sections/Projects/actions';
 
-import { updateTime, removeTime } from '../../../../actions/time';
+import { updateTime, removeTime } from '../../actions';
 
 import { getDateSort } from '../../selectors';
 

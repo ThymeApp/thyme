@@ -14,7 +14,7 @@ import DateRange from './components/DateRange';
 import DateSort from './components/DateSort';
 import TimeTable from './components/Table';
 
-import { changePage } from '../../actions/time';
+import { changePage } from './actions';
 
 import { getCurrentTimeEntries, getPage } from './selectors';
 

@@ -6,7 +6,7 @@ import type { Dispatch } from 'redux';
 
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
-import { changeDateRange } from '../../../../actions/time';
+import { changeDateRange } from '../../actions';
 
 import { getDateRange } from '../../selectors';
 

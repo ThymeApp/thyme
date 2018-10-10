@@ -6,7 +6,7 @@ import type { Dispatch } from 'redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
-import { changeDateSort } from '../../../../actions/time';
+import { changeDateSort } from '../../actions';
 
 import { getDateSort } from '../../selectors';
 
