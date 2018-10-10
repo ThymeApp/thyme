@@ -15,8 +15,7 @@ import { updateTime, removeTime } from '../../actions';
 
 import { getDateSort } from '../../selectors';
 
-import NewTime from '../Entry/New';
-import Entry from '../Entry/Entry';
+import { NewEntry, Entry } from '../Entry';
 
 type TimeTableType = {
   sort: sortDirection;
@@ -40,7 +39,7 @@ function TimeTable({
   onAddProject,
 }: TimeTableType) {
   const New = (
-    <NewTime
+    <NewEntry
       now={now}
       onAddNewProject={onAddProject}
     />

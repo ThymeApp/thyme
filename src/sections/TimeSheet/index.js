@@ -59,7 +59,7 @@ class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
     const end = (page * this.entriesPerPage) - 1;
 
     return (
-      <div className="Time">
+      <div className="TimeSheet">
         <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
           <Accordion fluid>
             <Accordion.Title
@@ -77,7 +77,7 @@ class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
           <Divider />
         </Responsive>
         <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-          <div className="Time__RangeSort">
+          <div className="TimeSheet__RangeSort">
             <DateRange />
             <DateSort />
           </div>

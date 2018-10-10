@@ -1,8 +1,8 @@
-.Time {
+.TimeSheet {
   padding: 0 1%;
 }
 
-.Time__RangeSort {
+.TimeSheet__RangeSort {
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -26,7 +26,7 @@ import ProjectInput from 'sections/Projects/components/ProjectInput';
 
 import DateInput from '../DateInput';
 import TimeInput from '../TimeInput';
-import NotesInput from '../NotesInput/index';
+import NotesInput from '../NotesInput';
 
 import './Entry.css';
 
