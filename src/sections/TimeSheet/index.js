@@ -10,8 +10,8 @@ import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordi
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagination';
 
-import DateRange from '../../components/DateRange/index';
-import DateSort from '../../components/DateSort/index';
+import DateRange from './components/DateRange/index';
+import DateSort from './components/DateSort/index';
 import ThymeTable from '../../components/ThymeTable/index';
 
 import { changePage } from '../../actions/time';

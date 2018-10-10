@@ -6,9 +6,9 @@ import type { Dispatch } from 'redux';
 
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
-import { changeDateRange } from '../../actions/time';
+import { changeDateRange } from '../../../../actions/time';
 
-import { getDateRange } from '../../selectors/time';
+import { getDateRange } from '../../../../selectors/time';
 
 type DateRangeProps = {
   vertical?: boolean;
