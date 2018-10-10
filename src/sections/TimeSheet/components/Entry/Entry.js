@@ -22,7 +22,7 @@ import { saveTemporaryItem, clearTemporaryItem } from 'core/localStorage';
 import { timeElapsed } from 'core/thyme';
 import { valueFromEventTarget } from 'core/dom';
 
-import ProjectInput from 'components/ProjectInput/index';
+import ProjectInput from 'sections/Projects/components/ProjectInput';
 
 import DateInput from '../DateInput';
 import TimeInput from '../TimeInput';

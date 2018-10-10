@@ -16,7 +16,7 @@ import { isDescendant } from 'core/projects';
 
 import { alert } from 'actions/app';
 
-import ProjectInput from 'components/ProjectInput';
+import ProjectInput from 'sections/Projects/components/ProjectInput';
 
 import { updateProject, removeProject } from '../../actions';
 

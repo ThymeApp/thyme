@@ -11,7 +11,7 @@ import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Respon
 
 import { valueFromEventTarget } from 'core/dom';
 
-import ProjectInput from 'components/ProjectInput';
+import ProjectInput from 'sections/Projects/components/ProjectInput';
 
 import { addProject } from '../../actions';
 
