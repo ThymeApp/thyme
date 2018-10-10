@@ -4,13 +4,13 @@ import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import type { Dispatch } from 'redux';
 
+import { sync, syncFailed, syncSuccess } from 'actions/app';
+
+import { isLoggedIn } from 'sections/Account/selectors';
+
 import { post } from './fetch';
 import { stateToExport } from './importExport';
 import type { exportType } from './importExport';
-
-import { isLoggedIn } from '../selectors/account';
-
-import { sync, syncFailed, syncSuccess } from '../actions/app';
 
 let prevState: exportType = { time: [], projects: [], reports: [] };
 

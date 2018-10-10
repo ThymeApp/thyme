@@ -13,9 +13,9 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 import renderField from 'components/FormField/renderField';
 
-import { loginAccount } from '../../actions/account';
+import { loginAccount } from '../actions';
 
-import { login } from './api';
+import { login } from '../api';
 
 type LoginProps = {
   inView: boolean;

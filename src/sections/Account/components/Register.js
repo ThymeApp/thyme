@@ -13,9 +13,9 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 import renderField from 'components/FormField/renderField';
 
-import { registerAccount } from '../../actions/account';
+import { registerAccount } from '../actions';
 
-import { registerUser as regiserUserOnApi } from './api';
+import { registerUser as regiserUserOnApi } from '../api';
 
 type RegisterProps = {
   inView: boolean;
