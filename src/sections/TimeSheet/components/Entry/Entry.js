@@ -18,14 +18,14 @@ import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
-import { saveTemporaryItem, clearTemporaryItem } from '../../core/localStorage';
-import { timeElapsed } from '../../core/thyme';
-import { valueFromEventTarget } from '../../core/dom';
+import { saveTemporaryItem, clearTemporaryItem } from '../../../../core/localStorage';
+import { timeElapsed } from '../../../../core/thyme';
+import { valueFromEventTarget } from '../../../../core/dom';
 
-import DateInput from '../DateInput';
-import TimeInput from '../TimeInput';
-import ProjectInput from '../ProjectInput';
-import NotesInput from '../NotesInput';
+import DateInput from '../../../../components/DateInput/index';
+import TimeInput from '../../../../components/TimeInput/index';
+import ProjectInput from '../../../../components/ProjectInput/index';
+import NotesInput from '../../../../components/NotesInput/index';
 
 import './Entry.css';
 
