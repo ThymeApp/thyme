@@ -3,9 +3,9 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { parse } from 'date-fns';
 
-import createStore from '../../createStore';
+import TimeSheet from 'sections/TimeSheet';
 
-import Time from '../../sections/Time';
+import createStore from '../../createStore';
 
 describe('DateRange', () => {
   const store = createStore({
@@ -53,7 +53,7 @@ describe('DateRange', () => {
   });
   const page = mount(
     <Provider store={store}>
-      <Time now={parse('2018-08-14T19:00:00.000Z')} />
+      <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
     </Provider>,
   );
   const dateRangeWrapper = page.find('DateRange');
@@ -103,7 +103,7 @@ describe('ThymeTable', () => {
     const store = createStore();
     const page = mount(
       <Provider store={store}>
-        <Time now={parse('2018-08-14T19:00:00.000Z')} />
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
       </Provider>,
     );
 
@@ -114,7 +114,7 @@ describe('ThymeTable', () => {
     const store = createStore();
     const page = mount(
       <Provider store={store}>
-        <Time now={parse('2018-08-14T19:00:00.000Z')} />
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
       </Provider>,
     );
 
@@ -135,7 +135,7 @@ describe('ThymeTable', () => {
     const store = createStore();
     const page = mount(
       <Provider store={store}>
-        <Time now={parse('2018-08-14T19:00:00.000Z')} />
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
       </Provider>,
     );
 
@@ -188,7 +188,7 @@ describe('ThymeTable', () => {
     });
     const page = mount(
       <Provider store={store}>
-        <Time now={parse('2018-08-14T19:00:00.000Z')} />
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
       </Provider>,
     );
 
@@ -219,7 +219,7 @@ describe('ThymeTable', () => {
     const store = createStore();
     const page = mount(
       <Provider store={store}>
-        <Time now={parse('2018-08-14T19:00:00.000Z')} />
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
       </Provider>,
     );
 
