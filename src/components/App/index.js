@@ -16,11 +16,12 @@ import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import Sidebar from 'semantic-ui-react/dist/commonjs/modules/Sidebar';
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive';
 
+import Account from 'sections/Account';
+
 import { clearAlert } from '../../actions/app';
 
 import { getAlert } from '../../selectors/app';
 
-import Account from '../Account';
 import Notifier from '../Notifier';
 
 import thyme from './Thyme.svg';

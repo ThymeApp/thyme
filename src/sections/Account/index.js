@@ -9,15 +9,15 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
-import { logout } from '../../actions/account';
+import { logout } from './actions';
 
-import { isLoggedIn } from '../../selectors/account';
+import { isLoggedIn } from './selectors';
 
-import Status from './Status';
-import Login from './Login';
-import Register from './Register';
+import Status from './components/Status';
+import Login from './components/Login';
+import Register from './components/Register';
 
-import './style.css';
+import './Account.css';
 
 type AccountProps = {
   history: RouterHistory;

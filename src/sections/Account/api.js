@@ -1,7 +1,7 @@
 // @flow
 
-import { post, get } from '../../core/fetch';
-import type { exportType } from '../../core/importExport';
+import { post, get } from 'core/fetch';
+import type { exportType } from 'core/importExport';
 
 export function login(email: string, password: string): Promise<string> {
   return post('/login', { email, password });
