@@ -11,7 +11,7 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
-import renderField from '../FormField/renderField';
+import renderField from 'components/FormField/renderField';
 
 import { registerAccount } from '../../actions/account';
 
