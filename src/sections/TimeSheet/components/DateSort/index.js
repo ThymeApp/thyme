@@ -8,7 +8,7 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 import { changeDateSort } from '../../../../actions/time';
 
-import { getDateSort } from '../../../../selectors/time';
+import { getDateSort } from '../../selectors';
 
 type DateSortType = {
   sort: sortDirection;

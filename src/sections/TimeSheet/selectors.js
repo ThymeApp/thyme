@@ -9,7 +9,7 @@ import subMonths from 'date-fns/sub_months';
 import isBefore from 'date-fns/is_before';
 import isAfter from 'date-fns/is_after';
 
-import { sortByTime } from '../core/thyme';
+import { sortByTime } from 'core/thyme';
 
 export const getAllTimeEntries = (state: storeShape): timeType[] => state.time.allIds
   .map(id => state.time.byId[id])

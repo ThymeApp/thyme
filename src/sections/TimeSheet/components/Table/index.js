@@ -13,7 +13,7 @@ import { addProject } from 'sections/Projects/actions';
 
 import { updateTime, removeTime } from '../../../../actions/time';
 
-import { getDateSort } from '../../../../selectors/time';
+import { getDateSort } from '../../selectors';
 
 import NewTime from '../Entry/New';
 import Entry from '../Entry/Entry';

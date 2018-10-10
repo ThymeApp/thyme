@@ -16,7 +16,7 @@ import TimeTable from './components/Table';
 
 import { changePage } from '../../actions/time';
 
-import { getCurrentTimeEntries, getPage } from '../../selectors/time';
+import { getCurrentTimeEntries, getPage } from './selectors';
 
 import './TimeSheet.css';
 
