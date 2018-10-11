@@ -27,19 +27,14 @@ const store: ThymeStore = createStore(
   composeWithDevTools({})(),
 );
 
-// when on main domain, serve app from /thyme, all other cases serve from /
-const basename = window.location.hostname === 'usethyme.com'
-  ? 'thyme/'
-  : process.env.PUBLIC_URL || '';
-
-registerServiceWorker(store.dispatch, basename);
+registerServiceWorker(store.dispatch);
 saveOnStoreChange(store);
 syncOnUpdate(store);
 setupStateResolver(() => store.getState());
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter basename={basename}>
+    <BrowserRouter basename={process.env.PUBLIC_URL || ''}>
       <App>
         <Routes />
       </App>
