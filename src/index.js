@@ -27,11 +27,6 @@ const store: ThymeStore = createStore(
   composeWithDevTools({})(),
 );
 
-// when on main domain, serve app from /thyme, all other cases serve from /
-if (window.locations.hostname === 'usethyme.com') {
-  process.env.PUBLIC_URL = 'thyme/';
-}
-
 registerServiceWorker(store.dispatch);
 saveOnStoreChange(store);
 syncOnUpdate(store);

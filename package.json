@@ -2,7 +2,7 @@
     "name": "thyme",
     "version": "0.1.0",
     "private": false,
-    "homepage": "/",
+    "homepage": "/thyme/",
     "scripts": {
         "analyze": "source-map-explorer build/static/js/main.*",
         "start": "react-scripts start",
