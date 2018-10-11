@@ -6,7 +6,6 @@
     "scripts": {
         "analyze": "source-map-explorer build/static/js/main.*",
         "start": "react-scripts start",
-        "build": "react-scripts build",
         "eject": "react-scripts eject",
         "test": "react-scripts test --env=jsdom",
         "test:ci": "CI=true npm run test",
@@ -14,7 +13,8 @@
         "lint:js": "eslint ./src",
         "lint": "npm run lint:js && npm run lint:css",
         "flow": "flow",
-        "build:staging": "env-cmd .env.staging npm run build",
+        "build": "env-cmd .env.production react-scripts build",
+        "build:staging": "env-cmd .env.staging react-scripts build",
         "build:dev": "NODE_ENV=development webpack --config node_modules/react-scripts/config/webpack.config.dev.js",
         "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
     },
