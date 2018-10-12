@@ -107,7 +107,7 @@ describe('TimeTable', () => {
       </Provider>,
     );
 
-    expect(page.find('TimeTable').find('DateInput').prop('value')).toBe('2018-08-14');
+    expect(page.find('TimeTable').find('DateInput').first().prop('value')).toBe('2018-08-14');
   });
 
   it('Renders duration when times changes', () => {
