@@ -78,7 +78,9 @@ class Entry extends Component<EntryProps, EntryState> {
     clearInterval(this.tickInterval);
   }
 
-  onDateChange = (e: Event) => this.onStartDateChange(valueFromEventTarget(e.target));
+  onStartDateChange = (e: Event) => this.onDateChange('start', valueFromEventTarget(e.target));
+
+  onEndDateChange = (e: Event) => this.onDateChange('end', valueFromEventTarget(e.target));
 
   onStartTimeChange = (e: Event) => this.onTimeChange('start', valueFromEventTarget(e.target));
 
@@ -101,29 +103,18 @@ class Entry extends Component<EntryProps, EntryState> {
 
   onSetDateInputRef = (input: HTMLInputElement | null) => { this.dateInput = input; };
 
-  onStartDateChange(value: string | null) {
+  onDateChange(key: string, value: string | null) {
     if (!value) {
       return;
     }
 
     const { entry } = this.state;
 
-    const start = parse(`${value} ${format(entry.start, 'HH:mm')}`);
-    const end = parse(`${value} ${format(entry.end, 'HH:mm')}`);
+    const newDate = parse(`${value} ${format(entry[key], 'HH:mm')}`);
 
-    this.updateEntry({
-      start,
-      end,
-    });
-
-    this.setState({
-      entry: {
-        ...entry,
-        start,
-        end,
-      },
-    });
+    this.onValueChange(key, newDate);
   }
+
 
   onTimeChange(key: string, value: string | null) {
     if (!value) {
@@ -311,7 +302,7 @@ class Entry extends Component<EntryProps, EntryState> {
       <DateInput
         setRef={this.onSetDateInputRef}
         onKeyPress={this.onKeyPress}
-        onChange={this.onDateChange}
+        onChange={this.onStartDateChange}
         value={format(start, 'YYYY-MM-DD')}
       />
     );
@@ -321,6 +312,15 @@ class Entry extends Component<EntryProps, EntryState> {
         onKeyPress={this.onKeyPress}
         onChange={this.onStartTimeChange}
         value={format(start, 'HH:mm')}
+      />
+    );
+
+    const EndDate = (
+      <DateInput
+        setRef={this.onSetDateInputRef}
+        onKeyPress={this.onKeyPress}
+        onChange={this.onEndDateChange}
+        value={format(end, 'YYYY-MM-DD')}
       />
     );
 
@@ -454,6 +454,7 @@ class Entry extends Component<EntryProps, EntryState> {
       <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>
         <Table.Cell width={1}>{StartDate}</Table.Cell>
         <Table.Cell width={1}>{StartTime}</Table.Cell>
+        <Table.Cell width={1}>{EndDate}</Table.Cell>
         <Table.Cell width={1}>{EndTime}</Table.Cell>
         <Table.Cell className="EntryDuration" width={1}>{Duration}</Table.Cell>
         <Table.Cell width={3}>{Project}</Table.Cell>
@@ -476,6 +477,9 @@ class Entry extends Component<EntryProps, EntryState> {
           </Form.Field>
           <Form.Field>
             {StartTime}
+          </Form.Field>
+          <Form.Field>
+            {EndDate}
           </Form.Field>
           <Form.Field>
             {EndTime}

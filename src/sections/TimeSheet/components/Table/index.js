@@ -75,6 +75,9 @@ function TimeTable({
             Start
           </Table.HeaderCell>
           <Table.HeaderCell>
+            End Date
+          </Table.HeaderCell>
+          <Table.HeaderCell>
             End
           </Table.HeaderCell>
           <Table.HeaderCell>
