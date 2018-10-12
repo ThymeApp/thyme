@@ -1,10 +1,14 @@
 language: node_js
 node_js:
   - '10.8.0'
+cache:
+  yarn: true
+  directories:
+    - node_modules
 script:
-  - npm run build
-  - npm run test
-  - npm run flow
-  - npm run lint
+  - yarn build
+  - yarn test
+  - yarn flow
+  - yarn lint
 notifications:
   email: false
