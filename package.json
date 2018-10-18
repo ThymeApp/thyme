@@ -58,9 +58,9 @@
         "webpack-cli": "^3.1.2"
     },
     "pre-push": [
-        "test:ci",
         "lint",
         "flow",
+        "test:ci",
         "build:dev"
     ],
     "browserslist": [
