@@ -35,8 +35,16 @@ declare type settingsRounding = {
   roundingOn: roundableOn;
 };
 
+declare type settingsTimesheet = {
+  perPage: number;
+  enableNotes: boolean;
+  enableProjects: boolean;
+  enableEndDate: boolean;
+};
+
 declare type settingsShape = {
   rounding: settingsRounding;
+  timesheet: settingsTimesheet;
 };
 
 declare type storeShape = {
