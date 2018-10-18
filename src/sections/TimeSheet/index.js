@@ -22,7 +22,7 @@ import './TimeSheet.css';
 
 type TimeSheetProps = {
   entries: Array<timeType>;
-  now?: Date;
+  now: Date;
   page: number;
   changeEntriesPage: (page: number) => void;
 };
@@ -51,7 +51,7 @@ class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
   };
 
   render() {
-    const { entries, now = new Date(), page } = this.props;
+    const { entries, now, page } = this.props;
     const { filterOpen } = this.state;
 
     const totalPages = Math.ceil(entries.length / this.entriesPerPage);
@@ -104,8 +104,11 @@ class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
 function mapStateToProps(state: storeShape, props: TimeSheetProps) {
   const { now } = props;
 
+  const currentDate = now || new Date();
+
   return {
-    entries: getCurrentTimeEntries(now || new Date())(state),
+    entries: getCurrentTimeEntries(currentDate)(state),
+    now: currentDate,
     page: getPage(state),
   };
 }
