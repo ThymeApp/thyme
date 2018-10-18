@@ -187,7 +187,7 @@ class Entry extends Component<EntryProps, EntryState> {
   };
 
   onAddEntry = () => {
-    const { now, onAdd } = this.props;
+    const { onAdd } = this.props;
     const { entry } = this.state;
 
     if (typeof onAdd === 'function') {
@@ -200,14 +200,7 @@ class Entry extends Component<EntryProps, EntryState> {
         this.dateInput.focus();
       }
 
-      // reset item
-      this.setState({
-        tracking: false,
-        entry: defaultState({}, now),
-      });
-
-      // clear item from localStorage
-      clearTemporaryItem();
+      this.resetItem();
     }
   };
 
@@ -234,8 +227,20 @@ class Entry extends Component<EntryProps, EntryState> {
   };
 
   onClearItem = () => {
-    console.log('clearItem');
+    this.resetItem();
   };
+
+  resetItem() {
+    const { now } = this.props;
+
+    this.setState({
+      tracking: false,
+      entry: defaultState({}, now),
+    });
+
+    // clear item from localStorage
+    clearTemporaryItem();
+  }
 
   updateEntry(newState: any) {
     const { entry, onUpdate } = this.props;
