@@ -3,11 +3,11 @@ node_js:
   - '10.8.0'
 cache:
   directories:
-    - node_modules
+    - '$HOME/.npm'
 script:
-  - npm run build
-  - npm run test
-  - npm run flow
   - npm run lint
+  - npm run flow
+  - npm run test
+  - npm run build
 notifications:
   email: false
