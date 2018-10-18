@@ -187,7 +187,7 @@ class Entry extends Component<EntryProps, EntryState> {
   };
 
   onAddEntry = () => {
-    const { now, onAdd } = this.props;
+    const { onAdd } = this.props;
     const { entry } = this.state;
 
     if (typeof onAdd === 'function') {
@@ -200,14 +200,7 @@ class Entry extends Component<EntryProps, EntryState> {
         this.dateInput.focus();
       }
 
-      // reset item
-      this.setState({
-        tracking: false,
-        entry: defaultState({}, now),
-      });
-
-      // clear item from localStorage
-      clearTemporaryItem();
+      this.resetItem();
     }
   };
 
@@ -232,6 +225,22 @@ class Entry extends Component<EntryProps, EntryState> {
       onRemove(entry.id);
     }
   };
+
+  onClearItem = () => {
+    this.resetItem();
+  };
+
+  resetItem() {
+    const { now } = this.props;
+
+    this.setState({
+      tracking: false,
+      entry: defaultState({}, now),
+    });
+
+    // clear item from localStorage
+    clearTemporaryItem();
+  }
 
   updateEntry(newState: any) {
     const { entry, onUpdate } = this.props;
@@ -362,91 +371,117 @@ class Entry extends Component<EntryProps, EntryState> {
       />
     );
 
-    const Actions = (
-      <Button.Group size="small">
-        {!hasId && (
-          <Fragment>
-            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-              <Button
-                icon
-                color="blue"
-                onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
-                labelPosition="left"
-              >
-                <Icon name={tracking ? 'pause' : 'play'} />
-                {tracking ? 'Stop tracking time' : 'Start time tracking'}
-              </Button>
+    const Actions = !hasId ? (
+      <Fragment>
+        <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+          <Button.Group size="small">
+            <Button
+              className="EntrySubmit"
+              icon
+              labelPosition="left"
+              size="small"
+              disabled={tracking}
+              onClick={this.onClearItem}
+            >
+              <Icon name="redo" />
+              Clear this entry
+            </Button>
+          </Button.Group>
+          <Button.Group size="small">
+            <Button
+              icon
+              color="blue"
+              onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+              labelPosition="left"
+            >
+              <Icon name={tracking ? 'pause' : 'play'} />
+              {tracking ? 'Stop tracking time' : 'Start time tracking'}
+            </Button>
 
-              <Button
-                className="EntrySubmit"
-                icon
-                onClick={this.onAddEntry}
-                labelPosition="right"
-              >
-                <Icon name="add" />
-                Add this entry
-              </Button>
-            </Responsive>
-            <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-              <Popup
-                inverted
-                trigger={(
-                  <Button
-                    icon
-                    color="blue"
-                    onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
-                  >
-                    <Icon name={tracking ? 'pause' : 'play'} />
-                  </Button>
-                )}
-                content={tracking ? 'Stop tracking time' : 'Start time tracking'}
-              />
-              <Popup
-                inverted
-                trigger={(
-                  <Button
-                    className="EntrySubmit"
-                    icon
-                    onClick={this.onAddEntry}
-                  >
-                    <Icon name="add" />
-                  </Button>
-                )}
-                content="Add this entry"
-              />
-            </Responsive>
-          </Fragment>
-        )}
-        {hasId && (
-          <Fragment>
-            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-              <Button icon onClick={this.onOpenConfirm} labelPosition="left">
-                <Icon name="remove" />
-                Remove entry
-              </Button>
-            </Responsive>
-            <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-              <Popup
-                inverted
-                trigger={(
-                  <Button icon onClick={this.onOpenConfirm}>
-                    <Icon name="remove" />
-                  </Button>
-                )}
-                content="Remove this entry"
-              />
-            </Responsive>
-
-            <Confirm
-              open={confirm}
-              content="Are you sure you want to remove this entry?"
-              confirmButton="Remove entry"
-              size="mini"
-              onCancel={this.onCancelConfirm}
-              onConfirm={this.onRemoveEntry}
+            <Button
+              className="EntrySubmit"
+              icon
+              onClick={this.onAddEntry}
+              labelPosition="right"
+            >
+              <Icon name="add" />
+              Add this entry
+            </Button>
+          </Button.Group>
+        </Responsive>
+        <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+          <Button.Group size="small">
+            <Popup
+              inverted
+              trigger={(
+                <Button
+                  icon
+                  color="blue"
+                  onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+                >
+                  <Icon name={tracking ? 'pause' : 'play'} />
+                </Button>
+              )}
+              content={tracking ? 'Stop tracking time' : 'Start time tracking'}
             />
-          </Fragment>
-        )}
+            <Popup
+              inverted
+              trigger={(
+                <Button
+                  icon
+                  disabled={tracking}
+                  onClick={this.onClearItem}
+                >
+                  <Icon name="redo" />
+                </Button>
+              )}
+              content="Clear this entry"
+            />
+            <Popup
+              inverted
+              trigger={(
+                <Button
+                  className="EntrySubmit"
+                  icon
+                  color="grey"
+                  onClick={this.onAddEntry}
+                >
+                  <Icon name="add" />
+                </Button>
+              )}
+              content="Add this entry"
+            />
+          </Button.Group>
+        </Responsive>
+      </Fragment>
+    ) : (
+      <Button.Group size="small">
+        <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
+          <Button icon onClick={this.onOpenConfirm} labelPosition="left">
+            <Icon name="remove" />
+            Remove entry
+          </Button>
+        </Responsive>
+        <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+          <Popup
+            inverted
+            trigger={(
+              <Button icon onClick={this.onOpenConfirm}>
+                <Icon name="remove" />
+              </Button>
+            )}
+            content="Remove this entry"
+          />
+        </Responsive>
+
+        <Confirm
+          open={confirm}
+          content="Are you sure you want to remove this entry?"
+          confirmButton="Remove entry"
+          size="mini"
+          onCancel={this.onCancelConfirm}
+          onConfirm={this.onRemoveEntry}
+        />
       </Button.Group>
     );
 
@@ -458,7 +493,7 @@ class Entry extends Component<EntryProps, EntryState> {
         <Table.Cell className="EntryDuration" width={1}>{Duration}</Table.Cell>
         <Table.Cell width={3}>{Project}</Table.Cell>
         <Table.Cell className="EntryNotes">{Notes}</Table.Cell>
-        <Table.Cell textAlign="right" style={{ width: 1, whiteSpace: 'nowrap' }}>
+        <Table.Cell textAlign="left" style={{ width: 1, whiteSpace: 'nowrap' }}>
           {Actions}
         </Table.Cell>
       </Table.Row>
