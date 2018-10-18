@@ -380,6 +380,7 @@ class Entry extends Component<EntryProps, EntryState> {
               icon
               labelPosition="left"
               size="small"
+              disabled={tracking}
               onClick={this.onClearItem}
             >
               <Icon name="redo" />
@@ -428,6 +429,7 @@ class Entry extends Component<EntryProps, EntryState> {
               trigger={(
                 <Button
                   icon
+                  disabled={tracking}
                   onClick={this.onClearItem}
                 >
                   <Icon name="redo" />
