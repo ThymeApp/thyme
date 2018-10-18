@@ -48,7 +48,38 @@ export function convertStartAndEndToTimestamps(input: any) {
   };
 }
 
+export function convertRoundingSettingsToSubObject(input: any) {
+  if (!input || !input.settings) {
+    return input;
+  }
+
+  function getField(obj: any, field): any {
+    if (!obj.settings.rounding) {
+      return obj.settings[field];
+    }
+
+    return obj.settings[field] || obj.settings.rounding[field];
+  }
+
+  const inputCopy = { ...input };
+
+  inputCopy.settings.rounding = {
+    durationRounding: getField(inputCopy, 'durationRounding'),
+    durationRoundingAmount: getField(inputCopy, 'durationRoundingAmount'),
+    roundingOn: getField(inputCopy, 'roundingOn'),
+  };
+
+  delete inputCopy.settings.durationRounding;
+  delete inputCopy.settings.durationRoundingAmount;
+  delete inputCopy.settings.roundingOn;
+
+  return inputCopy;
+}
+
 export default function migrateStoreData(input: any) {
   // migrate old data structures to new one
-  return convertStartAndEndToTimestamps(input);
+  return [
+    convertStartAndEndToTimestamps,
+    convertRoundingSettingsToSubObject,
+  ].reduce((acc, f: (input: any) => any) => f(acc), input);
 }
