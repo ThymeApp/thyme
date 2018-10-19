@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import createStore from '../../createStore';
 
-import Projects from '../../sections/Projects/index';
+import Projects from '../../sections/Projects';
 
 describe('NewProject', () => {
   const store = createStore();

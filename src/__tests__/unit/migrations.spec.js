@@ -1,7 +1,7 @@
 import {
   convertStartAndEndToTimestamps,
   convertRoundingSettingsToSubObject,
-} from '../../migrations/index';
+} from '../../migrations';
 
 describe('convertStartAndEndToTimestamps', () => {
   it('Converts to correct time stamp fields', () => {
