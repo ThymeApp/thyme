@@ -81,7 +81,14 @@ class Entry extends Component<EntryProps, EntryState> {
     clearInterval(this.tickInterval);
   }
 
-  onStartDateChange = (e: Event) => this.onDateChange('start', valueFromEventTarget(e.target));
+  onStartDateChange = (e: Event) => {
+    const { enabledEndDate } = this.props;
+
+    const value = valueFromEventTarget(e.target);
+
+    // when end date is not manual, change both dates
+    this.onDateChange(!enabledEndDate ? 'both' : 'start', value);
+  };
 
   onEndDateChange = (e: Event) => this.onDateChange('end', valueFromEventTarget(e.target));
 
@@ -106,18 +113,33 @@ class Entry extends Component<EntryProps, EntryState> {
 
   onSetDateInputRef = (input: HTMLInputElement | null) => { this.dateInput = input; };
 
-  onDateChange(key: string, value: string | null) {
+  onDateChange(key: 'start' | 'end' | 'both', value: string | null) {
     if (!value) {
       return;
     }
 
     const { entry } = this.state;
 
-    const newDate = parse(`${value} ${format(entry[key], 'HH:mm')}`);
+    if (key === 'both') {
+      const start = parse(`${value} ${format(entry.start, 'HH:mm')}`);
+      const end = parse(`${value} ${format(entry.end, 'HH:mm')}`);
 
-    this.onValueChange(key, newDate);
+      this.updateEntry({
+        start,
+        end,
+      });
+
+      this.setState({
+        entry: {
+          ...entry,
+          start,
+          end,
+        },
+      });
+    } else {
+      this.onValueChange(key, parse(`${value} ${format(entry[key], 'HH:mm')}`));
+    }
   }
-
 
   onTimeChange(key: string, value: string | null) {
     if (!value) {
