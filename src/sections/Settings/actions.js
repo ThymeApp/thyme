@@ -21,7 +21,7 @@ export function updateRoundingOn(roundingOn: roundableOn) {
   };
 }
 
-export function updatePerPage(perPage: number) {
+export function updatePerPage(perPage: number | string) {
   return {
     type: 'UPDATE_PER_PAGE',
     perPage,

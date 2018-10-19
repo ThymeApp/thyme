@@ -32,7 +32,7 @@ type TimeSheetProps = {
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
-  changePerPage: (perPage: number) => void;
+  changePerPage: (perPage: number | string) => void;
   onEnableNotes: () => void;
   onDisableNotes: () => void;
   onEnableProjects: () => void;
@@ -47,8 +47,15 @@ class TimeSheet extends Component<TimeSheetProps> {
 
     const value = parseInt(valueFromEventTarget(e.target), 10);
 
-    if (!Number.isNaN(value) && value > 0) {
-      changePerPage(value);
+    changePerPage(value || '');
+  };
+
+  onBlurPerPage = () => {
+    const { perPage, changePerPage } = this.props;
+
+    if (perPage === '' || perPage < 1) {
+      // if invalid, change back to 10
+      changePerPage(10);
     }
   };
 
@@ -75,6 +82,7 @@ class TimeSheet extends Component<TimeSheetProps> {
             size="small"
             value={perPage}
             onChange={this.onUpdatePerPage}
+            onBlur={this.onBlurPerPage}
           />
         </Form.Field>
         <Form.Field>
@@ -120,7 +128,7 @@ function mapStateToProps(state: storeShape) {
 
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
-    changePerPage(perPage: number) {
+    changePerPage(perPage: number | string) {
       dispatch(updatePerPage(perPage));
     },
     onEnableNotes() {
