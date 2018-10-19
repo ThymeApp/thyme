@@ -1,4 +1,7 @@
-import { convertStartAndEndToTimestamps } from '../../migrations/index';
+import {
+  convertStartAndEndToTimestamps,
+  convertRoundingSettingsToSubObject,
+} from '../../migrations';
 
 describe('convertStartAndEndToTimestamps', () => {
   it('Converts to correct time stamp fields', () => {
@@ -91,5 +94,55 @@ describe('convertStartAndEndToTimestamps', () => {
     expect(outcome).toEqual({
       noTime: true,
     });
+  });
+});
+
+
+describe('convertRoundingSettingsToSubObject', () => {
+  it('Converts root properties to sub object', () => {
+    const input = {
+      settings: {
+        durationRounding: 'round',
+        durationRoundingAmount: 15,
+        roundingOn: 'entries',
+      },
+    };
+
+    const output = {
+      settings: {
+        rounding: {
+          durationRounding: 'round',
+          durationRoundingAmount: 15,
+          roundingOn: 'entries',
+        },
+      },
+    };
+
+    expect(convertRoundingSettingsToSubObject(input)).toEqual(output);
+  });
+
+  it('Overwrite properties already defined', () => {
+    const input = {
+      settings: {
+        durationRounding: 'round',
+        durationRoundingAmount: 15,
+        roundingOn: 'entries',
+        rounding: {
+          durationRounding: 'ceil',
+        },
+      },
+    };
+
+    const output = {
+      settings: {
+        rounding: {
+          durationRounding: 'round',
+          durationRoundingAmount: 15,
+          roundingOn: 'entries',
+        },
+      },
+    };
+
+    expect(convertRoundingSettingsToSubObject(input)).toEqual(output);
   });
 });

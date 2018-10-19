@@ -10,6 +10,7 @@ import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
 
 import { isLoggedIn } from 'sections/Account/selectors';
 
+import TimeSheet from './components/TimeSheet';
 import Rounding from './components/Rounding';
 import Account from './components/Account';
 import ImportExport from './components/ImportExport';
@@ -64,6 +65,10 @@ class Settings extends Component<SettingsProps, SettingsState> {
     const { loggedIn } = this.props;
 
     const items = [
+      {
+        name: 'Timesheet settings',
+        content: <TimeSheet />,
+      },
       {
         name: 'Duration time rounding',
         content: <Rounding />,

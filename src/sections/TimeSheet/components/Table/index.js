@@ -7,7 +7,14 @@ import type { Dispatch } from 'redux';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
-import { getDurationRounding, getDurationAmount, getRoundingOn } from 'sections/Settings/selectors';
+import {
+  getDurationRounding,
+  getDurationAmount,
+  getRoundingOn,
+  getEnableNotes,
+  getEnableProjects,
+  getEnableEndDate,
+} from 'sections/Settings/selectors';
 
 import { addProject } from 'sections/Projects/actions';
 
@@ -23,9 +30,12 @@ type TimeTableType = {
   now: Date;
   round: rounding;
   roundAmount: number;
+  enabledNotes: boolean;
+  enabledProjects: boolean;
+  enabledEndDate: boolean;
+  onAddProject: (project: string) => string;
   onEntryUpdate: (entry: timePropertyType) => void;
   onEntryRemove: (id: string) => void;
-  onAddProject: (project: string) => string;
 };
 
 function TimeTable({
@@ -34,6 +44,9 @@ function TimeTable({
   now,
   round,
   roundAmount,
+  enabledNotes,
+  enabledProjects,
+  enabledEndDate,
   onEntryUpdate,
   onEntryRemove,
   onAddProject,
@@ -41,6 +54,9 @@ function TimeTable({
   const New = (
     <NewEntry
       now={now}
+      enabledNotes={enabledNotes}
+      enabledProjects={enabledProjects}
+      enabledEndDate={enabledEndDate}
       onAddNewProject={onAddProject}
     />
   );
@@ -51,13 +67,16 @@ function TimeTable({
       {entries.map(entry => (
         <Entry
           key={entry.id}
-          onRemove={onEntryRemove}
-          onUpdate={onEntryUpdate}
-          onAddNewProject={onAddProject}
           round={round}
           roundAmount={roundAmount}
           entry={entry}
           now={now}
+          enabledNotes={enabledNotes}
+          enabledProjects={enabledProjects}
+          enabledEndDate={enabledEndDate}
+          onAddNewProject={onAddProject}
+          onUpdate={onEntryUpdate}
+          onRemove={onEntryRemove}
         />
       ))}
       {sort === 'asc' && New}
@@ -69,23 +88,33 @@ function TimeTable({
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>
-            Date
+            {enabledEndDate ? 'Start date' : 'Date'}
           </Table.HeaderCell>
           <Table.HeaderCell>
-            Start
+            {enabledEndDate ? 'Start time' : 'Start'}
           </Table.HeaderCell>
+          {enabledEndDate && (
+            <Table.HeaderCell>
+              End date
+            </Table.HeaderCell>
+          )}
           <Table.HeaderCell>
-            End
+            {enabledEndDate ? 'End time' : 'End'}
           </Table.HeaderCell>
           <Table.HeaderCell>
             Duration
           </Table.HeaderCell>
-          <Table.HeaderCell>
-            Project
-          </Table.HeaderCell>
-          <Table.HeaderCell colSpan={2}>
-            Notes
-          </Table.HeaderCell>
+          {enabledProjects && (
+            <Table.HeaderCell>
+              Project
+            </Table.HeaderCell>
+          )}
+          {enabledNotes && (
+            <Table.HeaderCell>
+              Notes
+            </Table.HeaderCell>
+          )}
+          <Table.HeaderCell />
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -113,6 +142,9 @@ function mapStateToProps(state) {
     sort: getDateSort(state),
     round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
     roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
+    enabledNotes: getEnableNotes(state),
+    enabledProjects: getEnableProjects(state),
+    enabledEndDate: getEnableEndDate(state),
   };
 }
 

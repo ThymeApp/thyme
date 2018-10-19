@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { parse } from 'date-fns';
+import { parse, isSameMinute } from 'date-fns';
 
 import TimeSheet from 'sections/TimeSheet';
 
@@ -107,7 +107,7 @@ describe('TimeTable', () => {
       </Provider>,
     );
 
-    expect(page.find('TimeTable').find('DateInput').prop('value')).toBe('2018-08-14');
+    expect(page.find('TimeTable').find('DateInput').first().prop('value')).toBe('2018-08-14');
   });
 
   it('Renders duration when times changes', () => {
@@ -235,5 +235,70 @@ describe('TimeTable', () => {
 
     expect(projects.length).toBe(1);
     expect(projects[0].name).toBe('Test project');
+  });
+
+  it('Updates both dates when a different date is picked', () => {
+    const store = createStore({
+      time: {
+        byId: {
+          1: {
+            id: 1,
+            project: null,
+            start: '2018-08-14T12:00:00.000Z',
+            end: '2018-08-14T13:00:00.000Z',
+          },
+        },
+        allIds: [1],
+      },
+    });
+    const page = mount(
+      <Provider store={store}>
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
+      </Provider>,
+    );
+
+    const startDate = document.createElement('input');
+    startDate.value = '2018-08-15';
+
+    page.find('TimeTable').find('input[type="date"]').at(1).simulate('change', { target: startDate });
+
+    const state = store.getState();
+    expect(isSameMinute(state.time.byId[1].start, '2018-08-15T12:00:00.000Z')).toBe(true);
+    expect(isSameMinute(state.time.byId[1].end, '2018-08-15T13:00:00.000Z')).toBe(true);
+  });
+
+  it('Updates only start date if manual end date is enabled', () => {
+    const store = createStore({
+      time: {
+        byId: {
+          1: {
+            id: 1,
+            project: null,
+            start: '2018-08-14T12:00:00.000Z',
+            end: '2018-08-14T13:00:00.000Z',
+          },
+        },
+        allIds: [1],
+      },
+      settings: {
+        timesheet: {
+          enableEndDate: true,
+        },
+      },
+    });
+    const page = mount(
+      <Provider store={store}>
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
+      </Provider>,
+    );
+
+    const startDate = document.createElement('input');
+    startDate.value = '2018-08-13';
+
+    page.find('TimeTable').find('input[type="date"]').at(2).simulate('change', { target: startDate });
+
+    const state = store.getState();
+    expect(isSameMinute(state.time.byId[1].start, '2018-08-13T12:00:00.000Z')).toBe(true);
+    expect(isSameMinute(state.time.byId[1].end, '2018-08-14T13:00:00.000Z')).toBe(true);
   });
 });

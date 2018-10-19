@@ -9,8 +9,8 @@ import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 
 import { sortedProjects } from './selectors';
 
-import NewProject from './components/NewProject/index';
-import ProjectsList from './components/ProjectsList/index';
+import NewProject from './components/NewProject';
+import ProjectsList from './components/ProjectsList';
 
 function Projects({ projects }: { projects: Array<projectTreeType> }) {
   return (

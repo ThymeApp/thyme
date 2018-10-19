@@ -43,6 +43,9 @@ function defaultState(props = {}, now: Date): timePropertyType {
 
 type EntryProps = {
   now: Date;
+  enabledNotes: boolean;
+  enabledProjects: boolean;
+  enabledEndDate: boolean;
   entry?: timeType;
   tempEntry?: tempTimePropertyType;
   round?: rounding;
@@ -78,7 +81,16 @@ class Entry extends Component<EntryProps, EntryState> {
     clearInterval(this.tickInterval);
   }
 
-  onDateChange = (e: Event) => this.onStartDateChange(valueFromEventTarget(e.target));
+  onStartDateChange = (e: Event) => {
+    const { enabledEndDate } = this.props;
+
+    const value = valueFromEventTarget(e.target);
+
+    // when end date is not manual, change both dates
+    this.onDateChange(!enabledEndDate ? 'both' : 'start', value);
+  };
+
+  onEndDateChange = (e: Event) => this.onDateChange('end', valueFromEventTarget(e.target));
 
   onStartTimeChange = (e: Event) => this.onTimeChange('start', valueFromEventTarget(e.target));
 
@@ -101,28 +113,32 @@ class Entry extends Component<EntryProps, EntryState> {
 
   onSetDateInputRef = (input: HTMLInputElement | null) => { this.dateInput = input; };
 
-  onStartDateChange(value: string | null) {
+  onDateChange(key: 'start' | 'end' | 'both', value: string | null) {
     if (!value) {
       return;
     }
 
     const { entry } = this.state;
 
-    const start = parse(`${value} ${format(entry.start, 'HH:mm')}`);
-    const end = parse(`${value} ${format(entry.end, 'HH:mm')}`);
+    if (key === 'both') {
+      const start = parse(`${value} ${format(entry.start, 'HH:mm')}`);
+      const end = parse(`${value} ${format(entry.end, 'HH:mm')}`);
 
-    this.updateEntry({
-      start,
-      end,
-    });
-
-    this.setState({
-      entry: {
-        ...entry,
+      this.updateEntry({
         start,
         end,
-      },
-    });
+      });
+
+      this.setState({
+        entry: {
+          ...entry,
+          start,
+          end,
+        },
+      });
+    } else {
+      this.onValueChange(key, parse(`${value} ${format(entry[key], 'HH:mm')}`));
+    }
   }
 
   onTimeChange(key: string, value: string | null) {
@@ -297,7 +313,14 @@ class Entry extends Component<EntryProps, EntryState> {
   tickInterval: IntervalID;
 
   render() {
-    const { entry, round, roundAmount } = this.props;
+    const {
+      entry,
+      round,
+      roundAmount,
+      enabledNotes,
+      enabledProjects,
+      enabledEndDate,
+    } = this.props;
     const {
       tracking,
       confirm,
@@ -320,7 +343,7 @@ class Entry extends Component<EntryProps, EntryState> {
       <DateInput
         setRef={this.onSetDateInputRef}
         onKeyPress={this.onKeyPress}
-        onChange={this.onDateChange}
+        onChange={this.onStartDateChange}
         value={format(start, 'YYYY-MM-DD')}
       />
     );
@@ -332,6 +355,15 @@ class Entry extends Component<EntryProps, EntryState> {
         value={format(start, 'HH:mm')}
       />
     );
+
+    const EndDate = enabledEndDate ? (
+      <DateInput
+        setRef={this.onSetDateInputRef}
+        onKeyPress={this.onKeyPress}
+        onChange={this.onEndDateChange}
+        value={format(end, 'YYYY-MM-DD')}
+      />
+    ) : null;
 
     const EndTime = (
       <TimeInput
@@ -355,21 +387,21 @@ class Entry extends Component<EntryProps, EntryState> {
       </Fragment>
     );
 
-    const Project = (
+    const Project = enabledProjects ? (
       <ProjectInput
         value={project}
         onAddItem={this.onAddNewProject}
         handleChange={this.onProjectChange}
       />
-    );
+    ) : null;
 
-    const Notes = (
+    const Notes = enabledNotes ? (
       <NotesInput
         onKeyPress={this.onKeyPress}
         onChange={this.onNotesChange}
         value={notes}
       />
-    );
+    ) : null;
 
     const Actions = !hasId ? (
       <Fragment>
@@ -489,11 +521,12 @@ class Entry extends Component<EntryProps, EntryState> {
       <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>
         <Table.Cell width={1}>{StartDate}</Table.Cell>
         <Table.Cell width={1}>{StartTime}</Table.Cell>
+        {enabledEndDate && <Table.Cell width={1}>{EndDate}</Table.Cell>}
         <Table.Cell width={1}>{EndTime}</Table.Cell>
         <Table.Cell className="EntryDuration" width={1}>{Duration}</Table.Cell>
-        <Table.Cell width={3}>{Project}</Table.Cell>
-        <Table.Cell className="EntryNotes">{Notes}</Table.Cell>
-        <Table.Cell textAlign="left" style={{ width: 1, whiteSpace: 'nowrap' }}>
+        {enabledProjects && <Table.Cell width={3}>{Project}</Table.Cell>}
+        {enabledNotes && <Table.Cell className="EntryNotes">{Notes}</Table.Cell>}
+        <Table.Cell textAlign="right" style={{ width: 1, whiteSpace: 'nowrap' }}>
           {Actions}
         </Table.Cell>
       </Table.Row>
@@ -512,6 +545,11 @@ class Entry extends Component<EntryProps, EntryState> {
           <Form.Field>
             {StartTime}
           </Form.Field>
+          {enabledEndDate && (
+            <Form.Field>
+              {EndDate}
+            </Form.Field>
+          )}
           <Form.Field>
             {EndTime}
           </Form.Field>

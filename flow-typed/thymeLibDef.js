@@ -29,10 +29,22 @@ declare type reportsShape = {
   to: Date | string;
 };
 
-declare type settingsShape = {
+declare type settingsRounding = {
   durationRounding: rounding;
   durationRoundingAmount: number;
   roundingOn: roundableOn;
+};
+
+declare type settingsTimesheet = {
+  perPage: number;
+  enableNotes: boolean;
+  enableProjects: boolean;
+  enableEndDate: boolean;
+};
+
+declare type settingsShape = {
+  rounding: settingsRounding;
+  timesheet: settingsTimesheet;
 };
 
 declare type storeShape = {
