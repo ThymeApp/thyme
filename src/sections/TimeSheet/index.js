@@ -10,6 +10,8 @@ import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordi
 import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagination';
 
+import { getEntriesPerPage } from '../Settings/selectors';
+
 import DateRange from './components/DateRange';
 import DateSort from './components/DateSort';
 import TimeTable from './components/Table';
@@ -24,6 +26,7 @@ type TimeSheetProps = {
   entries: Array<timeType>;
   now: Date;
   page: number;
+  entriesPerPage: number;
   changeEntriesPage: (page: number) => void;
 };
 
@@ -35,8 +38,6 @@ class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
   state = {
     filterOpen: false,
   };
-
-  entriesPerPage = 10;
 
   handleToggle = () => {
     const { filterOpen } = this.state;
@@ -51,12 +52,17 @@ class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
   };
 
   render() {
-    const { entries, now, page } = this.props;
+    const {
+      entries,
+      now,
+      page,
+      entriesPerPage,
+    } = this.props;
     const { filterOpen } = this.state;
 
-    const totalPages = Math.ceil(entries.length / this.entriesPerPage);
-    const start = (page - 1) * this.entriesPerPage;
-    const end = (page * this.entriesPerPage) - 1;
+    const totalPages = Math.ceil(entries.length / entriesPerPage);
+    const start = (page - 1) * entriesPerPage;
+    const end = (page * entriesPerPage) - 1;
 
     return (
       <div className="TimeSheet">
@@ -110,6 +116,7 @@ function mapStateToProps(state: storeShape, props: TimeSheetProps) {
     entries: getCurrentTimeEntries(currentDate)(state),
     now: currentDate,
     page: getPage(state),
+    entriesPerPage: getEntriesPerPage(state),
   };
 }
 
