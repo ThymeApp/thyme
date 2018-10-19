@@ -43,6 +43,9 @@ function defaultState(props = {}, now: Date): timePropertyType {
 
 type EntryProps = {
   now: Date;
+  enabledNotes: boolean;
+  enabledProjects: boolean;
+  enabledEndDate: boolean;
   entry?: timeType;
   tempEntry?: tempTimePropertyType;
   round?: rounding;
@@ -288,7 +291,14 @@ class Entry extends Component<EntryProps, EntryState> {
   tickInterval: IntervalID;
 
   render() {
-    const { entry, round, roundAmount } = this.props;
+    const {
+      entry,
+      round,
+      roundAmount,
+      enabledNotes,
+      enabledProjects,
+      enabledEndDate,
+    } = this.props;
     const {
       tracking,
       confirm,
@@ -324,14 +334,14 @@ class Entry extends Component<EntryProps, EntryState> {
       />
     );
 
-    const EndDate = (
+    const EndDate = enabledEndDate ? (
       <DateInput
         setRef={this.onSetDateInputRef}
         onKeyPress={this.onKeyPress}
         onChange={this.onEndDateChange}
         value={format(end, 'YYYY-MM-DD')}
       />
-    );
+    ) : null;
 
     const EndTime = (
       <TimeInput
@@ -355,21 +365,21 @@ class Entry extends Component<EntryProps, EntryState> {
       </Fragment>
     );
 
-    const Project = (
+    const Project = enabledProjects ? (
       <ProjectInput
         value={project}
         onAddItem={this.onAddNewProject}
         handleChange={this.onProjectChange}
       />
-    );
+    ) : null;
 
-    const Notes = (
+    const Notes = enabledNotes ? (
       <NotesInput
         onKeyPress={this.onKeyPress}
         onChange={this.onNotesChange}
         value={notes}
       />
-    );
+    ) : null;
 
     const Actions = !hasId ? (
       <Fragment>
@@ -489,12 +499,12 @@ class Entry extends Component<EntryProps, EntryState> {
       <Table.Row className={classnames({ 'TableRow--tracking': tracking })}>
         <Table.Cell width={1}>{StartDate}</Table.Cell>
         <Table.Cell width={1}>{StartTime}</Table.Cell>
-        <Table.Cell width={1}>{EndDate}</Table.Cell>
+        {enabledEndDate && <Table.Cell width={1}>{EndDate}</Table.Cell>}
         <Table.Cell width={1}>{EndTime}</Table.Cell>
         <Table.Cell className="EntryDuration" width={1}>{Duration}</Table.Cell>
-        <Table.Cell width={3}>{Project}</Table.Cell>
-        <Table.Cell className="EntryNotes">{Notes}</Table.Cell>
-        <Table.Cell textAlign="left" style={{ width: 1, whiteSpace: 'nowrap' }}>
+        {enabledProjects && <Table.Cell width={3}>{Project}</Table.Cell>}
+        {enabledNotes && <Table.Cell className="EntryNotes">{Notes}</Table.Cell>}
+        <Table.Cell textAlign="right" style={{ width: 1, whiteSpace: 'nowrap' }}>
           {Actions}
         </Table.Cell>
       </Table.Row>
@@ -513,9 +523,11 @@ class Entry extends Component<EntryProps, EntryState> {
           <Form.Field>
             {StartTime}
           </Form.Field>
-          <Form.Field>
-            {EndDate}
-          </Form.Field>
+          {enabledEndDate && (
+            <Form.Field>
+              {EndDate}
+            </Form.Field>
+          )}
           <Form.Field>
             {EndTime}
           </Form.Field>

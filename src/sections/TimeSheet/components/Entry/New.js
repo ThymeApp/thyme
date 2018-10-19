@@ -13,15 +13,28 @@ import Entry from './Entry';
 
 type NewType = {
   now: Date,
+  enabledNotes: boolean;
+  enabledProjects: boolean;
+  enabledEndDate: boolean;
   onEntryCreate: (entry: timePropertyType) => void,
   onAddNewProject: (project: string) => string,
 };
 
-function New({ now, onEntryCreate, onAddNewProject }: NewType) {
+function New({
+  now,
+  enabledNotes,
+  enabledProjects,
+  enabledEndDate,
+  onEntryCreate,
+  onAddNewProject,
+}: NewType) {
   return (
     <Entry
       round="none"
       now={now}
+      enabledNotes={enabledNotes}
+      enabledProjects={enabledProjects}
+      enabledEndDate={enabledEndDate}
       tempEntry={loadTemporaryItem()}
       onAdd={onEntryCreate}
       onAddNewProject={onAddNewProject}
