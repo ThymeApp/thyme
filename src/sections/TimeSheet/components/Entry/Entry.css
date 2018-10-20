@@ -18,9 +18,17 @@
 }
 
 .ui.form .fields.EntryDurationContainer {
+  align-items: center;
   flex-wrap: nowrap;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+}
+
+.EntryDurationContainer label {
+  font-weight: bold;
+  width: 50px;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
 .Entry .ui.selection.dropdown {

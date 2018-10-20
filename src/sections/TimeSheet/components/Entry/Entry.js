@@ -539,21 +539,32 @@ class Entry extends Component<EntryProps, EntryState> {
           {Duration}
         </div>
         <Form.Group className="EntryDurationContainer">
+          {enabledEndDate && (
+            <label>Start</label>
+          )}
           <Form.Field>
             {StartDate}
           </Form.Field>
           <Form.Field>
             {StartTime}
           </Form.Field>
-          {enabledEndDate && (
+          {!enabledEndDate && (
+            <Form.Field>
+              {EndTime}
+            </Form.Field>
+          )}
+        </Form.Group>
+        {enabledEndDate && (
+          <Form.Group className="EntryDurationContainer">
+            <label>End</label>
             <Form.Field>
               {EndDate}
             </Form.Field>
-          )}
-          <Form.Field>
-            {EndTime}
-          </Form.Field>
-        </Form.Group>
+            <Form.Field>
+              {EndTime}
+            </Form.Field>
+          </Form.Group>
+        )}
         {Project}
         {Notes}
         {Actions}
