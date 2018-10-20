@@ -54,7 +54,7 @@ class App extends Component<AppType, AppState> {
     this.setState({ menuOpened: false });
   };
 
-  AppLink(name, path, exact = false) {
+  AppLink(name, path, icon: string, exact = false) {
     const { location } = this.props;
     const currentPath = location.pathname;
 
@@ -68,6 +68,7 @@ class App extends Component<AppType, AppState> {
         to={path}
         onClick={this.handleClose}
       >
+        <Icon name={icon} />
         {name}
       </Link>
     );
@@ -83,12 +84,13 @@ class App extends Component<AppType, AppState> {
 
     const MenuItems = (
       <Fragment>
-        {this.AppLink('Timesheet', '/', true)}
-        {this.AppLink('Reports', '/reports')}
-        {this.AppLink('Projects', '/projects')}
-        {this.AppLink('Settings', '/settings')}
-        <a href="https://usethyme.com/" className="item">
-          Go to website
+        {this.AppLink('Timesheet', '/', 'stopwatch', true)}
+        {this.AppLink('Reports', '/reports', 'chart pie')}
+        {this.AppLink('Projects', '/projects', 'sitemap')}
+        {this.AppLink('Settings', '/settings', 'cog')}
+        <a href="https://usethyme.com/documentation" className="item">
+          <Icon name="help circle" />
+          Support
         </a>
         <Menu.Menu position="right">
           <Menu.Item>
