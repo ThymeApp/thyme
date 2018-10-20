@@ -17,8 +17,7 @@ function jwt(state: string | null = null, action) {
 
 function capabilities(state: capability[] = [], action) {
   switch (action.type) {
-    case 'ACCOUNT_LOGIN':
-    case 'ACCOUNT_REGISTER':
+    case 'RECEIVE_ACCOUNT_INFO':
       return action.capabilities || [];
     default:
       return state;
