@@ -47,9 +47,12 @@ declare type settingsShape = {
   timesheet: settingsTimesheet;
 };
 
+declare type capability = 'project_rates';
+
 declare type storeShape = {
   account: {
     jwt: string | null;
+    capabilities: capability[];
   };
   app: {
     alert: string;

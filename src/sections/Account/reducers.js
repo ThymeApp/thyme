@@ -15,6 +15,17 @@ function jwt(state: string | null = null, action) {
   }
 }
 
+function capabilities(state: capability[] = [], action) {
+  switch (action.type) {
+    case 'ACCOUNT_LOGIN':
+    case 'ACCOUNT_REGISTER':
+      return action.capabilities || [];
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   jwt,
+  capabilities,
 });

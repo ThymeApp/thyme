@@ -7,7 +7,7 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 
-import { sortedProjects } from './selectors';
+import { canAddRates, sortedProjects } from './selectors';
 
 import NewProject from './components/NewProject';
 import ProjectsList from './components/ProjectsList';
@@ -29,7 +29,10 @@ function Projects({ projects }: { projects: Array<projectTreeType> }) {
 }
 
 function mapStateToProps(state) {
-  return { projects: sortedProjects(state) };
+  return {
+    canAddRates: canAddRates(state),
+    projects: sortedProjects(state),
+  };
 }
 
 export default connect(mapStateToProps)(Projects);
