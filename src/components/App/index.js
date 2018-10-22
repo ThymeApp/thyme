@@ -118,8 +118,8 @@ class App extends Component<AppType, AppState> {
           <Sidebar.Pusher dimmed={menuOpened}>
             <Menu fixed="top" inverted>
               <Container>
-                <Responsive>
-                  {({ minDesktop }) => (minDesktop ? (
+                <Responsive min="desktop">
+                  {matched => (matched ? (
                     <Fragment>
                       <Link className="header item" to="/">
                         <Image
