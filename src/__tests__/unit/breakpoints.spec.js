@@ -1,4 +1,4 @@
-import { currentBreakpoints, isBreakpoints } from '../../components/Responsive';
+import { currentBreakpoints, isBreakpoints, matchesBreakpoint } from '../../components/Responsive';
 
 describe('currentBreakpoints', () => {
   it('Lists current breakpoints based on given breakpoints', () => {
@@ -23,11 +23,6 @@ describe('isBreakpoints', () => {
       isDesktop: false,
       isLarge: false,
       isWide: false,
-      minMobile: true,
-      minTablet: true,
-      minDesktop: false,
-      minLarge: false,
-      minWide: false,
     };
 
     expect(isBreakpoints(breakpoints)).toEqual(output);
@@ -42,11 +37,6 @@ describe('isBreakpoints', () => {
       isDesktop: false,
       isLarge: false,
       isWide: true,
-      minMobile: true,
-      minTablet: true,
-      minDesktop: true,
-      minLarge: true,
-      minWide: true,
     };
 
     expect(isBreakpoints(breakpoints)).toEqual(output);
@@ -61,13 +51,23 @@ describe('isBreakpoints', () => {
       isDesktop: false,
       isLarge: false,
       isWide: false,
-      minMobile: true,
-      minTablet: false,
-      minDesktop: false,
-      minLarge: false,
-      minWide: false,
     };
 
     expect(isBreakpoints(breakpoints)).toEqual(output);
+  });
+});
+
+describe('matchesBreakpoint', () => {
+  it('Should find if current breakpoints match given min and max', () => {
+    const breakpoints = ['mobile', 'tablet', 'desktop'];
+
+    expect(matchesBreakpoint(breakpoints, { min: 'tablet', max: 'large' })).toBe(true);
+    expect(matchesBreakpoint(breakpoints, { min: 'tablet', max: 'wide' })).toBe(true);
+    expect(matchesBreakpoint(breakpoints, { min: 'mobile', max: 'desktop' })).toBe(false);
+    expect(matchesBreakpoint(breakpoints, { min: 'large', max: 'wide' })).toBe(false);
+    expect(matchesBreakpoint(breakpoints, { min: 'desktop' })).toBe(true);
+    expect(matchesBreakpoint(breakpoints, { max: 'desktop' })).toBe(false);
+    expect(matchesBreakpoint(breakpoints, { min: 'large' })).toBe(false);
+    expect(matchesBreakpoint(breakpoints, { max: 'large' })).toBe(true);
   });
 });

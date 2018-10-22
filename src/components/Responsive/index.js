@@ -11,11 +11,14 @@ type isBreakpointsType = {
   isDesktop: boolean;
   isLarge: boolean;
   isWide: boolean;
-  minMobile: boolean;
-  minTablet: boolean;
-  minDesktop: boolean;
-  minLarge: boolean;
-  minWide: boolean;
+};
+
+const BrowserBreakpoints: Breakpoints = {
+  mobile: 0,
+  tablet: 768,
+  desktop: 992,
+  large: 1200,
+  wide: 1920,
 };
 
 export function currentBreakpoints(width: number, breakpoints: Breakpoints): Breakpoint[] {
@@ -30,16 +33,32 @@ export function isBreakpoints(breakpoints: Breakpoint[]): isBreakpointsType {
     isDesktop: breakpoints.indexOf('desktop') > -1 && breakpoints.indexOf('large') === -1,
     isLarge: breakpoints.indexOf('large') > -1 && breakpoints.indexOf('wide') === -1,
     isWide: breakpoints.indexOf('wide') > -1,
-    minMobile: breakpoints.indexOf('mobile') > -1,
-    minTablet: breakpoints.indexOf('tablet') > -1,
-    minDesktop: breakpoints.indexOf('desktop') > -1,
-    minLarge: breakpoints.indexOf('large') > -1,
-    minWide: breakpoints.indexOf('wide') > -1,
   };
 }
 
+export function matchesBreakpoint(
+  breakpoints: Breakpoint[],
+  conditions?: {
+    min?: Breakpoint,
+    max?: Breakpoint,
+  },
+): boolean {
+  if (
+    // max breakpoint is found, match will fail
+    (conditions && conditions.max && breakpoints.indexOf(conditions.max) > -1)
+    // min breakpoint not found, match will fail
+    || (conditions && conditions.min && breakpoints.indexOf(conditions.min) === -1)
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
 type ResponsiveProps = {
-  children: (breakpoints: isBreakpointsType) => any;
+  min?: Breakpoint;
+  max?: Breakpoint;
+  children: (matched: boolean, breakpoints: isBreakpointsType) => any;
 };
 
 type ResponsiveState = {
@@ -49,14 +68,6 @@ type ResponsiveState = {
 class Responsive extends Component<ResponsiveProps, ResponsiveState> {
   state = {
     width: null,
-  };
-
-  breakpoints: Breakpoints = {
-    mobile: 0,
-    tablet: 768,
-    desktop: 992,
-    large: 1200,
-    wide: 1920,
   };
 
   componentDidMount() {
@@ -74,7 +85,7 @@ class Responsive extends Component<ResponsiveProps, ResponsiveState> {
 
   render() {
     const { width } = this.state;
-    const { children } = this.props;
+    const { min, max, children } = this.props;
 
     if (typeof children !== 'function') {
       throw new Error('Pass render prop as children');
@@ -84,9 +95,9 @@ class Responsive extends Component<ResponsiveProps, ResponsiveState> {
       return null;
     }
 
-    const breakpoints = currentBreakpoints(width, this.breakpoints);
+    const breakpoints = currentBreakpoints(width, BrowserBreakpoints);
 
-    return children(isBreakpoints(breakpoints));
+    return children(matchesBreakpoint(breakpoints, { min, max }), isBreakpoints(breakpoints));
   }
 }
 
