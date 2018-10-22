@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
-import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
+
+import Responsive from 'components/Responsive';
 
 import {
   getDurationRounding,
@@ -124,14 +125,9 @@ function TimeTable({
   );
 
   return (
-    <Fragment>
-      <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-        {Entries}
-      </Responsive>
-      <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-        {TableContent}
-      </Responsive>
-    </Fragment>
+    <Responsive max="tablet">
+      {matched => (matched ? Entries : TableContent)}
+    </Responsive>
   );
 }
 

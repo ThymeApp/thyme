@@ -16,11 +16,12 @@ import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
 import { saveTemporaryItem, clearTemporaryItem } from 'core/localStorage';
 import { timeElapsed } from 'core/thyme';
 import { valueFromEventTarget } from 'core/dom';
+
+import Responsive from 'components/Responsive';
 
 import ProjectInput from 'sections/Projects/components/ProjectInput';
 
@@ -404,44 +405,45 @@ class Entry extends Component<EntryProps, EntryState> {
     ) : null;
 
     const Actions = !hasId ? (
-      <Fragment>
-        <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-          <Button.Group size="small">
-            <Button
-              className="EntrySubmit"
-              icon
-              labelPosition="left"
-              size="small"
-              disabled={tracking}
-              onClick={this.onClearItem}
-            >
-              <Icon name="redo" />
-              Clear this entry
-            </Button>
-          </Button.Group>
-          <Button.Group size="small">
-            <Button
-              icon
-              color="blue"
-              onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
-              labelPosition="left"
-            >
-              <Icon name={tracking ? 'pause' : 'play'} />
-              {tracking ? 'Stop tracking time' : 'Start time tracking'}
-            </Button>
+      <Responsive max="tablet">
+        {maxTablet => (maxTablet ? (
+          <Fragment>
+            <Button.Group size="small">
+              <Button
+                className="EntrySubmit"
+                icon
+                labelPosition="left"
+                size="small"
+                disabled={tracking}
+                onClick={this.onClearItem}
+              >
+                <Icon name="redo" />
+                Clear this entry
+              </Button>
+            </Button.Group>
+            <Button.Group size="small">
+              <Button
+                icon
+                color="blue"
+                onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+                labelPosition="left"
+              >
+                <Icon name={tracking ? 'pause' : 'play'} />
+                {tracking ? 'Stop tracking time' : 'Start time tracking'}
+              </Button>
 
-            <Button
-              className="EntrySubmit"
-              icon
-              onClick={this.onAddEntry}
-              labelPosition="right"
-            >
-              <Icon name="add" />
-              Add this entry
-            </Button>
-          </Button.Group>
-        </Responsive>
-        <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
+              <Button
+                className="EntrySubmit"
+                icon
+                onClick={this.onAddEntry}
+                labelPosition="right"
+              >
+                <Icon name="add" />
+                Add this entry
+              </Button>
+            </Button.Group>
+          </Fragment>
+        ) : (
           <Button.Group size="small">
             <Popup
               inverted
@@ -484,26 +486,27 @@ class Entry extends Component<EntryProps, EntryState> {
               content="Add this entry"
             />
           </Button.Group>
-        </Responsive>
-      </Fragment>
+        ))}
+      </Responsive>
     ) : (
       <Button.Group size="small">
-        <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-          <Button icon onClick={this.onOpenConfirm} labelPosition="left">
-            <Icon name="remove" />
-            Remove entry
-          </Button>
-        </Responsive>
-        <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-          <Popup
-            inverted
-            trigger={(
-              <Button icon onClick={this.onOpenConfirm}>
-                <Icon name="remove" />
-              </Button>
-            )}
-            content="Remove this entry"
-          />
+        <Responsive max="tablet">
+          {maxTablet => (maxTablet ? (
+            <Button icon onClick={this.onOpenConfirm} labelPosition="left">
+              <Icon name="remove" />
+              Remove entry
+            </Button>
+          ) : (
+            <Popup
+              inverted
+              trigger={(
+                <Button icon onClick={this.onOpenConfirm}>
+                  <Icon name="remove" />
+                </Button>
+              )}
+              content="Remove this entry"
+            />
+          ))}
         </Responsive>
 
         <Confirm
@@ -572,14 +575,9 @@ class Entry extends Component<EntryProps, EntryState> {
     );
 
     return (
-      <Fragment>
-        <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-          {CompactEntry}
-        </Responsive>
-        <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-          {TableEntry}
-        </Responsive>
-      </Fragment>
+      <Responsive max="tablet">
+        {maxTablet => (maxTablet ? CompactEntry : TableEntry)}
+      </Responsive>
     );
   }
 }
