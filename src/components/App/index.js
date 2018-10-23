@@ -14,7 +14,6 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import Sidebar from 'semantic-ui-react/dist/commonjs/modules/Sidebar';
-import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive';
 
 import { clearAlert } from 'actions/app';
 
@@ -22,6 +21,7 @@ import { getAlert } from 'selectors/app';
 
 import Account from 'sections/Account';
 
+import Responsive from '../Responsive';
 import Notifier from '../Notifier';
 
 import thyme from './Thyme.svg';
@@ -118,31 +118,36 @@ class App extends Component<AppType, AppState> {
           <Sidebar.Pusher dimmed={menuOpened}>
             <Menu fixed="top" inverted>
               <Container>
-                <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-                  <Menu.Item position="left" onClick={this.handleToggle}>
-                    <Icon name="sidebar" />
-                  </Menu.Item>
-                  <Menu.Item className="App-Title">
-                    <Image
-                      size="mini"
-                      src={thyme}
-                      alt="Thyme"
-                      style={{ width: 24, marginRight: '1.5em' }}
-                    />
-                    Thyme
-                  </Menu.Item>
-                </Responsive>
-                <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-                  <Link className="header item" to="/">
-                    <Image
-                      size="mini"
-                      src={thyme}
-                      alt="Thyme"
-                      style={{ width: 24, marginRight: '1.5em' }}
-                    />
-                    Thyme
-                  </Link>
-                  {MenuItems}
+                <Responsive min="desktop">
+                  {matched => (matched ? (
+                    <Fragment>
+                      <Link className="header item" to="/">
+                        <Image
+                          size="mini"
+                          src={thyme}
+                          alt="Thyme"
+                          style={{ width: 24, marginRight: '1.5em' }}
+                        />
+                        Thyme
+                      </Link>
+                      {MenuItems}
+                    </Fragment>
+                  ) : (
+                    <Fragment>
+                      <Menu.Item position="left" onClick={this.handleToggle}>
+                        <Icon name="sidebar" />
+                      </Menu.Item>
+                      <Menu.Item className="App-Title">
+                        <Image
+                          size="mini"
+                          src={thyme}
+                          alt="Thyme"
+                          style={{ width: 24, marginRight: '1.5em' }}
+                        />
+                        Thyme
+                      </Menu.Item>
+                    </Fragment>
+                  ))}
                 </Responsive>
               </Container>
             </Menu>
