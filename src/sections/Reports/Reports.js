@@ -241,6 +241,6 @@ function mapStateToProps(state, props) {
 }
 
 export default compose(
-  connect(mapStateToProps),
   withRouter,
+  connect(mapStateToProps),
 )(Reports);
