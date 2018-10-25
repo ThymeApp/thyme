@@ -6,16 +6,12 @@ import Loadable from 'react-loadable';
 
 import TimeSheet from 'sections/TimeSheet';
 import Projects from 'sections/Projects';
+import Settings from 'sections/Settings';
 
 import Loading from './components/Loading';
 
 const Reports = Loadable({
   loader: () => import('./sections/Reports'),
-  loading: Loading,
-});
-
-const Settings = Loadable({
-  loader: () => import('./sections/Settings'),
   loading: Loading,
 });
 
