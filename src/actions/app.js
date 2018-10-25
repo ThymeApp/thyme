@@ -43,3 +43,7 @@ export function syncFailed(error: Error) {
 export function syncSuccess() {
   return { type: 'SYNC_SUCCESS' };
 }
+
+export function appInit() {
+  return { type: 'APP_INIT' };
+}
