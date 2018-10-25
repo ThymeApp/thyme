@@ -4,12 +4,9 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
-import Loading from './components/Loading';
+import TimeSheet from 'sections/TimeSheet';
 
-const TimeSheet = Loadable({
-  loader: () => import('./sections/TimeSheet'),
-  loading: Loading,
-});
+import Loading from './components/Loading';
 
 const Reports = Loadable({
   loader: () => import('./sections/Reports'),
