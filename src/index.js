@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { BrowserRouter } from 'react-router-dom';
 
 import 'semantic-ui-css/semantic.min.css';
@@ -22,10 +21,7 @@ import registerServiceWorker from './registerServiceWorker';
 
 const initialState = runMigrations(loadState());
 
-const store: ThymeStore = createStore(
-  initialState,
-  composeWithDevTools({})(),
-);
+const store: ThymeStore = createStore(initialState);
 
 registerServiceWorker(store.dispatch);
 saveOnStoreChange(store);
