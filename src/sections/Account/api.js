@@ -18,3 +18,11 @@ export function refreshToken(): Promise<string> {
 export function getState(): Promise<exportType> {
   return get('/get-state');
 }
+
+type AccountInformationResponse = {
+  capabilities: capability[];
+};
+
+export function getAccountInformation(): Promise<AccountInformationResponse> {
+  return get('/account-information');
+}

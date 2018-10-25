@@ -5,8 +5,6 @@ import classnames from 'classnames';
 
 import { isSyncing } from 'selectors/app';
 
-import { getJwt } from '../../selectors';
-
 import './Status.css';
 
 type ConnectionStates = 'connected' | 'syncing' | 'offline';

@@ -23,7 +23,7 @@ import { logout, updateToken } from '../actions';
 
 type ConnectionHandlerProps = {
   exportState: toExportType;
-  jwt: string;
+  jwt: string | null;
   children: any;
   onLogout: () => void;
   onUpdateToken: (token: string) => void;
@@ -65,10 +65,14 @@ class ConnectionHandler extends Component<ConnectionHandlerProps> {
   timeout: TimeoutID;
 
   checkToken(): Promise<boolean> {
+    const { jwt, onUpdateToken, onLogout } = this.props;
+
+    if (!jwt) {
+      return Promise.resolve(false);
+    }
+
     // check again in 60 seconds
     this.timeout = setTimeout(() => this.checkToken(), 60000);
-
-    const { jwt, onUpdateToken, onLogout } = this.props;
 
     const parsedJwt = parseJwt(jwt);
     const isOk = parsedJwt.exp && isBefore(new Date(), addDays(parsedJwt.exp * 1000, -7));
