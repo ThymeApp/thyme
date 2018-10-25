@@ -1,35 +1,17 @@
-// @flow
+// @todo flow
 
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { lazy, Suspense } from 'react';
 
-import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
-import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
-import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
+import Loading from 'components/Loading';
 
-import { sortedProjects } from './selectors';
+const Projects = lazy(() => import('./Projects.js'));
 
-import NewProject from './components/NewProject';
-import ProjectsList from './components/ProjectsList';
-
-function Projects({ projects }: { projects: Array<projectTreeType> }) {
+function ProjectsPage() {
   return (
-    <Container>
-      <Header as="h1">
-        Projects
-      </Header>
-
-      <section>
-        <NewProject />
-        <Divider />
-        <ProjectsList projects={projects} />
-      </section>
-    </Container>
+    <Suspense fallback={<Loading />}>
+      <Projects />
+    </Suspense>
   );
 }
 
-function mapStateToProps(state) {
-  return { projects: sortedProjects(state) };
-}
-
-export default connect(mapStateToProps)(Projects);
+export default ProjectsPage;
