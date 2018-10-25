@@ -11,9 +11,9 @@ import Reports from 'sections/Reports';
 function Routes() {
   return (
     <Switch>
-      <Route path="/reports/:reportId?" component={Reports} />
       <Route path="/projects" component={Projects} />
       <Route path="/settings" component={Settings} />
+      <Route path="/reports/:reportId?" component={Reports} />
       <Route exact path="/" component={TimeSheet} />
     </Switch>
   );
