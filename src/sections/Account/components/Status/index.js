@@ -18,11 +18,11 @@ import type { importDataType } from 'actions/app';
 import { getDataToExport } from 'selectors/importExport';
 import { isSyncing } from 'selectors/app';
 
-import { logout, updateToken } from '../actions';
+import { logout, updateToken } from '../../actions';
 
-import { getJwt } from '../selectors';
+import { getJwt } from '../../selectors';
 
-import { refreshToken, getState } from '../api';
+import { refreshToken, getState } from '../../api';
 
 import './Status.css';
 
