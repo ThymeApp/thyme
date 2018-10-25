@@ -69,7 +69,6 @@ class Account extends Component<AccountProps, AccountState> {
     const { isOpen, view } = this.state;
 
     return (
-
       <Popup
         className="Account-PopUp"
         trigger={(
