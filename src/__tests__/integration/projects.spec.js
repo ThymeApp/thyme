@@ -2,9 +2,9 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
-import createStore from '../../createStore';
+import Projects from 'sections/Projects/Projects';
 
-import Projects from '../../sections/Projects';
+import createStore from '../../createStore';
 
 describe('NewProject', () => {
   const store = createStore();
