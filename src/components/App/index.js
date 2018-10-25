@@ -112,7 +112,9 @@ class App extends Component<AppType, AppState> {
             visible={menuOpened}
             onHide={this.handleClose}
           >
-            {MenuItems}
+            <Responsive max="desktop">
+              {matched => (matched ? MenuItems : null)}
+            </Responsive>
           </Sidebar>
 
           <Sidebar.Pusher dimmed={menuOpened}>
