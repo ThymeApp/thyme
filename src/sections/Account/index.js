@@ -13,6 +13,7 @@ import { logout } from './actions';
 
 import { isLoggedIn } from './selectors';
 
+import ConnectionHandler from './components/ConnectionHandler';
 import Status from './components/Status';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -69,50 +70,52 @@ class Account extends Component<AccountProps, AccountState> {
     const { isOpen, view } = this.state;
 
     return (
-      <Popup
-        className="Account-PopUp"
-        trigger={(
-          <Button
-            secondary={loggedIn}
-            inverted={!loggedIn}
-          >
-            { loggedIn ? <Status closePopup={this.handleClose} /> : 'Log in to sync' }
-          </Button>
-        )}
-        open={isOpen}
-        position="bottom right"
-        on="click"
-        onClose={this.handleClose}
-        onOpen={this.handleOpen}
-      >
-        { loggedIn ? (
-          <Menu vertical>
-            <Menu.Item
-              name="settings"
-              onClick={this.goToSettings}
+      <ConnectionHandler>
+        <Popup
+          className="Account-PopUp"
+          trigger={(
+            <Button
+              secondary={loggedIn}
+              inverted={!loggedIn}
             >
-              Account settings
-            </Menu.Item>
-            <Menu.Item
-              name="logout"
-              onClick={this.onLogout}
-            >
-              Logout
-            </Menu.Item>
-          </Menu>
-        ) : (
-          <div className="Account-PopUp-Content">
-            <Login
-              inView={view === 'login'}
-              goToRegister={this.goToRegister}
-            />
-            <Register
-              inView={view === 'register'}
-              goToLogin={this.goToLogin}
-            />
-          </div>
-        )}
-      </Popup>
+              { loggedIn ? <Status closePopup={this.handleClose} /> : 'Log in to sync' }
+            </Button>
+          )}
+          open={isOpen}
+          position="bottom right"
+          on="click"
+          onClose={this.handleClose}
+          onOpen={this.handleOpen}
+        >
+          { loggedIn ? (
+            <Menu vertical>
+              <Menu.Item
+                name="settings"
+                onClick={this.goToSettings}
+              >
+                Account settings
+              </Menu.Item>
+              <Menu.Item
+                name="logout"
+                onClick={this.onLogout}
+              >
+                Logout
+              </Menu.Item>
+            </Menu>
+          ) : (
+            <div className="Account-PopUp-Content">
+              <Login
+                inView={view === 'login'}
+                goToRegister={this.goToRegister}
+              />
+              <Register
+                inView={view === 'register'}
+                goToLogin={this.goToLogin}
+              />
+            </div>
+          )}
+        </Popup>
+      </ConnectionHandler>
     );
   }
 }
