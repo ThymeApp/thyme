@@ -10,9 +10,10 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
-import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
 import { isDescendant } from 'core/projects';
+
+import Responsive from 'components/Responsive';
 
 import { alert } from 'actions/app';
 
@@ -105,60 +106,66 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
 
     return (
       <Fragment>
-        <Table.Row className="ProjectList__item ui form">
-          <Table.Cell className={`ProjectList__level-${level} field`}>
-            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-              <label>
-                Project name
-              </label>
-              {NameInput}
-            </Responsive>
-            <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-              <div className="ProjectList__item-container">
-                <div className="ProjectList__spacer" />
-                <Icon name="caret right" />
-                {NameInput}
-              </div>
-            </Responsive>
-          </Table.Cell>
-          <Table.Cell className="field">
-            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-              <label>
-                Parent project
-              </label>
-            </Responsive>
-            <ProjectInput handleChange={this.onChangeParent} value={project.parent} excludeValue />
-          </Table.Cell>
-          <Table.Cell>
-            <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-              <Button icon onClick={this.onRemoveEntry}>
-                <Icon name="remove" />
-                Remove project
-              </Button>
-            </Responsive>
-
-            <Responsive as={Fragment} minWidth={Responsive.onlyTablet.minWidth}>
-              <Popup
-                inverted
-                trigger={(
+        <Responsive max="tablet">
+          {isMobile => (
+            <Table.Row className="ProjectList__item ui form">
+              <Table.Cell className={`ProjectList__level-${level} field`}>
+                {isMobile ? (
+                  <Fragment>
+                    <label>
+                      Project name
+                    </label>
+                    {NameInput}
+                  </Fragment>
+                ) : (
+                  <div className="ProjectList__item-container">
+                    <div className="ProjectList__spacer" />
+                    <Icon name="caret right" />
+                    {NameInput}
+                  </div>
+                )}
+              </Table.Cell>
+              <Table.Cell className="field">
+                {isMobile && (
+                  <label>
+                    Parent project
+                  </label>
+                )}
+                <ProjectInput
+                  handleChange={this.onChangeParent}
+                  value={project.parent}
+                  excludeValue
+                />
+              </Table.Cell>
+              <Table.Cell>
+                {isMobile ? (
                   <Button icon onClick={this.onRemoveEntry}>
                     <Icon name="remove" />
+                    Remove project
                   </Button>
+                ) : (
+                  <Popup
+                    inverted
+                    trigger={(
+                      <Button icon onClick={this.onRemoveEntry}>
+                        <Icon name="remove" />
+                      </Button>
+                    )}
+                    content="Remove project"
+                  />
                 )}
-                content="Remove project"
-              />
-            </Responsive>
-
-            <Confirm
-              open={confirmDelete}
-              content="Are you sure you want to remove this project?"
-              confirmButton="Remove project"
-              size="mini"
-              onCancel={this.onCancelConfirm}
-              onConfirm={this.onRemoveProject}
-            />
-          </Table.Cell>
-        </Table.Row>
+                <Confirm
+                  open={confirmDelete}
+                  content="Are you sure you want to remove this project?"
+                  confirmButton="Remove project"
+                  size="mini"
+                  onCancel={this.onCancelConfirm}
+                  onConfirm={this.onRemoveProject}
+                />
+              </Table.Cell>
+            </Table.Row>
+          )}
+        </Responsive>
         {ProjectsList({ projects, parent: project.id, level: level + 1 })}
       </Fragment>
     );

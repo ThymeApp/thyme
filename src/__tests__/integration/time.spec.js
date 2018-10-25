@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { parse, isSameMinute } from 'date-fns';
 
-import TimeSheet from 'sections/TimeSheet';
+import TimeSheet from 'sections/TimeSheet/TimeSheet';
 
 import createStore from '../../createStore';
 

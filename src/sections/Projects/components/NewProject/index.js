@@ -7,9 +7,10 @@ import type { Dispatch } from 'redux';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
-import Responsive from 'semantic-ui-react/dist/commonjs/addons/Responsive/Responsive';
 
 import { valueFromEventTarget } from 'core/dom';
+
+import Responsive from 'components/Responsive';
 
 import ProjectInput from 'sections/Projects/components/ProjectInput';
 
@@ -74,35 +75,41 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
       <div className="NewProject">
         <Form onSubmit={this.onSubmit}>
           <Form.Group widths="equal">
-            <Form.Field>
-              <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-                <label htmlFor="project-name">
-                  Project name
-                </label>
-              </Responsive>
-              <Input
-                id="project-name"
-                name="project-name"
-                className="NewProject__input"
-                type="text"
-                placeholder="Project name"
-                value={name}
-                onChange={this.onNameChange}
-                style={{ marginRight: 12 }}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Responsive as={Fragment} maxWidth={Responsive.onlyTablet.minWidth}>
-                <label>
-                  Parent project
-                </label>
-              </Responsive>
-              <ProjectInput
-                placeholder="Select parent..."
-                handleChange={this.onProjectChange}
-                value={parent}
-              />
-            </Form.Field>
+            <Responsive max="tablet">
+              {showLabels => (
+                <Fragment>
+                  <Form.Field>
+                    {showLabels && (
+                      <label htmlFor="project-name">
+                        Project name
+                      </label>
+                    )}
+                    <Input
+                      id="project-name"
+                      name="project-name"
+                      className="NewProject__input"
+                      type="text"
+                      placeholder="Project name"
+                      value={name}
+                      onChange={this.onNameChange}
+                      style={{ marginRight: 12 }}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    {showLabels && (
+                      <label>
+                        Parent project
+                      </label>
+                    )}
+                    <ProjectInput
+                      placeholder="Select parent..."
+                      handleChange={this.onProjectChange}
+                      value={parent}
+                    />
+                  </Form.Field>
+                </Fragment>
+              )}
+            </Responsive>
             <Form.Field>
               <Button color="blue" type="submit">
                 Add project
