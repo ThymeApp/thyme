@@ -7,9 +7,9 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import reducers from './reducers';
 import epics from './epics';
 
-const epicMiddleware = createEpicMiddleware();
-
 export default (initialState: any = {}) => {
+  const epicMiddleware = createEpicMiddleware();
+
   const store = createStore(
     reducers,
     initialState,
