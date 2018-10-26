@@ -32,7 +32,11 @@ export const sortByTime = (dateSort: sortDirection) => (a: timeType, b: timeType
   return 0;
 };
 
-export function calculateDuration(from: Date, to: Date, precise: boolean = false): number {
+export function calculateDuration(
+  from: Date | string,
+  to: Date | string,
+  precise: boolean = false,
+): number {
   if (isBefore(to, from)) {
     return 0;
   }
@@ -62,8 +66,8 @@ function getRoundedMinutes(round: rounding, diffMinutes: number, roundAmount: nu
 }
 
 export function timeElapsed(
-  from: Date,
-  to: Date,
+  from: Date | string,
+  to: Date | string,
   precise: boolean = false,
   withSeconds: boolean = false,
   round?: rounding = 'none',
