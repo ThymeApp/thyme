@@ -19,10 +19,6 @@ export function getState(): Promise<exportType> {
   return get('/get-state');
 }
 
-type AccountInformationResponse = {
-  capabilities: capability[];
-};
-
-export function getAccountInformation(): Promise<AccountInformationResponse> {
+export function getAccountInformation(): Promise<AccountInformation> {
   return get('/account-information');
 }

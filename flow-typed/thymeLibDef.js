@@ -138,4 +138,8 @@ declare type StateObservable = {
   value: storeShape;
 };
 
+declare type AccountInformation = {
+  capabilities: capability[];
+};
+
 declare type ThymeStore = Store<storeShape, *>;
