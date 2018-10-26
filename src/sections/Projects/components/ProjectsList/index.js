@@ -8,7 +8,12 @@ import Responsive from 'components/Responsive';
 
 import ProjectsList from './ProjectsList';
 
-function projectsListWrapper({ projects }: { projects: Array<projectTreeType> }) {
+type ProjectsListWrapperProps = {
+  canAddRates: boolean;
+  projects: Array<projectTreeType>;
+};
+
+function ProjectsListWrapper({ canAddRates, projects }: ProjectsListWrapperProps) {
   return (
     <Table>
       <Responsive min="tablet">
@@ -18,18 +23,25 @@ function projectsListWrapper({ projects }: { projects: Array<projectTreeType> })
               <Table.HeaderCell>
                 Name
               </Table.HeaderCell>
-              <Table.HeaderCell colSpan={2} width={6}>
+              <Table.HeaderCell width={5}>
                 Parent
+              </Table.HeaderCell>
+              {canAddRates && (
+                <Table.HeaderCell width={3}>
+                  Hourly Rate
+                </Table.HeaderCell>
+              )}
+              <Table.HeaderCell width={1}>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
         )}
       </Responsive>
       <Table.Body>
-        <ProjectsList projects={projects} />
+        <ProjectsList canAddRates={canAddRates} projects={projects} />
       </Table.Body>
     </Table>
   );
 }
 
-export default projectsListWrapper;
+export default ProjectsListWrapper;

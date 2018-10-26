@@ -21,7 +21,7 @@ import ProjectInput from 'sections/Projects/components/ProjectInput';
 
 import { updateProject, removeProject } from '../../actions';
 
-import ProjectsList from './ProjectsList'; // eslint-disable-line import/no-cycle
+import ProjectsList from './ProjectsList';
 
 function projectValues(props) {
   return {
@@ -31,20 +31,21 @@ function projectValues(props) {
   };
 }
 
-type ProjectItemType = {
-  projects: Array<projectTreeType>,
-  project: projectTreeType,
+type ProjectItemProps = {
+  canAddRates: boolean;
+  projects: Array<projectTreeType>;
+  project: projectTreeType;
   level: number;
-  onUpdateProject: (project: { id: string, name: string, parent: string | null }) => void,
-  onRemoveProject: (id: string) => void,
-  showAlert: (message: string) => void,
+  onUpdateProject: (project: { id: string, name: string, parent: string | null }) => void;
+  onRemoveProject: (id: string) => void;
+  showAlert: (message: string) => void;
 };
 
 type ProjectItemState = {
   confirmDelete: boolean,
 };
 
-class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
+class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
   state = { confirmDelete: false };
 
   onChangeName = (e: Event) => {
@@ -93,7 +94,12 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
   onCancelConfirm = () => this.setState({ confirmDelete: false });
 
   render() {
-    const { project, projects, level } = this.props;
+    const {
+      project,
+      projects,
+      level,
+      canAddRates,
+    } = this.props;
     const { confirmDelete } = this.state;
 
     const NameInput = (
@@ -137,6 +143,16 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
                   excludeValue
                 />
               </Table.Cell>
+              {canAddRates && (
+                <Table.Cell className="field">
+                  {isMobile && (
+                    <label>
+                      Hourly rate
+                    </label>
+                  )}
+                  <Input label="€" fluid placeholder="Project rate" type="number" />
+                </Table.Cell>
+              )}
               <Table.Cell>
                 {isMobile ? (
                   <Button icon onClick={this.onRemoveEntry}>
@@ -166,7 +182,12 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
             </Table.Row>
           )}
         </Responsive>
-        {ProjectsList({ projects, parent: project.id, level: level + 1 })}
+        {ProjectsList({
+          canAddRates,
+          projects,
+          parent: project.id,
+          level: level + 1,
+        })}
       </Fragment>
     );
   }
