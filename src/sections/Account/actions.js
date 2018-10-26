@@ -24,3 +24,7 @@ export function loginAccount(token: string | null = null) {
 export function logout() {
   return { type: 'LOG_OUT' };
 }
+
+export function fetchState() {
+  return { type: 'ACCOUNT_FETCH_STATE' };
+}

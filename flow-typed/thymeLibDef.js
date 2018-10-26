@@ -130,4 +130,12 @@ declare type RouterHistory = {
   push: (path: string) => void;
 };
 
+declare type ActionsObservable = {
+  pipe: any;
+};
+
+declare type StateObservable = {
+  value: storeShape;
+};
+
 declare type ThymeStore = Store<storeShape, *>;
