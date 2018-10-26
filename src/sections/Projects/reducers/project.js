@@ -31,6 +31,15 @@ function name(state = '', action) {
   }
 }
 
+function rate(state = 0, action) {
+  switch (action.type) {
+    case 'UPDATE_PROJECT':
+      return action.rate;
+    default:
+      return state;
+  }
+}
+
 function removed(state = false, action) {
   switch (action.type) {
     case 'TRUNCATE_PROJECTS':
@@ -64,6 +73,7 @@ const project = combineReducers({
   id,
   parent,
   name,
+  rate,
   removed,
   createdAt,
   updatedAt,

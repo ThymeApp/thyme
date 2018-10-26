@@ -12,6 +12,7 @@ import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import { isDescendant } from 'core/projects';
+import { valueFromEventTarget } from 'core/dom';
 
 import Responsive from 'components/Responsive';
 
@@ -23,11 +24,12 @@ import { updateProject, removeProject } from '../../actions';
 
 import ProjectsList from './ProjectsList';
 
-function projectValues(props) {
+function projectValues(props): projectProps {
   return {
     id: props.project.id,
     name: props.project.name,
     parent: props.project.parent,
+    rate: props.project.rate,
   };
 }
 
@@ -36,7 +38,7 @@ type ProjectItemProps = {
   projects: Array<projectTreeType>;
   project: projectTreeType;
   level: number;
-  onUpdateProject: (project: { id: string, name: string, parent: string | null }) => void;
+  onUpdateProject: (project: projectProps) => void;
   onRemoveProject: (id: string) => void;
   showAlert: (message: string) => void;
 };
@@ -53,7 +55,7 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
 
     onUpdateProject({
       ...projectValues(this.props),
-      name: e.target instanceof HTMLInputElement ? e.target.value : '',
+      name: valueFromEventTarget(e.target),
     });
   };
 
@@ -70,6 +72,17 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
     onUpdateProject({
       ...projectValues(this.props),
       parent: parentId,
+    });
+  };
+
+  onChangeRate = (e: Event) => {
+    const { onUpdateProject } = this.props;
+
+    const rate = parseInt(valueFromEventTarget(e.target), 10);
+
+    onUpdateProject({
+      ...projectValues(this.props),
+      rate: Number.isNaN(rate) ? 0 : rate,
     });
   };
 
@@ -150,7 +163,14 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
                       Hourly rate
                     </label>
                   )}
-                  <Input label="€" fluid placeholder="Project rate" type="number" />
+                  <Input
+                    label="€"
+                    fluid
+                    type="number"
+                    placeholder="Project rate"
+                    value={project.rate || ''}
+                    onChange={this.onChangeRate}
+                  />
                 </Table.Cell>
               )}
               <Table.Cell>
@@ -195,7 +215,7 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
 
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
-    onUpdateProject(project: projectTreeType) {
+    onUpdateProject(project: projectProps) {
       dispatch(updateProject(project));
     },
 

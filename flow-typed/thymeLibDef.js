@@ -75,14 +75,18 @@ declare type reportType = {
   createdAt: string;
 };
 
-declare type projectType = {
+declare type projectProps = {
   id: string;
   parent: string | null;
   name: string;
+  rate?: number;
+};
+
+declare type projectType = {
   removed?: boolean;
   createdAt: string;
   updatedAt: string;
-};
+} & projectProps;
 
 declare type projectTreeType = projectType & { nameTree: Array<string> };
 declare type projectTreeWithTimeType = projectTreeType & { time: number, entries: Array<timeType> };
