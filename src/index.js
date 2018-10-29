@@ -19,6 +19,8 @@ import App from './components/App';
 import Routes from './Routes';
 import registerServiceWorker from './registerServiceWorker';
 
+import registerPlugins from './plugins/register';
+
 const initialState = runMigrations(loadState());
 
 const store: ThymeStore = createStore(initialState);
@@ -38,3 +40,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root') || document.createElement('div'),
 );
+
+registerPlugins();
