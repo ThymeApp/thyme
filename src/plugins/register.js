@@ -2,8 +2,8 @@
 
 import ProjectRates from './ProjectRates';
 
-export default function registerPlugins() {
+export default function registerPlugins(store: ThymeStore) {
   [
     ProjectRates,
-  ].forEach(f => f());
+  ].forEach(f => f(store));
 }

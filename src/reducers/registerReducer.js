@@ -1,27 +1,39 @@
 // @flow
 
-type Reducer<T> = (state: T, action: any) => T;
+import { combineReducers } from 'redux';
 
-const registeredReducers: { [path: string]: Reducer<any>[] } = {};
+import createReducers from '.';
 
-export function registerReducer(path: string, reducer: Reducer<any>) {
+type Reducers = { [key: string]: (state: any, action: any) => any };
+
+const registeredReducers: { [path: string]: Reducers[] } = {};
+
+export function registerReducer(store: ThymeStore, path: string, reducers: Reducers) {
   if (!registeredReducers[path]) {
     registeredReducers[path] = [];
   }
 
   registeredReducers[path] = [
     ...registeredReducers[path],
-    reducer,
+    reducers,
   ];
+
+  store.replaceReducer(createReducers());
 }
 
-export function createExtendableReducer(path: string, reducer: (state: any, action: any) => any) {
-  return (state: any, action: any) => {
-    const extraReducers = registeredReducers[path] || [];
+export function createExtendableReducer(
+  path: string,
+  reducers: Reducers,
+) {
+  const extraReducers = registeredReducers[path] || [];
 
-    return {
-      ...reducer(state, action),
-      ...extraReducers.reduce((accState, r) => r(accState, action), state),
-    };
+  const newReducers = {
+    ...reducers,
+    ...extraReducers.reduce((accReducers, r) => ({
+      ...accReducers,
+      ...r,
+    }), {}),
   };
+
+  return combineReducers(newReducers);
 }

@@ -41,4 +41,4 @@ ReactDOM.render(
   document.getElementById('root') || document.createElement('div'),
 );
 
-registerPlugins();
+registerPlugins(store);

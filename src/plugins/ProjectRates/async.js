@@ -2,4 +2,6 @@
 
 import registerReducers from './reducers';
 
-registerReducers();
+export default function registerPlugin({ store }: { store: ThymeStore }) {
+  registerReducers(store);
+}

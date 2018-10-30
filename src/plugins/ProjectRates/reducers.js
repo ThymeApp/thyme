@@ -1,7 +1,5 @@
 // @flow
 
-import { combineReducers } from 'redux';
-
 import { registerReducer } from 'reducers/registerReducer';
 
 function rate(state = 0, action) {
@@ -13,4 +11,8 @@ function rate(state = 0, action) {
   }
 }
 
-export default () => registerReducer('projects.project', combineReducers({ rate }));
+export default (store: ThymeStore) => registerReducer(
+  store,
+  'projects.project',
+  { rate },
+);
