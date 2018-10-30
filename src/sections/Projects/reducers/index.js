@@ -26,7 +26,7 @@ const byId = project => (state = {}, action) => {
     default:
       return state;
   }
-}
+};
 
 function allIds(state = [], action) {
   switch (action.type) {
