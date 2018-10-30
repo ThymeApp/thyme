@@ -51,7 +51,7 @@ export const checkTokenEpic = (action$: ActionsObservable, state$: StateObservab
 );
 
 export const fetchStateEpic = (action$: ActionsObservable, state$: StateObservable) => action$.pipe(
-  ofType('ACCOUNT_INIT', 'ACCOUNT_UPDATE_TOKEN'),
+  ofType('ACCOUNT_INIT', 'ACCOUNT_UPDATE_TOKEN', 'ACCOUNT_LOGIN'),
   mergeMap(() => getState()
     .then((fromServer) => {
       const exportState = getDataToExport(state$.value);
@@ -73,7 +73,7 @@ export const fetchStateEpic = (action$: ActionsObservable, state$: StateObservab
 );
 
 export const fetchAccountInformation = (action$: ActionsObservable) => action$.pipe(
-  ofType('ACCOUNT_INIT', 'ACCOUNT_UPDATE_TOKEN'),
+  ofType('ACCOUNT_INIT', 'ACCOUNT_UPDATE_TOKEN', 'ACCOUNT_LOGIN'),
   mergeMap(() => getAccountInformation()),
   map(information => receiveAccountInformation(information)),
 );
