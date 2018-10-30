@@ -1,3 +1,5 @@
 // @flow
 
-console.log('async injected');
+import registerReducers from './reducers';
+
+registerReducers();

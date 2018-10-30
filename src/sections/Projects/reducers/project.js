@@ -2,6 +2,8 @@
 
 import { combineReducers } from 'redux';
 
+import { createExtendableReducer } from 'reducers/registerReducer';
+
 function id(state = null, action) {
   switch (action.type) {
     case 'ADD_PROJECT':
@@ -26,15 +28,6 @@ function name(state = '', action) {
     case 'ADD_PROJECT':
     case 'UPDATE_PROJECT':
       return action.name;
-    default:
-      return state;
-  }
-}
-
-function rate(state = 0, action) {
-  switch (action.type) {
-    case 'UPDATE_PROJECT':
-      return action.rate;
     default:
       return state;
   }
@@ -73,10 +66,9 @@ const project = combineReducers({
   id,
   parent,
   name,
-  rate,
   removed,
   createdAt,
   updatedAt,
 });
 
-export default project;
+export default createExtendableReducer('projects.project', project);
