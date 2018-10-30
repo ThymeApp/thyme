@@ -6,7 +6,7 @@ import { filter, mergeMap } from 'rxjs/operators';
 import { injectAsyncEpic } from '.';
 
 export default (
-  importModule: Promise<*>,
+  importModule: () => Promise<*>,
   selector: (state: any) => boolean,
   args: any,
 ) => {
@@ -22,7 +22,7 @@ export default (
         return [];
       }
 
-      return importModule
+      return importModule()
         .then(module => module && typeof module.default === 'function' && module.default(args));
     }),
     // prevent new actions
