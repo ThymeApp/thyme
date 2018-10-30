@@ -25,15 +25,7 @@ import { updateProject, removeProject } from '../../actions';
 
 import ProjectsList from './ProjectsList';
 
-function projectValues(props): projectProps {
-  return {
-    id: props.project.id,
-    name: props.project.name,
-    parent: props.project.parent,
-  };
-}
-
-type ProjectItemProps = {
+export type ProjectItemProps = {
   projects: Array<projectTreeType>;
   project: projectTreeType;
   level: number;
@@ -50,10 +42,10 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
   state = { confirmDelete: false };
 
   onChangeName = (e: Event) => {
-    const { onUpdateProject } = this.props;
+    const { project, onUpdateProject } = this.props;
 
     onUpdateProject({
-      ...projectValues(this.props),
+      ...project,
       name: valueFromEventTarget(e.target),
     });
   };
@@ -69,7 +61,7 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
     }
 
     onUpdateProject({
-      ...projectValues(this.props),
+      ...project,
       parent: parentId,
     });
   };
