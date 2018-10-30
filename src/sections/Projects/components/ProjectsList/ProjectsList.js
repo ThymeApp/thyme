@@ -8,14 +8,12 @@ import ProjectItem from './ProjectItem'; // eslint-disable-line import/no-cycle
 import './ProjectsList.css';
 
 type ProjectsListProps = {
-  canAddRates: boolean;
   projects: Array<projectTreeType>;
   parent?: string;
   level?: number;
 };
 
 function ProjectsList({
-  canAddRates,
   projects,
   parent = '',
   level = 1,
@@ -25,7 +23,6 @@ function ProjectsList({
     .map(project => (
       <ProjectItem
         key={project.id}
-        canAddRates={canAddRates}
         project={project}
         projects={projects}
         level={level}

@@ -7,17 +7,16 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 
-import { canAddRates as canAddRatesSelector, sortedProjects } from './selectors';
+import { sortedProjects } from './selectors';
 
 import NewProject from './components/NewProject';
 import ProjectsList from './components/ProjectsList';
 
 type ProjectsProps = {
-  canAddRates: boolean;
   projects: Array<projectTreeType>;
 };
 
-function Projects({ canAddRates, projects }: ProjectsProps) {
+function Projects({ projects }: ProjectsProps) {
   return (
     <Container>
       <Header as="h1">
@@ -27,7 +26,7 @@ function Projects({ canAddRates, projects }: ProjectsProps) {
       <section>
         <NewProject />
         <Divider />
-        <ProjectsList canAddRates={canAddRates} projects={projects} />
+        <ProjectsList projects={projects} />
       </section>
     </Container>
   );
@@ -35,7 +34,6 @@ function Projects({ canAddRates, projects }: ProjectsProps) {
 
 function mapStateToProps(state) {
   return {
-    canAddRates: canAddRatesSelector(state),
     projects: sortedProjects(state),
   };
 }

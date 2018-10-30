@@ -13,6 +13,7 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import { isDescendant } from 'core/projects';
 import { valueFromEventTarget } from 'core/dom';
+import { renderInjectable } from 'core/injectableComponent';
 
 import Responsive from 'components/Responsive';
 
@@ -29,12 +30,10 @@ function projectValues(props): projectProps {
     id: props.project.id,
     name: props.project.name,
     parent: props.project.parent,
-    rate: props.project.rate,
   };
 }
 
 type ProjectItemProps = {
-  canAddRates: boolean;
   projects: Array<projectTreeType>;
   project: projectTreeType;
   level: number;
@@ -75,17 +74,6 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
     });
   };
 
-  onChangeRate = (e: Event) => {
-    const { onUpdateProject } = this.props;
-
-    const rate = parseInt(valueFromEventTarget(e.target), 10);
-
-    onUpdateProject({
-      ...projectValues(this.props),
-      rate: Number.isNaN(rate) ? 0 : rate,
-    });
-  };
-
   onRemoveEntry = () => {
     const { project, projects, showAlert } = this.props;
 
@@ -111,7 +99,6 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
       project,
       projects,
       level,
-      canAddRates,
     } = this.props;
     const { confirmDelete } = this.state;
 
@@ -156,23 +143,7 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
                   excludeValue
                 />
               </Table.Cell>
-              {canAddRates && (
-                <Table.Cell className="field">
-                  {isMobile && (
-                    <label>
-                      Hourly rate
-                    </label>
-                  )}
-                  <Input
-                    label="€"
-                    fluid
-                    type="number"
-                    placeholder="Project rate"
-                    value={project.rate || ''}
-                    onChange={this.onChangeRate}
-                  />
-                </Table.Cell>
-              )}
+              {renderInjectable('projects.tablerow.parent', { ...this.props, isMobile })}
               <Table.Cell>
                 {isMobile ? (
                   <Button icon onClick={this.onRemoveEntry}>
@@ -203,7 +174,6 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
           )}
         </Responsive>
         {ProjectsList({
-          canAddRates,
           projects,
           parent: project.id,
           level: level + 1,

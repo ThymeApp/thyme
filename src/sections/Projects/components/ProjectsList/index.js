@@ -4,16 +4,19 @@ import React from 'react';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
+import { renderInjectable } from 'core/injectableComponent';
+
 import Responsive from 'components/Responsive';
 
 import ProjectsList from './ProjectsList';
 
 type ProjectsListWrapperProps = {
-  canAddRates: boolean;
   projects: Array<projectTreeType>;
 };
 
-function ProjectsListWrapper({ canAddRates, projects }: ProjectsListWrapperProps) {
+function ProjectsListWrapper(props: ProjectsListWrapperProps) {
+  const { projects } = props;
+
   return (
     <Table>
       <Responsive min="tablet">
@@ -26,11 +29,7 @@ function ProjectsListWrapper({ canAddRates, projects }: ProjectsListWrapperProps
               <Table.HeaderCell width={5}>
                 Parent
               </Table.HeaderCell>
-              {canAddRates && (
-                <Table.HeaderCell width={3}>
-                  Hourly Rate
-                </Table.HeaderCell>
-              )}
+              {renderInjectable('projects.tableheader.parent', props)}
               <Table.HeaderCell width={1}>
               </Table.HeaderCell>
             </Table.Row>
@@ -38,7 +37,7 @@ function ProjectsListWrapper({ canAddRates, projects }: ProjectsListWrapperProps
         )}
       </Responsive>
       <Table.Body>
-        <ProjectsList canAddRates={canAddRates} projects={projects} />
+        <ProjectsList projects={projects} />
       </Table.Body>
     </Table>
   );
