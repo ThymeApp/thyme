@@ -1,6 +1,6 @@
 // @flow
 
-import { combineReducers } from 'redux';
+import { createExtendableReducer } from 'reducers/registerReducer';
 
 import createProjectReducer from './project';
 
@@ -39,7 +39,7 @@ function allIds(state = [], action) {
   }
 }
 
-export default () => combineReducers({
+export default () => createExtendableReducer('projects', {
   byId: byId(createProjectReducer()),
   allIds,
 });

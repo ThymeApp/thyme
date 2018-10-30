@@ -1,6 +1,6 @@
 // @flow
 
-import { combineReducers } from 'redux';
+import { createExtendableReducer } from 'reducers/registerReducer';
 
 function jwt(state: string | null = null, action) {
   switch (action.type) {
@@ -26,7 +26,7 @@ function capabilities(state: capability[] = [], action) {
   }
 }
 
-export default combineReducers({
+export default () => createExtendableReducer('account', {
   jwt,
   capabilities,
 });

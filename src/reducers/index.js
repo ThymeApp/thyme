@@ -4,23 +4,23 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
 import reports from 'sections/Reports/reducers';
-import settings from 'sections/Settings/reducers';
+import createSettingsReducers from 'sections/Settings/reducers';
 import createProjectsReducers from 'sections/Projects/reducers';
-import account from 'sections/Account/reducers';
+import createAccountReducers from 'sections/Account/reducers';
 import time from 'sections/TimeSheet/reducers';
 
 import runMigrations from '../migrations';
 
-import app from './app';
+import createAppReducers from './app';
 
 export default () => {
   const combinedReducers = combineReducers({
-    account,
-    app,
+    account: createAccountReducers(),
+    app: createAppReducers(),
     projects: createProjectsReducers(),
     reports,
     time,
-    settings,
+    settings: createSettingsReducers(),
     form: formReducer,
   });
 
