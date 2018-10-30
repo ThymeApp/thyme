@@ -123,6 +123,7 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
                   </div>
                 )}
               </Table.Cell>
+              {renderInjectable('projects.tablerow.name', { ...this.props, isMobile })}
               <Table.Cell className="field">
                 {isMobile && (
                   <label>

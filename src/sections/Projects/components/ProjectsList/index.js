@@ -26,6 +26,7 @@ function ProjectsListWrapper(props: ProjectsListWrapperProps) {
               <Table.HeaderCell>
                 Name
               </Table.HeaderCell>
+              {renderInjectable('projects.tableheader.name', props)}
               <Table.HeaderCell width={5}>
                 Parent
               </Table.HeaderCell>
