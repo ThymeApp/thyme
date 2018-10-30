@@ -3,11 +3,11 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
-import reports from 'sections/Reports/reducers';
+import createReportsReducers from 'sections/Reports/reducers';
 import createSettingsReducers from 'sections/Settings/reducers';
 import createProjectsReducers from 'sections/Projects/reducers';
 import createAccountReducers from 'sections/Account/reducers';
-import time from 'sections/TimeSheet/reducers';
+import createTimeReducers from 'sections/TimeSheet/reducers';
 
 import runMigrations from '../migrations';
 
@@ -18,8 +18,8 @@ export default () => {
     account: createAccountReducers(),
     app: createAppReducers(),
     projects: createProjectsReducers(),
-    reports,
-    time,
+    reports: createReportsReducers(),
+    time: createTimeReducers(),
     settings: createSettingsReducers(),
     form: formReducer,
   });

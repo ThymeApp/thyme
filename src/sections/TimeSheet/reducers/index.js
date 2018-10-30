@@ -1,10 +1,10 @@
 // @flow
 
-import { combineReducers } from 'redux';
+import { createExtendableReducer } from 'reducers/registerReducer';
 
-import time from './time';
+import createTimeReducer from './time';
 
-function byId(state = {}, action) {
+const byId = time => (state = {}, action) => {
   switch (action.type) {
     // targeted updates
     case 'ADD_TIME':
@@ -34,7 +34,7 @@ function byId(state = {}, action) {
     default:
       return state;
   }
-}
+};
 
 function allIds(state = [], action) {
   switch (action.type) {
@@ -77,8 +77,8 @@ function page(state = 1, action): number {
   }
 }
 
-export default combineReducers({
-  byId,
+export default () => createExtendableReducer('timesheet', {
+  byId: byId(createTimeReducer()),
   allIds,
   dateRange,
   dateSort,

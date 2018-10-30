@@ -34,7 +34,7 @@ function allIds(state = [], action) {
   }
 }
 
-export default createExtendableReducer('reports', {
+export default () => createExtendableReducer('reports', {
   byId: byId(createReportReducer()),
   allIds,
 });
