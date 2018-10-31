@@ -15,9 +15,20 @@ import type { ProjectRatesReportProject } from '../../types';
 
 type ReportTableRowProps = {
   project: ProjectRatesReportProject;
+  hideColumns: Array<string | null>;
 };
 
-function ReportTableRow({ currency, project }: { currency: string } & ReportTableRowProps) {
+function ReportTableRow({
+  currency,
+  project,
+  hideColumns,
+}: { currency: string } & ReportTableRowProps) {
+  const showColumn = hideColumns.indexOf('ProjectRate') === -1;
+
+  if (!showColumn) {
+    return null;
+  }
+
   return (
     <Table.Cell textAlign="right">
       {formatCurrency(currency, totalProjectPrice(project))}

@@ -1,67 +1,80 @@
 // @flow
 
 import React, { Component } from 'react';
-import classnames from 'classnames';
-
-import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
-import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
-
-import './ReportFilters.css';
+import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
 type ReportFiltersType = {
   filters: Array<string>;
   projects: Array<projectTreeWithTimeType>;
-  onToggle: (project: string | null) => void;
+  columns: { name: string, id: string }[];
+  hideColumns: Array<string | null>;
+  onToggleProject: (project: string | null) => void;
+  onToggleColumn: (column: string) => void;
 };
 
-type ReportFiltersState = {
-  isVisible: boolean;
-};
+class ReportFilters extends Component<ReportFiltersType> {
+  onFilterToggle = (name: string) => (e: Event) => {
+    // prevent closing dropdown
+    e.preventDefault();
+    e.stopPropagation();
 
-class ReportFilters extends Component<ReportFiltersType, ReportFiltersState> {
-  state = {
-    isVisible: false,
+    const { onToggleProject } = this.props;
+    onToggleProject(name === '' ? null : name);
   };
 
-  onFilterToggle = (e: Event, action: any) => {
-    if (action.type === 'checkbox') {
-      const { onToggle } = this.props;
-      const { name } = action;
-      onToggle(name === '' ? null : name);
-    }
-  };
+  onColumnToggle = (name: string) => (e: Event) => {
+    // prevent closing dropdown
+    e.preventDefault();
+    e.stopPropagation();
 
-  onToggleFiltersVisible = () => {
-    const { isVisible } = this.state;
-
-    this.setState({ isVisible: !isVisible });
+    const { onToggleColumn } = this.props;
+    onToggleColumn(name);
   };
 
   render() {
-    const { filters, projects } = this.props;
-    const { isVisible } = this.state;
+    const {
+      filters,
+      projects,
+      columns,
+      hideColumns,
+    } = this.props;
 
     return (
       <div className="Report__filters">
-        <Menu vertical>
-          <Menu.Item header as="button" onClick={this.onToggleFiltersVisible}>
-            <Icon name="triangle right" className={classnames({ isVisible })} />
-            Filter projects
-          </Menu.Item>
-          {isVisible && projects.map(project => (
-            <Menu.Item key={project.id}>
-              <Checkbox
-                toggle
-                label={project.name}
-                checked={filters.indexOf(project.id) > -1}
-                onChange={this.onFilterToggle}
-                name={project.id}
-                id={project.id}
-              />
-            </Menu.Item>
-          ))}
-        </Menu>
+        <Dropdown text="Filter projects" closeOnBlur={false} style={{ marginRight: '2em' }}>
+          <Dropdown.Menu>
+            {projects.map(project => (
+              <Dropdown.Item
+                key={project.id}
+                onClick={this.onFilterToggle(project.id)}
+              >
+                <Checkbox
+                  label={project.name}
+                  checked={filters.indexOf(project.id) > -1}
+                  name={project.id}
+                  id={project.id}
+                />
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <Dropdown text="Show columns" closeOnBlur={false}>
+          <Dropdown.Menu>
+            {columns.map(column => (
+              <Dropdown.Item
+                key={column.id}
+                onClick={this.onColumnToggle(column.id)}
+              >
+                <Checkbox
+                  label={column.name}
+                  checked={hideColumns.indexOf(column.id) === -1}
+                />
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
     );
   }

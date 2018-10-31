@@ -3,6 +3,7 @@
 import { registerInjectable } from 'core/injectableComponent';
 
 import { registerSettingsItem } from 'sections/Settings/Settings';
+import { registerTableColumn } from 'sections/Reports/Reports';
 
 import ProjectTableHeader from './components/Projects/ProjectTableHeader';
 import ProjectHourlyRate from './components/Projects/ProjectHourlyRate';
@@ -25,6 +26,7 @@ export default () => {
   });
 
   // Reports page
+  registerTableColumn('ProjectRate', 'Total price');
   registerInjectable('reports.tableheader.total', 'ReportsRatesTableHeader', ReportTableHeader);
   registerInjectable('reports.tablerow.total', 'ReportsRatesTotal', ReportTableRow);
   registerInjectable('reports.tablefooter.total', 'ReportsRatesTotal', ReportTableTotal);
