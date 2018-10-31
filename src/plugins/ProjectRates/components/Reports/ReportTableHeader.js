@@ -16,4 +16,4 @@ export default ({ hideColumns }: { hideColumns: Array<string | null>; }) => {
       Total price
     </Table.HeaderCell>
   );
-}
+};

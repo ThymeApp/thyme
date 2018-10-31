@@ -35,7 +35,7 @@ type ProjectRatesSettingsProps = {
 function ProjectRatesSettings({ currency, onCurrencyChange }: ProjectRatesSettingsProps) {
   return (
     <Form>
-      <Form.Field>
+      <Form.Field style={{ maxWidth: 300 }}>
         <label>Currency for project rates</label>
         <Dropdown
           placeholder="Select preferred currency"

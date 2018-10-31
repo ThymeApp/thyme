@@ -38,7 +38,7 @@ type SettingsProps = {
 
 type SettingsState = {
   activeIndex: number;
-  extraSettingsItems: SettingsItem[];
+  settingsItems: SettingsItem[];
 };
 
 class Settings extends Component<SettingsProps, SettingsState> {
@@ -47,7 +47,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
 
     this.state = {
       activeIndex: 0,
-      extraSettingsItems,
+      settingsItems: extraSettingsItems,
     };
   }
 
@@ -60,7 +60,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
   }
 
   onPanelAdd = () => {
-    this.setState({ extraSettingsItems });
+    this.setState({ settingsItems: extraSettingsItems });
   };
 
   settingsItem = (item: SettingsItem | null, index: number) => {
@@ -97,7 +97,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
 
   render() {
     const { loggedIn } = this.props;
-    const { extraSettingsItems } = this.state;
+    const { settingsItems } = this.state;
 
     const items: Array<SettingsItem | null> = [
       {
@@ -120,7 +120,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
         name: 'Delete data',
         content: <DeleteData />,
       },
-      ...extraSettingsItems,
+      ...settingsItems,
     ];
 
     return (
