@@ -13,3 +13,5 @@ export type StoreShapeWithRates = {
     projectRates: ProjectRatesSettings;
   } & settingsShape;
 } & storeShape;
+
+export type ProjectRatesReportProject = { rate?: number } & projectTreeWithTimeType;

@@ -8,7 +8,7 @@ import { formatDuration } from 'core/thyme';
 import { renderInjectable } from 'core/injectableComponent';
 
 export type ReportTableProps = {
-  projects: Array<projectTreeWithTimeType>,
+  projects: projectTreeWithTimeType[],
 };
 
 function ReportTable(props: ReportTableProps) {
@@ -22,7 +22,7 @@ function ReportTable(props: ReportTableProps) {
             Project
           </Table.HeaderCell>
           {renderInjectable('reports.tableheader.project', props)}
-          <Table.HeaderCell width={2} style={{ whiteSpace: 'nowrap' }}>
+          <Table.HeaderCell textAlign="right" width={2} style={{ whiteSpace: 'nowrap' }}>
             Total spent
           </Table.HeaderCell>
           {renderInjectable('reports.tableheader.total', props)}

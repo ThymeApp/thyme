@@ -10,9 +10,9 @@ import { valueFromEventTarget } from 'core/dom';
 
 import type { ProjectItemProps } from 'sections/Projects/components/ProjectsList/ProjectItem';
 
-import { getRatesCurrencySign } from '../selectors';
+import { getRatesCurrencySign } from '../../selectors';
 
-import type { ProjectWithRate, StoreShapeWithRates } from '../types';
+import type { ProjectWithRate, StoreShapeWithRates } from '../../types';
 
 type ProjectHourlyRatePassedProps = {
   isMobile: boolean;

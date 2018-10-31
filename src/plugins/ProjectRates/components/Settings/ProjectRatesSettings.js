@@ -7,11 +7,11 @@ import type { Dispatch } from 'redux';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
-import { popular, other } from '../currencies';
+import { popular, other } from '../../currencies';
 
-import { getRatesCurrency } from '../selectors';
+import { getRatesCurrency } from '../../selectors';
 
-import { updateCurrency } from '../actions';
+import { updateCurrency } from '../../actions';
 
 function transformToOption(currencies) {
   return Object.keys(currencies).map((value: string) => ({
