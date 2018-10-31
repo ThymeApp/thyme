@@ -8,10 +8,12 @@ import Input from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import { valueFromEventTarget } from 'core/dom';
 
 import type { ProjectItemProps } from 'sections/Projects/components/ProjectsList/ProjectItem';
+import type { ProjectWithRate } from '../types';
 
-type ProjectHourlyRateProps = ProjectItemProps & {
+type ProjectHourlyRateProps = {
   isMobile: boolean;
-};
+  project: ProjectWithRate;
+} & ProjectItemProps;
 
 export default ({ isMobile, project, onUpdateProject }: ProjectHourlyRateProps) => (
   <Table.Cell className="field">

@@ -79,8 +79,6 @@ declare type projectProps = {
   id: string;
   parent: string | null;
   name: string;
-  // from extensions
-  rate?: number;
 };
 
 declare type projectType = {
