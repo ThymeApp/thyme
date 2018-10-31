@@ -1,5 +1,5 @@
 // @flow
 
-export type ProjectRateCurrency = 'EUR' | 'USD';
+export type ProjectRateCurrency = string;
 
 export type ProjectWithRate = { rate?: number } & projectType;
