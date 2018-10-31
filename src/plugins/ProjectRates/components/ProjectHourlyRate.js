@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
@@ -8,34 +9,60 @@ import Input from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import { valueFromEventTarget } from 'core/dom';
 
 import type { ProjectItemProps } from 'sections/Projects/components/ProjectsList/ProjectItem';
-import type { ProjectWithRate } from '../types';
 
-type ProjectHourlyRateProps = {
+import { getRatesCurrencySign } from '../selectors';
+
+import type { ProjectWithRate, StoreShapeWithRates } from '../types';
+
+type ProjectHourlyRatePassedProps = {
   isMobile: boolean;
-  project: ProjectWithRate;
 } & ProjectItemProps;
 
-export default ({ isMobile, project, onUpdateProject }: ProjectHourlyRateProps) => (
-  <Table.Cell className="field">
-    {isMobile && (
-      <label>
-        Hourly rate
-      </label>
-    )}
-    <Input
-      label="€"
-      fluid
-      type="number"
-      placeholder="Project rate"
-      value={project.rate || ''}
-      onChange={(e: Event) => {
-        const rate = parseInt(valueFromEventTarget(e.target), 10);
+type ProjectHourlyRateProps = {
+  project: ProjectWithRate;
+  currencySign: string;
+} & ProjectHourlyRatePassedProps;
 
-        onUpdateProject({
-          ...project,
-          rate: Number.isNaN(rate) ? 0 : rate,
-        });
-      }}
-    />
-  </Table.Cell>
+function mapStateToProps(state: StoreShapeWithRates) {
+  return {
+    currencySign: getRatesCurrencySign(state),
+  };
+}
+
+function ProjectHourlyRate({
+  isMobile,
+  project,
+  currencySign,
+  onUpdateProject,
+}: ProjectHourlyRateProps) {
+  return (
+    <Table.Cell className="field">
+      {isMobile && (
+        <label>
+          Hourly rate
+        </label>
+      )}
+      <Input
+        label={currencySign}
+        fluid
+        type="number"
+        placeholder="Project rate"
+        value={project.rate || ''}
+        onChange={(e: Event) => {
+          const rate = parseInt(valueFromEventTarget(e.target), 10);
+
+          onUpdateProject({
+            ...project,
+            rate: Number.isNaN(rate) ? 0 : rate,
+          });
+        }}
+      />
+    </Table.Cell>
+  );
+}
+
+const EnhancedProjectHourlyRate = connect(mapStateToProps)(ProjectHourlyRate);
+
+export default (props: ProjectHourlyRatePassedProps) => (
+  <EnhancedProjectHourlyRate {...props} />
 );

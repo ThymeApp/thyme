@@ -2,7 +2,7 @@
 
 export type ProjectRateCurrency = string;
 
-export type ProjectWithRate = { rate?: number } & projectType;
+export type ProjectWithRate = { rate?: number } & projectTreeType;
 
 export type ProjectRatesSettings = {
   currency: string;
