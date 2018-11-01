@@ -18,3 +18,7 @@ export function refreshToken(): Promise<string> {
 export function getState(): Promise<exportType> {
   return get('/get-state');
 }
+
+export function getAccountInformation(): Promise<AccountInformation> {
+  return get('/account-information');
+}

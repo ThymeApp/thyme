@@ -12,7 +12,11 @@ import { sortedProjects } from './selectors';
 import NewProject from './components/NewProject';
 import ProjectsList from './components/ProjectsList';
 
-function Projects({ projects }: { projects: Array<projectTreeType> }) {
+type ProjectsProps = {
+  projects: Array<projectTreeType>;
+};
+
+function Projects({ projects }: ProjectsProps) {
   return (
     <Container>
       <Header as="h1">
@@ -29,7 +33,9 @@ function Projects({ projects }: { projects: Array<projectTreeType> }) {
 }
 
 function mapStateToProps(state) {
-  return { projects: sortedProjects(state) };
+  return {
+    projects: sortedProjects(state),
+  };
 }
 
 export default connect(mapStateToProps)(Projects);

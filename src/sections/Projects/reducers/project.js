@@ -1,6 +1,6 @@
 // @flow
 
-import { combineReducers } from 'redux';
+import { createExtendableReducer } from 'reducers/registerReducer';
 
 function id(state = null, action) {
   switch (action.type) {
@@ -60,7 +60,7 @@ function updatedAt(state = new Date(), action) {
   }
 }
 
-const project = combineReducers({
+export default () => createExtendableReducer('projects.project', {
   id,
   parent,
   name,
@@ -68,5 +68,3 @@ const project = combineReducers({
   createdAt,
   updatedAt,
 });
-
-export default project;

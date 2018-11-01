@@ -7,21 +7,26 @@ import ProjectItem from './ProjectItem'; // eslint-disable-line import/no-cycle
 
 import './ProjectsList.css';
 
-type ProjectsListType = {
-  projects: Array<projectTreeType>,
-  parent?: string,
-  level?: number,
+type ProjectsListProps = {
+  projects: Array<projectTreeType>;
+  parent?: string;
+  level?: number;
 };
 
 function ProjectsList({
   projects,
   parent = '',
   level = 1,
-}: ProjectsListType): Element<typeof ProjectItem>[] {
+}: ProjectsListProps): Element<typeof ProjectItem>[] {
   return projects
     .filter(item => (parent === '' && item.parent === null) || item.parent === parent)
     .map(project => (
-      <ProjectItem key={project.id} project={project} projects={projects} level={level} />
+      <ProjectItem
+        key={project.id}
+        project={project}
+        projects={projects}
+        level={level}
+      />
     ));
 }
 

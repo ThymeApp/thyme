@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import mitt from 'mitt';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
@@ -40,6 +41,13 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
   return [...filters, filter];
 }
 
+const emitter = mitt();
+const ADD_COLUMN = 'reports.add.column';
+
+export function registerTableColumn(id: string, name: string) {
+  emitter.emit(ADD_COLUMN, { id, name });
+}
+
 type ReportsProps = {
   history: RouterHistory;
   from: Date;
@@ -55,12 +63,43 @@ type ReportsProps = {
 type ReportsState = {
   saveOpened: boolean;
   loadOpened: boolean;
+  columns: { name: string, id: string }[];
+  hideColumns: Array<string | null>;
 };
 
 class Reports extends Component<ReportsProps, ReportsState> {
   state = {
     saveOpened: false,
     loadOpened: false,
+    columns: [
+      { id: 'project', name: 'Project name' },
+      { id: 'total', name: 'Total spent' },
+    ],
+    hideColumns: [],
+  };
+
+  componentDidMount() {
+    emitter.on(ADD_COLUMN, this.onAddColumn);
+  }
+
+  componentWillUnmount() {
+    emitter.off(ADD_COLUMN, this.onAddColumn);
+  }
+
+  onAddColumn = (column) => {
+    const { columns } = this.state;
+
+    this.setState({
+      columns: [...columns, column],
+    });
+  };
+
+  onToggleColumn = (column: string) => {
+    const { hideColumns } = this.state;
+
+    this.setState({
+      hideColumns: toggleFilter(hideColumns, column),
+    });
   };
 
   onToggleFilter = (filter: string | null) => {
@@ -137,7 +176,12 @@ class Reports extends Component<ReportsProps, ReportsState> {
       roundAmount,
     } = this.props;
 
-    const { saveOpened, loadOpened } = this.state;
+    const {
+      columns,
+      hideColumns,
+      saveOpened,
+      loadOpened,
+    } = this.state;
 
     return (
       <Container className="Reports">
@@ -160,21 +204,19 @@ class Reports extends Component<ReportsProps, ReportsState> {
           to={to}
           updateDateRange={this.onUpdateDateRange}
         />
-        <Grid divided="vertically" stackable style={{ marginTop: 0, marginBottom: 0 }}>
-          <Grid.Row columns={2}>
-            <Grid.Column width={12}>
-              <ReportCharts projects={projects} />
-            </Grid.Column>
-            <Grid.Column width={4} floated="right">
-              <ReportFilters
-                projects={allProjects}
-                filters={filters}
-                onToggle={this.onToggleFilter}
-              />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-        <ReportTable projects={projects} />
+        <ReportCharts projects={projects} />
+        <ReportFilters
+          projects={allProjects}
+          filters={filters}
+          columns={columns}
+          hideColumns={hideColumns}
+          onToggleProject={this.onToggleFilter}
+          onToggleColumn={this.onToggleColumn}
+        />
+        <ReportTable
+          hideColumns={hideColumns}
+          projects={projects}
+        />
         <ReportDetailed
           round={detailedRound}
           roundAmount={roundAmount}

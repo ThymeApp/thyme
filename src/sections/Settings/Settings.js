@@ -2,6 +2,8 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import type { Node } from 'react';
+import mitt from 'mitt';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
@@ -18,18 +20,50 @@ import DeleteData from './components/DeleteData';
 
 import './Settings.css';
 
+type SettingsItem = { name: string, content: Node };
+
+const emitter = mitt();
+const ADD_PANEL = 'settings.add.panel';
+let extraSettingsItems: SettingsItem[] = [];
+
+export function registerSettingsItem(item: SettingsItem) {
+  extraSettingsItems = [...extraSettingsItems, item];
+
+  emitter.emit(ADD_PANEL);
+}
+
 type SettingsProps = {
   loggedIn: boolean;
 };
 
 type SettingsState = {
   activeIndex: number;
+  settingsItems: SettingsItem[];
 };
 
 class Settings extends Component<SettingsProps, SettingsState> {
-  state = { activeIndex: 0 };
+  constructor() {
+    super();
 
-  settingsItem = (item: { name: string, content: any } | null, index: number) => {
+    this.state = {
+      activeIndex: 0,
+      settingsItems: extraSettingsItems,
+    };
+  }
+
+  componentDidMount() {
+    emitter.on(ADD_PANEL, this.onPanelAdd);
+  }
+
+  componentWillUnmount() {
+    emitter.off(ADD_PANEL, this.onPanelAdd);
+  }
+
+  onPanelAdd = () => {
+    this.setState({ settingsItems: extraSettingsItems });
+  };
+
+  settingsItem = (item: SettingsItem | null, index: number) => {
     if (!item) {
       return null;
     }
@@ -63,8 +97,9 @@ class Settings extends Component<SettingsProps, SettingsState> {
 
   render() {
     const { loggedIn } = this.props;
+    const { settingsItems } = this.state;
 
-    const items = [
+    const items: Array<SettingsItem | null> = [
       {
         name: 'Timesheet settings',
         content: <TimeSheet />,
@@ -85,6 +120,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
         name: 'Delete data',
         content: <DeleteData />,
       },
+      ...settingsItems,
     ];
 
     return (

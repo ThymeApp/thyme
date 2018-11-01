@@ -1,6 +1,6 @@
 // @flow
 
-import { combineReducers } from 'redux';
+import { createExtendableReducer } from 'reducers/registerReducer';
 
 function perPage(state: number = 10, action) {
   switch (action.type) {
@@ -44,7 +44,7 @@ function enableEndDate(state: boolean = false, action) {
   }
 }
 
-export default combineReducers({
+export default () => createExtendableReducer('settings.timesheet', {
   perPage,
   enableNotes,
   enableProjects,

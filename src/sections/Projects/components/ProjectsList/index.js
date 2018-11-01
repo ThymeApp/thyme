@@ -4,11 +4,19 @@ import React from 'react';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
+import { renderInjectable } from 'core/injectableComponent';
+
 import Responsive from 'components/Responsive';
 
 import ProjectsList from './ProjectsList';
 
-function projectsListWrapper({ projects }: { projects: Array<projectTreeType> }) {
+type ProjectsListWrapperProps = {
+  projects: Array<projectTreeType>;
+};
+
+function ProjectsListWrapper(props: ProjectsListWrapperProps) {
+  const { projects } = props;
+
   return (
     <Table>
       <Responsive min="tablet">
@@ -18,8 +26,12 @@ function projectsListWrapper({ projects }: { projects: Array<projectTreeType> })
               <Table.HeaderCell>
                 Name
               </Table.HeaderCell>
-              <Table.HeaderCell colSpan={2} width={6}>
+              {renderInjectable('projects.tableheader.name', props)}
+              <Table.HeaderCell width={5}>
                 Parent
+              </Table.HeaderCell>
+              {renderInjectable('projects.tableheader.parent', props)}
+              <Table.HeaderCell width={1}>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -32,4 +44,4 @@ function projectsListWrapper({ projects }: { projects: Array<projectTreeType> })
   );
 }
 
-export default projectsListWrapper;
+export default ProjectsListWrapper;

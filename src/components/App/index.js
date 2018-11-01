@@ -15,7 +15,7 @@ import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import Sidebar from 'semantic-ui-react/dist/commonjs/modules/Sidebar';
 
-import { clearAlert } from 'actions/app';
+import { clearAlert, appInit } from 'actions/app';
 
 import { getAlert } from 'selectors/app';
 
@@ -28,10 +28,11 @@ import thyme from './Thyme.svg';
 import './App.css';
 import './print.css';
 
-type AppType = {
+type AppProps = {
   location: RouterLocation;
   children: any;
   alertMessage: string;
+  onInitialize: () => void;
   onCloseAlert: () => void;
 }
 
@@ -39,10 +40,16 @@ type AppState = {
   menuOpened: boolean;
 }
 
-class App extends Component<AppType, AppState> {
+class App extends Component<AppProps, AppState> {
   state = {
     menuOpened: false,
   };
+
+  constructor(props: AppProps) {
+    super(props);
+
+    props.onInitialize();
+  }
 
   handleToggle = () => {
     const { menuOpened } = this.state;
@@ -182,6 +189,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
+    onInitialize() {
+      dispatch(appInit());
+    },
     onCloseAlert() {
       dispatch(clearAlert());
     },

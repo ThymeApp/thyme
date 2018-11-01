@@ -3,31 +3,33 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
-import reports from 'sections/Reports/reducers';
-import settings from 'sections/Settings/reducers';
-import projects from 'sections/Projects/reducers';
-import account from 'sections/Account/reducers';
-import time from 'sections/TimeSheet/reducers';
+import createReportsReducers from 'sections/Reports/reducers';
+import createSettingsReducers from 'sections/Settings/reducers';
+import createProjectsReducers from 'sections/Projects/reducers';
+import createAccountReducers from 'sections/Account/reducers';
+import createTimeReducers from 'sections/TimeSheet/reducers';
 
 import runMigrations from '../migrations';
 
-import app from './app';
+import createAppReducers from './app';
 
-const combinedReducers = combineReducers({
-  account,
-  app,
-  projects,
-  reports,
-  time,
-  settings,
-  form: formReducer,
-});
+export default () => {
+  const combinedReducers = combineReducers({
+    account: createAccountReducers(),
+    app: createAppReducers(),
+    projects: createProjectsReducers(),
+    reports: createReportsReducers(),
+    time: createTimeReducers(),
+    settings: createSettingsReducers(),
+    form: formReducer,
+  });
 
-export default (state: any, action: { type: string }) => {
-  // allow to run migrations on store data by action
-  if (action.type === 'MIGRATE_STORE_DATA') {
-    return runMigrations(state);
-  }
+  return (state: any, action: { type: string }) => {
+    // allow to run migrations on store data by action
+    if (action.type === 'MIGRATE_STORE_DATA') {
+      return runMigrations(state);
+    }
 
-  return combinedReducers(state, action);
+    return combinedReducers(state, action);
+  };
 };

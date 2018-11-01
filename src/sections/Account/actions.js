@@ -24,3 +24,14 @@ export function loginAccount(token: string | null = null) {
 export function logout() {
   return { type: 'LOG_OUT' };
 }
+
+export function accountInit() {
+  return { type: 'ACCOUNT_INIT' };
+}
+
+export function receiveAccountInformation(information: AccountInformation) {
+  return {
+    type: 'ACCOUNT_RECEIVE_INFORMATION',
+    information,
+  };
+}

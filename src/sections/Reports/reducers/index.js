@@ -1,10 +1,10 @@
 // @flow
 
-import { combineReducers } from 'redux';
+import { createExtendableReducer } from 'reducers/registerReducer';
 
-import report from './report';
+import createReportReducer from './report';
 
-function byId(state = {}, action) {
+const byId = report => (state = {}, action) => {
   switch (action.type) {
     // targeted updates
     case 'ADD_REPORT':
@@ -21,7 +21,7 @@ function byId(state = {}, action) {
     default:
       return state;
   }
-}
+};
 
 function allIds(state = [], action) {
   switch (action.type) {
@@ -34,7 +34,7 @@ function allIds(state = [], action) {
   }
 }
 
-export default combineReducers({
-  byId,
+export default () => createExtendableReducer('reports', {
+  byId: byId(createReportReducer()),
   allIds,
 });

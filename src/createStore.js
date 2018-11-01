@@ -1,11 +1,26 @@
 // @flow
 
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
-import reducers from './reducers';
+import createReducers from './reducers';
+import epics from './epics';
 
-export default (initialState: any = {}, middleWare: any) => createStore(
-  reducers,
-  initialState,
-  middleWare,
-);
+export default (initialState: any = {}) => {
+  const epicMiddleware = createEpicMiddleware();
+
+  const store = createStore(
+    createReducers(),
+    initialState,
+    composeWithDevTools(
+      applyMiddleware(
+        epicMiddleware,
+      ),
+    ),
+  );
+
+  epicMiddleware.run(epics);
+
+  return store;
+};

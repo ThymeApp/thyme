@@ -1,6 +1,6 @@
 // @flow
 
-import { combineReducers } from 'redux';
+import { createExtendableReducer } from 'reducers/registerReducer';
 
 function alert(state: string = '', action) {
   switch (action.type) {
@@ -34,7 +34,7 @@ function syncing(state: boolean = false, action) {
   }
 }
 
-export default combineReducers({
+export default () => createExtendableReducer('app', {
   alert,
   update,
   syncing,

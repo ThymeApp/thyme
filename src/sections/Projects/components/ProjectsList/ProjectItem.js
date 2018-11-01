@@ -12,6 +12,8 @@ import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import { isDescendant } from 'core/projects';
+import { valueFromEventTarget } from 'core/dom';
+import { renderInjectable } from 'core/injectableComponent';
 
 import Responsive from 'components/Responsive';
 
@@ -21,38 +23,30 @@ import ProjectInput from 'sections/Projects/components/ProjectInput';
 
 import { updateProject, removeProject } from '../../actions';
 
-import ProjectsList from './ProjectsList'; // eslint-disable-line import/no-cycle
+import ProjectsList from './ProjectsList';
 
-function projectValues(props) {
-  return {
-    id: props.project.id,
-    name: props.project.name,
-    parent: props.project.parent,
-  };
-}
-
-type ProjectItemType = {
-  projects: Array<projectTreeType>,
-  project: projectTreeType,
+export type ProjectItemProps = {
+  projects: Array<projectTreeType>;
+  project: projectTreeType;
   level: number;
-  onUpdateProject: (project: { id: string, name: string, parent: string | null }) => void,
-  onRemoveProject: (id: string) => void,
-  showAlert: (message: string) => void,
+  onUpdateProject: (project: projectProps) => void;
+  onRemoveProject: (id: string) => void;
+  showAlert: (message: string) => void;
 };
 
 type ProjectItemState = {
   confirmDelete: boolean,
 };
 
-class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
+class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
   state = { confirmDelete: false };
 
   onChangeName = (e: Event) => {
-    const { onUpdateProject } = this.props;
+    const { project, onUpdateProject } = this.props;
 
     onUpdateProject({
-      ...projectValues(this.props),
-      name: e.target instanceof HTMLInputElement ? e.target.value : '',
+      ...project,
+      name: valueFromEventTarget(e.target),
     });
   };
 
@@ -67,7 +61,7 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
     }
 
     onUpdateProject({
-      ...projectValues(this.props),
+      ...project,
       parent: parentId,
     });
   };
@@ -93,7 +87,11 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
   onCancelConfirm = () => this.setState({ confirmDelete: false });
 
   render() {
-    const { project, projects, level } = this.props;
+    const {
+      project,
+      projects,
+      level,
+    } = this.props;
     const { confirmDelete } = this.state;
 
     const NameInput = (
@@ -125,6 +123,7 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
                   </div>
                 )}
               </Table.Cell>
+              {renderInjectable('projects.tablerow.name', { ...this.props, isMobile })}
               <Table.Cell className="field">
                 {isMobile && (
                   <label>
@@ -137,6 +136,7 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
                   excludeValue
                 />
               </Table.Cell>
+              {renderInjectable('projects.tablerow.parent', { ...this.props, isMobile })}
               <Table.Cell>
                 {isMobile ? (
                   <Button icon onClick={this.onRemoveEntry}>
@@ -166,7 +166,11 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
             </Table.Row>
           )}
         </Responsive>
-        {ProjectsList({ projects, parent: project.id, level: level + 1 })}
+        {ProjectsList({
+          projects,
+          parent: project.id,
+          level: level + 1,
+        })}
       </Fragment>
     );
   }
@@ -174,7 +178,7 @@ class ProjectItem extends Component<ProjectItemType, ProjectItemState> {
 
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
-    onUpdateProject(project: projectTreeType) {
+    onUpdateProject(project: projectProps) {
       dispatch(updateProject(project));
     },
 

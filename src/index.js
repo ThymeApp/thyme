@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { BrowserRouter } from 'react-router-dom';
 
 import 'semantic-ui-css/semantic.min.css';
@@ -20,12 +19,11 @@ import App from './components/App';
 import Routes from './Routes';
 import registerServiceWorker from './registerServiceWorker';
 
+import registerPlugins from './plugins/register';
+
 const initialState = runMigrations(loadState());
 
-const store: ThymeStore = createStore(
-  initialState,
-  composeWithDevTools({})(),
-);
+const store: ThymeStore = createStore(initialState);
 
 registerServiceWorker(store.dispatch);
 saveOnStoreChange(store);
@@ -42,3 +40,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root') || document.createElement('div'),
 );
+
+registerPlugins(store);

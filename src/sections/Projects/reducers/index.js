@@ -1,10 +1,10 @@
 // @flow
 
-import { combineReducers } from 'redux';
+import { createExtendableReducer } from 'reducers/registerReducer';
 
-import project from './project';
+import createProjectReducer from './project';
 
-function byId(state = {}, action) {
+const byId = project => (state = {}, action) => {
   switch (action.type) {
     case 'ADD_PROJECT':
     case 'UPDATE_PROJECT':
@@ -26,7 +26,7 @@ function byId(state = {}, action) {
     default:
       return state;
   }
-}
+};
 
 function allIds(state = [], action) {
   switch (action.type) {
@@ -39,7 +39,7 @@ function allIds(state = [], action) {
   }
 }
 
-export default combineReducers({
-  byId,
+export default () => createExtendableReducer('projects', {
+  byId: byId(createProjectReducer()),
   allIds,
 });

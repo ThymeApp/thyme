@@ -47,9 +47,12 @@ declare type settingsShape = {
   timesheet: settingsTimesheet;
 };
 
+declare type capability = 'project_rates';
+
 declare type storeShape = {
   account: {
     jwt: string | null;
+    capabilities: capability[];
   };
   app: {
     alert: string;
@@ -72,14 +75,17 @@ declare type reportType = {
   createdAt: string;
 };
 
-declare type projectType = {
+declare type projectProps = {
   id: string;
   parent: string | null;
   name: string;
+};
+
+declare type projectType = {
   removed?: boolean;
   createdAt: string;
   updatedAt: string;
-};
+} & projectProps;
 
 declare type projectTreeType = projectType & { nameTree: Array<string> };
 declare type projectTreeWithTimeType = projectTreeType & { time: number, entries: Array<timeType> };
@@ -125,6 +131,18 @@ declare type RouterMatch = {
 
 declare type RouterHistory = {
   push: (path: string) => void;
+};
+
+declare type ActionsObservable = {
+  pipe: any;
+};
+
+declare type StateObservable = {
+  value: storeShape;
+};
+
+declare type AccountInformation = {
+  capabilities: capability[];
 };
 
 declare type ThymeStore = Store<storeShape, *>;
