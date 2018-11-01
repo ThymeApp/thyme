@@ -99,7 +99,6 @@ class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
           entries={entries.filter((item, index) => index <= end && index >= start)}
           now={now}
         />
-        {renderInjectable('timesheet.afterTable', this.props)}
         {totalPages > 1 && (
           <Pagination
             firstItem={null}
@@ -110,6 +109,7 @@ class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
             onPageChange={this.handlePaginationChange}
           />
         )}
+        {renderInjectable('timesheet.afterTable', this.props)}
       </div>
     );
   }
