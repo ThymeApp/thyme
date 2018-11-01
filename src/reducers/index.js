@@ -1,7 +1,8 @@
 // @flow
 
-import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+
+import { createExtendableReducer } from 'reducers/registerReducer';
 
 import createReportsReducers from 'sections/Reports/reducers';
 import createSettingsReducers from 'sections/Settings/reducers';
@@ -14,7 +15,7 @@ import runMigrations from '../migrations';
 import createAppReducers from './app';
 
 export default () => {
-  const combinedReducers = combineReducers({
+  const combinedReducers = createExtendableReducer('thyme', {
     account: createAccountReducers(),
     app: createAppReducers(),
     projects: createProjectsReducers(),
