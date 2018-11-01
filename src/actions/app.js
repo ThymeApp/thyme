@@ -47,3 +47,10 @@ export function syncSuccess() {
 export function appInit() {
   return { type: 'APP_INIT' };
 }
+
+export function pluginInit(name: string) {
+  return {
+    type: 'PLUGIN_INIT',
+    name,
+  };
+}
