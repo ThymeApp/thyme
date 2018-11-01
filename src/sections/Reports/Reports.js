@@ -48,6 +48,8 @@ export function registerTableColumn(id: string, name: string) {
   emitter.emit(ADD_COLUMN, { id, name });
 }
 
+type ReportColumn = { name: string, id: string };
+
 type ReportsProps = {
   history: RouterHistory;
   from: Date;
@@ -63,7 +65,7 @@ type ReportsProps = {
 type ReportsState = {
   saveOpened: boolean;
   loadOpened: boolean;
-  columns: { name: string, id: string }[];
+  columns: ReportColumn[];
   hideColumns: Array<string | null>;
 };
 
@@ -86,7 +88,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
     emitter.off(ADD_COLUMN, this.onAddColumn);
   }
 
-  onAddColumn = (column) => {
+  onAddColumn = (column: any) => {
     const { columns } = this.state;
 
     this.setState({
