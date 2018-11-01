@@ -9,6 +9,8 @@ import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordion';
 import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagination';
 
+import { renderInjectable } from 'core/injectableComponent';
+
 import Responsive from 'components/Responsive';
 
 import { getEntriesPerPage } from '../Settings/selectors';
@@ -92,10 +94,12 @@ class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
             </div>
           ))}
         </Responsive>
+        {renderInjectable('timesheet.beforeTable', this.props)}
         <TimeTable
           entries={entries.filter((item, index) => index <= end && index >= start)}
           now={now}
         />
+        {renderInjectable('timesheet.afterTable', this.props)}
         {totalPages > 1 && (
           <Pagination
             firstItem={null}
