@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import mitt from 'mitt';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
@@ -48,12 +47,6 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
   return [...filters, filter];
 }
 
-const emitter = mitt();
-const ADD_COLUMN = 'reports.add.column';
-
-export function registerTableColumn(id: string, name: string) {
-  emitter.emit(ADD_COLUMN, { id, name });
-}
 
 type ReportColumn = { name: string, id: string };
 
@@ -85,22 +78,6 @@ class Reports extends Component<ReportsProps, ReportsState> {
       { id: 'total', name: 'Total spent' },
     ],
     hideColumns: [],
-  };
-
-  componentDidMount() {
-    emitter.on(ADD_COLUMN, this.onAddColumn);
-  }
-
-  componentWillUnmount() {
-    emitter.off(ADD_COLUMN, this.onAddColumn);
-  }
-
-  onAddColumn = (column: any) => {
-    const { columns } = this.state;
-
-    this.setState({
-      columns: [...columns, column],
-    });
   };
 
   onToggleColumn = (column: string) => {

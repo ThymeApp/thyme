@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import type { Node } from 'react';
+import mitt from 'mitt';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
@@ -19,10 +20,6 @@ type TableColumn = {
 
 type TableRow = { id: any } & any;
 
-const registeredColumns: {
-  [name: string]: TableColumn[];
-} = {};
-
 type TableProps = {
   name: string;
   columns: TableColumn[];
@@ -32,6 +29,27 @@ type TableProps = {
 type TableState = {
   extraColumns: TableColumn[];
 };
+
+const emitter = mitt();
+const ADD_COLUMN = 'table.add.column';
+
+const registeredColumns: {
+  [name: string]: TableColumn[];
+} = {};
+
+export function registerColumn(name: string, column: TableColumn) {
+  if (!registeredColumns[name]) {
+    registeredColumns[name] = [];
+  }
+
+  registeredColumns[name] = [...registeredColumns[name], column];
+
+  emitter.emit(ADD_COLUMN, name);
+}
+
+export function registerColumns(name: string, columns: TableColumn[]) {
+  columns.forEach(column => registerColumn(name, column));
+}
 
 function getRegisteredColumns(name: string): TableColumn[] {
   return registeredColumns[name] || [];
@@ -45,6 +63,24 @@ class TableComponent extends Component<TableProps, TableState> {
       extraColumns: getRegisteredColumns(props.name),
     };
   }
+
+  componentDidMount() {
+    emitter.on(ADD_COLUMN, this.updateColumns);
+  }
+
+  componentWillUnmount() {
+    emitter.off(ADD_COLUMN, this.updateColumns);
+  }
+
+  updateColumns = (tableName: any) => {
+    const { name } = this.props;
+
+    if (tableName === name) {
+      this.setState({
+        extraColumns: getRegisteredColumns(name),
+      });
+    }
+  };
 
   render() {
     const { columns, rows } = this.props;
