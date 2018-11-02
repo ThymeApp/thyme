@@ -3,7 +3,6 @@
 import mitt from 'mitt';
 
 const emitter = mitt();
-
 const ADD_PANEL = 'settings.add.panel';
 
 let extraSettingsItems: SettingsPanel[] = [];
