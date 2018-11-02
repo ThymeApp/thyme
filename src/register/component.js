@@ -6,7 +6,7 @@ const injectables: {
   [name: string]: { key: string, render: (...any) => any }[];
 } = {};
 
-export function registerInjectable(name: string, key: string, render: (...any) => any) {
+export function register(name: string, key: string, renderProp: (...any) => any) {
   if (!injectables[name]) {
     injectables[name] = [];
   }
@@ -15,12 +15,12 @@ export function registerInjectable(name: string, key: string, render: (...any) =
     ...injectables[name],
     {
       key,
-      render,
+      render: renderProp,
     },
   ];
 }
 
-export function renderInjectable(name: string, props: any) {
+export function render(name: string, props: any) {
   if (!injectables[name]) {
     return null;
   }

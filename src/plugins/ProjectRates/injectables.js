@@ -1,6 +1,6 @@
 // @flow
 
-import { registerInjectable } from 'core/injectableComponent';
+import { register as registerComponent } from 'register/component';
 
 import { registerSettingsItem } from 'sections/Settings/Settings';
 import { registerTableColumn } from 'sections/Reports/Reports';
@@ -16,8 +16,8 @@ import ReportTableTotal from './components/Reports/ReportTableTotal';
 
 export default () => {
   // Projects page
-  registerInjectable('projects.tableheader.parent', 'RatesProjectsTableHeader', ProjectTableHeader);
-  registerInjectable('projects.tablerow.parent', 'RatesProjectsRateInput', ProjectHourlyRate);
+  registerComponent('projects.tableheader.parent', 'RatesProjectsTableHeader', ProjectTableHeader);
+  registerComponent('projects.tablerow.parent', 'RatesProjectsRateInput', ProjectHourlyRate);
 
   // Settings page
   registerSettingsItem({
@@ -27,7 +27,7 @@ export default () => {
 
   // Reports page
   registerTableColumn('ProjectRate', 'Total price');
-  registerInjectable('reports.tableheader.total', 'ReportsRatesTableHeader', ReportTableHeader);
-  registerInjectable('reports.tablerow.total', 'ReportsRatesTotal', ReportTableRow);
-  registerInjectable('reports.tablefooter.total', 'ReportsRatesTotal', ReportTableTotal);
+  registerComponent('reports.tableheader.total', 'ReportsRatesTableHeader', ReportTableHeader);
+  registerComponent('reports.tablerow.total', 'ReportsRatesTotal', ReportTableRow);
+  registerComponent('reports.tablefooter.total', 'ReportsRatesTotal', ReportTableTotal);
 };

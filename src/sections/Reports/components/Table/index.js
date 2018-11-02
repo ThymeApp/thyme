@@ -5,7 +5,7 @@ import React from 'react';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
 import { formatDuration } from 'core/thyme';
-import { renderInjectable } from 'core/injectableComponent';
+import { render as renderComponent } from 'register/component';
 
 export type ReportTableProps = {
   projects: projectTreeWithTimeType[];
@@ -27,13 +27,13 @@ function ReportTable(props: ReportTableProps) {
               Project
             </Table.HeaderCell>
           )}
-          {renderInjectable('reports.tableheader.project', props)}
+          {renderComponent('reports.tableheader.project', props)}
           {showTotal && (
             <Table.HeaderCell textAlign="right" width={2} style={{ whiteSpace: 'nowrap' }}>
               Total spent
             </Table.HeaderCell>
           )}
-          {renderInjectable('reports.tableheader.total', props)}
+          {renderComponent('reports.tableheader.total', props)}
         </Table.Row>
       </Table.Header>
       <Table.Body>
@@ -44,26 +44,26 @@ function ReportTable(props: ReportTableProps) {
                 {project.nameTree.join(' > ')}
               </Table.Cell>
             )}
-            {renderInjectable('reports.tablerow.project', { ...props, project })}
+            {renderComponent('reports.tablerow.project', { ...props, project })}
             {showTotal && (
               <Table.Cell textAlign="right">
                 {formatDuration(project.time * 60)}
               </Table.Cell>
             )}
-            {renderInjectable('reports.tablerow.total', { ...props, project })}
+            {renderComponent('reports.tablerow.total', { ...props, project })}
           </Table.Row>
         ))}
       </Table.Body>
       <Table.Footer>
         <Table.Row>
           {showProject && <Table.HeaderCell />}
-          {renderInjectable('reports.tablefooter.project', props)}
+          {renderComponent('reports.tablefooter.project', props)}
           {showTotal && (
             <Table.HeaderCell textAlign="right">
               {formatDuration(projects.reduce((total, project) => total + (project.time * 60), 0))}
             </Table.HeaderCell>
           )}
-          {renderInjectable('reports.tablefooter.total', props)}
+          {renderComponent('reports.tablefooter.total', props)}
         </Table.Row>
       </Table.Footer>
     </Table>
