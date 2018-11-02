@@ -1,6 +1,6 @@
 // @flow
 
-import { createExtendableReducer } from 'reducers/registerReducer';
+import { create } from 'register/reducer';
 
 import createTimeReducer from './time';
 
@@ -77,7 +77,7 @@ function page(state = 1, action): number {
   }
 }
 
-export default () => createExtendableReducer('timesheet', {
+export default () => create('timesheet', {
   byId: byId(createTimeReducer()),
   allIds,
   dateRange,

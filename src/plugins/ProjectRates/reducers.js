@@ -2,7 +2,7 @@
 
 import { combineReducers } from 'redux';
 
-import { registerReducer } from 'reducers/registerReducer';
+import { register } from 'register/reducer';
 
 import type { ProjectRateCurrency } from './types';
 
@@ -28,8 +28,8 @@ const projectRates = combineReducers({ currency });
 
 export default (store: ThymeStore) => {
   // Project reducers
-  registerReducer(store, 'projects.project', { rate });
+  register(store, 'projects.project', { rate });
 
   // Settings reducers
-  registerReducer(store, 'settings', { projectRates });
+  register(store, 'settings', { projectRates });
 };

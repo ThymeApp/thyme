@@ -1,6 +1,6 @@
 // @flow
 
-import { createExtendableReducer } from 'reducers/registerReducer';
+import { create } from 'register/reducer';
 
 function durationRounding(state: rounding = 'none', action) {
   switch (action.type) {
@@ -29,7 +29,7 @@ function roundingOn(state: roundableOn = 'entries', action) {
   }
 }
 
-export default () => createExtendableReducer('settings.rounding', {
+export default () => create('settings.rounding', {
   durationRounding,
   durationRoundingAmount,
   roundingOn,
