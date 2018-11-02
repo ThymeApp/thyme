@@ -24,7 +24,12 @@ import {
 
 import { create as createTable } from 'register/table';
 
-import { getDurationRounding, getDurationAmount, getRoundingOn } from 'sections/Settings/selectors';
+import {
+  getDurationRounding,
+  getDurationAmount,
+  getRoundingOn,
+  getEnableEndDate,
+} from 'sections/Settings/selectors';
 import { sortedProjects } from 'sections/Projects/selectors';
 import { getAllTimeEntries } from 'sections/TimeSheet/selectors';
 
@@ -47,6 +52,7 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
 }
 
 type ReportsProps = {
+  enabledEndDate: boolean;
   history: RouterHistory;
   from: Date;
   to: Date;
@@ -141,6 +147,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
       to,
       detailedRound,
       roundAmount,
+      enabledEndDate,
     } = this.props;
 
     const {
@@ -203,6 +210,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
           round={detailedRound}
           roundAmount={roundAmount}
           projects={projects}
+          enabledEndDate={enabledEndDate}
         />
         <SaveModal
           isOpen={saveOpened}
@@ -261,6 +269,7 @@ function mapStateToProps(state, props) {
     detailedRound: roundingOn === 'entries' ? durationRounding : 'none',
     roundAmount: durationAmount,
     projects: allProjects.filter(project => filters.indexOf(project.id) > -1),
+    enabledEndDate: getEnableEndDate(state),
   };
 }
 

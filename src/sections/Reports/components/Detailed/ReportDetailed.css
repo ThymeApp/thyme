@@ -1,22 +1,3 @@
-.ReportDetailed .ui.table thead th {
-  padding: 0;
-}
-
-.ReportDetailed th .ui.checkbox label::after,
-.ReportDetailed th .ui.checkbox label::before {
-  top: 13px;
-  left: 10px;
-}
-
-.ReportDetailed th .ui.checkbox {
-  display: block;
-  width: 100%;
-}
-
-.ReportDetailed th .ui.checkbox label {
-  padding: 0.92857143em 0.78571429em 0.92857143em 2.4em;
-}
-
 @media only screen {
   .ReportDetailed {
     display: none;
@@ -36,14 +17,5 @@
 
   .ui.popup {
     display: none !important;
-  }
-
-  .ReportDetailed th .ui.checkbox label {
-    padding-left: 0.78571429em;
-  }
-
-  .ReportDetailed th .ui.checkbox label::before,
-  .ReportDetailed th .ui.checkbox label::after {
-    display: none;
   }
 }
