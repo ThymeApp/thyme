@@ -241,16 +241,18 @@ function Filters({
 
 export function create(
   name: string,
-  columns: TableColumn[],
+  columns: Array<TableColumn | null>,
   rows: TableRow[],
 ): { filters: Node, table: Node } {
+  const cols = columns.filter(c => c !== null);
+
   return {
     filters: (
       <ColumnWrapper name={name}>
         {({ extraColumns, hiddenColumns, onToggleColumn }) => (
           <Filters
             name={name}
-            columns={columns}
+            columns={cols}
             extraColumns={extraColumns}
             hiddenColumns={hiddenColumns}
             onToggleColumn={onToggleColumn}
@@ -263,7 +265,7 @@ export function create(
         {({ extraColumns, hiddenColumns }) => (
           <TableComponent
             name={name}
-            columns={columns}
+            columns={cols}
             rows={rows}
             extraColumns={extraColumns}
             hiddenColumns={hiddenColumns}
