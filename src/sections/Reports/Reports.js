@@ -10,13 +10,20 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid';
 
-import { totalProjectTime, projectTimeEntries, sortByTime } from 'core/thyme';
+import {
+  totalProjectTime,
+  projectTimeEntries,
+  sortByTime,
+  formatDuration,
+} from 'core/thyme';
 import {
   queryStringFilters,
   queryStringFrom,
   queryStringTo,
   updateReport,
 } from 'core/reportQueryString';
+
+import { create as createTable } from 'register/table';
 
 import { getDurationRounding, getDurationAmount, getRoundingOn } from 'sections/Settings/selectors';
 import { sortedProjects } from 'sections/Projects/selectors';
@@ -185,6 +192,28 @@ class Reports extends Component<ReportsProps, ReportsState> {
       loadOpened,
     } = this.state;
 
+    const reportTable = createTable(
+      'reports', [
+        {
+          name: 'Project',
+          header: () => 'Project',
+          row: (project: projectTreeWithTimeType) => project.nameTree.join(' > '),
+        },
+        {
+          name: 'Total spent',
+          header: () => 'Total spent',
+          footer: (items: projectTreeWithTimeType[]) => formatDuration(
+            items.reduce((total, project) => total + (project.time * 60), 0),
+          ),
+          row: (project: projectTreeWithTimeType) => formatDuration(project.time * 60),
+          textAlign: 'right',
+          width: 2,
+          style: { whiteSpace: 'nowrap' },
+        },
+      ],
+      projects,
+    );
+
     return (
       <Container className="Reports">
         <Grid stackable columns={2} style={{ marginBottom: 0 }}>
@@ -207,6 +236,8 @@ class Reports extends Component<ReportsProps, ReportsState> {
           updateDateRange={this.onUpdateDateRange}
         />
         <ReportCharts projects={projects} />
+        {reportTable.filters}
+        {reportTable.table}
         <ReportFilters
           projects={allProjects}
           filters={filters}
