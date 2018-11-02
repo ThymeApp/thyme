@@ -1,3 +1,7 @@
+.ReportDetailed__toggle {
+  margin-bottom: 1em;
+}
+
 @media only screen {
   .ReportDetailed {
     display: none;
@@ -11,11 +15,12 @@
 }
 
 @media only print {
-  .no-print {
+  .ReportDetailed__toggle {
     display: none;
   }
 
-  .ui.popup {
+  .ui.popup,
+  .ui.dropdown {
     display: none !important;
   }
 }

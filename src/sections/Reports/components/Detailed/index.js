@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import format from 'date-fns/format';
 
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
@@ -110,8 +110,13 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
             onClick={this.toggleDetails}
           />
         </div>
-        {reportTable.filters}
-        {reportTable.table}
+
+        {opened && (
+          <Fragment>
+            {reportTable.filters}
+            {reportTable.table}
+          </Fragment>
+        )}
       </section>
     );
   }
