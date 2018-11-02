@@ -1,8 +1,8 @@
 // @flow
 
 import { register as registerComponent } from 'register/component';
+import { register as registerSettingsPanel } from 'register/settings';
 
-import { registerSettingsItem } from 'sections/Settings/Settings';
 import { registerTableColumn } from 'sections/Reports/Reports';
 
 import ProjectTableHeader from './components/Projects/ProjectTableHeader';
@@ -20,7 +20,7 @@ export default () => {
   registerComponent('projects.tablerow.parent', 'RatesProjectsRateInput', ProjectHourlyRate);
 
   // Settings page
-  registerSettingsItem({
+  registerSettingsPanel({
     name: 'Project rates',
     content: ProjectRatesSettings(),
   });

@@ -2,8 +2,6 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import type { Node } from 'react';
-import mitt from 'mitt';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
@@ -11,6 +9,8 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
 
 import { isLoggedIn } from 'sections/Account/selectors';
+
+import { listen, unlisten, items } from '../../register/settings';
 
 import TimeSheet from './components/TimeSheet';
 import Rounding from './components/Rounding';
@@ -20,25 +20,13 @@ import DeleteData from './components/DeleteData';
 
 import './Settings.css';
 
-type SettingsItem = { name: string, content: Node };
-
-const emitter = mitt();
-const ADD_PANEL = 'settings.add.panel';
-let extraSettingsItems: SettingsItem[] = [];
-
-export function registerSettingsItem(item: SettingsItem) {
-  extraSettingsItems = [...extraSettingsItems, item];
-
-  emitter.emit(ADD_PANEL);
-}
-
 type SettingsProps = {
   loggedIn: boolean;
 };
 
 type SettingsState = {
   activeIndex: number;
-  settingsItems: SettingsItem[];
+  extraPanels: SettingsPanel[];
 };
 
 class Settings extends Component<SettingsProps, SettingsState> {
@@ -47,23 +35,23 @@ class Settings extends Component<SettingsProps, SettingsState> {
 
     this.state = {
       activeIndex: 0,
-      settingsItems: extraSettingsItems,
+      extraPanels: items(),
     };
   }
 
   componentDidMount() {
-    emitter.on(ADD_PANEL, this.onPanelAdd);
+    listen(this.onPanelAdd);
   }
 
   componentWillUnmount() {
-    emitter.off(ADD_PANEL, this.onPanelAdd);
+    unlisten(this.onPanelAdd);
   }
 
   onPanelAdd = () => {
-    this.setState({ settingsItems: extraSettingsItems });
+    this.setState({ extraPanels: items() });
   };
 
-  settingsItem = (item: SettingsItem | null, index: number) => {
+  settingsItem = (item: SettingsPanel | null, index: number) => {
     if (!item) {
       return null;
     }
@@ -97,9 +85,9 @@ class Settings extends Component<SettingsProps, SettingsState> {
 
   render() {
     const { loggedIn } = this.props;
-    const { settingsItems } = this.state;
+    const { extraPanels } = this.state;
 
-    const items: Array<SettingsItem | null> = [
+    const panels: Array<SettingsPanel | null> = [
       {
         name: 'Timesheet settings',
         content: <TimeSheet />,
@@ -120,7 +108,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
         name: 'Delete data',
         content: <DeleteData />,
       },
-      ...settingsItems,
+      ...extraPanels,
     ];
 
     return (
@@ -129,7 +117,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
           Settings
         </Header>
 
-        <Accordion fluid styled>{items.map(this.settingsItem)}</Accordion>
+        <Accordion fluid styled>{panels.map(this.settingsItem)}</Accordion>
 
         <Header as="h3">
           About

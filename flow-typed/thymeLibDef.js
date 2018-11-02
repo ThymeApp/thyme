@@ -1,6 +1,7 @@
 // @flow
 
 import type { Store } from 'redux';
+import type { Node } from 'react';
 
 declare type timeShape = {
   byId: {
@@ -143,6 +144,11 @@ declare type StateObservable = {
 
 declare type AccountInformation = {
   capabilities: capability[];
+};
+
+declare type SettingsPanel = {
+  name: string;
+  content: Node;
 };
 
 declare type ThymeStore = Store<storeShape, *>;
