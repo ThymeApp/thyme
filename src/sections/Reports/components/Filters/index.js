@@ -1,16 +1,16 @@
 // @flow
 
 import React, { Component } from 'react';
+import type { Node } from 'react';
+
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
 type ReportFiltersType = {
   filters: Array<string>;
   projects: Array<projectTreeWithTimeType>;
-  columns: { name: string, id: string }[];
-  hideColumns: Array<string | null>;
+  columnFilters: Node;
   onToggleProject: (project: string | null) => void;
-  onToggleColumn: (column: string) => void;
 };
 
 class ReportFilters extends Component<ReportFiltersType> {
@@ -23,21 +23,11 @@ class ReportFilters extends Component<ReportFiltersType> {
     onToggleProject(name === '' ? null : name);
   };
 
-  onColumnToggle = (name: string) => (e: Event) => {
-    // prevent closing dropdown
-    e.preventDefault();
-    e.stopPropagation();
-
-    const { onToggleColumn } = this.props;
-    onToggleColumn(name);
-  };
-
   render() {
     const {
       filters,
       projects,
-      columns,
-      hideColumns,
+      columnFilters,
     } = this.props;
 
     return (
@@ -60,21 +50,7 @@ class ReportFilters extends Component<ReportFiltersType> {
           </Dropdown.Menu>
         </Dropdown>
 
-        <Dropdown text="Show columns" closeOnBlur={false}>
-          <Dropdown.Menu>
-            {columns.map(column => (
-              <Dropdown.Item
-                key={column.id}
-                onClick={this.onColumnToggle(column.id)}
-              >
-                <Checkbox
-                  label={column.name}
-                  checked={hideColumns.indexOf(column.id) === -1}
-                />
-              </Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
+        {columnFilters}
       </div>
     );
   }

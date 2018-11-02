@@ -33,7 +33,6 @@ import ReportCharts from './components/Charts';
 import DateRange from './components/DateRange';
 import ReportDetailed from './components/Detailed';
 import ReportFilters from './components/Filters';
-import ReportTable from './components/Table';
 import SaveModal from './components/SavedReports/Save';
 import LoadModal from './components/SavedReports/Load';
 
@@ -46,9 +45,6 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
 
   return [...filters, filter];
 }
-
-
-type ReportColumn = { name: string, id: string };
 
 type ReportsProps = {
   history: RouterHistory;
@@ -65,27 +61,12 @@ type ReportsProps = {
 type ReportsState = {
   saveOpened: boolean;
   loadOpened: boolean;
-  columns: ReportColumn[];
-  hideColumns: Array<string | null>;
 };
 
 class Reports extends Component<ReportsProps, ReportsState> {
   state = {
     saveOpened: false,
     loadOpened: false,
-    columns: [
-      { id: 'project', name: 'Project name' },
-      { id: 'total', name: 'Total spent' },
-    ],
-    hideColumns: [],
-  };
-
-  onToggleColumn = (column: string) => {
-    const { hideColumns } = this.state;
-
-    this.setState({
-      hideColumns: toggleFilter(hideColumns, column),
-    });
   };
 
   onToggleFilter = (filter: string | null) => {
@@ -163,8 +144,6 @@ class Reports extends Component<ReportsProps, ReportsState> {
     } = this.props;
 
     const {
-      columns,
-      hideColumns,
       saveOpened,
       loadOpened,
     } = this.state;
@@ -213,20 +192,13 @@ class Reports extends Component<ReportsProps, ReportsState> {
           updateDateRange={this.onUpdateDateRange}
         />
         <ReportCharts projects={projects} />
-        {reportTable.filters}
-        {reportTable.table}
         <ReportFilters
           projects={allProjects}
           filters={filters}
-          columns={columns}
-          hideColumns={hideColumns}
+          columnFilters={reportTable.filters}
           onToggleProject={this.onToggleFilter}
-          onToggleColumn={this.onToggleColumn}
         />
-        <ReportTable
-          hideColumns={hideColumns}
-          projects={projects}
-        />
+        {reportTable.table}
         <ReportDetailed
           round={detailedRound}
           roundAmount={roundAmount}
