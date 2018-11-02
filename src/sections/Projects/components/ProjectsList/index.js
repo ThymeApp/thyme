@@ -4,7 +4,7 @@ import React from 'react';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
-import { renderInjectable } from 'core/injectableComponent';
+import { render as renderComponent } from 'register/component';
 
 import Responsive from 'components/Responsive';
 
@@ -26,11 +26,11 @@ function ProjectsListWrapper(props: ProjectsListWrapperProps) {
               <Table.HeaderCell>
                 Name
               </Table.HeaderCell>
-              {renderInjectable('projects.tableheader.name', props)}
+              {renderComponent('projects.tableheader.name', props)}
               <Table.HeaderCell width={5}>
                 Parent
               </Table.HeaderCell>
-              {renderInjectable('projects.tableheader.parent', props)}
+              {renderComponent('projects.tableheader.parent', props)}
               <Table.HeaderCell width={1}>
               </Table.HeaderCell>
             </Table.Row>

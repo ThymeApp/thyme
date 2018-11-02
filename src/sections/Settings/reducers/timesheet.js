@@ -1,6 +1,6 @@
 // @flow
 
-import { createExtendableReducer } from 'reducers/registerReducer';
+import { create } from 'register/reducer';
 
 function perPage(state: number = 10, action) {
   switch (action.type) {
@@ -44,7 +44,7 @@ function enableEndDate(state: boolean = false, action) {
   }
 }
 
-export default () => createExtendableReducer('settings.timesheet', {
+export default () => create('settings.timesheet', {
   perPage,
   enableNotes,
   enableProjects,

@@ -13,7 +13,7 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import { isDescendant } from 'core/projects';
 import { valueFromEventTarget } from 'core/dom';
-import { renderInjectable } from 'core/injectableComponent';
+import { render as renderComponent } from 'register/component';
 
 import Responsive from 'components/Responsive';
 
@@ -123,7 +123,7 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
                   </div>
                 )}
               </Table.Cell>
-              {renderInjectable('projects.tablerow.name', { ...this.props, isMobile })}
+              {renderComponent('projects.tablerow.name', { ...this.props, isMobile })}
               <Table.Cell className="field">
                 {isMobile && (
                   <label>
@@ -136,7 +136,7 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
                   excludeValue
                 />
               </Table.Cell>
-              {renderInjectable('projects.tablerow.parent', { ...this.props, isMobile })}
+              {renderComponent('projects.tablerow.parent', { ...this.props, isMobile })}
               <Table.Cell>
                 {isMobile ? (
                   <Button icon onClick={this.onRemoveEntry}>

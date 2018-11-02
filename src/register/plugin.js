@@ -3,13 +3,13 @@
 import { ofType } from 'redux-observable';
 import { filter, mergeMap } from 'rxjs/operators';
 
-import { injectAsyncEpic } from '.';
+import { inject } from 'register/epic';
 
-export default (
+export function loadOnCapability(
   importModule: () => Promise<*>,
   selector: (state: any) => boolean,
   args: any,
-) => {
+) {
   const asyncEpic = (
     action$: ActionsObservable,
     state$: StateObservable,
@@ -29,5 +29,5 @@ export default (
     filter(() => false),
   );
 
-  injectAsyncEpic(asyncEpic);
-};
+  inject(asyncEpic);
+}

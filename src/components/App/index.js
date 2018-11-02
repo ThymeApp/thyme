@@ -15,6 +15,8 @@ import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import Sidebar from 'semantic-ui-react/dist/commonjs/modules/Sidebar';
 
+import { updateOnRegistration } from 'register/component';
+
 import { clearAlert, appInit } from 'actions/app';
 
 import { getAlert } from 'selectors/app';
@@ -200,5 +202,6 @@ function mapDispatchToProps(dispatch: Dispatch<*>) {
 
 export default compose(
   withRouter,
+  updateOnRegistration,
   connect(mapStateToProps, mapDispatchToProps),
 )(App);

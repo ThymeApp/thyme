@@ -1,6 +1,6 @@
 // @flow
 
-import { createExtendableReducer } from 'reducers/registerReducer';
+import { create } from 'register/reducer';
 
 function id(state = null, action) {
   switch (action.type) {
@@ -60,7 +60,7 @@ function updatedAt(state = new Date(), action) {
   }
 }
 
-export default () => createExtendableReducer('projects.project', {
+export default () => create('projects.project', {
   id,
   parent,
   name,

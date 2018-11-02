@@ -1,6 +1,6 @@
 // @flow
 
-import { createExtendableReducer } from 'reducers/registerReducer';
+import { create } from 'register/reducer';
 
 import createProjectReducer from './project';
 
@@ -39,7 +39,7 @@ function allIds(state = [], action) {
   }
 }
 
-export default () => createExtendableReducer('projects', {
+export default () => create('projects', {
   byId: byId(createProjectReducer()),
   allIds,
 });
