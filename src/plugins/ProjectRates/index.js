@@ -1,6 +1,6 @@
 // @flow
 
-import loadOnCapability from 'epics/loadOnCapability';
+import { loadOnCapability } from 'register/plugin';
 
 import { canAddRates } from './selectors';
 
