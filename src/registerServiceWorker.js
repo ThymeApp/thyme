@@ -73,6 +73,7 @@ function registerValidSW(swUrl) {
               // the fresh content will have been added to the cache.
               // It's the perfect time to display a "New content is
               // available; please refresh." message in your web app.
+              registration.waiting.postMessage('skipWaiting');
               dispatch(updateAvailable());
             } else {
               // At this point, everything has been precached.
