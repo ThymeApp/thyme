@@ -33,7 +33,7 @@
 
 <% if (process.env.REACT_APP_EXTRA_SCRIPTS) {
     _.forEach(process.env.REACT_APP_EXTRA_SCRIPTS.split(','), function (scriptSrc) {
-        %><script async src="<%= scriptSrc %>>"></script><%
+        %><script async src="<%= scriptSrc %>"></script><%
     })
 } %>
 </body>
