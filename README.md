@@ -54,7 +54,7 @@ If you have questions you can leave issues on this repository or send a message 
 
 1. Clone the repository and run `npm install`.
 2. Use `npm build` to build the application. Assets will be available in `build/`.
-3. Change the location of [Thyme Capsule](https://github.com/Gaya/thyme-capsule) by setting the `REACT_APP_API_ROOT` environment variable before building.
+3. Change the location of [Thyme Capsule](https://github.com/ThymeApp/thyme-capsule) by setting the `REACT_APP_API_ROOT` environment variable before building.
 
 ## Made with Create React App
 
