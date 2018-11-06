@@ -26,7 +26,7 @@ Create reports with detailed information spent per project over selected periods
 - Automatic rounding of time spent
 - Export / Import data
 - Saves to localStorage of the browser
-- Ability to sync data in the [Thyme Capsule](https://github.com/Gaya/thyme-capsule)
+- Ability to sync data in the [Thyme Capsule](https://github.com/ThymeApp/thyme-capsule)
 - Sync over multiple devices
 
 ## How to use
