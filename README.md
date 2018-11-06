@@ -1,4 +1,4 @@
-# ![Thyme](/public/favicon-32x32.png) Thyme
+# ![Thyme](/public/icons/favicon-32x32.png) Thyme
 
 A little web app which allows you to log time data.
 
@@ -39,13 +39,13 @@ If you have questions you can leave issues on this repository or send a message 
 
 ## Screenshots
 
-![Timesheets screen](/public/screenshot_timesheets.png)
+![Timesheets screen](/public/screenshots/screenshot_timesheets.png)
 > Detailed time logging
 
-![Reports screen](/public/screenshot_reports.png)
+![Reports screen](/public/screenshots/screenshot_reports.png)
 > Time log reports
 
-![Projects screen](/public/screenshot_projects.png)
+![Projects screen](/public/screenshots/screenshot_projects.png)
 > Adding and adjusting projects
 
 ---
