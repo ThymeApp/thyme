@@ -1,6 +1,7 @@
 // @flow
 
 import { createSelector } from 'reselect';
+import memoize from 'lodash/memoize';
 
 import { sortProjects } from 'core/projects';
 
@@ -13,6 +14,15 @@ export const getAllProjects = (state: storeShape): projectType[] => state.projec
 export const sortedProjects = createSelector(
   getAllProjects,
   sortProjects,
+);
+
+const getProjectsById = (state: storeShape): { [id: string]: projectType } => state.projects.byId;
+
+export const getProjectById = createSelector(
+  getProjectsById,
+  projects => memoize(
+    id => projects[id],
+  ),
 );
 
 export const canAddRates = hasCapability('project_rates');
