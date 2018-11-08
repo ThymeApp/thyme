@@ -20,9 +20,7 @@ const getProjectsById = (state: storeShape): { [id: string]: projectType } => st
 
 export const getProjectById = createSelector(
   getProjectsById,
-  projects => memoize(
-    id => projects[id],
-  ),
+  projects => memoize(id => projects[id]),
 );
 
 export const canAddRates = hasCapability('project_rates');
