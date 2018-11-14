@@ -72,5 +72,6 @@ export function get(url: string) {
 
 export function isValidThymeApi(url: string): Promise<boolean> {
   return fetch(url)
-    .then(response => response.headers.get('API-Consumer') === 'Thyme');
+    .then(response => response.headers.get('API-Consumer') === 'Thyme')
+    .catch(() => false);
 }
