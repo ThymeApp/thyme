@@ -6,7 +6,7 @@ A little web app which allows you to log time data.
 
 ---
 
-[![Build Status](https://travis-ci.org/Gaya/thyme.svg?branch=master)](https://travis-ci.org/Gaya/thyme)
+[![Build Status](https://travis-ci.org/ThymeApp/thyme.svg?branch=master)](https://travis-ci.org/ThymeApp/thyme)
 
 Thyme is a time logging web application which enables you to add and store time spent on different 
 projects you work on.
