@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import debounce from 'lodash/debounce';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
@@ -32,8 +33,10 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
   onChangeApiRoot = (e: Event) => {
     const value = valueFromEventTarget(e.target);
 
-    console.log(value);
+    this.onCheckApiValidity();
   };
+
+  onCheckApiValidity = debounce(() => this.checkApiValidity(), 100);
 
   checkApiValidity() {
     const { apiRoot } = this.props;
