@@ -1,9 +1,12 @@
 // @flow
 
-const apiRoot = process.env.REACT_APP_API_ROOT || '//localhost:4000';
+import { getApiRoot } from 'sections/Settings/selectors';
+
 let getState = () => undefined;
 
 function createUrl(url: string) {
+  const apiRoot = getApiRoot(getState());
+
   return `${apiRoot}${url}`;
 }
 
@@ -68,4 +71,10 @@ export function post(url: string, data: any) {
 
 export function get(url: string) {
   return request('GET', url);
+}
+
+export function isValidThymeApi(url: string): Promise<boolean> {
+  return fetch(url)
+    .then(response => response.headers.get('API-Consumer') === 'Thyme')
+    .catch(() => false);
 }

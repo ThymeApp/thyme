@@ -17,6 +17,7 @@ import Rounding from './components/Rounding';
 import Account from './components/Account';
 import ImportExport from './components/ImportExport';
 import DeleteData from './components/DeleteData';
+import Advanced from './components/Advanced';
 
 import './Settings.css';
 
@@ -107,6 +108,10 @@ class Settings extends Component<SettingsProps, SettingsState> {
       {
         name: 'Delete data',
         content: <DeleteData />,
+      },
+      {
+        name: 'Advanced settings',
+        content: <Advanced />,
       },
       ...extraPanels,
     ];

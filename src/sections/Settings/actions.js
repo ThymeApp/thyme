@@ -28,6 +28,13 @@ export function updatePerPage(perPage: number | string) {
   };
 }
 
+export function updateApiRoot(apiRoot: ?string) {
+  return {
+    type: 'UPDATE_API_ROOT',
+    apiRoot,
+  };
+}
+
 export const enableNotes = () => ({ type: 'ENABLE_NOTES' });
 export const disableNotes = () => ({ type: 'DISABLE_NOTES' });
 export const enableProjects = () => ({ type: 'ENABLE_PROJECTS' });

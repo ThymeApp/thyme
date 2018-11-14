@@ -43,9 +43,14 @@ declare type settingsTimesheet = {
   enableEndDate: boolean;
 };
 
+declare type settingsAdvanced = {
+  apiRoot: string;
+};
+
 declare type settingsShape = {
   rounding: settingsRounding;
   timesheet: settingsTimesheet;
+  advanced: settingsAdvanced;
 };
 
 declare type capability = 'project_rates';
