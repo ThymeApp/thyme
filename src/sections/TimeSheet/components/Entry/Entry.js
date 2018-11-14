@@ -5,10 +5,11 @@ import classnames from 'classnames';
 
 import format from 'date-fns/format';
 import startOfDay from 'date-fns/start_of_day';
-import isEqual from 'date-fns/is_equal';
+import addDays from 'date-fns/add_days';
 import setHours from 'date-fns/set_hours';
 import setMinutes from 'date-fns/set_minutes';
 import parse from 'date-fns/parse';
+import isBefore from 'date-fns/is_before';
 
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
@@ -186,7 +187,7 @@ class Entry extends Component<EntryProps, EntryState> {
       tracking: true,
       entry: {
         ...entry,
-        start: isEqual(entry.start, startOfDay(now)) ? startTime : entry.start,
+        start: isBefore(entry.start, addDays(now, -1)) ? startTime : entry.start,
         end: startTime,
       },
     });
