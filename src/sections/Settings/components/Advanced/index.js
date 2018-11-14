@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
 import type { Dispatch } from 'redux';
@@ -58,35 +58,36 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
     const { connection } = this.state;
 
     return (
-      <Form
-        noValidate
-      >
+      <Fragment>
         <Message
+          attached
           warning
           icon="warning"
           header="Attention"
           content="The following settings are for advanced users / developers only. Adjust these at your own risk."
         />
 
-        <Form.Field>
-          <label>
-            API location
-          </label>
-          <div>
-            <Input
-              loading={connection === 'validating'}
-              error={connection === 'invalid'}
-              icon={connection === 'valid' ? 'check' : 'delete'}
-              iconPosition="left"
-              placeholder="The endpoint URI to the API"
-              type="text"
-              size="small"
-              value={apiRoot}
-              onChange={this.onChangeApiRoot}
-            />
-          </div>
-        </Form.Field>
-      </Form>
+        <Form className="attached fluid segment">
+          <Form.Field>
+            <label>
+              Thyme Capsule API location
+            </label>
+            <div>
+              <Input
+                loading={connection === 'validating'}
+                error={connection === 'invalid'}
+                icon={connection === 'valid' ? 'check' : 'delete'}
+                iconPosition="left"
+                placeholder="The endpoint URI to the API"
+                type="text"
+                size="small"
+                value={apiRoot}
+                onChange={this.onChangeApiRoot}
+              />
+            </div>
+          </Form.Field>
+        </Form>
+      </Fragment>
     );
   }
 }
