@@ -24,12 +24,16 @@ export function register(path: string, reducers: Reducers, store: ?ThymeStore) {
     reducers,
   ];
 
-  if (!store || !registeredStore) {
+  if (!store && !registeredStore) {
     throw new Error('No store registered, please provide a store or register one first.');
   }
 
   // default to provided store, or fallback to registered store
-  (store || registeredStore).replaceReducer(createReducers());
+  const storeToUse = store || registeredStore;
+
+  if (storeToUse) {
+    storeToUse.replaceReducer(createReducers());
+  }
 }
 
 export function create(path: string, reducers: Reducers) {
