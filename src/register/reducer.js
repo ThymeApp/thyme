@@ -14,7 +14,7 @@ export function registerStore(store: ThymeStore) {
   registeredStore = store;
 }
 
-export function register(store: ThymeStore, path: string, reducers: Reducers) {
+export function register(path: string, reducers: Reducers, store: ?ThymeStore) {
   if (!registeredReducers[path]) {
     registeredReducers[path] = [];
   }
@@ -24,7 +24,12 @@ export function register(store: ThymeStore, path: string, reducers: Reducers) {
     reducers,
   ];
 
-  store.replaceReducer(createReducers());
+  if (!store || !registeredStore) {
+    throw new Error('No store registered, please provide a store or register one first.');
+  }
+
+  // default to provided store, or fallback to registered store
+  (store || registeredStore).replaceReducer(createReducers());
 }
 
 export function create(path: string, reducers: Reducers) {
