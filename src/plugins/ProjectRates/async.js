@@ -1,13 +1,11 @@
 // @flow
 
-import { pluginInit } from 'actions/app';
-
 import registerReducers from './reducers';
 import registerInjectables from './injectables';
 
-export default function registerPlugin({ store }: { store: ThymeStore }) {
-  registerReducers(store);
+export default function registerPlugin({ pluginInit }: {pluginInit: (name: string) => void}) {
+  registerReducers();
   registerInjectables();
 
-  store.dispatch(pluginInit('ProjectRates'));
+  pluginInit('ProjectRates');
 }
