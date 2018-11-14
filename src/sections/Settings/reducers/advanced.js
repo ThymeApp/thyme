@@ -2,10 +2,12 @@
 
 import { create } from 'register/reducer';
 
-function apiRoot(state: string = process.env.REACT_APP_API_ROOT || '//localhost:4000', action) {
+const defaultApiRoot = process.env.REACT_APP_API_ROOT || '//localhost:4000';
+
+function apiRoot(state: string = defaultApiRoot, action) {
   switch (action.type) {
     case 'UPDATE_API_ROOT':
-      return action.apiRoot;
+      return action.apiRoot || defaultApiRoot;
     default:
       return state;
   }

@@ -9,6 +9,7 @@ import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 
 import { valueFromEventTarget } from 'core/dom';
 import { isValidThymeApi } from 'core/fetch';
@@ -17,9 +18,11 @@ import { getApiRoot } from '../../selectors';
 
 import { updateApiRoot } from '../../actions';
 
+import './Advanced.css';
+
 type AdvancedSettingsProps = {
   apiRoot: string;
-  onUpdateApiRoot: (apiRoot: string) => void;
+  onUpdateApiRoot: (apiRoot: ?string) => void;
 };
 
 type AdvancedSettingsState = {
@@ -36,16 +39,23 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
   }
 
   onChangeApiRoot = (e: Event) => {
-    const { onUpdateApiRoot } = this.props;
-
     const value = valueFromEventTarget(e.target);
 
-    onUpdateApiRoot(value);
-
-    this.onCheckApiValidity();
+    this.updateApiRoot(value);
   };
 
   onCheckApiValidity = debounce(() => this.checkApiValidity(), 100);
+
+  resetApiRoot = () => {
+    this.updateApiRoot();
+  };
+
+  updateApiRoot(apiRoot: ?string) {
+    const { onUpdateApiRoot } = this.props;
+
+    onUpdateApiRoot(apiRoot);
+    this.onCheckApiValidity();
+  }
 
   checkApiValidity() {
     const { apiRoot } = this.props;
@@ -78,7 +88,7 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
             <label>
               Thyme Capsule API location
             </label>
-            <div>
+            <div className="Advanced__InputContainer">
               <Input
                 loading={connection === 'validating'}
                 error={connection === 'invalid'}
@@ -89,6 +99,12 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
                 size="small"
                 value={apiRoot}
                 onChange={this.onChangeApiRoot}
+              />
+              <Button
+                className="Advanced__Redo"
+                icon="redo"
+                content="Restore to default"
+                onClick={this.resetApiRoot}
               />
             </div>
           </Form.Field>
@@ -106,7 +122,7 @@ function mapStateToProps(state: storeShape) {
 
 function mapDispatchToProp(dispatch: Dispatch<*>) {
   return {
-    onUpdateApiRoot(apiRoot: string) {
+    onUpdateApiRoot(apiRoot: ?string) {
       dispatch(updateApiRoot(apiRoot));
     },
   };

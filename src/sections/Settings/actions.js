@@ -28,7 +28,7 @@ export function updatePerPage(perPage: number | string) {
   };
 }
 
-export function updateApiRoot(apiRoot: string) {
+export function updateApiRoot(apiRoot: ?string) {
   return {
     type: 'UPDATE_API_ROOT',
     apiRoot,
