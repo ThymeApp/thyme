@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
+import type { Dispatch } from 'redux';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
@@ -13,8 +14,11 @@ import { isValidThymeApi } from 'core/fetch';
 
 import { getApiRoot } from '../../selectors';
 
+import { updateApiRoot } from '../../actions';
+
 type AdvancedSettingsProps = {
   apiRoot: string;
+  onUpdateApiRoot: (apiRoot: string) => void;
 };
 
 type AdvancedSettingsState = {
@@ -31,7 +35,11 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
   }
 
   onChangeApiRoot = (e: Event) => {
+    const { onUpdateApiRoot } = this.props;
+
     const value = valueFromEventTarget(e.target);
+
+    onUpdateApiRoot(value);
 
     this.onCheckApiValidity();
   };
@@ -89,4 +97,12 @@ function mapStateToProps(state: storeShape) {
   };
 }
 
-export default connect(mapStateToProps)(AdvancedSettings);
+function mapDispatchToProp(dispatch: Dispatch<*>) {
+  return {
+    onUpdateApiRoot(apiRoot: string) {
+      dispatch(updateApiRoot(apiRoot));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(AdvancedSettings);
