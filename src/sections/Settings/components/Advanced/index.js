@@ -8,6 +8,7 @@ import type { Dispatch } from 'redux';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
 
 import { valueFromEventTarget } from 'core/dom';
 import { isValidThymeApi } from 'core/fetch';
@@ -59,13 +60,18 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
 
     return (
       <Fragment>
-        <Message
-          attached
-          warning
-          icon="warning"
-          header="Attention"
-          content="The following settings are for advanced users / developers only. Adjust these at your own risk."
-        />
+        <Message attached warning icon>
+          <Icon name="warning" />
+          <div>
+            <Message.Header>
+              Attention
+            </Message.Header>
+            <p>
+              The following settings are for advanced users / developers only.
+              Adjust these at your own risk.
+            </p>
+          </div>
+        </Message>
 
         <Form className="attached fluid segment">
           <Form.Field>
