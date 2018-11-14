@@ -8,6 +8,11 @@ import createReducers from '../reducers/index';
 type Reducers = { [key: string]: Reducer<ThymeStore, *> };
 
 const registeredReducers: { [path: string]: Reducers[] } = {};
+let registeredStore: ?ThymeStore;
+
+export function registerStore(store: ThymeStore) {
+  registeredStore = store;
+}
 
 export function register(store: ThymeStore, path: string, reducers: Reducers) {
   if (!registeredReducers[path]) {
