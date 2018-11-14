@@ -1,9 +1,12 @@
 // @flow
 
-const apiRoot = process.env.REACT_APP_API_ROOT || '//localhost:4000';
+import { getApiRoot } from 'sections/Settings/selectors';
+
 let getState = () => undefined;
 
 function createUrl(url: string) {
+  const apiRoot = getApiRoot(getState());
+
   return `${apiRoot}${url}`;
 }
 
