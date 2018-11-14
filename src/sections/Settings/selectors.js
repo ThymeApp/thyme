@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 export const roundingSettings = (state: storeShape) => state.settings.rounding;
 export const timesheetSettings = (state: storeShape) => state.settings.timesheet;
+export const advancedSettings = (state: storeShape) => state.settings.advanced;
 
 export const getDurationRounding = createSelector(
   roundingSettings,
@@ -38,4 +39,9 @@ export const getEnableProjects = createSelector(
 export const getEnableEndDate = createSelector(
   timesheetSettings,
   (state: settingsTimesheet) => state.enableEndDate,
+);
+
+export const getApiRoot = createSelector(
+  advancedSettings,
+  (state: settingsAdvanced) => state.apiRoot,
 );
