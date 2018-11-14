@@ -26,10 +26,10 @@ function currency(state: ProjectRateCurrency = 'EUR', action): ProjectRateCurren
 
 const projectRates = combineReducers({ currency });
 
-export default (store: ThymeStore) => {
+export default () => {
   // Project reducers
-  register(store, 'projects.project', { rate });
+  register('projects.project', { rate });
 
   // Settings reducers
-  register(store, 'settings', { projectRates });
+  register('settings', { projectRates });
 };

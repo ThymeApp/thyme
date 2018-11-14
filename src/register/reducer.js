@@ -8,8 +8,13 @@ import createReducers from '../reducers/index';
 type Reducers = { [key: string]: Reducer<ThymeStore, *> };
 
 const registeredReducers: { [path: string]: Reducers[] } = {};
+let registeredStore: ?ThymeStore;
 
-export function register(store: ThymeStore, path: string, reducers: Reducers) {
+export function registerStore(store: ThymeStore) {
+  registeredStore = store;
+}
+
+export function register(path: string, reducers: Reducers, store: ?ThymeStore) {
   if (!registeredReducers[path]) {
     registeredReducers[path] = [];
   }
@@ -19,7 +24,16 @@ export function register(store: ThymeStore, path: string, reducers: Reducers) {
     reducers,
   ];
 
-  store.replaceReducer(createReducers());
+  if (!store && !registeredStore) {
+    throw new Error('No store registered, please provide a store or register one first.');
+  }
+
+  // default to provided store, or fallback to registered store
+  const storeToUse = store || registeredStore;
+
+  if (storeToUse) {
+    storeToUse.replaceReducer(createReducers());
+  }
 }
 
 export function create(path: string, reducers: Reducers) {

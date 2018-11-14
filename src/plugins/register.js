@@ -1,5 +1,11 @@
 // @flow
 
+import { registerStore } from 'register/reducer';
+
+import { pluginInit } from 'actions/app';
+
+import type { Dispatch } from 'redux';
+
 const resolveFalse = () => Promise.resolve(false);
 
 function loadPlugin(name: string, importModule: () => Promise<*>): () => Promise<*> {
@@ -17,11 +23,19 @@ function pluginsList() {
   ];
 }
 
+const createPluginInitDispatcher = (dispatch: Dispatch<*>) => (pluginName: string) => {
+  dispatch(pluginInit(pluginName));
+};
+
 export default function registerPlugins(store: ThymeStore) {
+  registerStore(store);
+
   Promise.all(pluginsList().map(p => p()))
     .then((modules) => {
       modules
         .filter(m => !!m)
-        .forEach(m => typeof m.default === 'function' && m.default(store));
+        .forEach(m => typeof m !== 'boolean'
+          && typeof m.default === 'function'
+          && m.default(createPluginInitDispatcher(store.dispatch)));
     });
 }
