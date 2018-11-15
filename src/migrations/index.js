@@ -66,7 +66,7 @@ export function convertRoundingSettingsToSubObject(input: any) {
   inputCopy.settings.rounding = {
     durationRounding: getField(inputCopy, 'durationRounding'),
     durationRoundingAmount: getField(inputCopy, 'durationRoundingAmount'),
-    roundingOn: getField(inputCopy, 'RoundingOn'),
+    roundingOn: getField(inputCopy, 'roundingOn'),
   };
 
   delete inputCopy.settings.durationRounding;
