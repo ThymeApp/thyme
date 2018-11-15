@@ -95,7 +95,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
         content: <TimeSheet />,
       },
       {
-        url: 'Rounding',
+        url: 'rounding',
         name: 'Duration time Rounding',
         content: <Rounding />,
       },
