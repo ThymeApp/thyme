@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
@@ -23,14 +22,14 @@ import './Rounding.css';
 
 type RoundingProps = {
   durationAmount: number;
-  durationRounding: rounding;
-  roundingOn: roundableOn;
-  onChangeDurationRounding: (round: rounding) => void;
+  durationRounding: Rounding;
+  roundingOn: RoundableOn;
+  onChangeDurationRounding: (round: Rounding) => void;
   onChangeDurationRoundingAmount: (amount: number) => void;
-  onChangeRoundingOn: (roundingOn: roundableOn) => void;
+  onChangeRoundingOn: (roundingOn: RoundableOn) => void;
 }
 
-function Rounding({
+function RoundingSettings({
   durationAmount,
   durationRounding,
   roundingOn,
@@ -74,18 +73,18 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
-    onChangeDurationRounding(round: rounding) {
+    onChangeDurationRounding(round: Rounding) {
       dispatch(updateDurationRounding(round));
     },
     onChangeDurationRoundingAmount(amount: number) {
       dispatch(updateDurationRoundingAmount(amount));
     },
-    onChangeRoundingOn(roundingOn: roundableOn) {
+    onChangeRoundingOn(roundingOn: RoundableOn) {
       dispatch(updateRoundingOn(roundingOn));
     },
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Rounding);
+export default connect(mapStateToProps, mapDispatchToProps)(RoundingSettings);

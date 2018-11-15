@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
@@ -57,7 +56,7 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     onCurrencyChange(e, data) {
       dispatch(updateCurrency(data.value));

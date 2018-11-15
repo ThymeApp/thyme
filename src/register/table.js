@@ -244,7 +244,9 @@ export function create(
   columns: Array<TableColumn | null>,
   rows: TableRow[],
 ): { filters: Node, table: Node } {
-  const cols = columns.filter(c => c !== null);
+  const cols: TableColumn[] = [];
+
+  columns.forEach(c => c !== null && cols.push(c));
 
   return {
     filters: (

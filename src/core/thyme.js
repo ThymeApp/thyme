@@ -14,7 +14,7 @@ import format from 'date-fns/format';
 import differenceInMinutes from 'date-fns/difference_in_minutes';
 import addMinutes from 'date-fns/add_minutes';
 
-export const sortByTime = (dateSort: sortDirection) => (a: timeType, b: timeType) => {
+export const sortByTime = (dateSort: SortDirection) => (a: TimeType, b: TimeType) => {
   if (
     (isBefore(a.start, b.start) && dateSort === 'asc')
     || (isBefore(b.start, a.start) && dateSort === 'desc')
@@ -57,7 +57,7 @@ export function formatDuration(duration: number, withSeconds: boolean = false): 
   return `${leftPad(hours.toString(), 2, 0)}:${leftPad(minutes.toString(), 2, 0)}${secondsString}`;
 }
 
-function getRoundedMinutes(round: rounding, diffMinutes: number, roundAmount: number) {
+function getRoundedMinutes(round: Rounding, diffMinutes: number, roundAmount: number) {
   if (round === 'none') {
     return diffMinutes;
   }
@@ -70,7 +70,7 @@ export function timeElapsed(
   to: Date | string,
   precise: boolean = false,
   withSeconds: boolean = false,
-  round?: rounding = 'none',
+  round?: Rounding = 'none',
   roundAmount?: number = 0,
 ) {
   if (from === '' || to === '') {
@@ -88,11 +88,11 @@ export function timeElapsed(
 }
 
 export function projectTimeEntries(
-  project: projectType | { id: null, nameTree: Array<string> },
-  time: Array<timeType>,
+  project: ProjectType | { id: null, nameTree: Array<string> },
+  time: Array<TimeType>,
   from: Date | string,
   to: Date | string,
-): Array<timeType> {
+): Array<TimeType> {
   const startOfDayFrom = startOfDay(from);
   const endOfDayTo = endOfDay(to);
 
@@ -103,12 +103,12 @@ export function projectTimeEntries(
 }
 
 export function totalProjectTime(
-  project: projectType | { id: null, nameTree: Array<string> },
-  time: Array<timeType>,
+  project: ProjectType | { id: null, nameTree: Array<string> },
+  time: Array<TimeType>,
   from: Date | string,
   to: Date | string,
   roundPerEntry?: boolean = false,
-  round?: rounding = 'none',
+  round?: Rounding = 'none',
   roundAmount?: number = 0,
 ): number {
   const projectTotal = projectTimeEntries(project, time, from, to)
@@ -129,7 +129,7 @@ export const formatTime = (date: Date) => format(date, 'HH:mm');
 
 export function roundTime(
   roundAmount: number,
-  round: rounding,
+  round: Rounding,
   date: Date,
   startDate: Date = startOfHour(date),
 ): Date {

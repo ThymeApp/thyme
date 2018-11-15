@@ -3,7 +3,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
-import type { Dispatch } from 'redux';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
@@ -114,13 +113,13 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
   }
 }
 
-function mapStateToProps(state: storeShape) {
+function mapStateToProps(state: StateShape) {
   return {
     apiRoot: getApiRoot(state),
   };
 }
 
-function mapDispatchToProp(dispatch: Dispatch<*>) {
+function mapDispatchToProp(dispatch: ThymeDispatch) {
   return {
     onUpdateApiRoot(apiRoot: ?string) {
       dispatch(updateApiRoot(apiRoot));

@@ -2,46 +2,46 @@
 
 import { createSelector } from 'reselect';
 
-export const roundingSettings = (state: storeShape) => state.settings.rounding;
-export const timesheetSettings = (state: storeShape) => state.settings.timesheet;
-export const advancedSettings = (state: storeShape) => state.settings.advanced;
+export const roundingSettings = (state: StateShape) => state.settings.rounding;
+export const timesheetSettings = (state: StateShape) => state.settings.timesheet;
+export const advancedSettings = (state: StateShape) => state.settings.advanced;
 
 export const getDurationRounding = createSelector(
   roundingSettings,
-  (state: settingsRounding) => state.durationRounding,
+  (state: SettingsRounding) => state.durationRounding,
 );
 
 export const getDurationAmount = createSelector(
   roundingSettings,
-  (state: settingsRounding) => state.durationRoundingAmount,
+  (state: SettingsRounding) => state.durationRoundingAmount,
 );
 
 export const getRoundingOn = createSelector(
   roundingSettings,
-  (state: settingsRounding) => state.roundingOn,
+  (state: SettingsRounding) => state.roundingOn,
 );
 
 export const getEntriesPerPage = createSelector(
   timesheetSettings,
-  (state: settingsTimesheet) => state.perPage,
+  (state: SettingsTimesheet) => state.perPage,
 );
 
 export const getEnableNotes = createSelector(
   timesheetSettings,
-  (state: settingsTimesheet) => state.enableNotes,
+  (state: SettingsTimesheet) => state.enableNotes,
 );
 
 export const getEnableProjects = createSelector(
   timesheetSettings,
-  (state: settingsTimesheet) => state.enableProjects,
+  (state: SettingsTimesheet) => state.enableProjects,
 );
 
 export const getEnableEndDate = createSelector(
   timesheetSettings,
-  (state: settingsTimesheet) => state.enableEndDate,
+  (state: SettingsTimesheet) => state.enableEndDate,
 );
 
 export const getApiRoot = createSelector(
   advancedSettings,
-  (state: settingsAdvanced) => state.apiRoot,
+  (state: SettingsAdvanced) => state.apiRoot,
 );

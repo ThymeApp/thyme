@@ -6,7 +6,7 @@ import PieChart from 'react-svg-piechart';
 import './ReportCharts.css';
 
 type ReportChartsType = {
-  projects: Array<projectTreeWithTimeType>,
+  projects: Array<ProjectTreeWithTimeType>,
 };
 
 const colours = [

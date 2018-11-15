@@ -2,7 +2,6 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
@@ -122,7 +121,7 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
   }
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     onAddProject(project) {
       dispatch(addProject({

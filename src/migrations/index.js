@@ -54,24 +54,24 @@ export function convertRoundingSettingsToSubObject(input: any) {
   }
 
   function getField(obj: any, field): any {
-    if (!obj.settings.rounding) {
+    if (!obj.settings.Rounding) {
       return obj.settings[field];
     }
 
-    return obj.settings[field] || obj.settings.rounding[field];
+    return obj.settings[field] || obj.settings.Rounding[field];
   }
 
   const inputCopy = { ...input };
 
-  inputCopy.settings.rounding = {
+  inputCopy.settings.Rounding = {
     durationRounding: getField(inputCopy, 'durationRounding'),
     durationRoundingAmount: getField(inputCopy, 'durationRoundingAmount'),
-    roundingOn: getField(inputCopy, 'roundingOn'),
+    RoundingOn: getField(inputCopy, 'RoundingOn'),
   };
 
   delete inputCopy.settings.durationRounding;
   delete inputCopy.settings.durationRoundingAmount;
-  delete inputCopy.settings.roundingOn;
+  delete inputCopy.settings.RoundingOn;
 
   return inputCopy;
 }

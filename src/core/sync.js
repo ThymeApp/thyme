@@ -2,7 +2,6 @@
 
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
-import type { Dispatch } from 'redux';
 
 import { sync, syncFailed, syncSuccess } from 'actions/app';
 
@@ -14,7 +13,7 @@ import type { exportType } from './importExport';
 
 let prevState: exportType = { time: [], projects: [], reports: [] };
 
-function syncWithApi(state: storeShape, dispatch: Dispatch<*>) {
+function syncWithApi(state: StateShape, dispatch: ThymeDispatch) {
   if (!isLoggedIn(state)) {
     return;
   }

@@ -7,7 +7,7 @@ import { sortProjects } from 'core/projects';
 
 import { hasCapability } from 'sections/Account/selectors';
 
-export const getAllProjects = (state: storeShape): projectType[] => state.projects.allIds
+export const getAllProjects = (state: StateShape): ProjectType[] => state.projects.allIds
   .map(id => state.projects.byId[id])
   .filter(project => !project.removed);
 
@@ -16,7 +16,7 @@ export const sortedProjects = createSelector(
   sortProjects,
 );
 
-const getProjectsById = (state: storeShape): { [id: string]: projectType } => state.projects.byId;
+const getProjectsById = (state: StateShape): { [id: string]: ProjectType } => state.projects.byId;
 
 export const getProjectById = createSelector(
   getProjectsById,

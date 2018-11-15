@@ -2,7 +2,6 @@
 
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
@@ -26,16 +25,16 @@ import { getDateSort } from '../../selectors';
 import { NewEntry, Entry } from '../Entry';
 
 type TimeTableType = {
-  sort: sortDirection;
-  entries: Array<timeType>;
+  sort: SortDirection;
+  entries: Array<TimeType>;
   now: Date;
-  round: rounding;
+  round: Rounding;
   roundAmount: number;
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
   onAddProject: (project: string) => string;
-  onEntryUpdate: (entry: timePropertyType) => void;
+  onEntryUpdate: (entry: TimePropertyType) => void;
   onEntryRemove: (id: string) => void;
 };
 
@@ -132,19 +131,19 @@ function TimeTable({
 }
 
 function mapStateToProps(state) {
-  const roundingOn = getRoundingOn(state);
+  const RoundingOn = getRoundingOn(state);
 
   return {
     sort: getDateSort(state),
-    round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
-    roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
+    round: RoundingOn === 'entries' ? getDurationRounding(state) : 'none',
+    roundAmount: RoundingOn === 'entries' ? getDurationAmount(state) : 0,
     enabledNotes: getEnableNotes(state),
     enabledProjects: getEnableProjects(state),
     enabledEndDate: getEnableEndDate(state),
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     onEntryUpdate(entry) {
       dispatch(updateTime(entry));

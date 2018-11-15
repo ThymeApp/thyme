@@ -6,7 +6,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import type { FormProps } from 'redux-form';
-import type { Dispatch } from 'redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
@@ -115,7 +114,7 @@ const validate = (values) => {
   return errors;
 };
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     onLoginAccount(token: string) {
       dispatch(loginAccount(token));

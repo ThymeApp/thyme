@@ -104,16 +104,16 @@ describe('convertRoundingSettingsToSubObject', () => {
       settings: {
         durationRounding: 'round',
         durationRoundingAmount: 15,
-        roundingOn: 'entries',
+        RoundingOn: 'entries',
       },
     };
 
     const output = {
       settings: {
-        rounding: {
+        Rounding: {
           durationRounding: 'round',
           durationRoundingAmount: 15,
-          roundingOn: 'entries',
+          RoundingOn: 'entries',
         },
       },
     };
@@ -126,8 +126,8 @@ describe('convertRoundingSettingsToSubObject', () => {
       settings: {
         durationRounding: 'round',
         durationRoundingAmount: 15,
-        roundingOn: 'entries',
-        rounding: {
+        RoundingOn: 'entries',
+        Rounding: {
           durationRounding: 'ceil',
         },
       },
@@ -135,10 +135,10 @@ describe('convertRoundingSettingsToSubObject', () => {
 
     const output = {
       settings: {
-        rounding: {
+        Rounding: {
           durationRounding: 'round',
           durationRoundingAmount: 15,
-          roundingOn: 'entries',
+          RoundingOn: 'entries',
         },
       },
     };

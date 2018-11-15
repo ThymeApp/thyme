@@ -1,6 +1,7 @@
 // @flow
 
 import qs from 'qs';
+import type { RouterHistory } from 'react-router';
 
 import endOfWeek from 'date-fns/end_of_week';
 import startOfWeek from 'date-fns/start_of_week';

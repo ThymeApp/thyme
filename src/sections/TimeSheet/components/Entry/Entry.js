@@ -32,7 +32,7 @@ import NotesInput from '../NotesInput';
 
 import './Entry.css';
 
-function defaultState(props = {}, now: Date): timePropertyType {
+function defaultState(props = {}, now: Date): TimePropertyType {
   const defaultStart = startOfDay(now);
 
   return {
@@ -48,18 +48,18 @@ type EntryProps = {
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
-  entry?: timeType;
-  tempEntry?: tempTimePropertyType;
-  round?: rounding;
+  entry?: TimeType;
+  tempEntry?: TempTimePropertyType;
+  round?: Rounding;
   roundAmount?: number;
-  onAdd?: (entry: timePropertyType) => void;
+  onAdd?: (entry: TimePropertyType) => void;
   onRemove?: (id: string) => void;
-  onUpdate?: (entry: timePropertyType) => void;
+  onUpdate?: (entry: TimePropertyType) => void;
   onAddNewProject?: (project: string) => string;
 };
 
 type EntryState = {
-  entry: timePropertyType;
+  entry: TimePropertyType;
   tracking: boolean;
   confirm: boolean;
 };

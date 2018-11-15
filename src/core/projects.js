@@ -1,6 +1,6 @@
 // @flow
 
-export function isDescendant(from: string, to: string | null, projects: Array<projectTreeType>) {
+export function isDescendant(from: string, to: string | null, projects: Array<ProjectTreeType>) {
   if (from === to) {
     return true;
   }
@@ -23,8 +23,8 @@ export function isDescendant(from: string, to: string | null, projects: Array<pr
 }
 
 function getProjectTree(
-  project: projectType,
-  projects: Array<projectType>,
+  project: ProjectType,
+  projects: Array<ProjectType>,
   current: Array<string> = [],
 ): Array<string> {
   const projectNames = [project.name, ...current];
@@ -44,7 +44,7 @@ function getProjectTree(
   return projectNames;
 }
 
-export function sortProjects(projects: Array<projectType>): Array<projectTreeType> {
+export function sortProjects(projects: Array<ProjectType>): Array<ProjectTreeType> {
   const named = projects
     .map(project => ({
       ...project,

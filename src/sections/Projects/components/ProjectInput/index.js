@@ -10,7 +10,7 @@ import { sortedProjects } from 'sections/Projects/selectors';
 type ProjectInputType = {
   placeholder?: string,
   value: string | null,
-  projects: Array<projectTreeType>,
+  projects: Array<ProjectTreeType>,
   handleChange: (e: Event, { value: string | null, label: string }) => void,
   onAddItem?: (e: Event, project: { value: string }) => void,
 };

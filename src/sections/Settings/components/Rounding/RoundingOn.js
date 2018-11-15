@@ -5,8 +5,8 @@ import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox/Checkbox'
 import React from 'react';
 
 type RoundingOnProps = {
-  roundingOn: roundableOn;
-  onChange: (roundingOn: roundableOn) => void;
+  roundingOn: RoundableOn;
+  onChange: (RoundingOn: RoundableOn) => void;
 };
 
 function RoundingOn({ roundingOn, onChange }: RoundingOnProps) {
@@ -21,7 +21,7 @@ function RoundingOn({ roundingOn, onChange }: RoundingOnProps) {
         <Checkbox
           radio
           label="Individual entries"
-          name="roundingOn"
+          name="RoundingOn"
           value="entries"
           checked={roundingOn === 'entries'}
           onChange={onChangeRounding}
@@ -31,7 +31,7 @@ function RoundingOn({ roundingOn, onChange }: RoundingOnProps) {
         <Checkbox
           radio
           label="Report totals"
-          name="roundingOn"
+          name="RoundingOn"
           value="reports"
           checked={roundingOn === 'reports'}
           onChange={onChangeRounding}

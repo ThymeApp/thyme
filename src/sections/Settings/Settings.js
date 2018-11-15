@@ -90,26 +90,32 @@ class Settings extends Component<SettingsProps, SettingsState> {
 
     const panels: Array<SettingsPanel | null> = [
       {
+        url: 'timesheet',
         name: 'Timesheet settings',
         content: <TimeSheet />,
       },
       {
-        name: 'Duration time rounding',
+        url: 'Rounding',
+        name: 'Duration time Rounding',
         content: <Rounding />,
       },
       loggedIn ? {
+        url: 'account',
         name: 'Account settings',
         content: <Account />,
       } : null,
       {
+        url: 'export-import',
         name: 'Export / Import data',
         content: <ImportExport />,
       },
       {
+        url: 'delete',
         name: 'Delete data',
         content: <DeleteData />,
       },
       {
+        url: 'advanced',
         name: 'Advanced settings',
         content: <Advanced />,
       },
@@ -151,6 +157,8 @@ class Settings extends Component<SettingsProps, SettingsState> {
   }
 }
 
-const mapStateToProps = state => ({ loggedIn: isLoggedIn(state) });
+const mapStateToProps = (state: StateShape) => ({
+  loggedIn: isLoggedIn(state),
+});
 
 export default connect(mapStateToProps)(Settings);

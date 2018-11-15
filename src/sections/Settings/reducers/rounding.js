@@ -2,7 +2,7 @@
 
 import { create } from 'register/reducer';
 
-function durationRounding(state: rounding = 'none', action) {
+function durationRounding(state: Rounding = 'none', action) {
   switch (action.type) {
     case 'UPDATE_DURATION_ROUNDING':
       return action.rounding;
@@ -20,7 +20,7 @@ function durationRoundingAmount(state: number = 15, action) {
   }
 }
 
-function roundingOn(state: roundableOn = 'entries', action) {
+function roundingOn(state: RoundableOn = 'entries', action) {
   switch (action.type) {
     case 'UPDATE_ROUNDING_ON':
       return action.roundingOn;
@@ -29,7 +29,7 @@ function roundingOn(state: roundableOn = 'entries', action) {
   }
 }
 
-export default () => create('settings.rounding', {
+export default () => create('settings.Rounding', {
   durationRounding,
   durationRoundingAmount,
   roundingOn,

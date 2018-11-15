@@ -21,9 +21,9 @@ const roundingOptions = [
 
 type RoundingFieldType = {
   label: string,
-  rounding: rounding;
+  rounding: Rounding;
   amount: number;
-  onChangeRounding: (rounding: rounding) => void;
+  onChangeRounding: (rounding: Rounding) => void;
   onChangeAmount: (amount: number) => void;
 };
 
@@ -41,7 +41,7 @@ function RoundingField({
       <label>{label}</label>
       <div className="Rounding-Container">
         <Dropdown
-          placeholder="Select rounding"
+          placeholder="Select Rounding"
           floating
           labeled
           button

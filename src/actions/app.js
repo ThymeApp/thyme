@@ -1,9 +1,9 @@
 // @flow
 
 export type importDataType = {
-  time: Array<timeType>,
-  projects: Array<projectType>,
-  reports: Array<reportType>,
+  time: Array<TimeType>,
+  projects: Array<ProjectType>,
+  reports: Array<ReportType>,
 };
 
 export function importJSONData(data: importDataType) {

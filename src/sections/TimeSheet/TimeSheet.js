@@ -2,7 +2,6 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
@@ -26,7 +25,7 @@ import { getCurrentTimeEntries, getPage } from './selectors';
 import './TimeSheet.css';
 
 type TimeSheetProps = {
-  entries: Array<timeType>;
+  entries: Array<TimeType>;
   now: Date;
   page: number;
   entriesPerPage: number;
@@ -115,7 +114,7 @@ class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
   }
 }
 
-function mapStateToProps(state: storeShape, props: TimeSheetProps) {
+function mapStateToProps(state: StateShape, props: TimeSheetProps) {
   const { now } = props;
 
   const currentDate = now || new Date();
@@ -128,7 +127,7 @@ function mapStateToProps(state: storeShape, props: TimeSheetProps) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     changeEntriesPage(page: number) {
       dispatch(changePage(page));

@@ -8,6 +8,16 @@
 
 [options]
 module.system.node.resolve_dirname=node_modules
-module.system.node.resolve_dirname=src
+
+module.name_mapper='^actions\(.*\)$' -> '<PROJECT_ROOT>/src/actions/\1'
+module.name_mapper='^components\(.*\)$' -> '<PROJECT_ROOT>/src/components/\1'
+module.name_mapper='^core\(.*\)$' -> '<PROJECT_ROOT>/src/core/\1'
+module.name_mapper='^epics\(.*\)$' -> '<PROJECT_ROOT>/src/epics/\1'
+module.name_mapper='^migrations\(.*\)$' -> '<PROJECT_ROOT>/src/migrations/\1'
+module.name_mapper='^plugins\(.*\)$' -> '<PROJECT_ROOT>/src/plugins/\1'
+module.name_mapper='^reducers\(.*\)$' -> '<PROJECT_ROOT>/src/reducers/\1'
+module.name_mapper='^register\(.*\)$' -> '<PROJECT_ROOT>/src/register/\1'
+module.name_mapper='^sections\(.*\)$' -> '<PROJECT_ROOT>/src/sections/\1'
+module.name_mapper='^selectors\(.*\)$' -> '<PROJECT_ROOT>/src/selectors/\1'
 
 [strict]

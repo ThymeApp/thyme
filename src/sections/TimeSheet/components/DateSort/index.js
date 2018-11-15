@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
@@ -11,8 +10,8 @@ import { changeDateSort } from '../../actions';
 import { getDateSort } from '../../selectors';
 
 type DateSortType = {
-  sort: sortDirection;
-  toggleSorting: (sort: sortDirection) => void;
+  sort: SortDirection;
+  toggleSorting: (sort: SortDirection) => void;
 };
 
 function DateSort({ sort, toggleSorting }: DateSortType) {
@@ -28,15 +27,15 @@ function DateSort({ sort, toggleSorting }: DateSortType) {
   );
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: StateShape) {
   return {
     sort: getDateSort(state),
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
-    toggleSorting(sort: sortDirection) {
+    toggleSorting(sort: SortDirection) {
       dispatch(changeDateSort(sort === 'asc' ? 'desc' : 'asc'));
     },
   };

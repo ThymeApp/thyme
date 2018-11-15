@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
-import type { Dispatch } from 'redux';
+import type { Location } from 'react-router';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image';
@@ -31,7 +31,7 @@ import './App.css';
 import './print.css';
 
 type AppProps = {
-  location: RouterLocation;
+  location: Location;
   children: any;
   alertMessage: string;
   onInitialize: () => void;
@@ -189,7 +189,7 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     onInitialize() {
       dispatch(appInit());

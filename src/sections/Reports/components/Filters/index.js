@@ -8,7 +8,7 @@ import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
 type ReportFiltersType = {
   filters: Array<string>;
-  projects: Array<projectTreeWithTimeType>;
+  projects: Array<ProjectTreeWithTimeType>;
   columnFilters: Node;
   onToggleProject: (project: string | null) => void;
 };

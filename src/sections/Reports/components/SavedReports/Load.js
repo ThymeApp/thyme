@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { compose } from 'redux';
-import type { Dispatch } from 'redux';
 import type { RouterHistory } from 'react-router';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
@@ -142,7 +141,7 @@ function mapStateToProps(state) {
   return { savedReports: getAllReports(state) };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     onRemoveReport(id: string) {
       dispatch(removeReport(id));

@@ -37,7 +37,7 @@ export function loadState(): {} | typeof undefined {
   return loadItem('ThymeState');
 }
 
-export function saveState(state: storeShape): void {
+export function saveState(state: StateShape): void {
   // persist everything but the app and form state
   saveItem({
     ...state,
@@ -52,11 +52,11 @@ export function saveState(state: storeShape): void {
   }, 'ThymeState');
 }
 
-export function loadTemporaryItem(): tempTimePropertyType | typeof undefined {
+export function loadTemporaryItem(): TempTimePropertyType | typeof undefined {
   return loadItem('ThymeTempItem');
 }
 
-export function saveTemporaryItem(state: tempTimePropertyType): void {
+export function saveTemporaryItem(state: TempTimePropertyType): void {
   saveItem(state, 'ThymeTempItem');
 }
 

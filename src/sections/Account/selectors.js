@@ -2,15 +2,15 @@
 
 import { createSelector } from 'reselect';
 
-export const isLoggedIn = (state: storeShape) => !!state.account.jwt;
-export const getJwt = (state: storeShape) => state.account.jwt;
-export const getCapabilities = (state: storeShape) => state.account.capabilities;
+export const isLoggedIn = (state: StateShape) => !!state.account.jwt;
+export const getJwt = (state: StateShape) => state.account.jwt;
+export const getCapabilities = (state: StateShape) => state.account.capabilities;
 
 export const hasCapability = (
-  ability: capability,
+  ability: Capability,
 ): (
-  state: storeShape,
+  state: StateShape,
 ) => boolean => createSelector(
   getCapabilities,
-  (capabilities: capability[]) => capabilities.indexOf(ability) > -1,
+  (capabilities: Capability[]) => capabilities.indexOf(ability) > -1,
 );
