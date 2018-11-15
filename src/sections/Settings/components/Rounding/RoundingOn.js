@@ -21,7 +21,7 @@ function RoundingOn({ roundingOn, onChange }: RoundingOnProps) {
         <Checkbox
           radio
           label="Individual entries"
-          name="RoundingOn"
+          name="roundingOn"
           value="entries"
           checked={roundingOn === 'entries'}
           onChange={onChangeRounding}
@@ -31,7 +31,7 @@ function RoundingOn({ roundingOn, onChange }: RoundingOnProps) {
         <Checkbox
           radio
           label="Report totals"
-          name="RoundingOn"
+          name="roundingOn"
           value="reports"
           checked={roundingOn === 'reports'}
           onChange={onChangeRounding}

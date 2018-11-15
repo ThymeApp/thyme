@@ -43,13 +43,13 @@ function roundingOnText(roundingOn) {
 
 function roundingExample(amount: number, type: Rounding, roundingOn: RoundableOn) {
   if (type === 'none' || amount === 0) {
-    return 'no automatic Rounding';
+    return 'no automatic rounding';
   }
 
   const timeRoundingInfo = timeRoundingText(amount, type);
-  const RoundingOnInfo = roundingOnText(roundingOn);
+  const roundingOnInfo = roundingOnText(roundingOn);
 
-  return `Example: ${timeRoundingInfo} ${RoundingOnInfo}`;
+  return `Example: ${timeRoundingInfo} ${roundingOnInfo}`;
 }
 
 type RoundingExampleProps = {

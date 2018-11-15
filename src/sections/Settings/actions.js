@@ -1,9 +1,9 @@
 // @flow
 
-export function updateDurationRounding(round: Rounding) {
+export function updateDurationRounding(rounding: Rounding) {
   return {
     type: 'UPDATE_DURATION_ROUNDING',
-    Rounding: round,
+    rounding,
   };
 }
 

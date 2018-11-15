@@ -23,7 +23,7 @@ Create reports with detailed information spent per project over selected periods
 - Create projects and sub-projects
 - Assign time sheet entries to projects
 - Reports of total time spent per project
-- Automatic Rounding of time spent
+- Automatic rounding of time spent
 - Export / Import data
 - Saves to localStorage of the browser
 - Ability to sync data in the [Thyme Capsule](https://github.com/ThymeApp/thyme-capsule)

@@ -131,12 +131,12 @@ function TimeTable({
 }
 
 function mapStateToProps(state) {
-  const RoundingOn = getRoundingOn(state);
+  const roundingOn = getRoundingOn(state);
 
   return {
     sort: getDateSort(state),
-    round: RoundingOn === 'entries' ? getDurationRounding(state) : 'none',
-    roundAmount: RoundingOn === 'entries' ? getDurationAmount(state) : 0,
+    round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
+    roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
     enabledNotes: getEnableNotes(state),
     enabledProjects: getEnableProjects(state),
     enabledEndDate: getEnableEndDate(state),

@@ -234,7 +234,7 @@ function mapStateToProps(state, props) {
 
   const durationRounding = getDurationRounding(state);
   const durationAmount = getDurationAmount(state);
-  const RoundingOn = getRoundingOn(state);
+  const roundingOn = getRoundingOn(state);
 
   const mappedTime = getAllTimeEntries(state);
 
@@ -251,7 +251,7 @@ function mapStateToProps(state, props) {
       mappedTime,
       from,
       to,
-      RoundingOn === 'entries',
+      roundingOn === 'entries',
       durationRounding,
       durationAmount,
     ),
@@ -267,7 +267,7 @@ function mapStateToProps(state, props) {
     report,
     from,
     to,
-    detailedRound: RoundingOn === 'entries' ? durationRounding : 'none',
+    detailedRound: roundingOn === 'entries' ? durationRounding : 'none',
     roundAmount: durationAmount,
     projects: allProjects.filter(project => filters.indexOf(project.id) > -1),
     enabledEndDate: getEnableEndDate(state),

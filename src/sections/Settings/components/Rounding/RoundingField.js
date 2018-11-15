@@ -41,7 +41,7 @@ function RoundingField({
       <label>{label}</label>
       <div className="Rounding-Container">
         <Dropdown
-          placeholder="Select Rounding"
+          placeholder="Select rounding"
           floating
           labeled
           button

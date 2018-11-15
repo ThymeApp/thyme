@@ -29,7 +29,7 @@ function roundingOn(state: RoundableOn = 'entries', action) {
   }
 }
 
-export default () => create('settings.Rounding', {
+export default () => create('settings.rounding', {
   durationRounding,
   durationRoundingAmount,
   roundingOn,

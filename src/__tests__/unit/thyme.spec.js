@@ -45,7 +45,7 @@ describe('Returns correct time differences', () => {
   expect(timeElapsed('2018-01-03T10:00:10.000Z', '2018-01-03T12:00:00.000Z', true, false))
     .toBe('01:59');
 
-  // use Rounding of time
+  // use rounding of time
   expect(
     timeElapsed('2018-01-03T10:00:00.000Z', '2018-01-03T12:33:00.000Z', false, false, 'round', 5),
   ).toBe('02:35');
@@ -62,7 +62,7 @@ describe('Returns correct time differences', () => {
 
 
 describe('Rounding time', () => {
-  it('Should be able to ignore Rounding', () => {
+  it('Should be able to ignore rounding', () => {
     expect(formatTime(roundTime(0, 'none', new Date(2018, 0, 1, 10)))).toBe('10:00');
     expect(formatTime(roundTime(10, 'none', new Date(2018, 0, 1, 10, 2)))).toBe('10:02');
     expect(formatTime(roundTime(20, 'none', new Date(2018, 0, 1, 10, 6)))).toBe('10:06');
