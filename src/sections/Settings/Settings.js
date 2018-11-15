@@ -72,7 +72,6 @@ class Settings extends Component<SettingsProps, SettingsState> {
       <Fragment key={name}>
         <Accordion.Title
           active={active}
-          index={url}
           onClick={this.handleAccordionToggle(url)}
         >
           <Icon name="dropdown" />
