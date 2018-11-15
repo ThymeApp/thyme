@@ -2,7 +2,7 @@
 
 export type ProjectRateCurrency = string;
 
-export type ProjectWithRate = { rate?: number } & projectTreeType;
+export type ProjectWithRate = { rate?: number } & ProjectTreeType;
 
 export type ProjectRatesSettings = {
   currency: string;
@@ -11,7 +11,7 @@ export type ProjectRatesSettings = {
 export type StoreShapeWithRates = {
   settings: {
     projectRates: ProjectRatesSettings;
-  } & settingsShape;
-} & storeShape;
+  } & SettingsShape;
+} & StateShape;
 
-export type ProjectRatesReportProject = { rate?: number } & projectTreeWithTimeType;
+export type ProjectRatesReportProject = { rate?: number } & ProjectTreeWithTimeType;

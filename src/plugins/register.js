@@ -4,8 +4,6 @@ import { registerStore } from 'register/reducer';
 
 import { pluginInit } from 'actions/app';
 
-import type { Dispatch } from 'redux';
-
 const resolveFalse = () => Promise.resolve(false);
 
 function loadPlugin(name: string, importModule: () => Promise<*>): () => Promise<*> {
@@ -23,7 +21,7 @@ function pluginsList() {
   ];
 }
 
-const createPluginInitDispatcher = (dispatch: Dispatch<*>) => (pluginName: string) => {
+const createPluginInitDispatcher = (dispatch: ThymeDispatch) => (pluginName: string) => {
   dispatch(pluginInit(pluginName));
 };
 

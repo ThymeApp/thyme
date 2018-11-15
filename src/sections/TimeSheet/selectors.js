@@ -11,20 +11,20 @@ import isAfter from 'date-fns/is_after';
 
 import { sortByTime } from 'core/thyme';
 
-export const getAllTimeEntries = (state: storeShape): timeType[] => state.time.allIds
+export const getAllTimeEntries = (state: StateShape): TimeType[] => state.time.allIds
   .map(id => state.time.byId[id])
   .filter(time => !time.removed);
-export const getDateRange = (state: storeShape) => state.time.dateRange;
-export const getDateSort = (state: storeShape) => state.time.dateSort;
-export const getPage = (state: storeShape) => state.time.page;
+export const getDateRange = (state: StateShape) => state.time.dateRange;
+export const getDateSort = (state: StateShape) => state.time.dateSort;
+export const getPage = (state: StateShape) => state.time.page;
 
-const today = now => (entry: timeType) => isSameDay(entry.start, now);
-const thisWeek = now => (entry: timeType) => isSameWeek(entry.start, now, { weekStartsOn: 1 });
-const weekToDate = now => (entry: timeType) => isAfter(entry.start, subDays(now, 7));
-const lastMonth = now => (entry: timeType) => isAfter(entry.start, subMonths(now, 1));
-const older = now => (entry: timeType) => isBefore(entry.start, subMonths(now, 1));
+const today = now => (entry: TimeType) => isSameDay(entry.start, now);
+const thisWeek = now => (entry: TimeType) => isSameWeek(entry.start, now, { weekStartsOn: 1 });
+const weekToDate = now => (entry: TimeType) => isAfter(entry.start, subDays(now, 7));
+const lastMonth = now => (entry: TimeType) => isAfter(entry.start, subMonths(now, 1));
+const older = now => (entry: TimeType) => isBefore(entry.start, subMonths(now, 1));
 
-function dateRangeFilter(dateRange: dateRanges, now: Date) {
+function dateRangeFilter(dateRange: DateRanges, now: Date) {
   switch (dateRange) {
     case 'older':
       return older(now);

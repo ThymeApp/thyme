@@ -8,7 +8,7 @@ import Message from 'semantic-ui-react/dist/commonjs/collections/Message/Message
 
 import { formatTime, roundTime } from 'core/thyme';
 
-function timeRoundingText(amount: number, type: rounding) {
+function timeRoundingText(amount: number, type: Rounding) {
   const startTime = new Date(2018, 0, 1, 8);
 
   const diffDown = amount % 2 === 1 ? Math.floor(amount / 2) : (amount / 2) - 1;
@@ -41,7 +41,7 @@ function roundingOnText(roundingOn) {
   return 'for every entry on the timesheet and reports.';
 }
 
-function roundingExample(amount: number, type: rounding, roundingOn: roundableOn) {
+function roundingExample(amount: number, type: Rounding, roundingOn: RoundableOn) {
   if (type === 'none' || amount === 0) {
     return 'no automatic rounding';
   }
@@ -54,8 +54,8 @@ function roundingExample(amount: number, type: rounding, roundingOn: roundableOn
 
 type RoundingExampleProps = {
   amount: number;
-  rounding: rounding;
-  roundingOn: roundableOn;
+  rounding: Rounding;
+  roundingOn: RoundableOn;
 };
 
 function RoundingExample({ amount, rounding, roundingOn }: RoundingExampleProps) {

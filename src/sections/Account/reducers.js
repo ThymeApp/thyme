@@ -15,7 +15,7 @@ function jwt(state: string | null = null, action) {
   }
 }
 
-function capabilities(state: capability[] = [], action) {
+function capabilities(state: Capability[] = [], action) {
   switch (action.type) {
     case 'LOG_OUT':
       return [];

@@ -5,8 +5,8 @@ import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox/Checkbox'
 import React from 'react';
 
 type RoundingOnProps = {
-  roundingOn: roundableOn;
-  onChange: (roundingOn: roundableOn) => void;
+  roundingOn: RoundableOn;
+  onChange: (RoundingOn: RoundableOn) => void;
 };
 
 function RoundingOn({ roundingOn, onChange }: RoundingOnProps) {

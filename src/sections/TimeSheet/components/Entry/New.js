@@ -3,7 +3,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
-import type { Dispatch } from 'redux';
 
 import { loadTemporaryItem } from 'core/localStorage';
 
@@ -11,12 +10,12 @@ import { addTime } from '../../actions';
 
 import Entry from './Entry';
 
-type NewType = {
+type NewProps = {
   now: Date,
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
-  onEntryCreate: (entry: timePropertyType) => void,
+  onEntryCreate: (entry: TimePropertyType) => void,
   onAddNewProject: (project: string) => string,
 };
 
@@ -27,7 +26,7 @@ function New({
   enabledEndDate,
   onEntryCreate,
   onAddNewProject,
-}: NewType) {
+}: NewProps) {
   return (
     <Entry
       round="none"
@@ -42,9 +41,9 @@ function New({
   );
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
-    onEntryCreate(entry: timePropertyType) {
+    onEntryCreate(entry: TimePropertyType) {
       dispatch(addTime({
         ...entry,
         id: shortid.generate(),

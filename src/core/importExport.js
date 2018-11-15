@@ -3,15 +3,15 @@
 import isBefore from 'date-fns/is_before';
 
 export type toExportType = {
-  time: timeShape;
-  projects: projectsShape;
-  reports: reportsShape;
+  time: TimeShape;
+  projects: ProjectsShape;
+  reports: ReportsShape;
 };
 
 export type exportType = {
-  time: Array<timeType>,
-  projects: Array<projectType>,
-  reports: Array<reportType>,
+  time: Array<TimeType>,
+  projects: Array<ProjectType>,
+  reports: Array<ReportType>,
 };
 
 export function stateToExport({ time, projects, reports }: toExportType): exportType {

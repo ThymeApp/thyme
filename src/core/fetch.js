@@ -5,7 +5,13 @@ import { getApiRoot } from 'sections/Settings/selectors';
 let getState = () => undefined;
 
 function createUrl(url: string) {
-  const apiRoot = getApiRoot(getState());
+  const state = getState();
+
+  if (!state) {
+    throw new Error('Tried to get state before available');
+  }
+
+  const apiRoot = getApiRoot(state);
 
   return `${apiRoot}${url}`;
 }

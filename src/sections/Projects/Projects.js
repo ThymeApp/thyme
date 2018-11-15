@@ -13,7 +13,7 @@ import NewProject from './components/NewProject';
 import ProjectsList from './components/ProjectsList';
 
 type ProjectsProps = {
-  projects: Array<projectTreeType>;
+  projects: Array<ProjectTreeType>;
 };
 
 function Projects({ projects }: ProjectsProps) {

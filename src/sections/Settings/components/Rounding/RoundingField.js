@@ -21,9 +21,9 @@ const roundingOptions = [
 
 type RoundingFieldType = {
   label: string,
-  rounding: rounding;
+  rounding: Rounding;
   amount: number;
-  onChangeRounding: (rounding: rounding) => void;
+  onChangeRounding: (rounding: Rounding) => void;
   onChangeAmount: (amount: number) => void;
 };
 

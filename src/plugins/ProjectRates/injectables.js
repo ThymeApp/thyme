@@ -19,6 +19,7 @@ export default () => {
 
   // Settings page
   registerSettingsPanel({
+    url: 'project-rates',
     name: 'Project rates',
     content: ProjectRatesSettings(),
   });

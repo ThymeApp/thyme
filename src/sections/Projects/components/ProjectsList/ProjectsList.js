@@ -8,7 +8,7 @@ import ProjectItem from './ProjectItem'; // eslint-disable-line import/no-cycle
 import './ProjectsList.css';
 
 type ProjectsListProps = {
-  projects: Array<projectTreeType>;
+  projects: Array<ProjectTreeType>;
   parent?: string;
   level?: number;
 };

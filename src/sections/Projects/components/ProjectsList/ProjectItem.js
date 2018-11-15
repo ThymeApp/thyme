@@ -2,7 +2,6 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
@@ -26,10 +25,10 @@ import { updateProject, removeProject } from '../../actions';
 import ProjectsList from './ProjectsList';
 
 export type ProjectItemProps = {
-  projects: Array<projectTreeType>;
-  project: projectTreeType;
+  projects: Array<ProjectTreeType>;
+  project: ProjectTreeType;
   level: number;
-  onUpdateProject: (project: projectProps) => void;
+  onUpdateProject: (project: ProjectProps) => void;
   onRemoveProject: (id: string) => void;
   showAlert: (message: string) => void;
 };
@@ -176,9 +175,9 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
   }
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
-    onUpdateProject(project: projectProps) {
+    onUpdateProject(project: ProjectProps) {
       dispatch(updateProject(project));
     },
 

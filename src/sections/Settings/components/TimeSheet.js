@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
@@ -117,7 +116,7 @@ class TimeSheet extends Component<TimeSheetProps> {
   }
 }
 
-function mapStateToProps(state: storeShape) {
+function mapStateToProps(state: StateShape) {
   return {
     perPage: getEntriesPerPage(state),
     enabledNotes: getEnableNotes(state),
@@ -126,7 +125,7 @@ function mapStateToProps(state: storeShape) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     changePerPage(perPage: number | string) {
       dispatch(updatePerPage(perPage));

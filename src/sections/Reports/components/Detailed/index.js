@@ -13,9 +13,9 @@ import './ReportDetailed.css';
 
 type ReportDetailedType = {
   enabledEndDate: boolean;
-  round: rounding;
+  round: Rounding;
   roundAmount: number;
-  projects: projectTreeWithTimeType[];
+  projects: ProjectTreeWithTimeType[];
 };
 
 type ReportDetailedState = {

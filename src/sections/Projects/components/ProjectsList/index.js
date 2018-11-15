@@ -11,7 +11,7 @@ import Responsive from 'components/Responsive';
 import ProjectsList from './ProjectsList';
 
 type ProjectsListWrapperProps = {
-  projects: Array<projectTreeType>;
+  projects: Array<ProjectTreeType>;
 };
 
 function ProjectsListWrapper(props: ProjectsListWrapperProps) {

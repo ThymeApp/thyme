@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import type { RouterHistory } from 'react-router';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
@@ -56,12 +57,12 @@ type ReportsProps = {
   history: RouterHistory;
   from: Date;
   to: Date;
-  detailedRound: rounding;
+  detailedRound: Rounding;
   roundAmount: number;
-  report: reportType | null;
+  report: ReportType | null;
   filters: string[];
-  allProjects: Array<projectTreeWithTimeType>;
-  projects: Array<projectTreeWithTimeType>;
+  allProjects: Array<ProjectTreeWithTimeType>;
+  projects: Array<ProjectTreeWithTimeType>;
 };
 
 type ReportsState = {
@@ -160,15 +161,15 @@ class Reports extends Component<ReportsProps, ReportsState> {
         {
           name: 'Project',
           header: () => 'Project',
-          row: (project: projectTreeWithTimeType) => project.nameTree.join(' > '),
+          row: (project: ProjectTreeWithTimeType) => project.nameTree.join(' > '),
         },
         {
           name: 'Total spent',
           header: () => 'Total spent',
-          footer: (items: projectTreeWithTimeType[]) => formatDuration(
+          footer: (items: ProjectTreeWithTimeType[]) => formatDuration(
             items.reduce((total, project) => total + (project.time * 60), 0),
           ),
-          row: (project: projectTreeWithTimeType) => formatDuration(project.time * 60),
+          row: (project: ProjectTreeWithTimeType) => formatDuration(project.time * 60),
           textAlign: 'right',
           width: 2,
           style: { whiteSpace: 'nowrap' },

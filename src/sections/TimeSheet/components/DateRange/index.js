@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import type { Dispatch } from 'redux';
 
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
@@ -12,8 +11,8 @@ import { getDateRange } from '../../selectors';
 
 type DateRangeProps = {
   vertical?: boolean;
-  dateRange: dateRanges;
-  changeDateRange: (dateRange: dateRanges) => void;
+  dateRange: DateRanges;
+  changeDateRange: (dateRange: DateRanges) => void;
 };
 
 class DateRange extends Component<DateRangeProps> {
@@ -85,9 +84,9 @@ function mapStateToProps(state) {
   return { dateRange: getDateRange(state) };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
-    changeDateRange(dateRange: dateRanges) {
+    changeDateRange(dateRange: DateRanges) {
       dispatch(changeDateRange(dateRange));
     },
   };

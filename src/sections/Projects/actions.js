@@ -10,7 +10,7 @@ export function addProject(entry: { parent: string | null, name: string }) {
   };
 }
 
-export function updateProject(entry: projectProps) {
+export function updateProject(entry: ProjectProps) {
   return {
     type: 'UPDATE_PROJECT',
     ...entry,

@@ -10,7 +10,6 @@ import {
   initialize,
 } from 'redux-form';
 import type { FormProps } from 'redux-form';
-import type { Dispatch } from 'redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
@@ -116,7 +115,7 @@ const validate = (values) => {
   return errors;
 };
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
+function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     initializeForms(form: string, data: any) {
       dispatch(initialize(form, data));

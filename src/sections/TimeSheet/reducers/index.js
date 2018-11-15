@@ -47,7 +47,7 @@ function allIds(state = [], action) {
   }
 }
 
-function dateRange(state = 'today', action): dateRanges {
+function dateRange(state = 'today', action): DateRanges {
   switch (action.type) {
     case 'CHANGE_DATE_RANGE':
       return action.dateRange;
@@ -56,7 +56,7 @@ function dateRange(state = 'today', action): dateRanges {
   }
 }
 
-function dateSort(state = 'desc', action): sortDirection {
+function dateSort(state = 'desc', action): SortDirection {
   switch (action.type) {
     case 'CHANGE_DATE_SORT':
       return action.dateSort;
