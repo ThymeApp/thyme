@@ -153,6 +153,7 @@ declare type AccountInformation = {
 
 declare type SettingsPanel = {
   name: string;
+  url: string;
   content: Node;
 };
 
