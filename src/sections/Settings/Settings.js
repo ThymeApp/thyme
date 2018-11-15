@@ -2,6 +2,9 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router';
+import type { Match, RouterHistory } from 'react-router';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
@@ -23,10 +26,11 @@ import './Settings.css';
 
 type SettingsProps = {
   loggedIn: boolean;
+  match: Match;
+  history: RouterHistory;
 };
 
 type SettingsState = {
-  activeIndex: number;
   extraPanels: SettingsPanel[];
 };
 
@@ -35,7 +39,6 @@ class Settings extends Component<SettingsProps, SettingsState> {
     super();
 
     this.state = {
-      activeIndex: 0,
       extraPanels: items(),
     };
   }
@@ -52,36 +55,40 @@ class Settings extends Component<SettingsProps, SettingsState> {
     this.setState({ extraPanels: items() });
   };
 
-  settingsItem = (item: SettingsPanel | null, index: number) => {
+  settingsItem = (item: SettingsPanel | null) => {
     if (!item) {
       return null;
     }
 
-    const { activeIndex } = this.state;
-    const { name, content } = item;
+    const { match } = this.props;
+
+    const activePage = match.params.page || 'timesheet';
+
+    const { url, name, content } = item;
+
+    const active = activePage === url;
 
     return (
       <Fragment key={name}>
         <Accordion.Title
-          active={activeIndex === index}
-          index={index}
-          onClick={this.handleAccordionToggle(index)}
+          active={active}
+          index={url}
+          onClick={this.handleAccordionToggle(url)}
         >
           <Icon name="dropdown" />
           {name}
         </Accordion.Title>
-        <Accordion.Content active={activeIndex === index}>
+        <Accordion.Content active={active}>
           {content}
         </Accordion.Content>
       </Fragment>
     );
   };
 
-  handleAccordionToggle = (index: number) => () => {
-    const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
+  handleAccordionToggle = (url: string) => () => {
+    const { history } = this.props;
 
-    this.setState({ activeIndex: newIndex });
+    history.push(`/settings/${url}`);
   };
 
   render() {
@@ -161,4 +168,7 @@ const mapStateToProps = (state: StateShape) => ({
   loggedIn: isLoggedIn(state),
 });
 
-export default connect(mapStateToProps)(Settings);
+export default compose(
+  withRouter,
+  connect(mapStateToProps),
+)(Settings);
