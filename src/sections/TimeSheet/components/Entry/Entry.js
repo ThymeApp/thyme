@@ -4,6 +4,7 @@ import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 
 import format from 'date-fns/format';
+import isEqual from 'date-fns/is_equal';
 import startOfDay from 'date-fns/start_of_day';
 import addDays from 'date-fns/add_days';
 import setHours from 'date-fns/set_hours';
@@ -183,11 +184,14 @@ class Entry extends Component<EntryProps, EntryState> {
 
     const startTime = new Date();
 
+    const isOldTempItem = isBefore(entry.start, addDays(now, -1));
+    const isNewTempItem = isEqual(entry.start, startOfDay(now));
+
     this.setState({
       tracking: true,
       entry: {
         ...entry,
-        start: isBefore(entry.start, addDays(now, -1)) ? startTime : entry.start,
+        start: isOldTempItem || isNewTempItem ? startTime : entry.start,
         end: startTime,
       },
     });
