@@ -5,6 +5,7 @@
     "homepage": "/",
     "scripts": {
         "analyze": "source-map-explorer build/static/js/main.*",
+        "generate-sample": "node ./scripts/create-mock",
         "start": "react-scripts start",
         "eject": "react-scripts eject",
         "test": "react-scripts test --env=jsdom",
