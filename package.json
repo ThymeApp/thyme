@@ -10,7 +10,7 @@
         "test": "react-scripts test --env=jsdom",
         "test:ci": "CI=true npm run test",
         "lint:css": "stylelint \"./src/**/*.css\"",
-        "lint:js": "eslint ./src",
+        "lint:js": "eslint \"./+(src|scripts)/**/*.js\"",
         "lint": "npm run lint:js && npm run lint:css",
         "flow": "flow",
         "build": "env-cmd .env.production react-scripts build",
