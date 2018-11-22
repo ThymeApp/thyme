@@ -1,6 +1,7 @@
 // @flow
 
 import mitt from 'mitt';
+import { invoke } from 'thyme-connect';
 
 const emitter = mitt();
 const ADD_PANEL = 'settings.add.panel';
@@ -22,3 +23,6 @@ export function listen(cb: any => any) {
 export function unlisten(cb: any => any) {
   emitter.off(ADD_PANEL, cb);
 }
+
+// register method on thyme-connect
+invoke('registerSettingsPanel', register);

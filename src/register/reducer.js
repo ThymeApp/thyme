@@ -2,6 +2,7 @@
 
 import { combineReducers } from 'redux';
 import type { Reducer } from 'redux';
+import { invoke } from 'thyme-connect';
 
 import createReducers from '../reducers/index';
 
@@ -49,3 +50,6 @@ export function create(path: string, reducers: Reducers) {
 
   return combineReducers(newReducers);
 }
+
+// register method on thyme-connect
+invoke('registerReducer', register);
