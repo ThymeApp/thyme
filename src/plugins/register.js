@@ -18,6 +18,7 @@ function loadPlugin(name: string, importModule: () => Promise<*>): () => Promise
 function pluginsList() {
   return [
     loadPlugin('ProjectRates', () => import('./ProjectRates')),
+    loadPlugin('Insights', () => import('./Insights')),
   ];
 }
 
