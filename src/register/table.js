@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import type { Node } from 'react';
 import mitt from 'mitt';
+import { invoke } from 'thyme-connect';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
@@ -40,9 +41,8 @@ export function registerColumn(name: string, column: TableColumn) {
   emitter.emit(ADD_COLUMN, name);
 }
 
-export function registerColumns(name: string, columns: TableColumn[]) {
-  columns.forEach(column => registerColumn(name, column));
-}
+// register method on thyme-connect
+invoke('registerColumn', registerColumn);
 
 function getRegisteredColumns(name: string): TableColumn[] {
   return registeredColumns[name] || [];

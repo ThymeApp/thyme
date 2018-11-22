@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
+import { invoke } from 'thyme-connect';
 
 import mitt from 'mitt';
 
@@ -60,3 +61,6 @@ export function updateOnRegistration<P>(C: React$ComponentType<P>): React$Compon
     }
   };
 }
+
+// register method on thyme-connect
+invoke('registerComponent', register);
