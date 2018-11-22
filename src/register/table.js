@@ -40,10 +40,6 @@ export function registerColumn(name: string, column: TableColumn) {
   emitter.emit(ADD_COLUMN, name);
 }
 
-export function registerColumns(name: string, columns: TableColumn[]) {
-  columns.forEach(column => registerColumn(name, column));
-}
-
 function getRegisteredColumns(name: string): TableColumn[] {
   return registeredColumns[name] || [];
 }
