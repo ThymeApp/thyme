@@ -56,6 +56,18 @@ If you have questions you can leave issues on this repository or send a message 
 2. Use `npm build` to build the application. Assets will be available in `build/`.
 3. Change the location of [Thyme Capsule](https://github.com/ThymeApp/thyme-capsule) by setting the `REACT_APP_API_ROOT` environment variable before building.
 
+## Generating sample data
+
+To generate sample data to be used for development, or just to clean your development state, you can
+use the following command:
+
+```
+npm run generate-sample
+```
+
+This will create a new file called `sample.json` in the root of the project. Use the "Export / Import data"
+section of the settings page to import the sample data.
+
 ## Made with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
