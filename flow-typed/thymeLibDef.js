@@ -53,7 +53,7 @@ declare type SettingsShape = {
   advanced: SettingsAdvanced;
 };
 
-declare type Capability = 'project_rates';
+declare type Capability = 'project_rates' | 'hourly_rates';
 
 declare type StateShape = {
   account: {
