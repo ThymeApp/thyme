@@ -1,5 +1,7 @@
 .ReportDetailed__toggle {
-  margin-bottom: 1em;
+  margin: 2em 0 1em;
+  display: flex;
+  justify-content: space-between;
 }
 
 @media only screen {
