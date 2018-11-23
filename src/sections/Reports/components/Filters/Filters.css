@@ -1,0 +1,4 @@
+.Report__filters {
+  display: flex;
+  justify-content: space-between;
+}

@@ -6,6 +6,8 @@ import type { Node } from 'react';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
+import './Filters.css';
+
 type ReportFiltersType = {
   filters: Array<string>;
   projects: Array<ProjectTreeWithTimeType>;
