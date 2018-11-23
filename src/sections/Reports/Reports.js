@@ -202,6 +202,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
         />
         {renderComponent('reports.beforeCharts', this.props)}
         <ReportCharts projects={projects} />
+        {renderComponent('reports.afterCharts', this.props)}
         <ReportFilters
           projects={allProjects}
           filters={filters}
