@@ -1,5 +1,7 @@
 .ReportDetailed__toggle {
-  margin-bottom: 1em;
+  margin: 2em 0 1em;
+  display: flex;
+  justify-content: space-between;
 }
 
 @media only screen {
@@ -11,16 +13,5 @@
 @media only screen and (min-width: 768px) {
   .ReportDetailed {
     display: block;
-  }
-}
-
-@media only print {
-  .ReportDetailed__toggle {
-    display: none;
-  }
-
-  .ui.popup,
-  .ui.dropdown {
-    display: none !important;
   }
 }
