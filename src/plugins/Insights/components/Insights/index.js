@@ -40,15 +40,20 @@ export default ({ from, to, projects }: ReportsProps) => {
     projects: projectsWithTime.map((project) => {
       const dayEntries = project.entries.filter(entry => isSameDay(entry.start, day));
 
+      const projectDetails = {
+        name: project.name,
+        nameTree: project.nameTree,
+      };
+
       if (dayEntries.length === 0) {
         return {
-          name: project.name,
+          ...projectDetails,
           time: 0,
         };
       }
 
       return {
-        name: project.name,
+        ...projectDetails,
         time: totalProjectTime(
           project,
           dayEntries,
