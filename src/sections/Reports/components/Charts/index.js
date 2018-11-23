@@ -46,7 +46,7 @@ function ReportCharts({ projects }: ReportChartsType) {
               className="ReportCharts__Legend-Colour"
               style={{ borderColor: colours[index] }}
             />
-            { project.name }
+            { project.nameTree.join(' > ') }
           </li>
         ))}
       </ul>
