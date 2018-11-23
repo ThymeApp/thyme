@@ -1,0 +1,31 @@
+.Insights {
+  width: 100%;
+  table-layout: fixed;
+  margin-bottom: 2em;
+}
+
+.Insights__Days {
+  padding: 0;
+}
+
+.Insights__Days-Item {
+  list-style-type: none;
+}
+
+.Insights__Days-ItemBars {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.Insights__Bar {
+  width: 100%;
+  max-width: 30px;
+}
+
+.Insights__Days--dates {
+  font-size: 0.9em;
+  text-align: center;
+}

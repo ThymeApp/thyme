@@ -9,7 +9,7 @@ type ReportChartsType = {
   projects: Array<ProjectTreeWithTimeType>,
 };
 
-const colours = [
+export const colours = [
   '#00AA55',
   '#009FD4',
   '#B381B3',
