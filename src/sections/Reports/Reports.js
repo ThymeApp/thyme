@@ -24,6 +24,7 @@ import {
 } from 'core/reportQueryString';
 
 import { create as createTable } from 'register/table';
+import { render as renderComponent } from 'register/component';
 
 import {
   getDurationRounding,
@@ -52,7 +53,7 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
   return [...filters, filter];
 }
 
-type ReportsProps = {
+export type ReportsProps = {
   enabledEndDate: boolean;
   history: RouterHistory;
   from: Date;
@@ -199,6 +200,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
           to={to}
           updateDateRange={this.onUpdateDateRange}
         />
+        {renderComponent('reports.beforeCharts', this.props)}
         <ReportCharts projects={projects} />
         <ReportFilters
           projects={allProjects}
