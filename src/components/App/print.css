@@ -17,4 +17,10 @@
     width: auto;
     border: 0;
   }
+
+  .ReportDetailed__toggle,
+  .ui.popup,
+  .ui.dropdown {
+    display: none !important;
+  }
 }

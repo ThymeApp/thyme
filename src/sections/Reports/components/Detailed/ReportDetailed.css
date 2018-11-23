@@ -13,14 +13,3 @@
     display: block;
   }
 }
-
-@media only print {
-  .ReportDetailed__toggle {
-    display: none;
-  }
-
-  .ui.popup,
-  .ui.dropdown {
-    display: none !important;
-  }
-}
