@@ -12,9 +12,11 @@ import { formatShortDate } from 'core/intl';
 
 import { colours } from 'sections/Reports/components/Charts';
 
-import './Insights.css';
-
 import type { ReportsProps } from 'sections/Reports/Reports';
+
+import { hoursAndDivisions } from './helpers';
+
+import './Insights.css';
 
 function daysInDateRange(from: Date, to: Date): Date[] {
   const days = [];
@@ -79,6 +81,8 @@ export default ({ from, to, projects }: ReportsProps) => {
     const dayTime = totalTime(day.projects);
     return dayTime > highest ? dayTime : highest;
   }, 0);
+
+  const [hours, dividers] = hoursAndDivisions(longestDay / 60);
 
   return (
     <section className="Insights">
