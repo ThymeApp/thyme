@@ -24,6 +24,7 @@
   font-size: 0.9em;
 }
 
+.Insights__Hours-Item--last::before,
 .Insights__Hours-Item::after {
   content: "";
   position: absolute;
@@ -31,6 +32,11 @@
   right: 0;
   width: calc(100% - 25px);
   border-top: 1px solid rgba(34, 36, 38, 0.2);
+}
+
+.Insights__Hours-Item--last::before {
+  top: auto;
+  bottom: -6px;
 }
 
 .Insights__Table {
@@ -55,6 +61,7 @@
   height: 200px;
   align-items: center;
   justify-content: flex-end;
+  padding: 0 2px;
 }
 
 .Insights__Bar {

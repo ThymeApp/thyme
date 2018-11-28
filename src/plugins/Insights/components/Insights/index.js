@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import classnames from 'classnames';
 
 import isSameDay from 'date-fns/is_same_day';
 import addDays from 'date-fns/add_days';
@@ -83,13 +84,27 @@ export default ({ from, to, projects }: ReportsProps) => {
   }, 0);
 
   const [hours, dividers] = hoursAndDivisions(longestDay / 60);
+  const hourItems = Array.from(
+    { length: dividers },
+    (item: typeof undefined, index: number) => (hours / dividers) * (dividers - index),
+  );
 
   return (
     <section className="Insights">
       <ul className="Insights__Hours" style={{ height: barHeight }}>
-        <li className="Insights__Hours-Item">6</li>
-        <li className="Insights__Hours-Item">4</li>
-        <li className="Insights__Hours-Item">2</li>
+        {hourItems.map((item, index) => (
+          <li
+            key={item}
+            className={classnames(
+              'Insights__Hours-Item',
+              {
+                'Insights__Hours-Item--last': index + 1 === dividers,
+              },
+            )}
+          >
+            {item}
+          </li>
+        ))}
       </ul>
       <table className="Insights__Table">
         <tbody>
@@ -102,7 +117,7 @@ export default ({ from, to, projects }: ReportsProps) => {
                       className="Insights__Bar"
                       key={project.id}
                       style={{
-                        height: (barHeight * (project.time / longestDay) - 4),
+                        height: (barHeight * (project.time / (hours * 60)) - 4),
                         backgroundColor: project.colour,
                       }}
                     />
