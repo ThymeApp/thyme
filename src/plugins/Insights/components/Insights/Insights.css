@@ -1,7 +1,44 @@
 .Insights {
+  display: flex;
+  position: relative;
+}
+
+.Insights__Hours {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.Insights__Hours-Item {
+  list-style-type: none;
+  flex-grow: 1;
+  position: relative;
+  line-height: 20px;
+  top: -10px;
+  color: rgba(34, 36, 38, 0.6);
+  font-size: 0.9em;
+}
+
+.Insights__Hours-Item::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: calc(100% - 25px);
+  border-top: 1px solid rgba(34, 36, 38, 0.2);
+}
+
+.Insights__Table {
   width: 100%;
   table-layout: fixed;
+  margin-left: 25px;
   margin-bottom: 2em;
+  border-collapse: collapse;
 }
 
 .Insights__Days {
@@ -9,7 +46,7 @@
 }
 
 .Insights__Days-Item {
-  list-style-type: none;
+  padding: 0;
 }
 
 .Insights__Days-ItemBars {
@@ -23,6 +60,7 @@
 .Insights__Bar {
   width: 100%;
   max-width: 30px;
+  margin-bottom: 4px;
 }
 
 .Insights__Days--dates {

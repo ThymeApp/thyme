@@ -81,32 +81,41 @@ export default ({ from, to, projects }: ReportsProps) => {
   }, 0);
 
   return (
-    <table className="Insights">
-      <tr className="Insights__Days Insights__Days--bars">
-        {days.map(day => (
-          <td key={day.day} className="Insights__Days-Item">
-            <div className="Insights__Days-ItemBars">
-              {day.projects.filter(project => project.time > 0).map(project => (
-                <div
-                  className="Insights__Bar"
-                  key={project.id}
-                  style={{
-                    height: barHeight * (project.time / longestDay),
-                    backgroundColor: project.colour,
-                  }}
-                />
-              ))}
-            </div>
-          </td>
-        ))}
-      </tr>
-      <tr className="Insights__Days Insights__Days--dates">
-        {days.map(day => (
-          <td key={day.day} className="Insights__Days-Item">
-            {formatShortDate(day.day, days.length)}
-          </td>
-        ))}
-      </tr>
-    </table>
+    <section className="Insights">
+      <ul className="Insights__Hours" style={{ height: barHeight }}>
+        <li className="Insights__Hours-Item">6</li>
+        <li className="Insights__Hours-Item">4</li>
+        <li className="Insights__Hours-Item">2</li>
+      </ul>
+      <table className="Insights__Table">
+        <tbody>
+          <tr className="Insights__Days Insights__Days--bars">
+            {days.map(day => (
+              <td key={day.day} className="Insights__Days-Item">
+                <div className="Insights__Days-ItemBars">
+                  {day.projects.filter(project => project.time > 0).map(project => (
+                    <div
+                      className="Insights__Bar"
+                      key={project.id}
+                      style={{
+                        height: (barHeight * (project.time / longestDay) - 4),
+                        backgroundColor: project.colour,
+                      }}
+                    />
+                  ))}
+                </div>
+              </td>
+            ))}
+          </tr>
+          <tr className="Insights__Days Insights__Days--dates">
+            {days.map(day => (
+              <td key={day.day} className="Insights__Days-Item">
+                {formatShortDate(day.day, days.length)}
+              </td>
+            ))}
+          </tr>
+        </tbody>
+      </table>
+    </section>
   );
 };
