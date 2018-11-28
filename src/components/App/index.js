@@ -47,10 +47,10 @@ class App extends Component<AppProps, AppState> {
     menuOpened: false,
   };
 
-  constructor(props: AppProps) {
-    super(props);
+  componentDidMount() {
+    const { onInitialize } = this.props;
 
-    props.onInitialize();
+    onInitialize();
   }
 
   handleToggle = () => {
