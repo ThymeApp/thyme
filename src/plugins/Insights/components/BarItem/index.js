@@ -20,31 +20,27 @@ type BarItemProps = {
   barHeight: number;
 };
 
-class BarItem extends Component<BarItemProps> {
-  render() {
-    const { project, hours, barHeight } = this.props;
-
-    return (
-      <Popup
-        position="right center"
-        inverted
-        horizontalOffset={3}
-        trigger={(
-          <div
-            className="Insights__Bar"
-            key={project.id}
-            style={{
-              height: (barHeight * (project.time / (hours * 60)) - 4),
-              backgroundColor: project.colour,
-            }}
-          />
-        )}
-      >
-        {project.nameTree.join(' > ')}
-        {` (${formatDuration(project.time * 60)})`}
-      </Popup>
-    );
-  }
+function BarItem({ project, hours, barHeight }: BarItemProps) {
+  return (
+    <Popup
+      position="right center"
+      inverted
+      horizontalOffset={3}
+      trigger={(
+        <div
+          className="Insights__Bar"
+          key={project.id}
+          style={{
+            height: (barHeight * (project.time / (hours * 60)) - 4),
+            backgroundColor: project.colour,
+          }}
+        />
+      )}
+    >
+      {project.nameTree.join(' > ')}
+      {` (${formatDuration(project.time * 60)})`}
+    </Popup>
+  );
 }
 
 export default BarItem;

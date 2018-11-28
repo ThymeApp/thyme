@@ -3,6 +3,14 @@
   position: relative;
 }
 
+.Insights__Scrollable {
+  margin-left: 25px;
+  margin-bottom: 2em;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 2;
+}
+
 .Insights__Hours {
   display: flex;
   flex-direction: column;
@@ -43,10 +51,7 @@
 .Insights__Table {
   width: 100%;
   table-layout: fixed;
-  margin-left: 25px;
-  margin-bottom: 2em;
   border-collapse: collapse;
-  z-index: 2;
 }
 
 .Insights__Days {
@@ -55,6 +60,7 @@
 
 .Insights__Days-Item {
   padding: 0;
+  min-width: 30px;
 }
 
 .Insights__Days-ItemBars {

@@ -93,8 +93,9 @@ export default ({ from, to, projects }: ReportsProps) => {
 
   return (
     <section className="Insights">
-      <table className="Insights__Table">
-        <tbody>
+      <div className="Insights__Scrollable">
+        <table className="Insights__Table" style={{ minWidth: days.length * 30 }}>
+          <tbody>
           <tr className="Insights__Days Insights__Days--bars">
             {days.map(day => (
               <td key={day.day} className="Insights__Days-Item">
@@ -118,8 +119,9 @@ export default ({ from, to, projects }: ReportsProps) => {
               </td>
             ))}
           </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
       <ul className="Insights__Hours" style={{ height: barHeight }}>
         {hourItems.map((hour, index) => (
           <li
