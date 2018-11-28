@@ -96,29 +96,29 @@ export default ({ from, to, projects }: ReportsProps) => {
       <div className="Insights__Scrollable">
         <table className="Insights__Table" style={{ minWidth: days.length * 30 }}>
           <tbody>
-          <tr className="Insights__Days Insights__Days--bars">
-            {days.map(day => (
-              <td key={day.day} className="Insights__Days-Item">
-                <div className="Insights__Days-ItemBars">
-                  {day.projects.filter(project => project.time > 0).map(project => (
-                    <BarItem
-                      key={project.id}
-                      project={project}
-                      barHeight={barHeight}
-                      hours={hours}
-                    />
-                  ))}
-                </div>
-              </td>
-            ))}
-          </tr>
-          <tr className="Insights__Days Insights__Days--dates">
-            {days.map(day => (
-              <td key={day.day} className="Insights__Days-Item">
-                {formatShortDate(day.day, days.length)}
-              </td>
-            ))}
-          </tr>
+            <tr className="Insights__Days Insights__Days--bars">
+              {days.map(day => (
+                <td key={day.day} className="Insights__Days-Item">
+                  <div className="Insights__Days-ItemBars">
+                    {day.projects.filter(project => project.time > 0).map(project => (
+                      <BarItem
+                        key={project.id}
+                        project={project}
+                        barHeight={barHeight}
+                        hours={hours}
+                      />
+                    ))}
+                  </div>
+                </td>
+              ))}
+            </tr>
+            <tr className="Insights__Days Insights__Days--dates">
+              {days.map(day => (
+                <td key={day.day} className="Insights__Days-Item">
+                  {formatShortDate(day.day, days.length)}
+                </td>
+              ))}
+            </tr>
           </tbody>
         </table>
       </div>

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
