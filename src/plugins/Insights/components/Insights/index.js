@@ -17,6 +17,8 @@ import type { ReportsProps } from 'sections/Reports/Reports';
 
 import { hoursAndDivisions } from '../../helpers';
 
+import BarItem from '../BarItem';
+
 import './Insights.css';
 
 function daysInDateRange(from: Date, to: Date): Date[] {
@@ -98,16 +100,12 @@ export default ({ from, to, projects }: ReportsProps) => {
               <td key={day.day} className="Insights__Days-Item">
                 <div className="Insights__Days-ItemBars">
                   {day.projects.filter(project => project.time > 0).map(project => (
-                    <div
-                      className="Insights__Bar"
+                    <BarItem
                       key={project.id}
-                      style={{
-                        height: (barHeight * (project.time / (hours * 60)) - 4),
-                        backgroundColor: project.colour,
-                      }}
-                    >
-                      {project.name}
-                    </div>
+                      project={project}
+                      barHeight={barHeight}
+                      hours={hours}
+                    />
                   ))}
                 </div>
               </td>

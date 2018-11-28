@@ -66,12 +66,6 @@
   padding: 0 2px;
 }
 
-.Insights__Bar {
-  width: 100%;
-  max-width: 30px;
-  margin-bottom: 4px;
-}
-
 .Insights__Days--dates {
   font-size: 0.9em;
   text-align: center;
