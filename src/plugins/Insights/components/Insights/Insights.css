@@ -12,6 +12,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
 }
 
 .Insights__Hours-Item {
@@ -45,6 +46,7 @@
   margin-left: 25px;
   margin-bottom: 2em;
   border-collapse: collapse;
+  z-index: 2;
 }
 
 .Insights__Days {

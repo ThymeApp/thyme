@@ -91,21 +91,6 @@ export default ({ from, to, projects }: ReportsProps) => {
 
   return (
     <section className="Insights">
-      <ul className="Insights__Hours" style={{ height: barHeight }}>
-        {hourItems.map((item, index) => (
-          <li
-            key={item}
-            className={classnames(
-              'Insights__Hours-Item',
-              {
-                'Insights__Hours-Item--last': index + 1 === dividers,
-              },
-            )}
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
       <table className="Insights__Table">
         <tbody>
           <tr className="Insights__Days Insights__Days--bars">
@@ -135,6 +120,21 @@ export default ({ from, to, projects }: ReportsProps) => {
           </tr>
         </tbody>
       </table>
+      <ul className="Insights__Hours" style={{ height: barHeight }}>
+        {hourItems.map((item, index) => (
+          <li
+            key={item}
+            className={classnames(
+              'Insights__Hours-Item',
+              {
+                'Insights__Hours-Item--last': index + 1 === dividers,
+              },
+            )}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 };
