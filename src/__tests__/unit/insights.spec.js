@@ -1,4 +1,4 @@
-import { hoursAndDivisions } from '../../plugins/Insights/components/Insights/helpers';
+import { hoursAndDivisions } from '../../plugins/Insights/helpers';
 
 describe('Calculate hours and divisions for insights', () => {
   it('Should calculate correct hours', () => {

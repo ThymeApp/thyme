@@ -15,7 +15,7 @@ import { colours } from 'sections/Reports/components/Charts';
 
 import type { ReportsProps } from 'sections/Reports/Reports';
 
-import { hoursAndDivisions } from './helpers';
+import { hoursAndDivisions } from '../../helpers';
 
 import './Insights.css';
 
@@ -105,7 +105,9 @@ export default ({ from, to, projects }: ReportsProps) => {
                         height: (barHeight * (project.time / (hours * 60)) - 4),
                         backgroundColor: project.colour,
                       }}
-                    />
+                    >
+                      {project.name}
+                    </div>
                   ))}
                 </div>
               </td>
@@ -121,9 +123,9 @@ export default ({ from, to, projects }: ReportsProps) => {
         </tbody>
       </table>
       <ul className="Insights__Hours" style={{ height: barHeight }}>
-        {hourItems.map((item, index) => (
+        {hourItems.map((hour, index) => (
           <li
-            key={item}
+            key={hour}
             className={classnames(
               'Insights__Hours-Item',
               {
@@ -131,7 +133,7 @@ export default ({ from, to, projects }: ReportsProps) => {
               },
             )}
           >
-            {item}
+            {hour}
           </li>
         ))}
       </ul>
