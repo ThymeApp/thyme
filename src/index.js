@@ -12,12 +12,14 @@ import syncOnUpdate from './core/sync';
 import './core/analytics';
 import { setupStateResolver } from './core/fetch';
 
+import { updateAvailable } from './actions/app';
+
 import createStore from './createStore';
 import runMigrations from './migrations';
 
 import App from './components/App';
 import Routes from './Routes';
-import registerServiceWorker from './registerServiceWorker';
+import { register } from './serviceWorker';
 
 import registerPlugins from './plugins/register';
 
@@ -25,7 +27,6 @@ const initialState = runMigrations(loadState());
 
 const store: ThymeStore = createStore(initialState);
 
-registerServiceWorker(store.dispatch);
 saveOnStoreChange(store);
 syncOnUpdate(store);
 setupStateResolver(() => store.getState());
@@ -42,3 +43,9 @@ ReactDOM.render(
 );
 
 registerPlugins(store);
+register({
+  onUpdate(registration) {
+    store.dispatch(updateAvailable());
+    registration.unregister();
+  },
+});
