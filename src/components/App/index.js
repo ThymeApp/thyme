@@ -27,6 +27,7 @@ import Responsive from '../Responsive';
 import Notifier from '../Notifier';
 
 import thyme from './Thyme.svg';
+
 import './App.css';
 import './print.css';
 
