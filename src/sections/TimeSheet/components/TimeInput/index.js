@@ -18,6 +18,7 @@ function TimeInput({ value, onChange, onKeyPress }: TimeInputType) {
       onChange={onChange}
       onKeyPress={onKeyPress}
       size="small"
+      required
     />
   );
 }

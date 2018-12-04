@@ -1,0 +1,78 @@
+.Insights {
+  display: flex;
+  position: relative;
+}
+
+.Insights__Scrollable {
+  margin-left: 25px;
+  margin-bottom: 2em;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 2;
+}
+
+.Insights__Hours {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.Insights__Hours-Item {
+  list-style-type: none;
+  flex-grow: 1;
+  position: relative;
+  line-height: 20px;
+  top: -10px;
+  color: rgba(34, 36, 38, 0.6);
+  font-size: 0.9em;
+}
+
+.Insights__Hours-Item--last::before,
+.Insights__Hours-Item::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: calc(100% - 25px);
+  border-top: 1px solid rgba(34, 36, 38, 0.2);
+}
+
+.Insights__Hours-Item--last::before {
+  top: auto;
+  bottom: -6px;
+}
+
+.Insights__Table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.Insights__Days {
+  padding: 0;
+}
+
+.Insights__Days-Item {
+  padding: 0;
+  min-width: 30px;
+}
+
+.Insights__Days-ItemBars {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 2px;
+}
+
+.Insights__Days--dates {
+  font-size: 0.9em;
+  text-align: center;
+}
