@@ -27,6 +27,7 @@ import Responsive from '../Responsive';
 import Notifier from '../Notifier';
 
 import thyme from './Thyme.svg';
+
 import './App.css';
 import './print.css';
 
@@ -47,10 +48,10 @@ class App extends Component<AppProps, AppState> {
     menuOpened: false,
   };
 
-  constructor(props: AppProps) {
-    super(props);
+  componentDidMount() {
+    const { onInitialize } = this.props;
 
-    props.onInitialize();
+    onInitialize();
   }
 
   handleToggle = () => {

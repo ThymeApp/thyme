@@ -25,6 +25,7 @@ function DateInput({
       onChange={onChange}
       value={value}
       size="small"
+      required
     />
   );
 }

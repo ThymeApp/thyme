@@ -9,7 +9,7 @@ type ReportChartsType = {
   projects: Array<ProjectTreeWithTimeType>,
 };
 
-const colours = [
+export const colours = [
   '#00AA55',
   '#009FD4',
   '#B381B3',
@@ -33,7 +33,7 @@ function ReportCharts({ projects }: ReportChartsType) {
           viewBoxSize={300}
           strokeWidth={3}
           data={projectsWithTime.map((project, index) => ({
-            title: project.name,
+            title: project.nameTree.join(' > '),
             value: Math.round(project.time),
             color: colours[index],
           }))}
@@ -46,7 +46,7 @@ function ReportCharts({ projects }: ReportChartsType) {
               className="ReportCharts__Legend-Colour"
               style={{ borderColor: colours[index] }}
             />
-            { project.name }
+            { project.nameTree.join(' > ') }
           </li>
         ))}
       </ul>
