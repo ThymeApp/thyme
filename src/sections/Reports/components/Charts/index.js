@@ -33,7 +33,7 @@ function ReportCharts({ projects }: ReportChartsType) {
           viewBoxSize={300}
           strokeWidth={3}
           data={projectsWithTime.map((project, index) => ({
-            title: project.name,
+            title: project.nameTree.join(' > '),
             value: Math.round(project.time),
             color: colours[index],
           }))}
