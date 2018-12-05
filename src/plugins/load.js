@@ -1,7 +1,5 @@
 // @flow
 
-import type { Dispatch } from 'redux';
-
 import { pluginInit } from 'actions/app';
 
 const resolveFalse = () => Promise.resolve(false);
@@ -26,7 +24,7 @@ const createPluginInitDispatcher = (dispatch: ThymeDispatch) => (pluginName: str
   dispatch(pluginInit(pluginName));
 };
 
-export default function loadPlugins(dispatch: Dispatch<*>) {
+export default function loadPlugins(dispatch: ThymeDispatch) {
   Promise.all(pluginsList().map(p => p()))
     .then((modules) => {
       modules
