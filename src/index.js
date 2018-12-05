@@ -21,12 +21,14 @@ import App from './components/App';
 import Routes from './Routes';
 import { register } from './serviceWorker';
 
-import registerPlugins from './plugins/register';
+import { registerStore } from './register/reducer';
+import loadPlugins from './plugins/load';
 
 const initialState = runMigrations(loadState());
 
 const store: ThymeStore = createStore(initialState);
 
+registerStore(store);
 saveOnStoreChange(store);
 syncOnUpdate(store);
 setupStateResolver(() => store.getState());
@@ -42,7 +44,7 @@ ReactDOM.render(
   document.getElementById('root') || document.createElement('div'),
 );
 
-registerPlugins(store);
+loadPlugins(store.dispatch);
 register({
   onUpdate(registration) {
     store.dispatch(updateAvailable());

@@ -64,6 +64,7 @@ declare type StateShape = {
     alert: string;
     syncing: boolean;
     update: boolean;
+    plugins: string[];
   };
   time: TimeShape;
   projects: ProjectsShape;

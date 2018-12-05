@@ -34,8 +34,18 @@ function syncing(state: boolean = false, action) {
   }
 }
 
+function plugins(state: string[] = [], action) {
+  switch (action.type) {
+    case 'PLUGIN_INIT':
+      return [...state, action.name];
+    default:
+      return state;
+  }
+}
+
 export default () => create('app', {
   alert,
   update,
   syncing,
+  plugins,
 });

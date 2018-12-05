@@ -1,7 +1,13 @@
 // @flow
 
-import { ofType } from 'redux-observable';
-import { filter, mergeMap, map } from 'rxjs/operators';
+import { ActionsObservable, ofType } from 'redux-observable';
+import {
+  filter,
+  mergeMap,
+  map,
+  tap,
+  ignoreElements,
+} from 'rxjs/operators';
 import isEqual from 'lodash/isEqual';
 
 import isBefore from 'date-fns/is_before';
@@ -9,6 +15,7 @@ import addDays from 'date-fns/add_days';
 
 import parseJwt from 'core/jwt';
 import { mergeImport, stateToExport } from 'core/importExport';
+import { saveState } from 'core/localStorage';
 
 import { importJSONData } from 'actions/app';
 
@@ -78,8 +85,22 @@ export const fetchAccountInformation = (action$: ActionsObservable) => action$.p
   map(information => receiveAccountInformation(information)),
 );
 
+export const refreshOnLogOut = (
+  action$: ActionsObservable,
+  state$: StateObservable,
+) => action$.pipe(
+  ofType('LOG_OUT'),
+  tap(() => {
+    // save state to localStorage
+    saveState(state$.value);
+    window.location.reload(false);
+  }),
+  ignoreElements(),
+);
+
 export default [
   checkTokenEpic,
   fetchStateEpic,
   fetchAccountInformation,
+  refreshOnLogOut,
 ];
