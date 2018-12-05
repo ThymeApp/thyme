@@ -41,6 +41,10 @@ export function saveState(state: StateShape): void {
   // persist everything but the app and form state
   saveItem({
     ...state,
+    account: {
+      ...state.account,
+      capabilities: [],
+    },
     reports: {
       ...state.reports,
       filters: undefined,
