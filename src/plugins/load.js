@@ -1,6 +1,6 @@
 // @flow
 
-import { registerStore } from 'register/reducer';
+import type { Dispatch } from 'redux';
 
 import { pluginInit } from 'actions/app';
 
@@ -26,15 +26,16 @@ const createPluginInitDispatcher = (dispatch: ThymeDispatch) => (pluginName: str
   dispatch(pluginInit(pluginName));
 };
 
-export default function registerPlugins(store: ThymeStore) {
-  registerStore(store);
-
+export default function loadPlugins(dispatch: Dispatch<*>) {
   Promise.all(pluginsList().map(p => p()))
     .then((modules) => {
       modules
         .filter(m => !!m)
-        .forEach(m => typeof m !== 'boolean'
-          && typeof m.default === 'function'
-          && m.default(createPluginInitDispatcher(store.dispatch)));
+        .forEach((m) => {
+          if (typeof m !== 'boolean' && typeof m.default === 'function') {
+            const dispatchPluginInit = createPluginInitDispatcher(dispatch);
+            m.default(dispatchPluginInit);
+          }
+        });
     });
 }
