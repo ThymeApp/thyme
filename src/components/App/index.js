@@ -21,7 +21,7 @@ import { clearAlert, appInit } from 'actions/app';
 
 import { getAlert } from 'selectors/app';
 
-import Account from 'sections/Account';
+import Account from 'sections/Account/components/MenuItem';
 
 import Responsive from '../Responsive';
 import Notifier from '../Notifier';
