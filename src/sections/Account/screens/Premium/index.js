@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
@@ -9,16 +10,25 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
+import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
 import { valueFromEventTarget } from 'core/dom';
 
+import { loginAccount, registerAccount } from '../../actions';
+
 import { hasPremium, isLoggedIn } from '../../selectors';
+
+import { login, registerUser } from '../../api';
+
+import Subscribe from './Subscribe';
 
 import './Premium.css';
 
 type PremiumProps = {
   isPremium: boolean;
   loggedIn: boolean;
+  onLoginAccount: (token: string) => void;
+  onRegisterAccount: (token: string) => void;
 }
 
 type PremiumState = {
@@ -31,7 +41,8 @@ type PremiumState = {
   };
   errors: {
     [field: string]: string;
-  },
+  };
+  apiError: string;
   submitting: boolean;
 };
 
@@ -45,6 +56,7 @@ class Premium extends Component<PremiumProps, PremiumState> {
       agreed: false,
     },
     errors: {},
+    apiError: '',
     submitting: false,
   };
 
@@ -97,14 +109,8 @@ class Premium extends Component<PremiumProps, PremiumState> {
     values: this.resetValues(),
   });
 
-  submitForm = (e: Event) => {
-    e.preventDefault();
-
+  validateForm() {
     const { values, page } = this.state;
-
-    this.setState({
-      submitting: true,
-    });
 
     const errors = {};
 
@@ -131,6 +137,22 @@ class Premium extends Component<PremiumProps, PremiumState> {
       }
     }
 
+    return errors;
+  }
+
+  submitForm = (e: Event) => {
+    e.preventDefault();
+
+    const { onLoginAccount, onRegisterAccount } = this.props;
+    const { values, page } = this.state;
+
+    this.setState({
+      submitting: true,
+      apiError: '',
+    });
+
+    const errors = this.validateForm();
+
     if (Object.keys(errors).length > 0) {
       return this.setState({
         submitting: false,
@@ -138,7 +160,18 @@ class Premium extends Component<PremiumProps, PremiumState> {
       });
     }
 
-    return {};
+    return (page === 'login' ? login : registerUser)(values.email, values.password)
+      .then((token) => {
+        (page === 'login' ? onLoginAccount : onRegisterAccount)(token);
+
+        this.setState({ submitting: false });
+      })
+      .catch((err) => {
+        this.setState({
+          submitting: false,
+          apiError: err.message,
+        });
+      });
   };
 
   render() {
@@ -148,6 +181,7 @@ class Premium extends Component<PremiumProps, PremiumState> {
       values,
       submitting,
       errors,
+      apiError,
     } = this.state;
 
     const {
@@ -166,11 +200,7 @@ class Premium extends Component<PremiumProps, PremiumState> {
     }
 
     if (loggedIn) {
-      return (
-        <Container>
-          Premium sign up page
-        </Container>
-      );
+      return <Subscribe />;
     }
 
     return (
@@ -181,11 +211,23 @@ class Premium extends Component<PremiumProps, PremiumState> {
           size="large"
           loading={submitting}
         >
-          <Header as="h1">Sign Up For a Premium Thyme Account</Header>
+          <Header as="h1">
+            {page === 'register'
+              ? 'Sign Up For a Premium Thyme Account'
+              : 'Log in to get a Premium Thyme Account'
+            }
+          </Header>
           <p style={{ margin: '2em 0' }}>
             Start using the premium features of Thyme by signing up for an account. You will be able
             to start using Thyme and all its features right away!
           </p>
+
+          {apiError && (
+            <Message color="red" size="small">
+              {apiError}
+            </Message>
+          )}
+
           <Form.Field>
             <label>Email address</label>
             <Input
@@ -282,4 +324,15 @@ function mapStateToProps(state: StateShape) {
   };
 }
 
-export default connect(mapStateToProps)(Premium);
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return {
+    onLoginAccount(token: string) {
+      dispatch(loginAccount(token));
+    },
+    onRegisterAccount(token: string) {
+      dispatch(registerAccount(token));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Premium);
