@@ -41,6 +41,7 @@ type SubscribeState = {
     country: string;
   };
   errors: { [key: string]: string };
+  apiError: string;
 };
 
 class Subscribe extends Component<SubscribeProps, SubscribeState> {
@@ -57,6 +58,7 @@ class Subscribe extends Component<SubscribeProps, SubscribeState> {
       country: '',
     },
     errors: {},
+    apiError: '',
   };
 
   componentDidMount() {
@@ -116,8 +118,10 @@ class Subscribe extends Component<SubscribeProps, SubscribeState> {
         .then((response) => {
           if (response.error) {
             errors.card = response.error.message;
+          }
 
-            this.setState({
+          if (Object.keys(errors).length > 0) {
+            return this.setState({
               submitting: false,
               errors,
             });
@@ -127,12 +131,22 @@ class Subscribe extends Component<SubscribeProps, SubscribeState> {
             return buySubscription(response.token.id, values);
           }
 
-          return undefined;
+          this.setState({
+            submitting: false,
+          });
+
+          return false;
         })
         .then((success) => {
           if (success) {
             fetchAccountInformation();
           }
+        })
+        .catch((err) => {
+          this.setState({
+            submitting: false,
+            apiError: err.message,
+          });
         });
     }
   };
@@ -155,6 +169,7 @@ class Subscribe extends Component<SubscribeProps, SubscribeState> {
       values,
       submitting,
       errors,
+      apiError,
     } = this.state;
 
     const {
@@ -271,6 +286,12 @@ class Subscribe extends Component<SubscribeProps, SubscribeState> {
               <Message attached="bottom">
                 {`You will be charged ${payIn === 'EUR' ? '€10' : '$12'} every month.`}
               </Message>
+
+              {apiError && (
+                <Message color="red">
+                  {apiError}
+                </Message>
+              )}
 
               <Button size="big" primary type="submit">
                 Complete Purchase
