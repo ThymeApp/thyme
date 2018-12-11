@@ -35,3 +35,7 @@ export function receiveAccountInformation(information: AccountInformation) {
     information,
   };
 }
+
+export function updateAccountInformation() {
+  return { type: 'ACCOUNT_UPDATE_INFORMATION' };
+}

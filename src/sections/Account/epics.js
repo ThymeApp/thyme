@@ -80,7 +80,7 @@ export const fetchStateEpic = (action$: ActionsObservable, state$: StateObservab
 );
 
 export const fetchAccountInformation = (action$: ActionsObservable) => action$.pipe(
-  ofType('ACCOUNT_INIT', 'ACCOUNT_UPDATE_TOKEN', 'ACCOUNT_LOGIN'),
+  ofType('ACCOUNT_INIT', 'ACCOUNT_UPDATE_TOKEN', 'ACCOUNT_LOGIN', 'ACCOUNT_UPDATE_INFORMATION'),
   mergeMap(() => getAccountInformation()),
   map(information => receiveAccountInformation(information)),
 );

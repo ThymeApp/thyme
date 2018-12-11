@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react';
 import { StripeProvider, Elements, CardElement } from 'react-stripe-elements';
+import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
@@ -14,9 +16,17 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 import { valueFromEventTarget } from 'core/dom';
 
+import { buySubscription } from '../../api';
+
+import { updateAccountInformation } from '../../actions';
+
 import countries from './countries';
 
 const countryOptions = countries.map(country => ({ ...country, value: country.key }));
+
+type SubscribeProps = {
+  fetchAccountInformation: () => void;
+};
 
 type SubscribeState = {
   stripe: any | null;
@@ -33,7 +43,7 @@ type SubscribeState = {
   errors: { [key: string]: string };
 };
 
-class Subscribe extends Component<*, SubscribeState> {
+class Subscribe extends Component<SubscribeProps, SubscribeState> {
   state = {
     submitting: false,
     stripe: null,
@@ -58,10 +68,6 @@ class Subscribe extends Component<*, SubscribeState> {
     });
 
     if (document.body) document.body.appendChild(stripeJs);
-  }
-
-  componentWillUnmount() {
-    this.script.removeEventListener('load', this.initStripe);
   }
 
   onUpdateValue = (field: string) => (e: Event) => { // eslint-disable-line
@@ -95,7 +101,8 @@ class Subscribe extends Component<*, SubscribeState> {
   handleSubmit = (e: Event) => {
     e.preventDefault();
 
-    const { stripe, cardInput } = this.state;
+    const { stripe, cardInput, values } = this.state;
+    const { fetchAccountInformation } = this.props;
 
     const errors = this.validateForm();
 
@@ -115,11 +122,20 @@ class Subscribe extends Component<*, SubscribeState> {
               errors,
             });
           }
+
+          if (response.token) {
+            return buySubscription(response.token.id, values);
+          }
+
+          return undefined;
+        })
+        .then((success) => {
+          if (success) {
+            fetchAccountInformation();
+          }
         });
     }
   };
-
-  initStripe = () => this.setState({ stripe: window.Stripe(process.env.REACT_APP_STRIPE_KEY) });
 
   setCardInput = (StripeElement: any) => this.setState({ cardInput: StripeElement });
 
@@ -132,8 +148,6 @@ class Subscribe extends Component<*, SubscribeState> {
       .filter(key => values[key].trim().length === 0)
       .reduce((acc, key) => ({ ...acc, [key]: 'Required field' }), {});
   }
-
-  script: HTMLScriptElement;
 
   render() {
     const {
@@ -158,7 +172,7 @@ class Subscribe extends Component<*, SubscribeState> {
 
         <StripeProvider stripe={stripe}>
           <Elements>
-            <Form loading={submitting} size="large" onSubmit={this.handleSubmit}>
+            <Form loading={submitting || !stripe} size="large" onSubmit={this.handleSubmit}>
               <p>
                 To complete your subscription order please enter the information below.
               </p>
@@ -269,4 +283,12 @@ class Subscribe extends Component<*, SubscribeState> {
   }
 }
 
-export default Subscribe;
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return {
+    fetchAccountInformation() {
+      dispatch(updateAccountInformation());
+    },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Subscribe);

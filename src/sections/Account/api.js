@@ -22,3 +22,7 @@ export function getState(): Promise<exportType> {
 export function getAccountInformation(): Promise<AccountInformation> {
   return get('/account-information');
 }
+
+export function buySubscription(token: string, values: any): Promise<Boolean> {
+  return post('/buy-subscription', { token, values });
+}
