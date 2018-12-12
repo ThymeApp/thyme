@@ -61,7 +61,7 @@ class Account extends Component<AccountProps, AccountState> {
   goToSettings = () => {
     const { history } = this.props;
 
-    history.push('/settings/account');
+    history.push('/account');
     this.handleClose();
   };
 

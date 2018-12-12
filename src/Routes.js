@@ -12,7 +12,7 @@ import Account from 'sections/Account';
 function Routes() {
   return (
     <Switch>
-      <Route path="/(premium)" component={Account} />
+      <Route path="/(premium|account)" component={Account} />
       <Route path="/projects" component={Projects} />
       <Route path="/settings/:page?" component={Settings} />
       <Route path="/reports/:reportId?" component={Reports} />
