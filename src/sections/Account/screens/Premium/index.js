@@ -20,7 +20,7 @@ type PremiumProps = {
 }
 
 function Premium({ loadingDone, isPremium, loggedIn }: PremiumProps) {
-  if (!loadingDone) {
+  if (loggedIn && !loadingDone) {
     return <Loading />;
   }
 

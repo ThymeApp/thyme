@@ -25,3 +25,14 @@
   padding: 0.67857143em 1em;
   border-radius: 0.28571429rem;
 }
+
+.CenterButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3em;
+}
+
+.CenterButtons .ui.button {
+  margin: 0 1em;
+}
