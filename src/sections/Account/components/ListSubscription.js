@@ -50,7 +50,7 @@ class ListSubscription extends Component<ListSubscriptionProps, ListSubscription
     const { isLoading, subscriptions } = this.state;
 
     if (isLoading) {
-      return <Loading />;
+      return <Loading noPadding size="medium" />;
     }
 
     if (subscriptions.length === 0) {

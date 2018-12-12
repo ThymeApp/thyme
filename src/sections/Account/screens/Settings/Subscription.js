@@ -20,7 +20,7 @@ type SubscriptionProps = {
 function Subscription({ isPremium, isLoading }: SubscriptionProps) {
   if (isLoading) {
     return (
-      <Loading />
+      <Loading noPadding size="medium" />
     );
   }
 

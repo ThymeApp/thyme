@@ -4,10 +4,15 @@ import React from 'react';
 
 import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader';
 
-function Loading() {
+type LoadingType = {
+  size?: 'mini' | 'tiny' | 'small' | 'medium' | 'large' | 'big' | 'huge' | 'massive',
+  noPadding?: boolean;
+};
+
+function Loading({ size, noPadding }: LoadingType) {
   return (
-    <div style={{ padding: '5em 0' }}>
-      <Loader active inline="centered" size="massive" />
+    <div style={{ padding: noPadding ? '' : '5em 0' }}>
+      <Loader active inline="centered" size={size || 'massive'} />
     </div>
   );
 }
