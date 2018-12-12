@@ -12,7 +12,7 @@ import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
 import { logout } from '../../actions';
 
-import { isLoggedIn } from '../../selectors';
+import { isLoggedIn, hasPremium, isLoaded } from '../../selectors';
 
 import Status from '../Status';
 import Login from '../Login';
@@ -24,6 +24,7 @@ type AccountProps = {
   history: RouterHistory;
   onLogout: () => void;
   loggedIn: boolean;
+  showPremium: boolean;
 }
 
 type AccountState = {
@@ -65,8 +66,15 @@ class Account extends Component<AccountProps, AccountState> {
     this.handleClose();
   };
 
+  goToPremium = () => {
+    const { history } = this.props;
+
+    history.push('/premium');
+    this.handleClose();
+  };
+
   render() {
-    const { loggedIn } = this.props;
+    const { loggedIn, showPremium } = this.props;
     const { isOpen, view } = this.state;
 
     return (
@@ -94,6 +102,14 @@ class Account extends Component<AccountProps, AccountState> {
             >
               Account settings
             </Menu.Item>
+            {showPremium ? (
+              <Menu.Item
+                name="settings"
+                onClick={this.goToPremium}
+              >
+                Buy Premium
+              </Menu.Item>
+            ) : null}
             <Menu.Item
               name="logout"
               onClick={this.onLogout}
@@ -121,6 +137,7 @@ class Account extends Component<AccountProps, AccountState> {
 function mapStateToProps(state) {
   return {
     loggedIn: isLoggedIn(state),
+    showPremium: !hasPremium(state) && isLoaded(state),
   };
 }
 
