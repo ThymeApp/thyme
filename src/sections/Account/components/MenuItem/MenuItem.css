@@ -31,6 +31,16 @@
   width: 300px;
 }
 
+.ui.menu .item.Account-BackUp {
+  line-height: 1.4em;
+}
+
+.Account-BackUp .ui.button {
+  margin: 1em 0 0 0;
+  display: flex;
+  align-items: center;
+}
+
 .Login,
 .Register {
   width: 100%;

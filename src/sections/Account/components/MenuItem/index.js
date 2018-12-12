@@ -1,12 +1,16 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import type { RouterHistory } from 'react-router';
 
+import addDays from 'date-fns/add_days';
+import format from 'date-fns/format';
+
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 
@@ -96,20 +100,28 @@ class Account extends Component<AccountProps, AccountState> {
       >
         { loggedIn ? (
           <Menu vertical>
+            {showPremium && (
+              <Menu.Item name="premium" className="Account-BackUp">
+                Only timesheet data from
+                {' '}
+                <strong>
+                  {format(addDays(new Date(), -31), 'MMM D, YYYY')}
+                </strong>
+                {' '}
+                onwards will be backed up.
+
+                <Button primary onClick={this.goToPremium}>
+                  <Icon name="diamond" />
+                  Buy Unlimited Backups
+                </Button>
+              </Menu.Item>
+            )}
             <Menu.Item
               name="settings"
               onClick={this.goToSettings}
             >
               Account settings
             </Menu.Item>
-            {showPremium ? (
-              <Menu.Item
-                name="settings"
-                onClick={this.goToPremium}
-              >
-                Buy Premium
-              </Menu.Item>
-            ) : null}
             <Menu.Item
               name="logout"
               onClick={this.onLogout}
