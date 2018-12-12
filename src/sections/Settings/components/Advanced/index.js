@@ -95,7 +95,6 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
                 iconPosition="left"
                 placeholder="The endpoint URI to the API"
                 type="text"
-                size="small"
                 value={apiRoot}
                 onChange={this.onChangeApiRoot}
               />

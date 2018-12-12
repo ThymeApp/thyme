@@ -18,7 +18,7 @@ import { alert } from 'actions/app';
 
 import renderField from 'components/FormField/renderField';
 
-import { changePassword } from '../api';
+import { changePassword } from '../../api';
 
 type AccountProps = {
   showAlert: (message: string) => void;

@@ -1,8 +1,6 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import type { Match, RouterHistory } from 'react-router';
 
@@ -11,13 +9,10 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
 
-import { isLoggedIn } from 'sections/Account/selectors';
-
 import { listen, unlisten, items } from '../../register/settings';
 
 import TimeSheet from './components/TimeSheet';
 import Rounding from './components/Rounding';
-import Account from './components/Account';
 import ImportExport from './components/ImportExport';
 import DeleteData from './components/DeleteData';
 import Advanced from './components/Advanced';
@@ -25,7 +20,6 @@ import Advanced from './components/Advanced';
 import './Settings.css';
 
 type SettingsProps = {
-  loggedIn: boolean;
   match: Match;
   history: RouterHistory;
 };
@@ -91,7 +85,6 @@ class Settings extends Component<SettingsProps, SettingsState> {
   };
 
   render() {
-    const { loggedIn } = this.props;
     const { extraPanels } = this.state;
 
     const panels: Array<SettingsPanel | null> = [
@@ -105,11 +98,6 @@ class Settings extends Component<SettingsProps, SettingsState> {
         name: 'Duration time Rounding',
         content: <Rounding />,
       },
-      loggedIn ? {
-        url: 'account',
-        name: 'Account settings',
-        content: <Account />,
-      } : null,
       {
         url: 'export-import',
         name: 'Export / Import data',
@@ -129,7 +117,7 @@ class Settings extends Component<SettingsProps, SettingsState> {
     ];
 
     return (
-      <Container className="Settings">
+      <Container text className="Settings">
         <Header as="h1">
           Settings
         </Header>
@@ -163,11 +151,4 @@ class Settings extends Component<SettingsProps, SettingsState> {
   }
 }
 
-const mapStateToProps = (state: StateShape) => ({
-  loggedIn: isLoggedIn(state),
-});
-
-export default compose(
-  withRouter,
-  connect(mapStateToProps),
-)(Settings);
+export default withRouter(Settings);
