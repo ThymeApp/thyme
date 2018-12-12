@@ -140,5 +140,10 @@ declare type SettingsPanel = {
   content: Node;
 };
 
+declare type SubscriptionInfo = {
+  periodEnd: number;
+  plan: 'EUR' | 'USD';
+};
+
 declare type ThymeStore = Store<StateShape, *>;
 declare type ThymeDispatch = Dispatch<*>;
