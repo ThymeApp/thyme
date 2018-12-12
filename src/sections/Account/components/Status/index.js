@@ -4,7 +4,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
+
 import { isSyncing } from 'selectors/app';
+
+import { hasPremium } from '../../selectors';
 
 import './Status.css';
 
@@ -13,6 +17,7 @@ type ConnectionStates = 'connected' | 'syncing' | 'offline';
 type StatusProps = {
   closePopup: () => void;
   connectionState: ConnectionStates;
+  isPremium: boolean;
 }
 
 type StatusState = {
@@ -47,7 +52,7 @@ class Status extends Component<StatusProps, StatusState> {
   timeout: TimeoutID;
 
   render() {
-    const { connectionState } = this.props;
+    const { connectionState, isPremium } = this.props;
     const { online } = this.state;
 
     const status: ConnectionStates = online ? connectionState : 'offline';
@@ -55,6 +60,7 @@ class Status extends Component<StatusProps, StatusState> {
     return (
       <div className={classnames('Status', `Status--${status}`)}>
         {online ? 'connected' : 'offline'}
+        {isPremium ? <Icon name="diamond" size="small" /> : null}
       </div>
     );
   }
@@ -63,6 +69,7 @@ class Status extends Component<StatusProps, StatusState> {
 function mapStateToProps(state) {
   return {
     connectionState: isSyncing(state) ? 'syncing' : 'connected',
+    isPremium: hasPremium(state),
   };
 }
 

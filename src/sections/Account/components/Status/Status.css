@@ -19,3 +19,7 @@
 .Status--offline::before {
   color: #ff0060;
 }
+
+.Status i.icon {
+  margin: 0 0 0 0.5em;
+}
