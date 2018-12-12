@@ -73,7 +73,7 @@ class ListSubscription extends Component<ListSubscriptionProps, ListSubscription
               {` (in ${plan.plan}) `}
               will renew on
               {' '}
-              {format(plan.periodEnd * 1000, 'MMMM d, YYYY')}
+              {format(plan.periodEnd * 1000, 'MMMM D, YYYY')}
             </p>
             <Button basic onClick={this.onCancel}>
               cancel subscription
