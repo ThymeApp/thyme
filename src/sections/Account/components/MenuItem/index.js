@@ -1,12 +1,12 @@
 // @flow
 
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import type { RouterHistory } from 'react-router';
 
-import addDays from 'date-fns/add_days';
+import addWeeks from 'date-fns/add_weeks';
 import format from 'date-fns/format';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
@@ -105,7 +105,7 @@ class Account extends Component<AccountProps, AccountState> {
                 Only timesheet data from
                 {' '}
                 <strong>
-                  {format(addDays(new Date(), -31), 'MMM D, YYYY')}
+                  {format(addWeeks(new Date(), -4), 'MMM D, YYYY')}
                 </strong>
                 {' '}
                 onwards will be backed up.
