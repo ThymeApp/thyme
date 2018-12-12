@@ -185,7 +185,7 @@ class Premium extends Component<PremiumProps, PremiumState> {
     } = values;
 
     return (
-      <Container text style={{ paddingTop: '5em' }}>
+      <Container text style={{ padding: '5em 0' }}>
         <Form
           noValidate
           onSubmit={this.submitForm}

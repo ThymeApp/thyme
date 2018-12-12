@@ -59,6 +59,7 @@ declare type StateShape = {
   account: {
     jwt: string | null;
     capabilities: Capability[];
+    isLoaded: boolean;
   };
   app: {
     alert: string;

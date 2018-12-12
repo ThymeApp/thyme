@@ -3,27 +3,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
+import Loading from 'components/Loading';
 
-import { hasPremium, isLoggedIn } from '../../selectors';
+import { hasPremium, isLoggedIn, isLoaded } from '../../selectors';
 
 import Subscribe from './Subscribe';
 import SignUp from './SignUp';
+import Completed from './Completed';
 
 import './Premium.css';
 
 type PremiumProps = {
   isPremium: boolean;
   loggedIn: boolean;
+  loadingDone: boolean;
 }
 
-function Premium({ isPremium, loggedIn }: PremiumProps) {
+function Premium({ loadingDone, isPremium, loggedIn }: PremiumProps) {
+  if (!loadingDone) {
+    return <Loading />;
+  }
+
   if (isPremium) {
-    return (
-      <Container>
-        Account page
-      </Container>
-    );
+    return <Completed />;
   }
 
   if (loggedIn) {
@@ -37,6 +39,7 @@ function mapStateToProps(state: StateShape) {
   return {
     isPremium: hasPremium(state),
     loggedIn: isLoggedIn(state),
+    loadingDone: isLoaded(state),
   };
 }
 
