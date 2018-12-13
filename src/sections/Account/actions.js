@@ -36,6 +36,10 @@ export function receiveAccountInformation(information: AccountInformation) {
   };
 }
 
+export function getAccountInformation() {
+  return { type: 'ACCOUNT_FETCH_INFORMATION' };
+}
+
 export function updateAccountInformation() {
   return { type: 'ACCOUNT_UPDATE_INFORMATION' };
 }

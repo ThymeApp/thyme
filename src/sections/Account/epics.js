@@ -28,6 +28,7 @@ import {
   updateToken,
   accountInit,
   receiveAccountInformation,
+  getAccountInformation as fetchAccountFromAPI,
 } from './actions';
 
 import { getJwt } from './selectors';
@@ -79,7 +80,7 @@ export const fetchStateEpic = (action$: ActionsObservable, state$: StateObservab
   filter(needsAction => !!needsAction),
 );
 
-export const fetchAccountInformation = (action$: ActionsObservable) => action$.pipe(
+export const createFetchAccountInformation = (action$: ActionsObservable) => action$.pipe(
   ofType(
     'ACCOUNT_INIT',
     'ACCOUNT_UPDATE_TOKEN',
@@ -87,6 +88,11 @@ export const fetchAccountInformation = (action$: ActionsObservable) => action$.p
     'ACCOUNT_UPDATE_INFORMATION',
     'ACCOUNT_REGISTER',
   ),
+  map(() => fetchAccountFromAPI()),
+);
+
+export const fetchAccountInformation = (action$: ActionsObservable) => action$.pipe(
+  ofType('ACCOUNT_FETCH_INFORMATION'),
   mergeMap(() => getAccountInformation()),
   map(information => receiveAccountInformation(information)),
 );
@@ -107,6 +113,7 @@ export const refreshOnLogOut = (
 export default [
   checkTokenEpic,
   fetchStateEpic,
+  createFetchAccountInformation,
   fetchAccountInformation,
   refreshOnLogOut,
 ];

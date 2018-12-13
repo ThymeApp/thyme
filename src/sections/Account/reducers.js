@@ -30,11 +30,7 @@ function isLoaded(state: boolean = false, action) {
   switch (action.type) {
     case 'ACCOUNT_RECEIVE_INFORMATION':
       return true;
-    case 'ACCOUNT_INIT':
-    case 'ACCOUNT_UPDATE_TOKEN':
-    case 'ACCOUNT_LOGIN':
-    case 'ACCOUNT_UPDATE_INFORMATION':
-    case 'ACCOUNT_REGISTER':
+    case 'ACCOUNT_FETCH_INFORMATION':
       return false;
     default:
       return state;
