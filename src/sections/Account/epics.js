@@ -93,8 +93,8 @@ export const createFetchAccountInformation = (action$: ActionsObservable) => act
 
 export const fetchAccountInformation = (action$: ActionsObservable) => action$.pipe(
   ofType('ACCOUNT_FETCH_INFORMATION'),
-  mergeMap(() => getAccountInformation()),
-  map(information => receiveAccountInformation(information)),
+  mergeMap(() => getAccountInformation().catch(() => false)),
+  map(information => (information ? receiveAccountInformation(information) : logout())),
 );
 
 export const refreshOnLogOut = (
