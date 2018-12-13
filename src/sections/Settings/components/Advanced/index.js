@@ -12,6 +12,7 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 
 import { valueFromEventTarget } from 'core/dom';
 import { isValidThymeApi } from 'core/fetch';
+import { forceReloadRegistration, hasServiceWorker } from 'core/service-worker';
 
 import { getApiRoot } from '../../selectors';
 
@@ -106,6 +107,18 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
               />
             </div>
           </Form.Field>
+          {hasServiceWorker() && (
+            <Form.Field>
+              <label>
+                Service Worker
+              </label>
+              <p>
+                In some cases the Service Worker does not reload properly. This might fix your
+                issues.
+              </p>
+              <Button icon="refresh" onClick={forceReloadRegistration} content="Force reload" />
+            </Form.Field>
+          )}
         </Form>
       </Fragment>
     );

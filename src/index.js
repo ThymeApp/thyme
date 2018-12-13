@@ -23,6 +23,7 @@ import { register } from './serviceWorker';
 
 import { registerStore } from './register/reducer';
 import loadPlugins from './plugins/load';
+import { registerRegistration } from './core/service-worker';
 
 const initialState = runMigrations(loadState());
 
@@ -45,7 +46,11 @@ ReactDOM.render(
 );
 
 loadPlugins(store.dispatch);
+
 register({
+  onRegister(registration) {
+    registerRegistration(registration);
+  },
   onUpdate(registration) {
     store.dispatch(updateAvailable());
     registration.unregister();
