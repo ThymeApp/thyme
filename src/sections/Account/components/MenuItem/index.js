@@ -108,11 +108,11 @@ class Account extends Component<AccountProps, AccountState> {
                   {format(addWeeks(new Date(), -4), 'MMM D, YYYY')}
                 </strong>
                 {' '}
-                onwards will be backed up.
+                onwards will be synced.
 
                 <Button primary onClick={this.goToPremium}>
                   <Icon name="diamond" />
-                  Buy Unlimited Backups
+                  Buy Unlimited Syncing
                 </Button>
               </Menu.Item>
             )}
