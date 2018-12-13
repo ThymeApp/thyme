@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
 import Loading from 'components/Loading';
-import BuySubscription from 'components/BuySubscription';
+import Button from 'components/BuySubscription/Button';
 
 import { hasPremium, isLoaded } from '../../selectors';
 
@@ -38,7 +38,7 @@ function Subscription({ isPremium, isLoading }: SubscriptionProps) {
             on the website.
           </p>
         </Message>
-        <BuySubscription />
+        <Button />
       </div>
     );
   }

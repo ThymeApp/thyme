@@ -34,6 +34,9 @@ import {
 } from 'sections/Settings/selectors';
 import { sortedProjects } from 'sections/Projects/selectors';
 import { getAllTimeEntries } from 'sections/TimeSheet/selectors';
+import { hasPremium, isLoaded } from 'sections/Account/selectors';
+
+import BuyMessage from 'components/BuySubscription/Message';
 
 import ActionMenu from './components/ActionMenu';
 import ReportCharts from './components/Charts';
@@ -54,6 +57,7 @@ function toggleFilter(filters: Array<string | null>, filter: string | null) {
 }
 
 export type ReportsProps = {
+  showUpgrade: boolean;
   enabledEndDate: boolean;
   history: RouterHistory;
   from: Date;
@@ -150,6 +154,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
       detailedRound,
       roundAmount,
       enabledEndDate,
+      showUpgrade,
     } = this.props;
 
     const {
@@ -202,6 +207,9 @@ class Reports extends Component<ReportsProps, ReportsState> {
         />
         {renderComponent('reports.beforeCharts', this.props)}
         <ReportCharts projects={projects} />
+        {showUpgrade && (
+          <BuyMessage>Want more insights in your day to day tracked time?</BuyMessage>
+        )}
         {renderComponent('reports.afterCharts', this.props)}
         <ReportFilters
           projects={allProjects}
@@ -274,6 +282,7 @@ function mapStateToProps(state, props) {
     roundAmount: durationAmount,
     projects: allProjects.filter(project => filters.indexOf(project.id) > -1),
     enabledEndDate: getEnableEndDate(state),
+    showUpgrade: !hasPremium(state) && isLoaded(state),
   };
 }
 

@@ -1,0 +1,9 @@
+.BuyMessage .ui.button {
+  margin: 0 0 0 1em;
+}
+
+@media print {
+  .BuyMessage {
+    display: none !important;
+  }
+}

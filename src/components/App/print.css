@@ -6,7 +6,7 @@
   .Reports h1,
   .Reports > .grid:first-child,
   .App .Report__filters {
-    display: none;
+    display: none !important;
   }
 
   .App__Container {
