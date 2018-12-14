@@ -20,6 +20,7 @@
         "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
     },
     "dependencies": {
+        "@sentry/browser": "^4.4.1",
         "classnames": "^2.2.6",
         "date-fns": "^1.29.0",
         "env-cmd": "^8.0.2",
