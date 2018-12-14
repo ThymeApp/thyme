@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import 'semantic-ui-css/semantic.min.css';
 
+import './core/errorReporting';
 import { loadState, saveOnStoreChange } from './core/localStorage';
 import syncOnUpdate from './core/sync';
 import './core/analytics';
