@@ -28,6 +28,7 @@ import {
   updateToken,
   accountInit,
   receiveAccountInformation,
+  getAccountInformation as fetchAccountFromAPI,
 } from './actions';
 
 import { getJwt } from './selectors';
@@ -58,7 +59,7 @@ export const checkTokenEpic = (action$: ActionsObservable, state$: StateObservab
 );
 
 export const fetchStateEpic = (action$: ActionsObservable, state$: StateObservable) => action$.pipe(
-  ofType('ACCOUNT_INIT', 'ACCOUNT_UPDATE_TOKEN', 'ACCOUNT_LOGIN'),
+  ofType('ACCOUNT_RECEIVE_INFORMATION'),
   mergeMap(() => getState()
     .then((fromServer) => {
       const exportState = getDataToExport(state$.value);
@@ -79,10 +80,21 @@ export const fetchStateEpic = (action$: ActionsObservable, state$: StateObservab
   filter(needsAction => !!needsAction),
 );
 
+export const createFetchAccountInformation = (action$: ActionsObservable) => action$.pipe(
+  ofType(
+    'ACCOUNT_INIT',
+    'ACCOUNT_UPDATE_TOKEN',
+    'ACCOUNT_LOGIN',
+    'ACCOUNT_UPDATE_INFORMATION',
+    'ACCOUNT_REGISTER',
+  ),
+  map(() => fetchAccountFromAPI()),
+);
+
 export const fetchAccountInformation = (action$: ActionsObservable) => action$.pipe(
-  ofType('ACCOUNT_INIT', 'ACCOUNT_UPDATE_TOKEN', 'ACCOUNT_LOGIN'),
-  mergeMap(() => getAccountInformation()),
-  map(information => receiveAccountInformation(information)),
+  ofType('ACCOUNT_FETCH_INFORMATION'),
+  mergeMap(() => getAccountInformation().catch(() => false)),
+  map(information => (information ? receiveAccountInformation(information) : logout())),
 );
 
 export const refreshOnLogOut = (
@@ -101,6 +113,7 @@ export const refreshOnLogOut = (
 export default [
   checkTokenEpic,
   fetchStateEpic,
+  createFetchAccountInformation,
   fetchAccountInformation,
   refreshOnLogOut,
 ];

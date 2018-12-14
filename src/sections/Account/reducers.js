@@ -26,7 +26,19 @@ function capabilities(state: Capability[] = [], action) {
   }
 }
 
+function isLoaded(state: boolean = false, action) {
+  switch (action.type) {
+    case 'ACCOUNT_RECEIVE_INFORMATION':
+      return true;
+    case 'ACCOUNT_FETCH_INFORMATION':
+      return false;
+    default:
+      return state;
+  }
+}
+
 export default () => create('account', {
   jwt,
   capabilities,
+  isLoaded,
 });

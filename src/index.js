@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import 'semantic-ui-css/semantic.min.css';
 
+import './core/errorReporting';
 import { loadState, saveOnStoreChange } from './core/localStorage';
 import syncOnUpdate from './core/sync';
 import './core/analytics';
@@ -23,6 +24,7 @@ import { register } from './serviceWorker';
 
 import { registerStore } from './register/reducer';
 import loadPlugins from './plugins/load';
+import { registerRegistration } from './core/service-worker';
 
 const initialState = runMigrations(loadState());
 
@@ -45,7 +47,11 @@ ReactDOM.render(
 );
 
 loadPlugins(store.dispatch);
+
 register({
+  onRegister(registration) {
+    registerRegistration(registration);
+  },
   onUpdate(registration) {
     store.dispatch(updateAvailable());
     registration.unregister();

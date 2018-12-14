@@ -15,13 +15,15 @@ import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import Sidebar from 'semantic-ui-react/dist/commonjs/modules/Sidebar';
 
+import logError from 'core/errorReporting';
+
 import { updateOnRegistration } from 'register/component';
 
 import { clearAlert, appInit } from 'actions/app';
 
 import { getAlert } from 'selectors/app';
 
-import Account from 'sections/Account';
+import Account from 'sections/Account/components/MenuItem';
 
 import Responsive from '../Responsive';
 import Notifier from '../Notifier';
@@ -63,6 +65,10 @@ class App extends Component<AppProps, AppState> {
   handleClose = () => {
     this.setState({ menuOpened: false });
   };
+
+  componentDidCatch(error, errorInfo) {
+    logError(error, errorInfo);
+  }
 
   AppLink(name, path, icon: string, exact = false) {
     const { location } = this.props;

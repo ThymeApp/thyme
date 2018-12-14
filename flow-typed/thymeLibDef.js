@@ -53,12 +53,13 @@ declare type SettingsShape = {
   advanced: SettingsAdvanced;
 };
 
-declare type Capability = 'project_rates' | 'insights';
+declare type Capability = 'premium' | 'project_rates' | 'insights';
 
 declare type StateShape = {
   account: {
     jwt: string | null;
     capabilities: Capability[];
+    isLoaded: boolean;
   };
   app: {
     alert: string;
@@ -137,6 +138,11 @@ declare type SettingsPanel = {
   name: string;
   url: string;
   content: Node;
+};
+
+declare type SubscriptionInfo = {
+  periodEnd: number;
+  plan: 'EUR' | 'USD';
 };
 
 declare type ThymeStore = Store<StateShape, *>;

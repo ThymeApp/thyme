@@ -1,0 +1,38 @@
+.Premium--Submit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.Premium--Submit .ui.basic.button,
+.Premium--Submit .ui.basic.button:hover {
+  font-size: 1.14285714rem;
+  box-shadow: none !important;
+  margin-left: 5px;
+}
+
+.Premium--Submit .ui.basic.button:hover {
+  text-decoration: underline;
+}
+
+.StripeContainer {
+  margin-top: 1em;
+}
+
+.StripeContainer .StripeElement {
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  padding: 0.67857143em 1em;
+  border-radius: 0.28571429rem;
+}
+
+.CenterButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3em;
+}
+
+.CenterButtons .ui.button {
+  margin: 0 1em;
+}

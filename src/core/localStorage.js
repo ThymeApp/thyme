@@ -44,6 +44,7 @@ export function saveState(state: StateShape): void {
     account: {
       ...state.account,
       capabilities: [],
+      isLoaded: false,
     },
     reports: {
       ...state.reports,

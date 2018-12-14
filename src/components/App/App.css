@@ -25,3 +25,10 @@ body {
   margin-top: 5em;
   margin-bottom: 2em;
 }
+
+.Msg-Error,
+.Msg-Warn {
+  color: #9f3a38;
+  display: block;
+  margin: 4px 0;
+}

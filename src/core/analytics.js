@@ -15,3 +15,9 @@ if (skipEnvs.indexOf(process.env.NODE_ENV) === -1) {
 
   fathom('trackPageview');
 }
+
+export default function trackPageview() {
+  if (skipEnvs.indexOf(process.env.NODE_ENV) === -1) {
+    fathom('trackPageview');
+  }
+}

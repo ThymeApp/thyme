@@ -14,7 +14,7 @@ import renderField from 'components/FormField/renderField';
 
 import { registerAccount } from '../actions';
 
-import { registerUser as regiserUserOnApi } from '../api';
+import { registerUser as registerUserOnApi } from '../api';
 
 type RegisterProps = {
   inView: boolean;
@@ -23,7 +23,7 @@ type RegisterProps = {
 } & FormProps;
 
 class Register extends Component<RegisterProps> {
-  onSubmit = ({ email, password }) => regiserUserOnApi(email, password)
+  onSubmit = ({ email, password }) => registerUserOnApi(email, password)
     .then((token) => {
       const { onRegisterAccount } = this.props;
 
