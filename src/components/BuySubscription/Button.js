@@ -13,7 +13,12 @@ type BuyButtonProps = {
   showIcon?: boolean;
 };
 
-function BuyButton({ children, basic, primary, showIcon }: BuyButtonProps) {
+function BuyButton({
+  children,
+  basic,
+  primary,
+  showIcon,
+}: BuyButtonProps) {
   return (
     <Button
       as={Link}
