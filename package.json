@@ -14,7 +14,7 @@
         "lint:js": "eslint \"./+(src|scripts)/**/*.js\"",
         "lint": "npm run lint:js && npm run lint:css",
         "flow": "flow",
-        "build": "env-cmd .env.production react-scripts build",
+        "build": "env-cmd .env.production react-scripts build && cra-append-sw ./src/custom-sw.js",
         "build:staging": "env-cmd .env.staging react-scripts build",
         "build:dev": "NODE_ENV=development webpack --config node_modules/react-scripts/config/webpack.config.dev.js",
         "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
@@ -22,6 +22,7 @@
     "dependencies": {
         "@sentry/browser": "^4.4.1",
         "classnames": "^2.2.6",
+        "cra-append-sw": "^2.6.0",
         "date-fns": "^1.29.0",
         "env-cmd": "^8.0.2",
         "enzyme": "^3.7.0",
