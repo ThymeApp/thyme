@@ -13,7 +13,7 @@ export function forceReloadRegistration() {
   }
 
   registration.update()
-    .then(registration.unregister)
+    .then(() => registration.unregister())
     .then(() => {
       alert('Service Worker is updated. Refresh page to apply changes.');
     });
