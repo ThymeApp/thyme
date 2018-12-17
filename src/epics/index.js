@@ -7,10 +7,12 @@ import { combineEpics } from 'redux-observable';
 import accountEpics from 'sections/Account/epics';
 
 import pluginEpics from './plugins';
+import updateEpics from './update';
 
 const epics = combineEpics(
   ...accountEpics,
   ...pluginEpics,
+  ...updateEpics,
 );
 
 export const epic$ = new BehaviorSubject(epics);

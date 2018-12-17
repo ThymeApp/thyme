@@ -146,6 +146,12 @@ class Settings extends Component<SettingsProps, SettingsState> {
           </a>
           .
         </p>
+
+        <p className="AppVersion">
+          App version:
+          {' '}
+          {process.env.REACT_APP_VERSION}
+        </p>
       </Container>
     );
   }

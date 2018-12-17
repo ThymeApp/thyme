@@ -1,6 +1,6 @@
 {
     "name": "thyme",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "private": false,
     "homepage": "/",
     "scripts": {
@@ -16,7 +16,7 @@
         "flow": "flow",
         "add-sw-code": "cat ./src/custom-sw.js >> ./build/service-worker.js",
         "build": "env-cmd .env.production react-scripts build && npm run add-sw-code",
-        "build:staging": "env-cmd .env.staging react-scripts build",
+        "build:staging": "env-cmd .env.staging react-scripts build && npm run add-sw-code",
         "build:dev": "NODE_ENV=development webpack --config node_modules/react-scripts/config/webpack.config.dev.js",
         "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
     },
