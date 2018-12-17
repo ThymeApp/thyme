@@ -10,6 +10,7 @@
 module.system.node.resolve_dirname=node_modules
 
 module.name_mapper='^actions\(.*\)$' -> '<PROJECT_ROOT>/src/actions/\1'
+module.name_mapper='^api\(.*\)$' -> '<PROJECT_ROOT>/src/api/\1'
 module.name_mapper='^components\(.*\)$' -> '<PROJECT_ROOT>/src/components/\1'
 module.name_mapper='^core\(.*\)$' -> '<PROJECT_ROOT>/src/core/\1'
 module.name_mapper='^epics\(.*\)$' -> '<PROJECT_ROOT>/src/epics/\1'
