@@ -83,7 +83,7 @@ function registerValidSW(swUrl, config) {
 
               // Execute update callback
               if (config && config.onUpdate) {
-                installingWorker.sendMessage('skipWaiting');
+                navigator.serviceWorker.controller.postMessage('skipWaiting');
                 config.onUpdate(registration);
               }
             } else {
