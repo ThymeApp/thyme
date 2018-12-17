@@ -9,11 +9,14 @@ import isNewerVersion from 'core/compareVersions';
 
 import { updateAvailable } from 'actions/app';
 
+import { unregister } from '../serviceWorker';
+
 export const announcePlugin = (action$: ActionsObservable) => action$.pipe(
   ofType('APP_INIT'),
   mergeMap(() => getAppVersion()
     .then((version) => {
       if (isNewerVersion(version, process.env.REACT_APP_VERSION || '')) {
+        unregister();
         return updateAvailable();
       }
 

@@ -8,8 +8,6 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 
 import { updateAvailable } from 'selectors/app';
 
-import { unregister } from '../../serviceWorker';
-
 import './style.css';
 
 type NotifierType = {
@@ -17,9 +15,7 @@ type NotifierType = {
 }
 
 class Notifier extends Component<NotifierType> {
-  reloadWindow = () => {
-    unregister(() => window.location.reload());
-  };
+  reloadWindow = () => window.location.reload();
 
   render() {
     const { isUpdateAvailable } = this.props;
@@ -36,7 +32,7 @@ class Notifier extends Component<NotifierType> {
           onClick={this.reloadWindow}
         >
           <Icon name="refresh" />
-          New version available. Click to load new version.
+          New version available. Refresh the page to load.
         </Message>
       </div>
     );
