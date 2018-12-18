@@ -30,6 +30,12 @@ declare type ReportsShape = {
   to: Date | string;
 };
 
+declare type ExportShape = {
+  time: TimeShape;
+  projects: ProjectsShape;
+  reports: ReportsShape;
+};
+
 declare type SettingsRounding = {
   durationRounding: Rounding;
   durationRoundingAmount: number;

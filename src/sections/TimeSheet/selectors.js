@@ -39,9 +39,13 @@ function dateRangeFilter(dateRange: DateRanges, now: Date) {
   }
 }
 
-export const getCurrentTimeEntries = (now: Date) => createSelector(
-  [getAllTimeEntries, getDateRange, getDateSort],
-  (timeEntries, dateRange, dateSort) => {
+export const getCurrentTimeEntries = (now: Date) => createSelector<StateShape, *, TimeType[], *>(
+  (state: StateShape) => ([
+    getAllTimeEntries(state),
+    getDateRange(state),
+    getDateSort(state),
+  ]),
+  ([timeEntries, dateRange, dateSort]) => {
     const entries = timeEntries.filter(dateRangeFilter(dateRange, now));
 
     // sort entries

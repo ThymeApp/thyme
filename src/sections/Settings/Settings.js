@@ -157,4 +157,4 @@ class Settings extends Component<SettingsProps, SettingsState> {
   }
 }
 
-export default withRouter(Settings);
+export default withRouter<*>(Settings);

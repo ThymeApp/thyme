@@ -1,4 +1,4 @@
-// @todo flow
+// @flow
 
 import React, { lazy, Suspense } from 'react';
 
