@@ -48,7 +48,7 @@ export function create(path: string, reducers: Reducers) {
     }), {}),
   };
 
-  return combineReducers(newReducers);
+  return combineReducers<*, *>(newReducers);
 }
 
 // register method on thyme-connect

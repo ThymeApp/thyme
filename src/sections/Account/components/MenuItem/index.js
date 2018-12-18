@@ -162,6 +162,6 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
 }
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
 )(Account);

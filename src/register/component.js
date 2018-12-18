@@ -41,7 +41,7 @@ export function render(name: string, props: any) {
 }
 
 export function updateOnRegistration<P>(C: React$ComponentType<P>): React$ComponentType<P> {
-  return class UpdateOnRegistration extends Component<P, { lastRegistration: Date }> {
+  return class UpdateOnRegistration extends Component<*, { lastRegistration: Date }> {
     state = {
       lastRegistration: new Date(),
     };
