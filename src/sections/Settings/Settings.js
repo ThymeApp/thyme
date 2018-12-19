@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router';
 import type { Match, RouterHistory } from 'react-router';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
@@ -157,4 +156,4 @@ class Settings extends Component<SettingsProps, SettingsState> {
   }
 }
 
-export default withRouter<*>(Settings);
+export default Settings;

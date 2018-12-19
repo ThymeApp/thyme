@@ -207,8 +207,7 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
   };
 }
 
-export default compose(
+export default withRouter<*>(compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withRouter,
   updateOnRegistration,
-)(App);
+)(App));

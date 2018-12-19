@@ -6,10 +6,10 @@ import Loading from 'components/Loading';
 
 const Settings = lazy(() => import('./Settings.js'));
 
-function SettingsPage() {
+function SettingsPage(props: any) {
   return (
     <Suspense fallback={<Loading />}>
-      <Settings />
+      <Settings {...props} />
     </Suspense>
   );
 }
