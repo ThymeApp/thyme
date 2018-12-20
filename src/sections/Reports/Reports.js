@@ -1,9 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import type { RouterHistory } from 'react-router';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
@@ -286,7 +284,4 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default compose(
-  withRouter,
-  connect(mapStateToProps),
-)(Reports);
+export default connect(mapStateToProps)(Reports);
