@@ -25,6 +25,10 @@ export function logout() {
   return { type: 'LOG_OUT' };
 }
 
+export function accountChecked() {
+  return { type: 'ACCOUNT_CHECKED' };
+}
+
 export function accountInit() {
   return { type: 'ACCOUNT_INIT' };
 }
