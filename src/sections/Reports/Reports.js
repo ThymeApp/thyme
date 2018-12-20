@@ -209,13 +209,15 @@ class Reports extends Component<ReportsProps, ReportsState> {
           <BuyMessage>Want more insights in your day to day tracked time?</BuyMessage>
         )}
         {renderComponent('reports.afterCharts', this.props)}
-        <ReportFilters
-          projects={allProjects}
-          filters={filters}
-          columnFilters={reportTable.filters}
-          onToggleProject={this.onToggleFilter}
-        />
-        {reportTable.table}
+        {projects.length > 0 && (
+          <ReportFilters
+            projects={allProjects}
+            filters={filters}
+            columnFilters={reportTable.filters}
+            onToggleProject={this.onToggleFilter}
+          />
+        )}
+        {projects.length > 0 && reportTable.table}
         <ReportDetailed
           round={detailedRound}
           roundAmount={roundAmount}

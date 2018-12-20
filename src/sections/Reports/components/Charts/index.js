@@ -24,7 +24,7 @@ function ReportCharts({ projects }: ReportChartsType) {
 
   if (projectsWithTime.length === 0) {
     return (
-      <div className="ReportCharts ReportCharts--empty">
+      <div className="ReportCharts--empty">
         No data available in this data range
       </div>
     );
