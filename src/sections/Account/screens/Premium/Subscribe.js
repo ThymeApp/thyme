@@ -8,14 +8,14 @@ import type { Dispatch } from 'redux';
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Segment from 'semantic-ui-react/dist/commonjs/elements/Segment';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
-import { valueFromEventTarget } from 'core/dom';
 import trackPageview from 'core/analytics';
+
+import FormField from 'components/FormField/FormField';
 
 import { buySubscription } from '../../api';
 
@@ -75,13 +75,13 @@ class Subscribe extends Component<SubscribeProps, SubscribeState> {
     trackPageview();
   }
 
-  onUpdateValue = (field: string) => (e: Event) => { // eslint-disable-line
+  onUpdateValue = (field: string) => (value: string) => { // eslint-disable-line
     const { values } = this.state;
 
     this.setState({
       values: {
         ...values,
-        [field]: valueFromEventTarget(e.target),
+        [field]: value,
       },
     });
   };
@@ -200,47 +200,39 @@ class Subscribe extends Component<SubscribeProps, SubscribeState> {
                 <p>
                   Your billing address is required for tax purposes.
                 </p>
-                <Form.Field>
-                  <label>Name</label>
-                  <Input
-                    placeholder="Your full name"
-                    value={name}
-                    onChange={this.onChange.name}
-                    error={!!errors.name}
-                  />
-                  {errors.name && <div className="Msg-Error">{errors.name}</div>}
-                </Form.Field>
-                <Form.Field>
-                  <label>Address</label>
-                  <Input
-                    placeholder="Your address"
-                    value={address}
-                    onChange={this.onChange.address}
-                    error={!!errors.address}
-                  />
-                  {errors.address && <div className="Msg-Error">{errors.address}</div>}
-                </Form.Field>
+                <FormField
+                  label="Name"
+                  placeholder="Your full name"
+                  type="text"
+                  error={errors.name}
+                  value={name}
+                  onChange={this.onChange.name}
+                />
+                <FormField
+                  label="Address"
+                  placeholder="Your address"
+                  type="text"
+                  error={errors.address}
+                  value={address}
+                  onChange={this.onChange.address}
+                />
                 <Form.Group widths="equal">
-                  <Form.Field>
-                    <label>Postal Code</label>
-                    <Input
-                      placeholder="ZIP or Postal Code"
-                      value={postalCode}
-                      onChange={this.onChange.postalCode}
-                      error={!!errors.postalCode}
-                    />
-                    {errors.postalCode && <div className="Msg-Error">{errors.postalCode}</div>}
-                  </Form.Field>
-                  <Form.Field>
-                    <label>City</label>
-                    <Input
-                      placeholder="City"
-                      value={city}
-                      onChange={this.onChange.city}
-                      error={!!errors.city}
-                    />
-                    {errors.city && <div className="Msg-Error">{errors.city}</div>}
-                  </Form.Field>
+                  <FormField
+                    label="Postal Code"
+                    placeholder="ZIP or Postal Code"
+                    type="text"
+                    error={errors.postalCode}
+                    value={postalCode}
+                    onChange={this.onChange.postalCode}
+                  />
+                  <FormField
+                    label="City"
+                    placeholder="City"
+                    type="text"
+                    error={errors.city}
+                    value={city}
+                    onChange={this.onChange.city}
+                  />
                 </Form.Group>
                 <Form.Field>
                   <label>Country</label>

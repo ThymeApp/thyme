@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
-import { valueFromEventTarget } from 'core/dom';
+import FormField from 'components/FormField/FormField';
 
 import { loginAccount, registerAccount } from '../../actions';
 
@@ -54,13 +53,13 @@ class Premium extends Component<PremiumProps, PremiumState> {
     submitting: false,
   };
 
-  onUpdateValue = (field: string) => (e: Event) => { // eslint-disable-line
+  onUpdateValue = (field: string) => (value: string) => { // eslint-disable-line
     const { values } = this.state;
 
     this.setState({
       values: {
         ...values,
-        [field]: valueFromEventTarget(e.target),
+        [field]: value,
       },
     });
   };
@@ -127,7 +126,7 @@ class Premium extends Component<PremiumProps, PremiumState> {
       }
 
       if (!values.agreed) {
-        errors.agreed = 'Required field';
+        errors.agreed = 'You need to agree with the terms in order to continue.';
       }
     }
 
@@ -209,44 +208,33 @@ class Premium extends Component<PremiumProps, PremiumState> {
             </Message>
           )}
 
-          <Form.Field>
-            <label>Email address</label>
-            <Input
-              fluid
-              placeholder="Your email address"
-              type="email"
-              error={!!errors.email}
-              value={email}
-              onChange={this.updateEmail}
-            />
-            {errors.email && <div className="Msg-Error">{errors.email}</div>}
-          </Form.Field>
+          <FormField
+            label="Email address"
+            placeholder="Your email address"
+            type="email"
+            error={errors.email}
+            value={email}
+            onChange={this.updateEmail}
+          />
+
           <Form.Group widths="equal">
-            <Form.Field>
-              <label>Password</label>
-              <Input
-                fluid
-                placeholder="Your password"
-                type="password"
-                error={!!errors.password}
-                value={password}
-                onChange={this.updatePassword}
-              />
-              {errors.password && <div className="Msg-Error">{errors.password}</div>}
-            </Form.Field>
+            <FormField
+              label="Password"
+              placeholder="Your password"
+              type="password"
+              error={errors.password}
+              value={password}
+              onChange={this.updatePassword}
+            />
             {page === 'register' ? (
-              <Form.Field>
-                <label>Confirm Password</label>
-                <Input
-                  fluid
-                  placeholder="Repeat password"
-                  type="password"
-                  error={!!errors.password2}
-                  value={password2}
-                  onChange={this.updatePassword2}
-                />
-                {errors.password2 && <div className="Msg-Error">{errors.password2}</div>}
-              </Form.Field>
+              <FormField
+                label="Confirm Password"
+                placeholder="Repeat password"
+                type="password"
+                error={errors.password2}
+                value={password2}
+                onChange={this.updatePassword2}
+              />
             ) : null}
           </Form.Group>
           {page === 'register' ? (
