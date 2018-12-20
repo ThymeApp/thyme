@@ -18,3 +18,8 @@
 .ProjectList__level-1 .icon {
   display: none;
 }
+
+.ProjectList--empty {
+  font-size: 1.3em;
+  margin: 2em 0;
+}

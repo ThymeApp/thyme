@@ -28,6 +28,7 @@ import {
   updateToken,
   accountInit,
   receiveAccountInformation,
+  accountChecked,
   getAccountInformation as fetchAccountFromAPI,
 } from './actions';
 
@@ -39,7 +40,7 @@ export const checkTokenEpic = (action$: ActionsObservable, state$: StateObservab
     const jwt = getJwt(state$.value);
 
     if (!jwt) {
-      return [];
+      return [accountChecked()];
     }
 
     const parsedJwt = parseJwt(jwt);

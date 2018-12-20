@@ -17,6 +17,14 @@ type ProjectsListWrapperProps = {
 function ProjectsListWrapper(props: ProjectsListWrapperProps) {
   const { projects } = props;
 
+  if (projects.length === 0) {
+    return (
+      <div className="ProjectList--empty">
+        No projects added yet, add projects using above form.
+      </div>
+    );
+  }
+
   return (
     <Table>
       <Responsive min="tablet">

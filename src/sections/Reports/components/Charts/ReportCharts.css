@@ -20,3 +20,11 @@
   width: 300px;
   max-height: 300px;
 }
+
+.ReportCharts--empty {
+  margin: 2em 0;
+  display: block;
+  font-size: 2em;
+  line-height: 1.2em;
+  text-align: center;
+}
