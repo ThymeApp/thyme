@@ -86,9 +86,9 @@ class Account extends Component<AccountProps, AccountState> {
           <Menu vertical>
             {showPremium && (
               <Menu.Item name="premium" className="Account-BackUp">
-                Syncing is not enabled without premium subscription.
+                Syncing is disabled without premium subscription.
 
-                <Button primary onClick={this.goToPremium}>
+                <Button primary fluid onClick={this.goToPremium}>
                   <Icon name="diamond" />
                   Buy Premium
                 </Button>
