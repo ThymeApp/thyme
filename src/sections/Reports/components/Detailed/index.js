@@ -27,11 +27,9 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
     opened: false,
   };
 
-  toggleDetails = () => {
-    const { opened } = this.state;
-
+  toggleDetails = (e: Event, data: { checked: boolean }) => {
     this.setState({
-      opened: !opened,
+      opened: data.checked,
     });
   };
 
@@ -107,7 +105,7 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
             label="Detailed view"
             toggle
             checked={opened}
-            onClick={this.toggleDetails}
+            onChange={this.toggleDetails}
             style={opened ? { marginRight: '2em' } : {}}
           />
 
