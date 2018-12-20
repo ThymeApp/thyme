@@ -50,6 +50,10 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
       })),
     ], []);
 
+    if (rows.length === 0) {
+      return null;
+    }
+
     const reportTable = createTable(
       'reports.detailed', [
         {
