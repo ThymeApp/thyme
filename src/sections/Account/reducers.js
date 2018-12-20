@@ -18,6 +18,7 @@ function jwt(state: string | null = null, action) {
 function capabilities(state: Capability[] = [], action) {
   switch (action.type) {
     case 'LOG_OUT':
+    case 'APP_INIT':
       return [];
     case 'ACCOUNT_RECEIVE_INFORMATION':
       return action.information.capabilities || [];

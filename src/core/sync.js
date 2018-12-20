@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual';
 
 import { sync, syncFailed, syncSuccess } from 'actions/app';
 
-import { isLoggedIn } from 'sections/Account/selectors';
+import { isLoggedIn, hasPremium } from 'sections/Account/selectors';
 
 import { post } from './fetch';
 import { stateToExport } from './importExport';
@@ -14,7 +14,7 @@ import type { exportType } from './importExport';
 let prevState: exportType = { time: [], projects: [], reports: [] };
 
 function syncWithApi(state: StateShape, dispatch: ThymeDispatch) {
-  if (!isLoggedIn(state)) {
+  if (!isLoggedIn(state) || !hasPremium(state)) {
     return;
   }
 

@@ -1,4 +1,6 @@
-.Status::before {
+.Status--connected::before,
+.Status--offline::before,
+.Status--syncing::before {
   content: "•";
   margin-right: 5px;
   transition: color 0.2s ease;
@@ -21,5 +23,5 @@
 }
 
 .Status i.icon {
-  margin: 0 0 0 0.5em;
+  margin: 0 0 0 0.2em;
 }

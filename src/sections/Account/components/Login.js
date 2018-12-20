@@ -18,7 +18,6 @@ import { loginAccount } from '../actions';
 import { login } from '../api';
 
 type LoginProps = {
-  inView: boolean;
   onLoginAccount: (token: string) => void;
   goToRegister: (e: Event) => void;
 } & FormProps;
@@ -36,7 +35,6 @@ class Login extends Component<LoginProps> {
 
   render() {
     const {
-      inView,
       error,
       submitting,
       goToRegister,
@@ -45,7 +43,7 @@ class Login extends Component<LoginProps> {
 
     return (
       <Form
-        className={classnames('Login', { 'Login--visible': inView })}
+        className={classnames('Login')}
         loading={submitting}
         onSubmit={handleSubmit(this.onSubmit)}
         noValidate

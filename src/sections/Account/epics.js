@@ -32,7 +32,7 @@ import {
   getAccountInformation as fetchAccountFromAPI,
 } from './actions';
 
-import { getJwt } from './selectors';
+import { getJwt, hasPremium } from './selectors';
 
 export const checkTokenEpic = (action$: ActionsObservable, state$: StateObservable) => action$.pipe(
   ofType('APP_INIT'),
@@ -61,23 +61,29 @@ export const checkTokenEpic = (action$: ActionsObservable, state$: StateObservab
 
 export const fetchStateEpic = (action$: ActionsObservable, state$: StateObservable) => action$.pipe(
   ofType('ACCOUNT_RECEIVE_INFORMATION'),
-  mergeMap(() => getState()
-    .then((fromServer) => {
-      const exportState = getDataToExport(state$.value);
+  mergeMap(() => {
+    if (!hasPremium(state$.value)) {
+      return Promise.resolve(false);
+    }
 
-      const currentState = stateToExport(exportState);
+    return getState()
+      .then((fromServer) => {
+        const exportState = getDataToExport(state$.value);
 
-      // check if the local state is up to date
-      if (isEqual(currentState, fromServer)) {
-        return false;
-      }
+        const currentState = stateToExport(exportState);
 
-      // merge server state with current state
-      const newState = mergeImport(currentState, fromServer);
+        // check if the local state is up to date
+        if (isEqual(currentState, fromServer)) {
+          return false;
+        }
 
-      // save merged state to store
-      return importJSONData(newState);
-    })),
+        // merge server state with current state
+        const newState = mergeImport(currentState, fromServer);
+
+        // save merged state to store
+        return importJSONData(newState);
+      });
+  }),
   filter(needsAction => !!needsAction),
 );
 

@@ -6,9 +6,6 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import type { RouterHistory } from 'react-router';
 
-import addWeeks from 'date-fns/add_weeks';
-import format from 'date-fns/format';
-
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
@@ -20,7 +17,6 @@ import { isLoggedIn, hasPremium, isLoaded } from '../../selectors';
 
 import Status from '../Status';
 import Login from '../Login';
-import Register from '../Register';
 
 import './MenuItem.css';
 
@@ -33,24 +29,11 @@ type AccountProps = {
 
 type AccountState = {
   isOpen: boolean;
-  view: 'login' | 'register';
-}
-
-function preventDefault(cb: (e: Event) => void) {
-  return (e: Event) => {
-    e.preventDefault();
-    cb(e);
-  };
 }
 
 class Account extends Component<AccountProps, AccountState> {
-  goToLogin = preventDefault(() => this.setState({ view: 'login' }));
-
-  goToRegister = preventDefault(() => this.setState({ view: 'register' }));
-
   state = {
     isOpen: false,
-    view: 'login',
   };
 
   onLogout = () => {
@@ -79,7 +62,7 @@ class Account extends Component<AccountProps, AccountState> {
 
   render() {
     const { loggedIn, showPremium } = this.props;
-    const { isOpen, view } = this.state;
+    const { isOpen } = this.state;
 
     return (
       <Popup
@@ -89,7 +72,8 @@ class Account extends Component<AccountProps, AccountState> {
             secondary={loggedIn}
             inverted={!loggedIn}
           >
-            { loggedIn ? <Status closePopup={this.handleClose} /> : 'Log in to sync' }
+            { !loggedIn && <Icon name="unlock" /> }
+            { loggedIn ? <Status closePopup={this.handleClose} /> : 'Login' }
           </Button>
         )}
         open={isOpen}
@@ -102,17 +86,11 @@ class Account extends Component<AccountProps, AccountState> {
           <Menu vertical>
             {showPremium && (
               <Menu.Item name="premium" className="Account-BackUp">
-                Only timesheet data from
-                {' '}
-                <strong>
-                  {format(addWeeks(new Date(), -4), 'MMM D, YYYY')}
-                </strong>
-                {' '}
-                onwards will be synced.
+                Syncing is disabled without premium subscription.
 
-                <Button primary onClick={this.goToPremium}>
+                <Button primary fluid onClick={this.goToPremium}>
                   <Icon name="diamond" />
-                  Buy Unlimited Syncing
+                  Buy Premium
                 </Button>
               </Menu.Item>
             )}
@@ -131,14 +109,7 @@ class Account extends Component<AccountProps, AccountState> {
           </Menu>
         ) : (
           <div className="Account-PopUp-Content">
-            <Login
-              inView={view === 'login'}
-              goToRegister={this.goToRegister}
-            />
-            <Register
-              inView={view === 'register'}
-              goToLogin={this.goToLogin}
-            />
+            <Login goToRegister={this.goToPremium} />
           </div>
         )}
       </Popup>
