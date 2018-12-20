@@ -20,3 +20,7 @@
   width: 300px;
   max-height: 300px;
 }
+
+.ReportCharts--empty {
+  font-size: 3em;
+}

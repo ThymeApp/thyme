@@ -23,7 +23,11 @@ function ReportCharts({ projects }: ReportChartsType) {
   const projectsWithTime = projects.filter(project => project.time > 0);
 
   if (projectsWithTime.length === 0) {
-    return null;
+    return (
+      <div className="ReportCharts ReportCharts--empty">
+        No data available in this data range
+      </div>
+    );
   }
 
   return (
