@@ -72,7 +72,8 @@ class Account extends Component<AccountProps, AccountState> {
             secondary={loggedIn}
             inverted={!loggedIn}
           >
-            { loggedIn ? <Status closePopup={this.handleClose} /> : 'Log in to sync' }
+            { !loggedIn && <Icon name="unlock" /> }
+            { loggedIn ? <Status closePopup={this.handleClose} /> : 'Login' }
           </Button>
         )}
         open={isOpen}
