@@ -6,7 +6,7 @@ import Loading from 'components/Loading';
 
 const Reports = lazy(() => import('./Reports.js'));
 
-function SettingsPage(props: any) {
+function ReportsPage(props: any) {
   return (
     <Suspense fallback={<Loading />}>
       <Reports {...props} />
@@ -14,4 +14,4 @@ function SettingsPage(props: any) {
   );
 }
 
-export default SettingsPage;
+export default ReportsPage;
