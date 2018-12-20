@@ -6,9 +6,6 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import type { RouterHistory } from 'react-router';
 
-import addWeeks from 'date-fns/add_weeks';
-import format from 'date-fns/format';
-
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
