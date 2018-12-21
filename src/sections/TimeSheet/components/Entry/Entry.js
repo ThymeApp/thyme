@@ -345,11 +345,14 @@ class Entry extends Component<EntryProps, EntryState> {
       || '00:00:00'
     ).split(':');
 
+    const size = window.innerWidth < 768 ? 'large' : 'small';
+
     const StartDate = (
       <DateInput
         setRef={this.onSetDateInputRef}
         onKeyPress={this.onKeyPress}
         onChange={this.onStartDateChange}
+        size={size}
         value={format(start, 'YYYY-MM-DD')}
       />
     );
@@ -358,6 +361,7 @@ class Entry extends Component<EntryProps, EntryState> {
       <TimeInput
         onKeyPress={this.onKeyPress}
         onChange={this.onStartTimeChange}
+        size={size}
         value={format(start, 'HH:mm')}
       />
     );
@@ -367,6 +371,7 @@ class Entry extends Component<EntryProps, EntryState> {
         setRef={this.onSetDateInputRef}
         onKeyPress={this.onKeyPress}
         onChange={this.onEndDateChange}
+        size={size}
         value={format(end, 'YYYY-MM-DD')}
       />
     ) : null;
@@ -375,6 +380,7 @@ class Entry extends Component<EntryProps, EntryState> {
       <TimeInput
         onKeyPress={this.onKeyPress}
         onChange={this.onEndTimeChange}
+        size={size}
         value={format(end, 'HH:mm')}
       />
     );
@@ -396,6 +402,7 @@ class Entry extends Component<EntryProps, EntryState> {
     const Project = enabledProjects ? (
       <ProjectInput
         value={project}
+        size={size}
         onAddItem={this.onAddNewProject}
         handleChange={this.onProjectChange}
       />
@@ -403,6 +410,7 @@ class Entry extends Component<EntryProps, EntryState> {
 
     const Notes = enabledNotes ? (
       <NotesInput
+        size={size}
         onKeyPress={this.onKeyPress}
         onChange={this.onNotesChange}
         value={notes}
