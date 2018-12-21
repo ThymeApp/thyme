@@ -28,6 +28,7 @@
         "enzyme": "^3.8.0",
         "enzyme-adapter-react-16": "^1.7.1",
         "file-saver": "^2.0.0",
+        "formik": "^1.4.1",
         "left-pad": "^1.3.0",
         "lodash": "^4.17.11",
         "mitt": "^1.1.3",
