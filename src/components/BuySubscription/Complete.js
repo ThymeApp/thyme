@@ -31,7 +31,7 @@ function Complete({ showMessage }: CompleteProps) {
         }}
       >
         <div style={{ marginRight: 10 }}>
-          Please complete your purchase of Thyme premium.
+          Please complete your purchase of Thyme Premium.
         </div>
 
         <BuyButton>
