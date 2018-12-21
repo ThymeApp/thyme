@@ -48,7 +48,6 @@ class Premium extends Component<PremiumProps, PremiumState> {
 
     return (page === 'login' ? login : registerUser)(values.email, values.password)
       .then((token) => {
-        setSubmitting(false);
         (page === 'login' ? onLoginAccount : onRegisterAccount)(token);
       })
       .catch((err) => {
