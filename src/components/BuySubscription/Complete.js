@@ -23,7 +23,6 @@ function Complete({ showMessage }: CompleteProps) {
   return (
     <Message warning style={{ margin: '-1.5em 0 2em' }}>
       <Container
-        text
         style={{
           display: 'flex',
           justifyContent: 'space-between',
