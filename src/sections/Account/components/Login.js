@@ -2,16 +2,13 @@
 
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
-import type { FormProps } from 'redux-form';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
-import renderField from 'components/FormField/renderField';
+import FormField from 'components/FormField/FormField';
 
 import { loginAccount } from '../actions';
 
@@ -20,57 +17,140 @@ import { login } from '../api';
 type LoginProps = {
   onLoginAccount: (token: string) => void;
   goToRegister: (e: Event) => void;
-} & FormProps;
+};
 
-class Login extends Component<LoginProps> {
-  onSubmit = ({ email, password }) => login(email, password)
-    .then((token) => {
-      const { onLoginAccount } = this.props;
+type LoginState = {
+  values: {
+    email: string;
+    password: string;
+  };
+  submitting: boolean;
+  errors: { [key: string]: string };
+  apiError: string;
+};
 
-      onLoginAccount(token);
-    })
-    .catch((e) => {
-      throw new SubmissionError({ _error: e.message });
+class Login extends Component<LoginProps, LoginState> {
+  state = {
+    values: {
+      email: '',
+      password: '',
+    },
+    submitting: false,
+    errors: {},
+    apiError: '',
+  };
+
+  onUpdateValue = (field: string) => (value: string) => { // eslint-disable-line
+    const { values } = this.state;
+
+    this.setState({
+      values: {
+        ...values,
+        [field]: value,
+      },
+    });
+  };
+
+  updateEmail = this.onUpdateValue('email');
+
+  updatePassword = this.onUpdateValue('password');
+
+  onSubmit = (e: Event) => {
+    e.preventDefault();
+
+    const { values } = this.state;
+
+    this.setState({
+      submitting: true,
+      apiError: '',
+      errors: {},
     });
 
+    const errors = this.validate();
+
+    if (Object.keys(errors).length > 0) {
+      return this.setState({
+        submitting: false,
+        errors,
+      });
+    }
+
+    return login(values.email, values.password)
+      .then((token) => {
+        const { onLoginAccount } = this.props;
+
+        onLoginAccount(token);
+      })
+      .catch((err) => {
+        this.setState({
+          submitting: false,
+          apiError: err.message,
+        });
+      });
+  };
+
+  validate() {
+    const { values } = this.state;
+
+    const errors = {};
+    const required = 'Required field';
+
+    if (!values.email) {
+      errors.email = required;
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      errors.email = 'Invalid email address';
+    }
+
+    if (!values.password) {
+      errors.password = required;
+    }
+
+    return errors;
+  }
+
   render() {
+    const { goToRegister } = this.props;
+
     const {
-      error,
+      values,
+      errors,
       submitting,
-      goToRegister,
-      handleSubmit,
-    } = this.props;
+      apiError,
+    } = this.state;
+
+    const { email, password } = values;
 
     return (
       <Form
         className={classnames('Login')}
         loading={submitting}
-        onSubmit={handleSubmit(this.onSubmit)}
+        onSubmit={this.onSubmit}
         noValidate
       >
-        {error && (
+        {apiError && (
           <Message color="red" size="small">
-            {error}
+            {apiError}
           </Message>
         )}
-        <Field
+
+        <FormField
           label="Email address"
-          name="email"
-          required
-          component={renderField}
-          type="email"
-          autoComplete="username email"
           placeholder="Your email address"
+          type="email"
+          error={errors.email}
+          value={email}
+          autoComplete="username email"
+          onChange={this.updateEmail}
         />
 
-        <Field
+        <FormField
           label="Password"
-          name="password"
-          required
-          component={renderField}
-          type="password"
-          autoComplete="current-password"
           placeholder="Your password"
+          type="password"
+          error={errors.password}
+          value={password}
+          autoComplete="current-password"
+          onChange={this.updatePassword}
         />
 
         <section className="Account__Submit-Bar">
@@ -95,23 +175,6 @@ class Login extends Component<LoginProps> {
   }
 }
 
-const validate = (values) => {
-  const errors = {};
-  const required = 'Required field';
-
-  if (!values.email) {
-    errors.email = required;
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-
-  if (!values.password) {
-    errors.password = required;
-  }
-
-  return errors;
-};
-
 function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     onLoginAccount(token: string) {
@@ -120,10 +183,4 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
   };
 }
 
-export default compose(
-  connect(null, mapDispatchToProps),
-  reduxForm({
-    form: 'login',
-    validate,
-  }),
-)(Login);
+export default connect(null, mapDispatchToProps)(Login);

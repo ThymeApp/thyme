@@ -6,21 +6,23 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
 import './style.css';
-import { valueFromEventTarget } from '../../core/dom';
 
 type FieldRenderProps = {
   label: string;
   value: string;
+  name: string;
   type: 'text' | 'password' | 'email';
   placeholder: string;
   autoComplete?: string;
   required?: boolean;
   error: string;
-  onChange: (value: string) => void;
+  onChange: () => void;
+  onBlur: () => void;
 }
 
 const FormField = ({
   label,
+  name,
   type,
   value,
   placeholder,
@@ -28,6 +30,7 @@ const FormField = ({
   autoComplete = '',
   error,
   onChange,
+  onBlur,
 }: FieldRenderProps) => (
   <Form.Field required={required}>
     <label htmlFor="email">
@@ -38,9 +41,11 @@ const FormField = ({
         placeholder={placeholder}
         type={type}
         autoComplete={autoComplete}
-        error={error}
+        error={!!error}
         value={value}
-        onChange={(e: Event) => onChange(valueFromEventTarget(e.target))}
+        name={name}
+        onChange={onChange}
+        onBlur={onBlur}
         size="small"
       />
       {error && (
