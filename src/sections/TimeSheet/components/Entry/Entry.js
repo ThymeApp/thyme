@@ -345,11 +345,14 @@ class Entry extends Component<EntryProps, EntryState> {
       || '00:00:00'
     ).split(':');
 
+    const size = window.innerWidth < 768 ? 'large' : 'small';
+
     const StartDate = (
       <DateInput
         setRef={this.onSetDateInputRef}
         onKeyPress={this.onKeyPress}
         onChange={this.onStartDateChange}
+        size={size}
         value={format(start, 'YYYY-MM-DD')}
       />
     );
@@ -358,6 +361,7 @@ class Entry extends Component<EntryProps, EntryState> {
       <TimeInput
         onKeyPress={this.onKeyPress}
         onChange={this.onStartTimeChange}
+        size={size}
         value={format(start, 'HH:mm')}
       />
     );
@@ -367,6 +371,7 @@ class Entry extends Component<EntryProps, EntryState> {
         setRef={this.onSetDateInputRef}
         onKeyPress={this.onKeyPress}
         onChange={this.onEndDateChange}
+        size={size}
         value={format(end, 'YYYY-MM-DD')}
       />
     ) : null;
@@ -375,6 +380,7 @@ class Entry extends Component<EntryProps, EntryState> {
       <TimeInput
         onKeyPress={this.onKeyPress}
         onChange={this.onEndTimeChange}
+        size={size}
         value={format(end, 'HH:mm')}
       />
     );
@@ -396,6 +402,7 @@ class Entry extends Component<EntryProps, EntryState> {
     const Project = enabledProjects ? (
       <ProjectInput
         value={project}
+        size={size}
         onAddItem={this.onAddNewProject}
         handleChange={this.onProjectChange}
       />
@@ -403,6 +410,7 @@ class Entry extends Component<EntryProps, EntryState> {
 
     const Notes = enabledNotes ? (
       <NotesInput
+        size={size}
         onKeyPress={this.onKeyPress}
         onChange={this.onNotesChange}
         value={notes}
@@ -412,42 +420,26 @@ class Entry extends Component<EntryProps, EntryState> {
     const Actions = !hasId ? (
       <Responsive max="tablet">
         {maxTablet => (maxTablet ? (
-          <Fragment>
-            <Button.Group size="small">
-              <Button
-                className="EntrySubmit"
-                icon
-                labelPosition="left"
-                size="small"
-                disabled={tracking}
-                onClick={this.onClearItem}
-              >
-                <Icon name="redo" />
-                Clear this entry
-              </Button>
-            </Button.Group>
-            <Button.Group size="small">
-              <Button
-                icon
-                color="blue"
-                onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
-                labelPosition="left"
-              >
-                <Icon name={tracking ? 'pause' : 'play'} />
-                {tracking ? 'Stop tracking time' : 'Start time tracking'}
-              </Button>
-
-              <Button
-                className="EntrySubmit"
-                icon
-                onClick={this.onAddEntry}
-                labelPosition="right"
-              >
-                <Icon name="add" />
-                Add this entry
-              </Button>
-            </Button.Group>
-          </Fragment>
+          <Button.Group size="large" vertical>
+            <Button
+              icon
+              color="blue"
+              onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+              labelPosition="left"
+            >
+              <Icon name={tracking ? 'pause' : 'play'} />
+              {tracking ? 'Stop tracking time' : 'Start time tracking'}
+            </Button>
+            <Button
+              className="EntrySubmit"
+              icon
+              onClick={this.onAddEntry}
+              labelPosition="left"
+            >
+              <Icon name="add" />
+              Add this entry
+            </Button>
+          </Button.Group>
         ) : (
           <Button.Group size="small">
             <Popup
@@ -494,35 +486,37 @@ class Entry extends Component<EntryProps, EntryState> {
         ))}
       </Responsive>
     ) : (
-      <Button.Group size="small">
-        <Responsive max="tablet">
-          {maxTablet => (maxTablet ? (
-            <Button icon onClick={this.onOpenConfirm} labelPosition="left">
-              <Icon name="remove" />
-              Remove entry
-            </Button>
-          ) : (
-            <Popup
-              inverted
-              trigger={(
-                <Button icon onClick={this.onOpenConfirm}>
-                  <Icon name="remove" />
-                </Button>
-              )}
-              content="Remove this entry"
-            />
-          ))}
-        </Responsive>
+      <Responsive max="tablet">
+        {maxTablet => (
+          <Button.Group size={maxTablet ? 'large' : 'small'}>
+            {maxTablet ? (
+              <Button icon onClick={this.onOpenConfirm} labelPosition="left">
+                <Icon name="remove" />
+                Remove entry
+              </Button>
+            ) : (
+              <Popup
+                inverted
+                trigger={(
+                  <Button icon onClick={this.onOpenConfirm}>
+                    <Icon name="remove" />
+                  </Button>
+                )}
+                content="Remove this entry"
+              />
+            )}
 
-        <Confirm
-          open={confirm}
-          content="Are you sure you want to remove this entry?"
-          confirmButton="Remove entry"
-          size="mini"
-          onCancel={this.onCancelConfirm}
-          onConfirm={this.onRemoveEntry}
-        />
-      </Button.Group>
+            <Confirm
+              open={confirm}
+              content="Are you sure you want to remove this entry?"
+              confirmButton="Remove entry"
+              size="mini"
+              onCancel={this.onCancelConfirm}
+              onConfirm={this.onRemoveEntry}
+            />
+          </Button.Group>
+        )}
+      </Responsive>
     );
 
     const TableEntry = (
