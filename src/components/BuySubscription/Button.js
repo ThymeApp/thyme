@@ -11,6 +11,7 @@ type BuyButtonProps = {
   basic?: boolean;
   primary?: boolean;
   showIcon?: boolean;
+  icon?: string;
 };
 
 function BuyButton({
@@ -18,6 +19,7 @@ function BuyButton({
   basic,
   primary,
   showIcon,
+  icon,
 }: BuyButtonProps) {
   return (
     <Button
@@ -26,7 +28,7 @@ function BuyButton({
       primary={typeof primary === 'undefined' ? true : primary}
       to="/premium"
     >
-      {(typeof showIcon === 'undefined' || showIcon) && <Icon name="diamond" />}
+      {(typeof showIcon === 'undefined' || showIcon) && <Icon name={icon || 'diamond'} />}
       {children || 'Buy Subscription'}
     </Button>
   );

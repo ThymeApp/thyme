@@ -27,6 +27,7 @@ import Account from 'sections/Account/components/MenuItem';
 
 import Responsive from '../Responsive';
 import Notifier from '../Notifier';
+import CompletePurchase from '../BuySubscription/Complete';
 
 import thyme from './Thyme.svg';
 
@@ -179,6 +180,8 @@ class App extends Component<AppProps, AppState> {
                   { key: 'OK', content: 'OK', positive: true },
                 ]}
               />
+
+              <CompletePurchase />
               <Notifier />
 
               {children}
