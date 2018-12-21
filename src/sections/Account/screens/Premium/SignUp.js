@@ -176,7 +176,7 @@ class Premium extends Component<PremiumProps, PremiumState> {
                     label={{
                       children: (
                         <span
-                          className={errors.agreed ? 'Msg-Error' : ''}
+                          className={touched.agreed && errors.agreed ? 'Msg-Error' : ''}
                           style={{ fontSize: '1.14285714rem' }}
                         >
                           I agree to the
