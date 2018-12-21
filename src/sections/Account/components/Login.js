@@ -32,18 +32,16 @@ class Login extends Component<LoginProps> {
     },
   });
 
-  onSubmit = (values, { setSubmitting, setStatus }) => {
-    return login(values.email, values.password)
-      .then((token) => {
-        const { onLoginAccount } = this.props;
+  onSubmit = (values, { setSubmitting, setStatus }) => login(values.email, values.password)
+    .then((token) => {
+      const { onLoginAccount } = this.props;
 
-        onLoginAccount(token);
-      })
-      .catch((err) => {
-        setSubmitting(false);
-        setStatus({ error: err.message });
-      });
-  };
+      onLoginAccount(token);
+    })
+    .catch((err) => {
+      setSubmitting(false);
+      setStatus({ error: err.message });
+    });
 
   render() {
     const { goToRegister } = this.props;
