@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import type { FieldProps } from 'redux-form';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
@@ -10,20 +9,28 @@ import './style.css';
 
 type FieldRenderProps = {
   label: string;
-  type: 'text' | 'password';
+  value: string;
+  name: string;
+  type: 'text' | 'password' | 'email';
   placeholder: string;
   autoComplete?: string;
   required?: boolean;
-} & FieldProps;
+  error: string;
+  onChange: () => void;
+  onBlur: () => void;
+}
 
-const renderField = ({
-  input,
+const FormField = ({
   label,
+  name,
   type,
+  value,
   placeholder,
   required = false,
   autoComplete = '',
-  meta: { touched, error, warning },
+  error,
+  onChange,
+  onBlur,
 }: FieldRenderProps) => (
   <Form.Field required={required}>
     <label htmlFor="email">
@@ -31,27 +38,23 @@ const renderField = ({
     </label>
     <div>
       <Input
-        {...input}
         placeholder={placeholder}
         type={type}
         autoComplete={autoComplete}
-        error={Boolean(touched && error)}
+        error={!!error}
+        value={value}
+        name={name}
+        onChange={onChange}
+        onBlur={onBlur}
         size="small"
       />
-      { touched && (
-        (error && (
-          <span className="Msg-Error">
-            {error}
-          </span>
-        ))
-        || (warning && (
-          <span className="Msg-Warn">
-            {warning}
-          </span>
-        ))
-      ) }
+      {error && (
+        <span className="Msg-Error">
+          {error}
+        </span>
+      )}
     </div>
   </Form.Field>
 );
 
-export default renderField;
+export default FormField;

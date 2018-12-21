@@ -1,6 +1,6 @@
 {
     "name": "thyme",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "private": false,
     "homepage": "/",
     "scripts": {
@@ -28,6 +28,7 @@
         "enzyme": "^3.8.0",
         "enzyme-adapter-react-16": "^1.7.1",
         "file-saver": "^2.0.0",
+        "formik": "^1.4.1",
         "left-pad": "^1.3.0",
         "lodash": "^4.17.11",
         "mitt": "^1.1.3",
@@ -45,7 +46,6 @@
         "react-test-renderer": "^16.6.3",
         "redux": "^4.0.1",
         "redux-devtools-extension": "^2.13.7",
-        "redux-form": "^8.0.4",
         "redux-observable": "^1.0.0",
         "reselect": "^4.0.0",
         "rxjs": "^6.3.3",

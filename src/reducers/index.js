@@ -1,7 +1,5 @@
 // @flow
 
-import { reducer as formReducer } from 'redux-form';
-
 import { create } from 'register/reducer';
 
 import createReportsReducers from 'sections/Reports/reducers';
@@ -22,7 +20,6 @@ export default () => {
     reports: createReportsReducers(),
     time: createTimeReducers(),
     settings: createSettingsReducers(),
-    form: formReducer,
   });
 
   return (state: any, action: { type: string }) => {
