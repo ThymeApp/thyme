@@ -46,6 +46,8 @@ import LoadModal from './components/SavedReports/Load';
 
 import { getById } from './selectors';
 
+import './Reports.css';
+
 function toggleFilter(filters: Array<string | null>, filter: string | null) {
   if (filters.indexOf(filter) > -1) {
     return filters.filter(item => item !== filter);
@@ -165,7 +167,11 @@ class Reports extends Component<ReportsProps, ReportsState> {
         {
           name: 'Project',
           header: () => 'Project',
-          row: (project: ProjectTreeWithTimeType) => project.nameTree.join(' > '),
+          row: (project: ProjectTreeWithTimeType) => (
+            <div className={`ReportTable__level-${project.nameTree.length}`}>
+              {project.nameTree[project.nameTree.length - 1]}
+            </div>
+          ),
         },
         {
           name: 'Total spent',
