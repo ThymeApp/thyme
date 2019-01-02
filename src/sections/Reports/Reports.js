@@ -20,6 +20,7 @@ import {
   queryStringTo,
   updateReport,
 } from 'core/reportQueryString';
+import { nestedDisplayName } from 'core/projects';
 
 import { create as createTable } from 'register/table';
 import { render as renderComponent } from 'register/component';
@@ -165,11 +166,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
         {
           name: 'Project',
           header: () => 'Project',
-          row: (project: ProjectTreeWithTimeType) => (
-            <div style={{ paddingLeft: (project.nameTree.length - 1) * 20 }}>
-              {project.nameTree[project.nameTree.length - 1]}
-            </div>
-          ),
+          row: (project: ProjectTreeWithTimeType) => nestedDisplayName(project),
         },
         {
           name: 'Total spent',
