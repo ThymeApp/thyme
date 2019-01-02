@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
-import { hasPremium, isLoaded } from 'sections/Account/selectors';
+import { hasPremium, isLoaded, isLoggedIn } from 'sections/Account/selectors';
 
 import BuyButton from './Button';
 
@@ -43,7 +43,7 @@ function Complete({ showMessage }: CompleteProps) {
 
 function mapStateToProps(state: StateShape) {
   return {
-    showMessage: !hasPremium(state) && isLoaded(state),
+    showMessage: !hasPremium(state) && isLoaded(state) && isLoggedIn(state),
   };
 }
 
