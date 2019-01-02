@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import type { Node } from 'react';
 
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
@@ -36,18 +36,21 @@ class ReportFilters extends Component<ReportFiltersType> {
       <div className="Report__filters">
         <Dropdown text="Filter projects" closeOnBlur={false} style={{ marginRight: '2em' }}>
           <Dropdown.Menu>
-            {projects.map(project => (
-              <Dropdown.Item
-                key={project.id}
-                onClick={this.onFilterToggle(project.id)}
-              >
-                <Checkbox
-                  label={project.name}
-                  checked={filters.indexOf(project.id) > -1}
-                  name={project.id}
-                  id={project.id}
-                />
-              </Dropdown.Item>
+            {projects.map((project, index) => (
+              <Fragment key={project.id}>
+                {index > 0 && project.nameTree.length === 1 && <Dropdown.Divider />}
+                <Dropdown.Item
+                  onClick={this.onFilterToggle(project.id)}
+                >
+                  <Checkbox
+                    style={{ paddingLeft: (project.nameTree.length - 1) * 20 }}
+                    label={project.name}
+                    checked={filters.indexOf(project.id) > -1}
+                    name={project.id}
+                    id={project.id}
+                  />
+                </Dropdown.Item>
+              </Fragment>
             ))}
           </Dropdown.Menu>
         </Dropdown>

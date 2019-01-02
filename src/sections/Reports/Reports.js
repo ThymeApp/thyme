@@ -165,7 +165,11 @@ class Reports extends Component<ReportsProps, ReportsState> {
         {
           name: 'Project',
           header: () => 'Project',
-          row: (project: ProjectTreeWithTimeType) => project.nameTree.join(' > '),
+          row: (project: ProjectTreeWithTimeType) => (
+            <div style={{ paddingLeft: (project.nameTree.length - 1) * 20 }}>
+              {project.name}
+            </div>
+          ),
         },
         {
           name: 'Total spent',
