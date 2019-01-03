@@ -21,6 +21,8 @@ if (process.env.REACT_APP_SENTRY_DSN) {
     Sentry.init({
       dsn: process.env.REACT_APP_SENTRY_DSN,
       debug: process.env.NODE_ENV !== 'production',
+      environment: process.env.NODE_ENV,
+      release: process.env.REACT_APP_VERSION,
     });
 
     if (buffer.length > 0) {

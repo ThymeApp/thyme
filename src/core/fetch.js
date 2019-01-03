@@ -59,7 +59,7 @@ function request(method: 'POST' | 'GET' = 'GET', url: string, data?: any) {
           })
           .catch((err) => {
             // if json failed to parse
-            if (err.toString().indexOf('‌SyntaxError') === 0) {
+            if (err instanceof SyntaxError) {
               throw new Error(response.statusText);
             }
 
