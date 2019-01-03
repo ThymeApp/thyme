@@ -1,0 +1,13 @@
+.Credits {
+  margin: 2em 0;
+  color: #aaa;
+  text-align: center;
+  font-weight: bold;
+  display: none;
+}
+
+@media print {
+  .Credits {
+    display: block;
+  }
+}

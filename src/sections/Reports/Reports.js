@@ -43,6 +43,7 @@ import ReportDetailed from './components/Detailed';
 import ReportFilters from './components/Filters';
 import SaveModal from './components/SavedReports/Save';
 import LoadModal from './components/SavedReports/Load';
+import PrintCredits from './components/Credits';
 
 import { getById } from './selectors';
 
@@ -228,6 +229,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
           projects={projects}
           enabledEndDate={enabledEndDate}
         />
+        {showUpgrade && <PrintCredits />}
         <SaveModal
           isOpen={saveOpened}
           onClose={this.onCloseSave}
