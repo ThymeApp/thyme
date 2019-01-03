@@ -14,12 +14,14 @@ type BuyMessageProps = {
 
 function BuyMessage({ children }: BuyMessageProps) {
   return (
-    <Message warning className="BuyMessage" compact>
-      {children}
-      <BuyButton basic primary={false}>
-        Get Premium
-      </BuyButton>
-    </Message>
+    <section className="BuyMessageWrapper">
+      <Message warning className="BuyMessage" compact>
+        {children}
+        <BuyButton basic primary={false}>
+          Get Premium
+        </BuyButton>
+      </Message>
+    </section>
   );
 }
 
