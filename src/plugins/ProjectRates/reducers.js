@@ -9,7 +9,7 @@ import type { ProjectRateCurrency } from './types';
 function rate(state = 0, action) {
   switch (action.type) {
     case 'UPDATE_PROJECT':
-      return action.rate;
+      return action.rate || 0;
     default:
       return state;
   }
