@@ -53,3 +53,10 @@ register({
     registration.unregister();
   },
 });
+
+const extensionId = 'ponekpfofmlkhibcjcigohaddamaiinm';
+
+window.chrome.runtime.sendMessage(extensionId, { type: 'test' },
+  function(response) {
+      console.log(response);
+  });
