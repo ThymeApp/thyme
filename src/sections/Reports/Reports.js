@@ -65,8 +65,8 @@ export type ReportsProps = {
   roundAmount: number;
   report: ReportType | null;
   filters: string[];
-  allProjects: Array<ProjectTreeWithTimeType>;
-  projects: Array<ProjectTreeWithTimeType>;
+  allProjects: ProjectTreeWithTimeType[];
+  projects: ProjectTreeWithTimeType[];
 };
 
 type ReportsState = {

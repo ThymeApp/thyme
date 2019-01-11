@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
-import { nestedDisplayName } from 'core/projects';
+import { nestedDisplayName, treeDisplayName } from 'core/projects';
 
 import { sortedProjects } from 'sections/Projects/selectors';
 
@@ -52,7 +52,7 @@ function mapStateToProps(state) {
       .map(project => ({
         key: project.id,
         value: project.id,
-        text: project.name,
+        text: treeDisplayName(project),
         content: nestedDisplayName(project),
       })),
   };

@@ -3,6 +3,8 @@
 import React from 'react';
 import PieChart from 'react-svg-piechart';
 
+import { treeDisplayName } from 'core/projects';
+
 import './ReportCharts.css';
 
 type ReportChartsType = {
@@ -37,7 +39,7 @@ function ReportCharts({ projects }: ReportChartsType) {
           viewBoxSize={300}
           strokeWidth={3}
           data={projectsWithTime.map((project, index) => ({
-            title: project.nameTree.join(' > '),
+            title: treeDisplayName(project),
             value: Math.round(project.time),
             color: colours[index],
           }))}
@@ -50,7 +52,7 @@ function ReportCharts({ projects }: ReportChartsType) {
               className="ReportCharts__Legend-Colour"
               style={{ borderColor: colours[index] }}
             />
-            { project.nameTree.join(' > ') }
+            {treeDisplayName(project)}
           </li>
         ))}
       </ul>

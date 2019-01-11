@@ -5,17 +5,12 @@ import React from 'react';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import { formatDuration } from 'core/thyme';
+import { treeDisplayName } from 'core/projects';
 
 import './BarItem.css';
 
 type BarItemProps = {
-  project: {
-    id: string;
-    name: string;
-    nameTree: string[];
-    colour: string;
-    time: number;
-  };
+  project: ProjectTreeWithTimeType & { colour: string };
   hours: number;
   barHeight: number;
 };
@@ -37,7 +32,7 @@ function BarItem({ project, hours, barHeight }: BarItemProps) {
         />
       )}
     >
-      {project.nameTree.join(' > ')}
+      {treeDisplayName(project)}
       {` (${formatDuration(project.time * 60)})`}
     </Popup>
   );
