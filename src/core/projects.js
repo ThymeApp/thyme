@@ -81,3 +81,10 @@ export function nestedDisplayName(
     project.name,
   ].join('');
 }
+
+export function treeDisplayName(
+  project: ProjectTreeType,
+  delimiter: string = ' > ',
+): string {
+  return project.nameTree.join(delimiter);
+}
