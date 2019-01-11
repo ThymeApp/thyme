@@ -6,6 +6,7 @@ import format from 'date-fns/format';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 
 import { timeElapsed } from 'core/thyme';
+import { treeDisplayName } from 'core/projects';
 
 import { create as createTable } from 'register/table';
 
@@ -91,7 +92,7 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
         {
           name: 'Project',
           header: () => 'Project',
-          row: entry => entry.project.nameTree.join(' > '),
+          row: entry => treeDisplayName(entry.project),
         },
         {
           name: 'Notes',
