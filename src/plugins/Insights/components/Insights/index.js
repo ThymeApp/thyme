@@ -54,9 +54,7 @@ export default ({ from, to, projects }: ReportsProps) => {
       const dayEntries = project.entries.filter(entry => isSameDay(entry.start, day));
 
       const projectDetails = {
-        id: project.id,
-        name: project.name,
-        nameTree: project.nameTree,
+        ...project,
         colour: colours[index],
       };
 
