@@ -71,7 +71,7 @@ export function sortProjects(projects: Array<ProjectType>): Array<ProjectTreeTyp
 
 export function nestedDisplayName(
   project: ProjectTreeType,
-  delimiter: string = '─',
+  delimiter: string = ' ',
 ): string {
   const { length } = project.nameTree;
 
