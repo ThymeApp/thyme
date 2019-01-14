@@ -1,24 +1,9 @@
-function onInstalled() {
-  const start = +new Date();
+function onConnect(port) {
+  port.onMessage.addListener((msg) => {
+    console.log(msg);
+  });
 
-  setInterval(() => {
-    chrome.browserAction.setBadgeText({ text: `${Math.round((+new Date() - start) / 1000)}` });
-  }, 1000);
+  port.postMessage({ test: 'From extension' });
 }
 
-function onMessage(request, sender, sendResponse) {
-  console.log(request);
-
-  if (request.type === 'test') {
-    sendResponse('Cheers');
-    sender.sendMessage({ hallo: 'test' });
-  }
-
-  if (request.type === 'sendState') {
-    console.log(request, sender, sendResponse);
-  }
-}
-
-chrome.runtime.onInstalled.addListener(onInstalled);
-chrome.runtime.onMessage.addListener(onMessage);
-chrome.runtime.onMessageExternal.addListener(onMessage);
+chrome.runtime.onConnectExternal.addListener(onConnect);

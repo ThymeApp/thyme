@@ -12,6 +12,7 @@ import { loadState, saveOnStoreChange } from './core/localStorage';
 import syncOnUpdate from './core/sync';
 import './core/analytics';
 import { setupStateResolver } from './core/fetch';
+import './core/extensions/load';
 
 import { updateAvailable } from './actions/app';
 
@@ -53,10 +54,3 @@ register({
     registration.unregister();
   },
 });
-
-const extensionId = 'ponekpfofmlkhibcjcigohaddamaiinm';
-
-window.chrome.runtime.sendMessage(extensionId, { type: 'test' },
-  function(response) {
-      console.log(response);
-  });
