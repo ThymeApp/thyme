@@ -1,13 +1,21 @@
 // @flow
 
 import mitt from 'mitt';
+import getTime from 'date-fns/get_time';
 
 const emitter = mitt();
 
-emitter.on('changeTimer', (e) => {
-  console.log(e);
-});
+export function changeTimer(entry: TempTimePropertyType) {
+  emitter.emit(
+    'changeTimer',
+    {
+      ...entry,
+      start: getTime(entry.start),
+      end: getTime(entry.end),
+    },
+  );
+}
 
-export function changeTimer(timer: TempTimePropertyType) {
-  emitter.emit('changeTimer', timer);
+export function onChangeTimer(cb: (data: TempTimePropertyType) => void) {
+  emitter.on('changeTimer', (e: any) => cb(e));
 }

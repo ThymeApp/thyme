@@ -14,10 +14,4 @@
     "externally_connectable": {
         "matches": ["https://usethyme.com/thyme/*", "http://localhost/*"]
     },
-    "content_scripts": [
-        {
-            "matches": ["https://usethyme.com/thyme/*", "http://localhost/*"],
-            "js": ["content.js"]
-        }
-    ]
 }
