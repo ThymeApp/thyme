@@ -13,5 +13,5 @@
     },
     "externally_connectable": {
         "matches": ["https://usethyme.com/thyme/*", "http://localhost/*"]
-    },
+    }
 }

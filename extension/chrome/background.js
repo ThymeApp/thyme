@@ -1,16 +1,17 @@
-// const duration = (entry.end - entry.start) / 1000;
-//
-// const hours = Math.floor(duration / 3600).toString();
-// const minutes = Math.floor((duration / 60) % 60).toString();
-// const seconds = Math.floor(duration % 60).toString();
+let currentEntry = null;
+let onChangeTimerListener = () => {};
 
-function onConnect(port) {
+function onConnectApp(port) {
   function onChangeTimer(entry) {
     if (entry.tracking) {
-      chrome.browserAction.setBadgeText({ text: '✔' });
+      chrome.browserAction.setBadgeText({ text: '…' });
     } else {
       chrome.browserAction.setBadgeText({ text: '' });
     }
+
+    // update current entry
+    currentEntry = entry;
+    onChangeTimerListener(entry);
   }
 
   function handleMessage(msg) {
@@ -20,7 +21,7 @@ function onConnect(port) {
         break;
 
       default:
-        console.log('Unable to handle message', msg);
+        console.error('Unable to handle message from app', msg);
     }
   }
 
@@ -29,4 +30,24 @@ function onConnect(port) {
   port.postMessage({ test: 'From extension' });
 }
 
-chrome.runtime.onConnectExternal.addListener(onConnect);
+function onConnectPopup(port) {
+  function handleDisconnect() {
+    onChangeTimerListener = () => {};
+  }
+
+  function handleMessage(msg) {
+    switch (msg.type) {
+      default:
+        console.error('Unable to handle message from popup', msg);
+    }
+  }
+
+  port.onMessage.addListener(handleMessage);
+  port.onDisconnect.addListener(handleDisconnect);
+
+  onChangeTimerListener = entry => port.postMessage({ type: 'changeTimer', entry });
+  onChangeTimerListener(currentEntry);
+}
+
+chrome.runtime.onConnectExternal.addListener(onConnectApp);
+chrome.extension.onConnect.addListener(onConnectPopup);
