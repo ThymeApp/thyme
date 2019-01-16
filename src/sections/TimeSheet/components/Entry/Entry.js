@@ -22,6 +22,7 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import { saveTemporaryItem, clearTemporaryItem } from 'core/localStorage';
 import { timeElapsed } from 'core/thyme';
 import { valueFromEventTarget } from 'core/dom';
+import { changeTimer } from 'core/extensions/events';
 
 import Responsive from 'components/Responsive';
 
@@ -200,12 +201,12 @@ class Entry extends Component<EntryProps, EntryState> {
   onStopTimeTracking = () => {
     const { entry } = this.state;
 
+    // communicate change of item
+    this.onUpdateItem(false, entry);
+
     this.setState({
       tracking: false,
     });
-
-    // stop tracking in localStorage
-    saveTemporaryItem({ ...entry, tracking: false });
   };
 
   onAddEntry = () => {
@@ -252,16 +253,40 @@ class Entry extends Component<EntryProps, EntryState> {
     this.resetItem();
   };
 
-  resetItem() {
-    const { now } = this.props;
-
-    this.setState({
+  onResetItem = (entry: TimePropertyType) => {
+    // communicate change of timer
+    changeTimer({
       tracking: false,
-      entry: defaultState({}, now),
+      ...entry,
     });
 
     // clear item from localStorage
     clearTemporaryItem();
+  };
+
+  onUpdateItem = (tracking: boolean, entry: TimePropertyType) => {
+    const timer = { ...entry, tracking };
+
+    // communicate to extensions
+    changeTimer(timer);
+
+    // save temporary state to localStorage
+    saveTemporaryItem(timer);
+  };
+
+  resetItem() {
+    const { now } = this.props;
+
+    const entry = defaultState({}, now);
+
+    // communicate reset of item
+    this.onResetItem(entry);
+
+    // update entry state
+    this.setState({
+      tracking: false,
+      entry,
+    });
   }
 
   updateEntry(newState: any) {
@@ -306,11 +331,11 @@ class Entry extends Component<EntryProps, EntryState> {
         end: new Date(),
       };
 
+      // communicate item change
+      this.onUpdateItem(tracking, entry);
+
       // update state of component
       this.setState({ entry });
-
-      // save temporary state to localStorage
-      saveTemporaryItem({ ...entry, tracking });
     }
   }
 
