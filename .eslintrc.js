@@ -3,6 +3,7 @@ module.exports = {
   env: {
     browser: true,
     jest: true,
+    webextensions: true,
   },
   plugins: ['flowtype'],
   extends: ['airbnb', 'plugin:flowtype/recommended'],
