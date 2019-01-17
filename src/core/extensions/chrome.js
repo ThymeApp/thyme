@@ -1,18 +1,42 @@
 // @flow
 
-import { onChangeTimer } from './events';
+import { extensionConnected, onChangeTimer, onChangeStore } from './events';
 
 const extensionId = 'ponekpfofmlkhibcjcigohaddamaiinm';
 
-const connection = window.chrome.runtime.connect(extensionId);
+const port = window.chrome.runtime.connect(extensionId);
+
+function handleMessage(msg: any) {
+  switch (msg.type) {
+    case 'connected':
+      extensionConnected();
+      break;
+
+    default:
+      console.error('Unable to handle message from extension', msg);
+  }
+}
+
+port.onMessage.addListener(handleMessage);
+
+function postMessage(msg: { type: string } & any) {
+  try {
+    port.postMessage(msg);
+  } catch (e) {
+    // fail silently
+  }
+}
 
 onChangeTimer((timer) => {
-  connection.postMessage({
+  postMessage({
     type: 'changeTimer',
     entry: timer,
   });
 });
 
-connection.onMessage.addListener((msg) => {
-  console.log(msg);
+onChangeStore((state) => {
+  postMessage({
+    type: 'changeStore',
+    state,
+  });
 });

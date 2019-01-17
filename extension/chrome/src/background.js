@@ -3,8 +3,6 @@ let onChangeTimerListener = () => {};
 
 function onConnectApp(port) {
   function onChangeTimer(entry) {
-    console.log(entry);
-
     if (entry.tracking) {
       chrome.browserAction.setBadgeText({ text: '…' });
     } else {
@@ -29,7 +27,7 @@ function onConnectApp(port) {
 
   port.onMessage.addListener(handleMessage);
 
-  // port.postMessage({ test: 'From extension' });
+  port.postMessage({ type: 'connected' });
 }
 
 function onConnectPopup(port) {
