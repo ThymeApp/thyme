@@ -78,6 +78,8 @@ class Entry extends Component<EntryProps, EntryState> {
   }
 
   componentDidMount() {
+    this.onInitItem();
+
     this.tickInterval = setInterval(this.tickTimer.bind(this), 1000);
   }
 
@@ -251,6 +253,21 @@ class Entry extends Component<EntryProps, EntryState> {
 
   onClearItem = () => {
     this.resetItem();
+  };
+
+  onInitItem = () => {
+    const { entry } = this.props;
+
+    if (entry && entry.id) {
+      return;
+    }
+
+    const { entry: stateEntry, tracking } = this.state;
+
+    changeTimer({
+      tracking,
+      ...stateEntry,
+    });
   };
 
   onResetItem = (entry: TimePropertyType) => {

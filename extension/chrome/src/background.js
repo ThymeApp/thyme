@@ -3,6 +3,8 @@ let onChangeTimerListener = () => {};
 
 function onConnectApp(port) {
   function onChangeTimer(entry) {
+    console.log(entry);
+
     if (entry.tracking) {
       chrome.browserAction.setBadgeText({ text: '…' });
     } else {
