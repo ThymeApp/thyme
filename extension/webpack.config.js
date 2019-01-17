@@ -11,6 +11,9 @@ module.exports = [{
     path: path.resolve(__dirname, './chrome/dist'),
     publicPath: './dist/',
   },
+  resolve: {
+    modules: ['node_modules', '../src'],
+  },
   module: {
     rules: [
       {
