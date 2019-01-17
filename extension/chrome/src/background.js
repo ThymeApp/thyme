@@ -27,7 +27,7 @@ function onConnectApp(port) {
 
   port.onMessage.addListener(handleMessage);
 
-  port.postMessage({ test: 'From extension' });
+  // port.postMessage({ test: 'From extension' });
 }
 
 function onConnectPopup(port) {

@@ -5,7 +5,7 @@
     "manifest_version": 2,
     "permissions": ["https://usethyme.com/thyme"],
     "background": {
-        "scripts": ["src/background.js"],
+        "scripts": ["dist/background.js"],
         "persistent": false
     },
     "browser_action": {
