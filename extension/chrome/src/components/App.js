@@ -1,30 +1,26 @@
+// @flow
+
 import React, { Component } from 'react';
 
-function renderEntry(entry) {
-  const duration = (entry.end - entry.start) / 1000;
+import Entry from './Entry';
 
-  const hours = Math.floor(duration / 3600).toString().padStart(2, '0');
-  const minutes = Math.floor((duration / 60) % 60).toString().padStart(2, '0');
-  const seconds = Math.floor(duration % 60).toString().padStart(2, '0');
-}
+type ExtensionAppState = {
+  entry?: TempTimePropertyType;
+};
 
-class ExtensionApp extends Component {
-  state = {
-    entry: null,
-  };
+class ExtensionApp extends Component<*, ExtensionAppState> {
+  state = {};
 
   componentDidMount() {
-    const port = chrome.extension.connect();
+    const port = window.chrome.extension.connect();
     port.onMessage.addListener(this.handleMessage);
   }
 
-  updateEntry = (entry) => {
-    console.log(entry);
-
+  updateEntry = (entry: TempTimePropertyType) => {
     this.setState({ entry });
   };
 
-  handleMessage = (msg) => {
+  handleMessage = (msg: any) => {
     switch (msg.type) {
       case 'changeTimer':
         this.updateEntry(msg.entry);
@@ -37,9 +33,11 @@ class ExtensionApp extends Component {
   render() {
     const { entry } = this.state;
 
-    console.log(entry);
+    if (!entry) {
+      return <div>Connect to Thyme...</div>;
+    }
 
-    return <div>Dit is de extension yo</div>;
+    return <Entry entry={entry} />;
   }
 }
 
