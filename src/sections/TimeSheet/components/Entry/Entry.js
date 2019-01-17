@@ -19,7 +19,6 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 
-import { saveTemporaryItem, clearTemporaryItem } from 'core/localStorage';
 import { timeElapsed } from 'core/thyme';
 import { valueFromEventTarget } from 'core/dom';
 import { changeTimer } from 'core/extensions/events';
@@ -54,6 +53,8 @@ type EntryProps = {
   tempEntry?: TempTimePropertyType;
   round?: Rounding;
   roundAmount?: number;
+  onUpdateItem: (tracking: boolean, entry: TimePropertyType) => void;
+  onResetItem: (entry: TimePropertyType) => void;
   onAdd?: (entry: TimePropertyType) => void;
   onRemove?: (id: string) => void;
   onUpdate?: (entry: TimePropertyType) => void;
@@ -202,9 +203,10 @@ class Entry extends Component<EntryProps, EntryState> {
 
   onStopTimeTracking = () => {
     const { entry } = this.state;
+    const { onUpdateItem } = this.props;
 
     // communicate change of item
-    this.onUpdateItem(false, entry);
+    onUpdateItem(false, entry);
 
     this.setState({
       tracking: false,
@@ -270,34 +272,13 @@ class Entry extends Component<EntryProps, EntryState> {
     });
   };
 
-  onResetItem = (entry: TimePropertyType) => {
-    // communicate change of timer
-    changeTimer({
-      tracking: false,
-      ...entry,
-    });
-
-    // clear item from localStorage
-    clearTemporaryItem();
-  };
-
-  onUpdateItem = (tracking: boolean, entry: TimePropertyType) => {
-    const timer = { ...entry, tracking };
-
-    // communicate to extensions
-    changeTimer(timer);
-
-    // save temporary state to localStorage
-    saveTemporaryItem(timer);
-  };
-
   resetItem() {
-    const { now } = this.props;
+    const { now, onResetItem } = this.props;
 
     const entry = defaultState({}, now);
 
     // communicate reset of item
-    this.onResetItem(entry);
+    onResetItem(entry);
 
     // update entry state
     this.setState({
@@ -341,6 +322,7 @@ class Entry extends Component<EntryProps, EntryState> {
 
   tickTimer() {
     const { tracking, entry: stateEntry } = this.state;
+    const { onUpdateItem } = this.props;
 
     if (tracking) {
       const entry = {
@@ -349,7 +331,7 @@ class Entry extends Component<EntryProps, EntryState> {
       };
 
       // communicate item change
-      this.onUpdateItem(tracking, entry);
+      onUpdateItem(tracking, entry);
 
       // update state of component
       this.setState({ entry });

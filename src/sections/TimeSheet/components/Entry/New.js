@@ -15,8 +15,10 @@ type NewProps = {
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
-  onEntryCreate: (entry: TimePropertyType) => void,
-  onAddNewProject: (project: string) => string,
+  onUpdateItem: (tracking: boolean, entry: TimePropertyType) => void;
+  onResetItem: (entry: TimePropertyType) => void;
+  onEntryCreate: (entry: TimePropertyType) => void;
+  onAddNewProject: (project: string) => string;
 };
 
 function New({
@@ -26,6 +28,8 @@ function New({
   enabledEndDate,
   onEntryCreate,
   onAddNewProject,
+  onUpdateItem,
+  onResetItem,
 }: NewProps) {
   return (
     <Entry
@@ -37,6 +41,8 @@ function New({
       tempEntry={loadTemporaryItem()}
       onAdd={onEntryCreate}
       onAddNewProject={onAddNewProject}
+      onResetItem={onResetItem}
+      onUpdateItem={onUpdateItem}
     />
   );
 }
