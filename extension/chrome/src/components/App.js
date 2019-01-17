@@ -2,11 +2,11 @@
 
 import React, { Component } from 'react';
 import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
-import Entry from 'sections/TimeSheet/components/Entry/New';
+import Entry from './Entry';
 
 import './App.css';
-import { Provider } from 'react-redux';
 
 type ExtensionAppState = {
   entry?: TempTimePropertyType;
@@ -26,11 +26,15 @@ class ExtensionApp extends Component<*, ExtensionAppState> {
     port.onMessage.addListener(this.handleMessage);
   }
 
+  onUpdate = () => { console.log('update entry'); };
+
   onStart = () => { console.log('start'); };
 
   onStop = () => { console.log('stop'); };
 
   onAdd = () => { console.log('add'); };
+
+  onAddProject = () => { console.log('add project'); };
 
   updateEntry = (entry: TempTimePropertyType) => {
     this.setState({ entry });
@@ -62,7 +66,12 @@ class ExtensionApp extends Component<*, ExtensionAppState> {
 
     return (
       <Provider store={this.store}>
-        <Entry />
+        <Entry
+          entry={entry}
+          onAdd={this.onAdd}
+          onAddNewProject={this.onAddProject}
+          onUpdateTempItem={this.onUpdate}
+        />
       </Provider>
     );
   }

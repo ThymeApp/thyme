@@ -1,70 +1,69 @@
 // @flow
 
 import React from 'react';
+import { connect } from 'react-redux';
 
-import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import {
+  getEnableEndDate,
+  getEnableNotes,
+  getEnableProjects,
+} from 'sections/Settings/selectors';
 
-import './Entry.css';
+import Entry from 'sections/TimeSheet/components/Entry/New';
 
-type EntryProps = {
+type ExtensionEntryProps = {
+  ready: boolean;
   entry: TempTimePropertyType;
-  onStart: () => void;
-  onStop: () => void;
-  onAdd: () => void;
+  enabledNotes: boolean;
+  enabledProjects: boolean;
+  enabledEndDate: boolean;
+  onAdd: (entry: TimePropertyType) => void;
+  onUpdate: (entry: TimePropertyType) => void;
+  onAddNewProject: (project: string) => string;
 };
 
-function Entry({
+function ExtensionEntry({
+  ready,
   entry,
-  onStart,
-  onStop,
+  enabledNotes,
+  enabledProjects,
+  enabledEndDate,
   onAdd,
-}: EntryProps) {
-  const { start, end, tracking } = entry;
-
-  const duration = (end - start) / 1000;
-
-  const hours = Math.floor(duration / 3600).toString().padStart(2, '0');
-  const minutes = Math.floor((duration / 60) % 60).toString().padStart(2, '0');
-  const seconds = Math.floor(duration % 60).toString().padStart(2, '0');
-
-  const Duration = (
-    <div className="Entry__Duration">
-      <Icon name="stopwatch" color={tracking ? 'blue' : 'black'} />
-      {hours}
-      :
-      {minutes}
-      :
-      {seconds}
-    </div>
-  );
+  onAddNewProject,
+  onUpdate,
+}: ExtensionEntryProps) {
+  if (!ready) {
+    return <div>Waiting for state</div>;
+  }
 
   return (
-    <div className="Entry">
-      {Duration}
-
-      <Button.Group size="large" vertical>
-        <Button
-          icon
-          color="blue"
-          onClick={tracking ? onStop : onStart}
-          labelPosition="left"
-        >
-          <Icon name={tracking ? 'pause' : 'play'} />
-          {tracking ? 'Stop tracking time' : 'Start time tracking'}
-        </Button>
-        <Button
-          className="EntrySubmit"
-          icon
-          onClick={onAdd}
-          labelPosition="left"
-        >
-          <Icon name="add" />
-          Add this entry
-        </Button>
-      </Button.Group>
-    </div>
+    <Entry
+      round="none"
+      now={new Date()}
+      enabledNotes={enabledNotes}
+      enabledProjects={enabledProjects}
+      enabledEndDate={enabledEndDate}
+      tempEntry={entry}
+      onAdd={onAdd}
+      onAddNewProject={onAddNewProject}
+      onUpdateTempItem={onUpdate}
+    />
   );
 }
 
-export default Entry;
+function mapStateToProps(state: StateShape) {
+  if (!state.settings) {
+    return {
+      ready: false,
+    };
+  }
+
+  return {
+    ready: true,
+    enabledNotes: getEnableNotes(state),
+    enabledProjects: getEnableProjects(state),
+    enabledEndDate: getEnableEndDate(state),
+  };
+}
+
+export default connect(mapStateToProps)(ExtensionEntry);

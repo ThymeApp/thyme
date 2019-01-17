@@ -55,8 +55,8 @@ type EntryProps = {
   roundAmount?: number;
   onUpdateTempItem?: (tracking: boolean, entry: TimePropertyType) => void;
   onResetTempItem?: (entry: TimePropertyType) => void;
-  onAdd?: (entry: TimePropertyType) => void;
   onRemove?: (id: string) => void;
+  onAdd?: (entry: TimePropertyType) => void;
   onUpdate?: (entry: TimePropertyType) => void;
   onAddNewProject?: (project: string) => string;
 };
