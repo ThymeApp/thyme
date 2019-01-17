@@ -10,6 +10,9 @@
 /build
 /dist
 
+# extensions
+/extension/*/dist
+
 # misc
 .DS_Store
 .env.local
