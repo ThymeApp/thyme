@@ -60,10 +60,6 @@ class ExtensionApp extends Component<*, ExtensionAppState> {
   render() {
     const { entry } = this.state;
 
-    if (!entry) {
-      return <div>Connect to Thyme...</div>;
-    }
-
     return (
       <Provider store={this.store}>
         <Entry

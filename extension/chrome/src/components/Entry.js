@@ -32,8 +32,8 @@ function ExtensionEntry({
   onAddNewProject,
   onUpdate,
 }: ExtensionEntryProps) {
-  if (!ready) {
-    return <div>Waiting for state</div>;
+  if (!entry || !ready) {
+    return <div>Connect to Thyme...</div>;
   }
 
   return (
