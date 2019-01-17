@@ -1,0 +1,13 @@
+.Entry {
+  margin: 1em;
+}
+
+.Entry__Duration {
+  font-size: 2rem;
+  line-height: 2rem;
+}
+
+.Entry .ui.buttons {
+  display: flex;
+  margin-top: 1rem;
+}
