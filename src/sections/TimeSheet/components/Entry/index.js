@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import { saveTemporaryItem, clearTemporaryItem } from 'core/localStorage';
 import { changeTimer } from 'core/extensions/events';
 
-import Entry from './Entry';
 import NewEntry from './New';
 
 function enrichBrowserEntry(C) {
@@ -43,8 +42,7 @@ function enrichBrowserEntry(C) {
   };
 }
 
-const enrichedEntry = enrichBrowserEntry(Entry);
 const enrichedNewEntry = enrichBrowserEntry(NewEntry);
 
-export { enrichedEntry as Entry };
+export { default as Entry } from './Entry';
 export { enrichedNewEntry as NewEntry };

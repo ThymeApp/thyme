@@ -53,8 +53,8 @@ type EntryProps = {
   tempEntry?: TempTimePropertyType;
   round?: Rounding;
   roundAmount?: number;
-  onUpdateItem: (tracking: boolean, entry: TimePropertyType) => void;
-  onResetItem: (entry: TimePropertyType) => void;
+  onUpdateTempItem?: (tracking: boolean, entry: TimePropertyType) => void;
+  onResetTempItem?: (entry: TimePropertyType) => void;
   onAdd?: (entry: TimePropertyType) => void;
   onRemove?: (id: string) => void;
   onUpdate?: (entry: TimePropertyType) => void;
@@ -203,10 +203,12 @@ class Entry extends Component<EntryProps, EntryState> {
 
   onStopTimeTracking = () => {
     const { entry } = this.state;
-    const { onUpdateItem } = this.props;
+    const { onUpdateTempItem } = this.props;
 
-    // communicate change of item
-    onUpdateItem(false, entry);
+    if (onUpdateTempItem) {
+      // communicate change of temp item
+      onUpdateTempItem(false, entry);
+    }
 
     this.setState({
       tracking: false,
@@ -273,12 +275,14 @@ class Entry extends Component<EntryProps, EntryState> {
   };
 
   resetItem() {
-    const { now, onResetItem } = this.props;
+    const { now, onResetTempItem } = this.props;
 
     const entry = defaultState({}, now);
 
-    // communicate reset of item
-    onResetItem(entry);
+    if (onResetTempItem) {
+      // communicate reset of temporary item
+      onResetTempItem(entry);
+    }
 
     // update entry state
     this.setState({
@@ -322,7 +326,7 @@ class Entry extends Component<EntryProps, EntryState> {
 
   tickTimer() {
     const { tracking, entry: stateEntry } = this.state;
-    const { onUpdateItem } = this.props;
+    const { onUpdateTempItem } = this.props;
 
     if (tracking) {
       const entry = {
@@ -330,8 +334,10 @@ class Entry extends Component<EntryProps, EntryState> {
         end: new Date(),
       };
 
-      // communicate item change
-      onUpdateItem(tracking, entry);
+      if (onUpdateTempItem) {
+        // communicate item change
+        onUpdateTempItem(tracking, entry);
+      }
 
       // update state of component
       this.setState({ entry });
