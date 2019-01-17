@@ -1,6 +1,6 @@
 // @flow
 
-import { extensionConnected, onChangeTimer, onChangeStore } from './events';
+import { extensionConnected, onChangeTimer, onChangeState } from './events';
 
 const extensionId = 'ponekpfofmlkhibcjcigohaddamaiinm';
 
@@ -34,9 +34,9 @@ onChangeTimer((timer) => {
   });
 });
 
-onChangeStore((state) => {
+onChangeState((state) => {
   postMessage({
-    type: 'changeStore',
+    type: 'changeState',
     state,
   });
 });

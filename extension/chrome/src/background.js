@@ -1,12 +1,22 @@
+// @flow
+
 let currentEntry = null;
-let onChangeTimerListener = () => {};
+let currentState: StateShape = {};
+
+let onChangeTimerListener: (entry?: any) => void = () => {};
+let onChangeStateListener: (state: StateShape) => void = () => {};
 
 function onConnectApp(port) {
+  function onChangeState(state: StateShape) {
+    // update current state
+    currentState = state;
+  }
+
   function onChangeTimer(entry) {
     if (entry.tracking) {
-      chrome.browserAction.setBadgeText({ text: '…' });
+      window.chrome.browserAction.setBadgeText({ text: '…' });
     } else {
-      chrome.browserAction.setBadgeText({ text: '' });
+      window.chrome.browserAction.setBadgeText({ text: '' });
     }
 
     // update current entry
@@ -18,6 +28,10 @@ function onConnectApp(port) {
     switch (msg.type) {
       case 'changeTimer':
         onChangeTimer(msg.entry);
+        break;
+
+      case 'changeState':
+        onChangeState(msg.state);
         break;
 
       default:
@@ -33,6 +47,7 @@ function onConnectApp(port) {
 function onConnectPopup(port) {
   function handleDisconnect() {
     onChangeTimerListener = () => {};
+    onChangeStateListener = () => {};
   }
 
   function handleMessage(msg) {
@@ -46,8 +61,11 @@ function onConnectPopup(port) {
   port.onDisconnect.addListener(handleDisconnect);
 
   onChangeTimerListener = entry => port.postMessage({ type: 'changeTimer', entry });
+  onChangeStateListener = state => port.postMessage({ type: 'changeState', state });
+
   onChangeTimerListener(currentEntry);
+  onChangeStateListener(currentState);
 }
 
-chrome.runtime.onConnectExternal.addListener(onConnectApp);
-chrome.extension.onConnect.addListener(onConnectPopup);
+window.chrome.runtime.onConnectExternal.addListener(onConnectApp);
+window.chrome.extension.onConnect.addListener(onConnectPopup);

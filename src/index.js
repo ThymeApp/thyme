@@ -13,7 +13,7 @@ import syncOnUpdate from './core/sync';
 import './core/analytics';
 import { setupStateResolver } from './core/fetch';
 import './core/extensions/load';
-import { onExtensionConnected, changeStore } from './core/extensions/events';
+import { onExtensionConnected, changeState } from './core/extensions/events';
 
 import { updateAvailable } from './actions/app';
 
@@ -35,7 +35,10 @@ registerStore(store);
 saveOnStoreChange(store);
 syncOnUpdate(store);
 setupStateResolver(() => store.getState());
-onExtensionConnected(() => changeStore(store.getState()));
+
+// broadcast state changes to extensions
+store.subscribe(() => changeState(store.getState()));
+onExtensionConnected(() => changeState(store.getState()));
 
 ReactDOM.render(
   <Provider store={store}>
