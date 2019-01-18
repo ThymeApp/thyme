@@ -9,7 +9,7 @@ import {
   getEnableProjects,
 } from 'sections/Settings/selectors';
 
-import Entry from 'sections/TimeSheet/components/Entry/New';
+import { Entry } from 'sections/TimeSheet/components/Entry';
 
 type ExtensionEntryProps = {
   ready: boolean;
@@ -43,7 +43,7 @@ function ExtensionEntry({
       enabledNotes={enabledNotes}
       enabledProjects={enabledProjects}
       enabledEndDate={enabledEndDate}
-      tempEntry={entry}
+      controlledEntry={entry}
       onAdd={onAdd}
       onAddNewProject={onAddNewProject}
       onUpdate={onUpdate}

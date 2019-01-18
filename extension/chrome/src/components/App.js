@@ -36,6 +36,8 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
   onAddProject = () => { console.log('add project'); };
 
   updateEntry = (entry: TempTimePropertyType) => {
+    console.log(entry);
+
     this.setState({ entry });
   };
 

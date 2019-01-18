@@ -2,6 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
+import isEqualObject from 'lodash/isEqual';
 
 import format from 'date-fns/format';
 import isEqual from 'date-fns/is_equal';
@@ -50,6 +51,7 @@ type EntryProps = {
   enabledEndDate: boolean;
   entry?: TimeType;
   tempEntry?: TempTimePropertyType;
+  controlledEntry?: TempTimePropertyType;
   round?: Rounding;
   roundAmount?: number;
   onInit?: (tracking: boolean, entry: TimePropertyType) => void;
@@ -71,8 +73,10 @@ class Entry extends Component<EntryProps, EntryState> {
     super(props);
 
     this.state = {
-      entry: defaultState(props.entry || props.tempEntry, props.now),
-      tracking: props.tempEntry ? props.tempEntry.tracking : false,
+      entry: defaultState(props.entry || props.controlledEntry || props.tempEntry, props.now),
+      tracking: (props.controlledEntry && props.controlledEntry.tracking)
+        || (props.tempEntry && props.tempEntry.tracking)
+        || false,
       confirm: false,
     };
   }
@@ -84,6 +88,20 @@ class Entry extends Component<EntryProps, EntryState> {
     if (onInit) onInit(tracking, entry);
 
     this.tickInterval = setInterval(this.tickTimer.bind(this), 1000);
+  }
+
+  componentDidUpdate(prevProps: EntryProps) {
+    const { controlledEntry } = this.props;
+
+    if (controlledEntry && !isEqualObject(prevProps.controlledEntry, controlledEntry)) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        tracking: controlledEntry.tracking,
+        entry: {
+          ...controlledEntry,
+        },
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -185,7 +203,7 @@ class Entry extends Component<EntryProps, EntryState> {
   }
 
   onStartTimeTracking = () => {
-    const { now } = this.props;
+    const { now, onUpdate } = this.props;
     const { entry } = this.state;
 
     const startTime = new Date();
@@ -193,13 +211,17 @@ class Entry extends Component<EntryProps, EntryState> {
     const isOldTempItem = isBefore(entry.start, addDays(now, -1));
     const isNewTempItem = isEqual(entry.start, startOfDay(now));
 
+    const newEntry = {
+      ...entry,
+      start: isOldTempItem || isNewTempItem ? startTime : entry.start,
+      end: startTime,
+    };
+
+    if (onUpdate) onUpdate(newEntry, true);
+
     this.setState({
       tracking: true,
-      entry: {
-        ...entry,
-        start: isOldTempItem || isNewTempItem ? startTime : entry.start,
-        end: startTime,
-      },
+      entry: newEntry,
     });
   };
 
@@ -277,7 +299,7 @@ class Entry extends Component<EntryProps, EntryState> {
 
   updateEntry(newState: any) {
     const { entry, onUpdate } = this.props;
-    const { entry: stateEntry } = this.state;
+    const { entry: stateEntry, tracking } = this.state;
 
     if (typeof onUpdate === 'function') {
       if (entry && entry.id) {
@@ -287,7 +309,7 @@ class Entry extends Component<EntryProps, EntryState> {
           ...newState,
         }, false);
       } else {
-        onUpdate(stateEntry, false);
+        onUpdate(stateEntry, tracking);
       }
     }
   }
