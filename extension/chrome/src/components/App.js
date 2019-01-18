@@ -1,25 +1,24 @@
 // @flow
 
 import React, { Component } from 'react';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
 
 import Entry from './Entry';
 
 import './App.css';
 
+type ExtensionAppProps = {
+  onUpdateState: (state: StateShape) => void;
+};
+
 type ExtensionAppState = {
   entry?: TempTimePropertyType;
 };
 
-class ExtensionApp extends Component<*, ExtensionAppState> {
+class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
   state = {
     entry: undefined,
   };
-
-  store = createStore((state: StateShape = {}, action: any) => (
-    action.type === 'UPDATE' ? action.state : state
-  ));
 
   componentDidMount() {
     const port = window.chrome.extension.connect();
@@ -41,7 +40,9 @@ class ExtensionApp extends Component<*, ExtensionAppState> {
   };
 
   updateState = (state: StateShape) => {
-    this.store.dispatch({ type: 'UPDATE', state });
+    const { onUpdateState } = this.props;
+
+    onUpdateState(state);
   };
 
   handleMessage = (msg: any) => {
@@ -61,16 +62,22 @@ class ExtensionApp extends Component<*, ExtensionAppState> {
     const { entry } = this.state;
 
     return (
-      <Provider store={this.store}>
-        <Entry
-          entry={entry}
-          onAdd={this.onAdd}
-          onAddNewProject={this.onAddProject}
-          onUpdateTempItem={this.onUpdate}
-        />
-      </Provider>
+      <Entry
+        entry={entry}
+        onAdd={this.onAdd}
+        onAddNewProject={this.onAddProject}
+        onUpdate={this.onUpdate}
+      />
     );
   }
 }
 
-export default ExtensionApp;
+function mapDispatchToProps(dispatch) {
+  return {
+    onUpdateState(state: StateShape) {
+      dispatch({ type: 'UPDATE', state });
+    },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(ExtensionApp);

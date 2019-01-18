@@ -9,7 +9,7 @@ import NewEntry from './New';
 
 function enrichBrowserEntry(C) {
   return class BrowserEntry extends Component<*, *> {
-    onUpdateItem = (tracking: boolean, entry: TimePropertyType) => {
+    onUpdateItem = (entry: TimePropertyType, tracking: boolean) => {
       const timer = { ...entry, tracking };
 
       // communicate to extensions
@@ -21,18 +21,20 @@ function enrichBrowserEntry(C) {
 
     onResetItem = (entry: TimePropertyType) => {
       // communicate change of timer
-      changeTimer({
-        tracking: false,
-        ...entry,
-      });
+      changeTimer({ tracking: false, ...entry });
 
       // clear item from localStorage
       clearTemporaryItem();
     };
 
+    onInit = (tracking: boolean, entry: TimePropertyType) => {
+      changeTimer({ tracking, ...entry });
+    };
+
     render() {
       return (
         <C
+          onInit={this.onInit}
           onUpdateItem={this.onUpdateItem}
           onResetItem={this.onResetItem}
           {...this.props}

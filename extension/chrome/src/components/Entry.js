@@ -18,7 +18,7 @@ type ExtensionEntryProps = {
   enabledProjects: boolean;
   enabledEndDate: boolean;
   onAdd: (entry: TimePropertyType) => void;
-  onUpdate: (entry: TimePropertyType) => void;
+  onUpdate: (entry: TimePropertyType, tracking: boolean) => void;
   onAddNewProject: (project: string) => string;
 };
 
@@ -46,7 +46,7 @@ function ExtensionEntry({
       tempEntry={entry}
       onAdd={onAdd}
       onAddNewProject={onAddNewProject}
-      onUpdateTempItem={onUpdate}
+      onUpdate={onUpdate}
     />
   );
 }
