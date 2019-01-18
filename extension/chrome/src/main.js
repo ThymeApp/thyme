@@ -9,6 +9,8 @@ import 'semantic-ui-css/semantic.min.css';
 
 import ExtensionApp from './components/App';
 
+const port = window.chrome.extension.connect();
+
 const store = createStore((
   state: StateShape = {},
   action: any,
@@ -18,7 +20,10 @@ const store = createStore((
 
 ReactDOM.render(
   <Provider store={store}>
-    <ExtensionApp />
+    <ExtensionApp
+      registerOnMessage={cb => port.onMessage.addListener(cb)}
+      postMessage={msg => port.postMessage(msg)}
+    />
   </Provider>,
   document.getElementById('content') || document.createElement('div'),
 );

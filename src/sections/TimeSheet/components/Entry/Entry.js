@@ -302,14 +302,18 @@ class Entry extends Component<EntryProps, EntryState> {
     const { entry: stateEntry, tracking } = this.state;
 
     if (typeof onUpdate === 'function') {
+      const updatedEntry = {
+        ...stateEntry,
+        ...newState,
+      };
+
       if (entry && entry.id) {
         onUpdate({
           id: entry.id,
-          ...stateEntry,
-          ...newState,
+          ...updatedEntry,
         }, false);
       } else {
-        onUpdate(stateEntry, tracking);
+        onUpdate(updatedEntry, tracking);
       }
     }
   }

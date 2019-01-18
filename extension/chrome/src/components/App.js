@@ -8,6 +8,8 @@ import Entry from './Entry';
 import './App.css';
 
 type ExtensionAppProps = {
+  registerOnMessage: (cb: (msg: any) => void) => void;
+  postMessage: (msg: any) => void;
   onUpdateState: (state: StateShape) => void;
 };
 
@@ -21,23 +23,41 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
   };
 
   componentDidMount() {
-    const port = window.chrome.extension.connect();
-    port.onMessage.addListener(this.handleMessage);
+    const { registerOnMessage } = this.props;
+
+    registerOnMessage(msg => this.handleMessage(msg));
   }
 
-  onUpdate = () => { console.log('update entry'); };
+  onUpdate = (newEntry: TimePropertyType, tracking: boolean) => {
+    const { entry } = this.state;
 
-  onStart = () => { console.log('start'); };
+    // if tracking changed
+    if (entry && entry.tracking !== tracking) {
+      if (tracking) {
+        this.onStart();
+      } else {
+        this.onStop();
+      }
+    }
+  };
 
-  onStop = () => { console.log('stop'); };
+  onStart = () => {
+    const { postMessage } = this.props;
+
+    postMessage({ type: 'startTimer' });
+  };
+
+  onStop = () => {
+    const { postMessage } = this.props;
+
+    postMessage({ type: 'stopTimer' });
+  };
 
   onAdd = () => { console.log('add'); };
 
   onAddProject = () => { console.log('add project'); };
 
   updateEntry = (entry: TempTimePropertyType) => {
-    console.log(entry);
-
     this.setState({ entry });
   };
 
