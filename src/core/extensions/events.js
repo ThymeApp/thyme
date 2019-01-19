@@ -27,6 +27,30 @@ export function changeState(state: StateShape) {
   );
 }
 
+export function startTimer() {
+  emitter.emit('startTimer');
+}
+
+export function stopTimer() {
+  emitter.emit('stopTimer');
+}
+
+export function onStartTimer(cb: any) {
+  emitter.on('startTimer', cb);
+}
+
+export function offStartTimer(cb: any) {
+  emitter.off('stopTimer', cb);
+}
+
+export function onStopTimer(cb: any) {
+  emitter.on('startTimer', cb);
+}
+
+export function offStopTimer(cb: any) {
+  emitter.off('stopTimer', cb);
+}
+
 export function onChangeTimer(cb: (data: TempTimePropertyType) => void) {
   emitter.on('changeTimer', (e: any) => cb(e));
 }

@@ -1,6 +1,12 @@
 // @flow
 
-import { extensionConnected, onChangeTimer, onChangeState } from './events';
+import {
+  extensionConnected,
+  onChangeTimer,
+  onChangeState,
+  startTimer,
+  stopTimer,
+} from './events';
 
 const extensionId = 'ponekpfofmlkhibcjcigohaddamaiinm';
 
@@ -11,7 +17,12 @@ function handleMessage(msg: any) {
     case 'connected':
       extensionConnected();
       break;
-
+    case 'startTimer':
+      startTimer();
+      break;
+    case 'stopTimer':
+      stopTimer();
+      break;
     default:
       console.error('Unable to handle message from extension', msg);
   }

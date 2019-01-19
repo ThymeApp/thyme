@@ -22,6 +22,12 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 
 import { timeElapsed } from 'core/thyme';
 import { valueFromEventTarget } from 'core/dom';
+import {
+  onStartTimer,
+  offStartTimer,
+  onStopTimer,
+  offStopTimer,
+} from 'core/extensions/events';
 
 import Responsive from 'components/Responsive';
 
@@ -82,12 +88,17 @@ class Entry extends Component<EntryProps, EntryState> {
   }
 
   componentDidMount() {
-    const { onInit } = this.props;
-    const { entry, tracking } = this.state;
+    const { onInit, entry } = this.props;
+    const { entry: stateEntry, tracking } = this.state;
 
-    if (onInit) onInit(tracking, entry);
+    if (onInit) onInit(tracking, stateEntry);
 
     this.tickInterval = setInterval(this.tickTimer.bind(this), 1000);
+
+    if (!entry) {
+      onStartTimer(this.onStartTimeTracking);
+      onStopTimer(this.onStopTimeTracking);
+    }
   }
 
   componentDidUpdate(prevProps: EntryProps) {
@@ -105,7 +116,14 @@ class Entry extends Component<EntryProps, EntryState> {
   }
 
   componentWillUnmount() {
+    const { entry } = this.props;
+
     clearInterval(this.tickInterval);
+
+    if (!entry) {
+      offStartTimer(this.onStartTimeTracking);
+      offStopTimer(this.onStopTimeTracking);
+    }
   }
 
   onStartDateChange = (e: Event) => {
@@ -203,7 +221,7 @@ class Entry extends Component<EntryProps, EntryState> {
   }
 
   onStartTimeTracking = () => {
-    const { now, onUpdate } = this.props;
+    const { now, onUpdate, controlledEntry } = this.props;
     const { entry } = this.state;
 
     const startTime = new Date();
@@ -219,6 +237,9 @@ class Entry extends Component<EntryProps, EntryState> {
 
     if (onUpdate) onUpdate(newEntry, true);
 
+    // controlledEntry cannot control tracking state
+    if (controlledEntry) return;
+
     this.setState({
       tracking: true,
       entry: newEntry,
@@ -227,9 +248,12 @@ class Entry extends Component<EntryProps, EntryState> {
 
   onStopTimeTracking = () => {
     const { entry } = this.state;
-    const { onUpdate } = this.props;
+    const { onUpdate, controlledEntry } = this.props;
 
     if (onUpdate) onUpdate(entry, false);
+
+    // controlledEntry cannot control tracking state
+    if (controlledEntry) return;
 
     this.setState({
       tracking: false,

@@ -29,10 +29,8 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
   }
 
   onUpdate = (newEntry: TimePropertyType, tracking: boolean) => {
-    const { entry } = this.state;
-
     // if tracking changed
-    if (entry && entry.tracking !== tracking) {
+    if (newEntry !== tracking) {
       if (tracking) {
         this.onStart();
       } else {
