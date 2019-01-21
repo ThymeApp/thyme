@@ -53,7 +53,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
   constructor(props: NewEntryProps) {
     super(props);
 
-    const tempEntry = loadTemporaryItem();
+    const tempEntry = props.entry || loadTemporaryItem();
 
     this.state = {
       entry: defaultState(tempEntry, props.now),

@@ -43,7 +43,7 @@ type EntryProps = {
   onStop?: () => void;
   onAdd?: (entry: TimePropertyType) => void;
   onResetItem?: () => void;
-  onRemove?: (id: string) => void;
+  onRemove?: (entry: TimeType | TimePropertyType) => void;
 };
 
 type EntryState = {
@@ -154,9 +154,7 @@ class Entry extends Component<EntryProps, EntryState> {
     // close the confirm
     this.onCancelConfirm();
 
-    if (typeof onRemove === 'function') {
-      onRemove(entry.id);
-    }
+    if (typeof onRemove === 'function') onRemove(entry);
   };
 
   onClearItem = () => {
