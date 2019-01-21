@@ -195,13 +195,12 @@ class New extends Component<NewEntryProps, NewEntryState> {
         enabledNotes={enabledNotes}
         enabledProjects={enabledProjects}
         enabledEndDate={enabledEndDate}
-        tempEntry={loadTemporaryItem()}
         onAdd={onEntryCreate}
-        onAddNewProject={onAddNewProject}
-        onResetItem={this.onResetItem}
         onUpdate={this.onUpdateItem}
         onStart={this.onStartTimeTracking}
         onStop={this.onStopTimeTracking}
+        onAddNewProject={onAddNewProject}
+        onResetItem={this.onResetItem}
       />
     );
   }
