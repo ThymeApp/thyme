@@ -4,3 +4,7 @@ html {
   padding: 0.5em;
   height: auto;
 }
+
+.ui.form.Entry {
+  margin-top: 0;
+}
