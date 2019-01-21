@@ -2,16 +2,11 @@
 
 import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
-import isEqualObject from 'lodash/isEqual';
 
 import format from 'date-fns/format';
-import isEqual from 'date-fns/is_equal';
-import startOfDay from 'date-fns/start_of_day';
-import addDays from 'date-fns/add_days';
 import setHours from 'date-fns/set_hours';
 import setMinutes from 'date-fns/set_minutes';
 import parse from 'date-fns/parse';
-import isBefore from 'date-fns/is_before';
 
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
@@ -22,12 +17,6 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 
 import { timeElapsed } from 'core/thyme';
 import { valueFromEventTarget } from 'core/dom';
-import {
-  onStartTimer,
-  offStartTimer,
-  onStopTimer,
-  offStopTimer,
-} from 'core/extensions/events';
 
 import Responsive from 'components/Responsive';
 
@@ -39,92 +28,30 @@ import NotesInput from '../NotesInput';
 
 import './Entry.css';
 
-function defaultState(props = {}, now: Date): TimePropertyType {
-  const defaultStart = startOfDay(now);
-
-  return {
-    start: props.start || defaultStart,
-    end: props.end || defaultStart,
-    project: props.project || null,
-    notes: props.notes || '',
-  };
-}
-
 type EntryProps = {
-  now: Date;
-  entry: TimeType;
+  entry: TimeType | TimePropertyType;
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
-  onUpdate: (entry: TimePropertyType, tracking: boolean) => void;
-  onAddNewProject: (project: string, entry: TimeType) => string;
+  onUpdate: (entry: TimeType | TimePropertyType, tracking: boolean) => void;
+  onAddNewProject: (project: string, entry: TimeType | TimePropertyType) => string;
   tracking?: boolean;
-  tempEntry?: TempTimePropertyType;
-  controlledEntry?: TempTimePropertyType;
+  isNew?: boolean;
   round?: Rounding;
   roundAmount?: number;
-  onInit?: (tracking: boolean, entry: TimePropertyType) => void;
-  onResetItem?: (entry: TimePropertyType) => void;
-  onRemove?: (id: string) => void;
+  onStart?: () => void;
+  onStop?: () => void;
   onAdd?: (entry: TimePropertyType) => void;
+  onResetItem?: () => void;
+  onRemove?: (id: string) => void;
 };
 
 type EntryState = {
-  entry: TimePropertyType;
   confirm: boolean;
 };
 
 class Entry extends Component<EntryProps, EntryState> {
-  constructor(props: EntryProps) {
-    super(props);
-
-    this.state = {
-      entry: defaultState(props.entry || props.controlledEntry || props.tempEntry, props.now),
-      tracking: (props.controlledEntry && props.controlledEntry.tracking)
-        || (props.tempEntry && props.tempEntry.tracking)
-        || false,
-      confirm: false,
-    };
-  }
-
-  componentDidMount() {
-    const { onInit, entry, tracking } = this.props;
-    const { entry: stateEntry } = this.state;
-
-    if (onInit) onInit(!!tracking, stateEntry);
-
-    this.tickInterval = setInterval(this.tickTimer.bind(this), 1000);
-
-    if (!entry) {
-      onStartTimer(this.onStartTimeTracking);
-      onStopTimer(this.onStopTimeTracking);
-    }
-  }
-
-  componentDidUpdate(prevProps: EntryProps) {
-    const { controlledEntry } = this.props;
-
-    if (controlledEntry && !isEqualObject(prevProps.controlledEntry, controlledEntry)) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        tracking: !!controlledEntry.tracking,
-        entry: {
-          ...controlledEntry,
-        },
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    const { entry } = this.props;
-
-    clearInterval(this.tickInterval);
-
-    if (!entry) {
-      offStartTimer(this.onStartTimeTracking);
-      offStopTimer(this.onStopTimeTracking);
-    }
-  }
+  state = { confirm: false };
 
   onStartDateChange = (e: Event) => {
     const { enabledEndDate } = this.props;
@@ -158,7 +85,7 @@ class Entry extends Component<EntryProps, EntryState> {
       return;
     }
 
-    const { entry } = this.state;
+    const { entry } = this.props;
 
     if (key === 'both') {
       const start = parse(`${value} ${format(entry.start, 'HH:mm')}`);
@@ -167,14 +94,6 @@ class Entry extends Component<EntryProps, EntryState> {
       this.updateEntry({
         start,
         end,
-      });
-
-      this.setState({
-        entry: {
-          ...entry,
-          start,
-          end,
-        },
       });
     } else {
       this.onValueChange(key, parse(`${value} ${format(entry[key], 'HH:mm')}`));
@@ -186,7 +105,7 @@ class Entry extends Component<EntryProps, EntryState> {
       return;
     }
 
-    const { entry } = this.state;
+    const { entry } = this.props;
 
     const [hours, minutes] = value.split(':');
     const newDate = setHours(
@@ -204,64 +123,13 @@ class Entry extends Component<EntryProps, EntryState> {
     this.updateEntry({
       [key]: value,
     });
-
-    const { entry } = this.state;
-
-    this.setState({
-      entry: {
-        ...entry,
-        [key]: value,
-      },
-    });
   }
-
-  onStartTimeTracking = () => {
-    const { now, onUpdate, controlledEntry } = this.props;
-    const { entry } = this.state;
-
-    const startTime = new Date();
-
-    const isOldTempItem = isBefore(entry.start, addDays(now, -1));
-    const isNewTempItem = isEqual(entry.start, startOfDay(now));
-
-    const newEntry = {
-      ...entry,
-      start: isOldTempItem || isNewTempItem ? startTime : entry.start,
-      end: startTime,
-    };
-
-    if (onUpdate) onUpdate(newEntry, true);
-
-    // controlledEntry cannot control tracking state
-    if (controlledEntry) return;
-
-    this.setState({
-      tracking: true,
-      entry: newEntry,
-    });
-  };
-
-  onStopTimeTracking = () => {
-    const { entry } = this.state;
-    const { onUpdate, controlledEntry } = this.props;
-
-    if (onUpdate) onUpdate(entry, false);
-
-    // controlledEntry cannot control tracking state
-    if (controlledEntry) return;
-
-    this.setState({
-      tracking: false,
-    });
-  };
 
   onAddEntry = () => {
     const { entry, onAdd } = this.props;
 
     if (typeof onAdd === 'function') {
-      onAdd({
-        ...entry,
-      });
+      onAdd(entry);
 
       // put focus back on date input
       if (this.dateInput) {
@@ -273,9 +141,9 @@ class Entry extends Component<EntryProps, EntryState> {
   };
 
   onKeyPress = (e: KeyboardEvent) => {
-    const { entry } = this.props;
+    const { isNew } = this.props;
     // check if return is pressed
-    if (e.key && e.key === 'Enter' && !entry.id) {
+    if (e.key && e.key === 'Enter' && isNew) {
       this.onAddEntry();
     }
   };
@@ -286,10 +154,7 @@ class Entry extends Component<EntryProps, EntryState> {
     // close the confirm
     this.onCancelConfirm();
 
-    if (
-      entry && entry.id
-      && typeof onRemove === 'function'
-    ) {
+    if (typeof onRemove === 'function') {
       onRemove(entry.id);
     }
   };
@@ -299,20 +164,9 @@ class Entry extends Component<EntryProps, EntryState> {
   };
 
   resetItem() {
-    const { now, onResetItem } = this.props;
+    const { onResetItem } = this.props;
 
-    const entry = defaultState({}, now);
-
-    if (onResetItem) {
-      // communicate reset of temporary item
-      onResetItem(entry);
-    }
-
-    // update entry state
-    this.setState({
-      tracking: false,
-      entry,
-    });
+    if (onResetItem) onResetItem();
   }
 
   updateEntry(newState: any) {
@@ -340,26 +194,7 @@ class Entry extends Component<EntryProps, EntryState> {
     onAddNewProject(project, entry);
   }
 
-  tickTimer() {
-    const { tracking, entry: stateEntry } = this.state;
-    const { onUpdate } = this.props;
-
-    if (tracking) {
-      const entry = {
-        ...stateEntry,
-        end: new Date(),
-      };
-
-      if (onUpdate) onUpdate(entry, tracking);
-
-      // update state of component
-      this.setState({ entry });
-    }
-  }
-
   dateInput: HTMLInputElement | null;
-
-  tickInterval: IntervalID;
 
   render() {
     const {
@@ -370,6 +205,9 @@ class Entry extends Component<EntryProps, EntryState> {
       enabledNotes,
       enabledProjects,
       enabledEndDate,
+      isNew,
+      onStart,
+      onStop,
     } = this.props;
     const { confirm } = this.state;
 
@@ -380,7 +218,6 @@ class Entry extends Component<EntryProps, EntryState> {
       notes,
     } = entry;
 
-    const hasId = Boolean(entry && !!entry.id);
     const [hours, minutes, seconds] = (
       timeElapsed(start, end, tracking, true, round, roundAmount)
       || '00:00:00'
@@ -458,14 +295,14 @@ class Entry extends Component<EntryProps, EntryState> {
       />
     ) : null;
 
-    const Actions = !hasId ? (
+    const Actions = isNew ? (
       <Responsive max="tablet">
         {maxTablet => (maxTablet ? (
           <Button.Group size="large" vertical>
             <Button
               icon
               color="blue"
-              onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+              onClick={tracking ? onStop : onStart}
               labelPosition="left"
             >
               <Icon name={tracking ? 'pause' : 'play'} />
@@ -489,7 +326,7 @@ class Entry extends Component<EntryProps, EntryState> {
                 <Button
                   icon
                   color="blue"
-                  onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+                  onClick={tracking ? onStop : onStart}
                 >
                   <Icon name={tracking ? 'pause' : 'play'} />
                 </Button>
