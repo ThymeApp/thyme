@@ -4,7 +4,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 
-import { loadTemporaryItem } from 'core/localStorage';
+import { clearTemporaryItem, loadTemporaryItem, saveTemporaryItem } from 'core/localStorage';
+import { changeTimer } from 'core/extensions/events';
 
 import { addTime } from '../../actions';
 
@@ -15,11 +16,30 @@ type NewProps = {
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
-  onInit: (tracking: boolean, entry: TimePropertyType) => void;
-  onUpdateItem: (entry: TimePropertyType, tracking: boolean) => void;
-  onResetItem: (entry: TimePropertyType) => void;
   onEntryCreate: (entry: TimePropertyType) => void;
   onAddNewProject: (project: string) => string;
+};
+
+const onUpdateItem = (entry: TimePropertyType, tracking: boolean) => {
+  const timer = { ...entry, tracking };
+
+  // communicate to extensions
+  changeTimer(timer);
+
+  // save temporary state to localStorage
+  saveTemporaryItem(timer);
+};
+
+const onResetItem = (entry: TimePropertyType) => {
+  // communicate change of timer
+  changeTimer({ tracking: false, ...entry });
+
+  // clear item from localStorage
+  clearTemporaryItem();
+};
+
+const onInit = (tracking: boolean, entry: TimePropertyType) => {
+  changeTimer({ tracking, ...entry });
 };
 
 function New({
@@ -27,11 +47,8 @@ function New({
   enabledNotes,
   enabledProjects,
   enabledEndDate,
-  onInit,
   onEntryCreate,
   onAddNewProject,
-  onUpdateItem,
-  onResetItem,
 }: NewProps) {
   return (
     <Entry
