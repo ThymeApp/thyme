@@ -20,6 +20,8 @@ type ExtensionEntryProps = {
   onAdd: (entry: TimePropertyType) => void;
   onUpdate: (entry: TimePropertyType, tracking: boolean) => void;
   onAddNewProject: (project: string) => string;
+  onStart: () => void;
+  onStop: () => void;
 };
 
 function ExtensionEntry({
@@ -31,6 +33,8 @@ function ExtensionEntry({
   onAdd,
   onAddNewProject,
   onUpdate,
+  onStart,
+  onStop,
 }: ExtensionEntryProps) {
   if (!entry || !ready) {
     return <div>Connect to Thyme...</div>;
@@ -39,14 +43,18 @@ function ExtensionEntry({
   return (
     <Entry
       round="none"
+      entry={entry}
+      isNew
+      tracking={entry.tracking}
       now={new Date()}
       enabledNotes={enabledNotes}
       enabledProjects={enabledProjects}
       enabledEndDate={enabledEndDate}
-      controlledEntry={entry}
       onAdd={onAdd}
       onAddNewProject={onAddNewProject}
       onUpdate={onUpdate}
+      onStart={onStart}
+      onStop={onStop}
     />
   );
 }

@@ -40,11 +40,11 @@ export function onStartTimer(cb: any) {
 }
 
 export function offStartTimer(cb: any) {
-  emitter.off('stopTimer', cb);
+  emitter.off('startTimer', cb);
 }
 
 export function onStopTimer(cb: any) {
-  emitter.on('startTimer', cb);
+  emitter.on('stopTimer', cb);
 }
 
 export function offStopTimer(cb: any) {

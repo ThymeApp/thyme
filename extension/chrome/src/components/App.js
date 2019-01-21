@@ -28,15 +28,8 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
     registerOnMessage(msg => this.handleMessage(msg));
   }
 
-  onUpdate = (newEntry: TimePropertyType, tracking: boolean) => {
-    // if tracking changed
-    if (newEntry !== tracking) {
-      if (tracking) {
-        this.onStart();
-      } else {
-        this.onStop();
-      }
-    }
+  onUpdate = (newEntry: TimePropertyType) => {
+    console.log('update');
   };
 
   onStart = () => {
@@ -87,6 +80,8 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
         onAdd={this.onAdd}
         onAddNewProject={this.onAddProject}
         onUpdate={this.onUpdate}
+        onStart={this.onStart}
+        onStop={this.onStop}
       />
     );
   }
