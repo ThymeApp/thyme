@@ -151,10 +151,13 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
     onEntryRemove(id) {
       dispatch(removeTime(id));
     },
-    onAddProject(project) {
+    onAddProject(project, entry) {
       const newProjectAction = addProject({ parent: null, name: project });
 
+      const projectId = newProjectAction.id;
+
       dispatch(newProjectAction);
+      dispatch(updateTime({ ...entry, project: projectId }));
 
       return newProjectAction.id;
     },

@@ -78,4 +78,8 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(New);
+// export default connect(null, mapDispatchToProps)(New);
+
+export default function() {
+  return (<div>Placeholder</div>);
+}

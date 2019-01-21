@@ -52,25 +52,25 @@ function defaultState(props = {}, now: Date): TimePropertyType {
 
 type EntryProps = {
   now: Date;
+  entry: TimeType;
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
-  entry?: TimeType;
+  onUpdate: (entry: TimePropertyType, tracking: boolean) => void;
+  onAddNewProject: (project: string, entry: TimeType) => string;
+  tracking?: boolean;
   tempEntry?: TempTimePropertyType;
   controlledEntry?: TempTimePropertyType;
   round?: Rounding;
   roundAmount?: number;
   onInit?: (tracking: boolean, entry: TimePropertyType) => void;
   onResetItem?: (entry: TimePropertyType) => void;
-  onUpdate?: (entry: TimePropertyType, tracking: boolean) => void;
   onRemove?: (id: string) => void;
   onAdd?: (entry: TimePropertyType) => void;
-  onAddNewProject?: (project: string) => string;
 };
 
 type EntryState = {
   entry: TimePropertyType;
-  tracking: boolean;
   confirm: boolean;
 };
 
@@ -88,10 +88,10 @@ class Entry extends Component<EntryProps, EntryState> {
   }
 
   componentDidMount() {
-    const { onInit, entry } = this.props;
-    const { entry: stateEntry, tracking } = this.state;
+    const { onInit, entry, tracking } = this.props;
+    const { entry: stateEntry } = this.state;
 
-    if (onInit) onInit(tracking, stateEntry);
+    if (onInit) onInit(!!tracking, stateEntry);
 
     this.tickInterval = setInterval(this.tickTimer.bind(this), 1000);
 
@@ -107,7 +107,7 @@ class Entry extends Component<EntryProps, EntryState> {
     if (controlledEntry && !isEqualObject(prevProps.controlledEntry, controlledEntry)) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
-        tracking: controlledEntry.tracking,
+        tracking: !!controlledEntry.tracking,
         entry: {
           ...controlledEntry,
         },
@@ -141,16 +141,11 @@ class Entry extends Component<EntryProps, EntryState> {
 
   onEndTimeChange = (e: Event) => this.onTimeChange('end', valueFromEventTarget(e.target));
 
-  onProjectChange = (e: Event, project: { value: string | null, label: string }) => (
-    this.onValueChange(
-      'project',
-      project === null ? null : project.value,
-    )
-  );
+  onProjectChange = (value: string | null) => (this.onValueChange('project', value));
 
   onNotesChange = (e: Event) => this.onValueChange('notes', valueFromEventTarget(e.target));
 
-  onAddNewProject = (e: Event, project: { value: string }) => this.addNewProject(project.value);
+  onAddNewProject = (value: string) => this.addNewProject(value);
 
   onOpenConfirm = () => { this.setState({ confirm: true }); };
 
@@ -261,8 +256,7 @@ class Entry extends Component<EntryProps, EntryState> {
   };
 
   onAddEntry = () => {
-    const { onAdd } = this.props;
-    const { entry } = this.state;
+    const { entry, onAdd } = this.props;
 
     if (typeof onAdd === 'function') {
       onAdd({
@@ -281,7 +275,7 @@ class Entry extends Component<EntryProps, EntryState> {
   onKeyPress = (e: KeyboardEvent) => {
     const { entry } = this.props;
     // check if return is pressed
-    if (e.key && e.key === 'Enter' && !entry) {
+    if (e.key && e.key === 'Enter' && !entry.id) {
       this.onAddEntry();
     }
   };
@@ -322,29 +316,20 @@ class Entry extends Component<EntryProps, EntryState> {
   }
 
   updateEntry(newState: any) {
-    const { entry, onUpdate } = this.props;
-    const { entry: stateEntry, tracking } = this.state;
+    const { entry, tracking, onUpdate } = this.props;
 
     if (typeof onUpdate === 'function') {
       const updatedEntry = {
-        ...stateEntry,
+        ...entry,
         ...newState,
       };
 
-      if (entry && entry.id) {
-        onUpdate({
-          id: entry.id,
-          ...updatedEntry,
-        }, false);
-      } else {
-        onUpdate(updatedEntry, tracking);
-      }
+      onUpdate(updatedEntry, !!tracking);
     }
   }
 
   addNewProject(project: string) {
-    const { onAddNewProject } = this.props;
-    const { entry } = this.state;
+    const { entry, onAddNewProject } = this.props;
 
     const newProject = project.trim();
 
@@ -352,14 +337,7 @@ class Entry extends Component<EntryProps, EntryState> {
       return;
     }
 
-    if (onAddNewProject) {
-      this.setState({
-        entry: {
-          ...entry,
-          project: onAddNewProject(project),
-        },
-      });
-    }
+    onAddNewProject(project, entry);
   }
 
   tickTimer() {
@@ -386,23 +364,21 @@ class Entry extends Component<EntryProps, EntryState> {
   render() {
     const {
       entry,
+      tracking,
       round,
       roundAmount,
       enabledNotes,
       enabledProjects,
       enabledEndDate,
     } = this.props;
-    const {
-      tracking,
-      confirm,
-      entry: stateEntry,
-    } = this.state;
+    const { confirm } = this.state;
+
     const {
       start,
       end,
       project,
       notes,
-    } = stateEntry;
+    } = entry;
 
     const hasId = Boolean(entry && !!entry.id);
     const [hours, minutes, seconds] = (
