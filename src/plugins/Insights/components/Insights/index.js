@@ -96,7 +96,7 @@ export default ({ from, to, projects }: ReportsProps) => {
           <tbody>
             <tr className="Insights__Days Insights__Days--bars">
               {days.map(day => (
-                <td key={day.day} className="Insights__Days-Item">
+                <td key={day.day.toString()} className="Insights__Days-Item">
                   <div className="Insights__Days-ItemBars">
                     {day.projects.filter(project => project.time > 0).map(project => (
                       <BarItem
@@ -112,7 +112,7 @@ export default ({ from, to, projects }: ReportsProps) => {
             </tr>
             <tr className="Insights__Days Insights__Days--dates">
               {days.map(day => (
-                <td key={day.day} className="Insights__Days-Item">
+                <td key={day.day.toString()} className="Insights__Days-Item">
                   {formatShortDate(day.day, days.length)}
                 </td>
               ))}
