@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import DebouncedInput from 'components/DebouncedInput';
+import ChangeOnBlurInput from 'components/ChangeOnBlurInput';
 
 type TimeInputType = {
   value: string;
@@ -18,7 +18,7 @@ function TimeInput({
   onKeyPress,
 }: TimeInputType) {
   return (
-    <DebouncedInput
+    <ChangeOnBlurInput
       type="time"
       value={value}
       onChange={onChange}

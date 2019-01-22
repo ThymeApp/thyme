@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import DebouncedInput from 'components/DebouncedInput';
+import ChangeOnBlurInput from 'components/ChangeOnBlurInput';
 
 type DateInputType = {
   value: string,
@@ -20,7 +20,7 @@ function DateInput({
   onKeyPress,
 }: DateInputType) {
   return (
-    <DebouncedInput
+    <ChangeOnBlurInput
       type="date"
       setRef={setRef}
       onKeyPress={onKeyPress}
