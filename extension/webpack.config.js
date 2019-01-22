@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-
 const getEnv = require('react-scripts/config/env');
 
 const env = getEnv();
