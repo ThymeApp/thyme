@@ -18,7 +18,7 @@ function onConnectApp(port) {
 
   function onChangeTimer(entry) {
     if (entry.tracking) {
-      window.chrome.browserAction.setBadgeText({ text: '…' });
+      window.chrome.browserAction.setBadgeText({ text: 'REC' });
     } else {
       window.chrome.browserAction.setBadgeText({ text: '' });
     }
@@ -68,3 +68,5 @@ function onConnectPopup(port) {
 
 window.chrome.runtime.onConnectExternal.addListener(onConnectApp);
 window.chrome.extension.onConnect.addListener(onConnectPopup);
+
+window.chrome.browserAction.setBadgeBackgroundColor({ color: '#ba2011' });
