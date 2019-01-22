@@ -66,7 +66,7 @@ function mapStateToProps(state) {
         key: project.id,
         value: project.id,
         text: treeDisplayName(project),
-        content: nestedDisplayName(project),
+        content: treeDisplayName(project),
       })),
   };
 }
