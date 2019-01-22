@@ -34,7 +34,6 @@ type EntryProps = {
   enabledProjects: boolean;
   enabledEndDate: boolean;
   onUpdate: (entry: TimeType | TimePropertyType, tracking: boolean) => void;
-  onAddNewProject: (project: string, entry: TimeType | TimePropertyType) => string;
   tracking?: boolean;
   isNew?: boolean;
   round?: Rounding;
@@ -43,6 +42,7 @@ type EntryProps = {
   onStop?: () => void;
   onAdd?: (entry: TimePropertyType) => void;
   onResetItem?: () => void;
+  onAddNewProject?: (project: string, entry: TimeType | TimePropertyType) => string;
   onRemove?: (entry: TimeType | TimePropertyType) => void;
 };
 
@@ -189,7 +189,7 @@ class Entry extends Component<EntryProps, EntryState> {
       return;
     }
 
-    onAddNewProject(project, entry);
+    if (onAddNewProject) onAddNewProject(project, entry);
   }
 
   dateInput: HTMLInputElement | null;
@@ -206,6 +206,7 @@ class Entry extends Component<EntryProps, EntryState> {
       isNew,
       onStart,
       onStop,
+      onAddNewProject,
     } = this.props;
     const { confirm } = this.state;
 
@@ -279,7 +280,7 @@ class Entry extends Component<EntryProps, EntryState> {
       <ProjectInput
         value={project}
         size={size}
-        onAddItem={this.onAddNewProject}
+        onAddItem={onAddNewProject && this.onAddNewProject}
         handleChange={this.onProjectChange}
       />
     ) : null;
