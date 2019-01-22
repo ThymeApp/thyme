@@ -3,7 +3,10 @@
     "version": "1.0.0",
     "description": "Chrome Extension for controlling Thyme",
     "manifest_version": 2,
-    "permissions": ["https://usethyme.com/thyme"],
+    "permissions": [
+        "https://usethyme.com/thyme",
+        "tabs"
+    ],
     "background": {
         "scripts": ["dist/background.js"],
         "persistent": false

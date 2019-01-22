@@ -1,5 +1,19 @@
 // @flow
 
+/* eslint-disable quote-props */
+const regularIcon = {
+  '16': 'assets/icon-16x16.png',
+  '48': 'assets/icon-48x48.png',
+  '128': 'assets/icon-128x128.png',
+};
+
+const activeIcon = {
+  '16': 'assets/icon-on-16x16.png',
+  '48': 'assets/icon-on-48x48.png',
+  '128': 'assets/icon-on-128x128.png',
+};
+/* eslint-enable */
+
 let currentEntry = null;
 let currentState: StateShape = {};
 
@@ -8,7 +22,12 @@ let onChangeTimerListener: (entry?: any) => void = () => {};
 let onChangeStateListener: (state: StateShape) => void = () => {};
 
 // talk to site
-let postMessage: (msg: any) => void = () => {};
+const connectedClients: { [id: any]: any } = {};
+
+function postMessage(msg: any) {
+  Object.keys(connectedClients)
+    .forEach(id => connectedClients[id].postMessage(msg));
+}
 
 function onConnectApp(port) {
   function onChangeState(state: StateShape) {
@@ -43,11 +62,30 @@ function onConnectApp(port) {
     }
   }
 
+  function handleDisconnect() {
+    delete connectedClients[port.sender.tab.id];
+
+    if (Object.keys(connectedClients).length === 0) {
+      window.chrome.browserAction.setIcon({ path: regularIcon });
+
+      // wipe state
+      currentEntry = null;
+      currentState = {};
+
+      // clear popup data
+      onChangeTimerListener(null);
+      onChangeStateListener({});
+    }
+  }
+
+  window.chrome.browserAction.setIcon({ path: activeIcon });
+
   port.onMessage.addListener(handleMessage);
+  port.onDisconnect.addListener(handleDisconnect);
 
   port.postMessage({ type: 'connected' });
 
-  postMessage = (msg: any) => port.postMessage(msg);
+  connectedClients[port.sender.tab.id] = port;
 }
 
 function onConnectPopup(port) {

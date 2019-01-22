@@ -3,6 +3,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
+import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+
 import {
   getEnableEndDate,
   getEnableNotes,
@@ -21,6 +24,7 @@ type ExtensionEntryProps = {
   onUpdate: (entry: TimePropertyType, tracking: boolean) => void;
   onStart: () => void;
   onStop: () => void;
+  openThyme: () => void;
 };
 
 function ExtensionEntry({
@@ -33,9 +37,15 @@ function ExtensionEntry({
   onUpdate,
   onStart,
   onStop,
+  openThyme,
 }: ExtensionEntryProps) {
   if (!entry || !ready) {
-    return <div>Connect to Thyme...</div>;
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Header>You need to have Thyme running</Header>
+        <Button primary onClick={openThyme}>Open Thyme in new tab</Button>
+      </div>
+    );
   }
 
   return (

@@ -88,6 +88,7 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
 
     return (
       <Entry
+        openThyme={() => window.chrome.tabs.create({ url: process.env.REACT_APP_TAB_URL })}
         entry={entry}
         onAdd={this.onAdd}
         onUpdate={this.onUpdate}
