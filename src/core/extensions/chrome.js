@@ -6,6 +6,7 @@ import {
   onChangeState,
   startTimer,
   stopTimer,
+  receiveTimer,
 } from './events';
 
 const extensionId = 'ponekpfofmlkhibcjcigohaddamaiinm';
@@ -16,6 +17,9 @@ function handleMessage(msg: any) {
   switch (msg.type) {
     case 'connected':
       extensionConnected();
+      break;
+    case 'changeTimer':
+      receiveTimer(msg.entry);
       break;
     case 'startTimer':
       startTimer();

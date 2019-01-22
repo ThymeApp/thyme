@@ -28,8 +28,10 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
     registerOnMessage(msg => this.handleMessage(msg));
   }
 
-  onUpdate = (newEntry: TimePropertyType) => {
-    console.log('update');
+  onUpdate = (entry: TimePropertyType) => {
+    const { postMessage } = this.props;
+
+    postMessage({ type: 'changeTimer', entry });
   };
 
   onStart = () => {

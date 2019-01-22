@@ -8,8 +8,7 @@ let onChangeTimerListener: (entry?: any) => void = () => {};
 let onChangeStateListener: (state: StateShape) => void = () => {};
 
 // talk to site
-let onStartTimer: () => void = () => {};
-let onStopTimer: () => void = () => {};
+let postMessage: (msg: any) => void = () => {};
 
 function onConnectApp(port) {
   function onChangeState(state: StateShape) {
@@ -48,8 +47,7 @@ function onConnectApp(port) {
 
   port.postMessage({ type: 'connected' });
 
-  onStartTimer = () => port.postMessage({ type: 'startTimer' });
-  onStopTimer = () => port.postMessage({ type: 'stopTimer' });
+  postMessage = (msg: any) => port.postMessage(msg);
 }
 
 function onConnectPopup(port) {
@@ -58,20 +56,7 @@ function onConnectPopup(port) {
     onChangeStateListener = () => {};
   }
 
-  function handleMessage(msg) {
-    switch (msg.type) {
-      case 'startTimer':
-        onStartTimer();
-        break;
-      case 'stopTimer':
-        onStopTimer();
-        break;
-      default:
-        console.error('Unable to handle message from popup', msg);
-    }
-  }
-
-  port.onMessage.addListener(handleMessage);
+  port.onMessage.addListener(msg => postMessage(msg));
   port.onDisconnect.addListener(handleDisconnect);
 
   onChangeTimerListener = entry => port.postMessage({ type: 'changeTimer', entry });

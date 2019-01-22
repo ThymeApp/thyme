@@ -27,6 +27,10 @@ export function changeState(state: StateShape) {
   );
 }
 
+export function receiveTimer(entry: TempTimePropertyType) {
+  emitter.emit('receiveTimer', entry);
+}
+
 export function startTimer() {
   emitter.emit('startTimer');
 }
@@ -57,6 +61,10 @@ export function onChangeTimer(cb: (data: TempTimePropertyType) => void) {
 
 export function onChangeState(cb: (state: StateShape) => void) {
   emitter.on('changeState', (e: any) => cb(e));
+}
+
+export function onReceiveTimer(cb: (data: TempTimePropertyType) => void) {
+  emitter.on('receiveTimer', (e: any) => cb(e));
 }
 
 export function onExtensionConnected(cb: () => void) {

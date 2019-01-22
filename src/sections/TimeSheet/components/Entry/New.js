@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
-import isEqualObject from 'lodash/isEqual';
 
 import isBefore from 'date-fns/is_before';
 import addDays from 'date-fns/add_days';
@@ -17,6 +16,7 @@ import {
   offStopTimer,
   onStartTimer,
   onStopTimer,
+  onReceiveTimer,
 } from 'core/extensions/events';
 
 import { addTime } from '../../actions';
@@ -68,22 +68,9 @@ class New extends Component<NewEntryProps, NewEntryState> {
 
     onStartTimer(this.onStartTimeTracking);
     onStopTimer(this.onStopTimeTracking);
+    onReceiveTimer(this.onReceiveTimer);
 
     changeTimer({ tracking, ...entry });
-  }
-
-  componentDidUpdate(prevProps: NewEntryProps) {
-    const { entry } = this.props;
-
-    if (entry && !isEqualObject(prevProps.entry, entry)) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        tracking: !!entry.tracking,
-        entry: {
-          ...entry,
-        },
-      });
-    }
   }
 
   componentWillUnmount() {
@@ -93,11 +80,23 @@ class New extends Component<NewEntryProps, NewEntryState> {
     offStopTimer(this.onStopTimeTracking);
   }
 
+  onReceiveTimer = (entry: TempTimePropertyType) => {
+    const { tracking } = entry;
+    const newEntry = {
+      start: entry.start,
+      end: entry.end,
+      project: entry.project,
+      notes: entry.notes,
+    };
+
+    this.onUpdateItem(newEntry, tracking);
+  };
+
   onUpdateItem = (entry: TimePropertyType, tracking: boolean) => {
     const timer = { ...entry, tracking };
 
     // update local state
-    this.setState({ entry });
+    this.setState({ entry, tracking });
 
     // communicate to extensions
     changeTimer(timer);
