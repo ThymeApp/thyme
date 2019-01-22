@@ -10,7 +10,7 @@ import {
   addEntry,
 } from './events';
 
-const extensionId = 'ponekpfofmlkhibcjcigohaddamaiinm';
+const extensionId = process.env.REACT_APP_CHROME_EXTENSION_ID;
 
 const port = window.chrome.runtime.connect(extensionId);
 
