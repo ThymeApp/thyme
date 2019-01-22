@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
-import { nestedDisplayName, treeDisplayName } from 'core/projects';
+import { treeDisplayName } from 'core/projects';
 
 import { sortedProjects } from 'sections/Projects/selectors';
 
