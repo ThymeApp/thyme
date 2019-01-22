@@ -64,9 +64,9 @@ class Entry extends Component<EntryProps, EntryState> {
 
   onEndDateChange = (e: Event) => this.onDateChange('end', valueFromEventTarget(e.target));
 
-  onStartTimeChange = (e: Event) => this.onTimeChange('start', valueFromEventTarget(e.target));
+  onStartTimeChange = (time: string) => this.onTimeChange('start', time);
 
-  onEndTimeChange = (e: Event) => this.onTimeChange('end', valueFromEventTarget(e.target));
+  onEndTimeChange = (time: string) => this.onTimeChange('end', time);
 
   onProjectChange = (value: string | null) => (this.onValueChange('project', value));
 

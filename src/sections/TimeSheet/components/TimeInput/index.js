@@ -2,12 +2,12 @@
 
 import React from 'react';
 
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
+import DebouncedInput from 'components/DebouncedInput';
 
 type TimeInputType = {
   value: string;
   size: string;
-  onChange: (e: Event) => void;
+  onChange: (time: string) => void;
   onKeyPress: (e: KeyboardEvent) => void;
 }
 
@@ -18,7 +18,7 @@ function TimeInput({
   onKeyPress,
 }: TimeInputType) {
   return (
-    <Input
+    <DebouncedInput
       type="time"
       value={value}
       onChange={onChange}
