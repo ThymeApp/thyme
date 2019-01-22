@@ -12,6 +12,7 @@
 
 # extensions
 /extension/*/dist
+/extension/*/output
 
 # misc
 .DS_Store
