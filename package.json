@@ -17,8 +17,6 @@
         "add-sw-code": "cat ./src/custom-sw.js >> ./build/service-worker.js",
         "build": "env-cmd .env.production react-scripts build && npm run add-sw-code && cp package.json build/package.json",
         "build:staging": "env-cmd .env.staging react-scripts build && npm run add-sw-code",
-        "build:dev": "NODE_ENV=development webpack --config node_modules/react-scripts/config/webpack.config.js",
-        "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json",
         "extensions": "webpack --config extension/webpack.config.js",
         "zip:chrome": "rm -f extension/chrome/output/archive.zip && zip -r extension/chrome/output/archive.zip extension/chrome -x \"*/output*\" -x \"*.DS_Store\"",
         "build:extensions": "NODE_ENV=production npm run extensions && npm run zip:chrome",
@@ -81,7 +79,7 @@
         "lint",
         "flow",
         "test:ci",
-        "build:dev"
+        "build:staging"
     ],
     "browserslist": [
         ">0.2%",
