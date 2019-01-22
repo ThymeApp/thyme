@@ -48,7 +48,7 @@ describe('NewProject', () => {
     const parent = prevState.projects.allIds.map(id => prevState.projects.byId[id])[0];
 
     projectName.simulate('change', { target });
-    projectParent.prop('handleChange')(null, { value: parent.id, label: parent.name });
+    projectParent.prop('handleChange')(parent.id);
     form.simulate('submit');
 
     const state = store.getState();
