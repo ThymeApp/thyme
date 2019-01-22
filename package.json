@@ -20,7 +20,8 @@
         "build:dev": "NODE_ENV=development webpack --config node_modules/react-scripts/config/webpack.config.dev.js",
         "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json",
         "extensions": "webpack --config extension/webpack.config.js",
-        "build:extensions": "NODE_ENV=production npm run extensions",
+        "zip:chrome": "rm -f extension/chrome/output/archive.zip && zip -r extension/chrome/output/archive.zip extension/chrome -x \"*/output*\" -x \"*.DS_Store\"",
+        "build:extensions": "NODE_ENV=production npm run extensions && npm run zip:chrome",
         "start:extensions": "NODE_ENV=development npm run extensions -- --watch"
     },
     "dependencies": {
@@ -56,8 +57,7 @@
         "semantic-ui-react": "^0.84.0",
         "shortid": "^2.2.14",
         "source-map-explorer": "^1.6.0",
-        "thyme-connect": "^1.0.2",
-        "webpack": "^4.29.0"
+        "thyme-connect": "^1.0.2"
     },
     "devDependencies": {
         "@babel/core": "^7.2.2",
