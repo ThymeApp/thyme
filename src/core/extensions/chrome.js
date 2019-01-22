@@ -7,6 +7,7 @@ import {
   startTimer,
   stopTimer,
   receiveTimer,
+  addEntry,
 } from './events';
 
 const extensionId = 'ponekpfofmlkhibcjcigohaddamaiinm';
@@ -26,6 +27,9 @@ function handleMessage(msg: any) {
       break;
     case 'stopTimer':
       stopTimer();
+      break;
+    case 'addEntry':
+      addEntry(msg.entry);
       break;
     default:
       console.error('Unable to handle message from extension', msg);

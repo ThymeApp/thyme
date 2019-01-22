@@ -39,6 +39,10 @@ export function stopTimer() {
   emitter.emit('stopTimer');
 }
 
+export function addEntry(entry: TimePropertyType) {
+  emitter.emit('addEntry', entry);
+}
+
 export function onStartTimer(cb: any) {
   emitter.on('startTimer', cb);
 }
@@ -55,6 +59,22 @@ export function offStopTimer(cb: any) {
   emitter.off('stopTimer', cb);
 }
 
+export function onAddEntry(cb: any) {
+  emitter.on('addEntry', cb);
+}
+
+export function offAddEntry(cb: any) {
+  emitter.off('addEntry', cb);
+}
+
+export function onReceiveTimer(cb: any) {
+  emitter.on('receiveTimer', cb);
+}
+
+export function offReceiveTimer(cb: any) {
+  emitter.off('receiveTimer', cb);
+}
+
 export function onChangeTimer(cb: (data: TempTimePropertyType) => void) {
   emitter.on('changeTimer', (e: any) => cb(e));
 }
@@ -63,9 +83,6 @@ export function onChangeState(cb: (state: StateShape) => void) {
   emitter.on('changeState', (e: any) => cb(e));
 }
 
-export function onReceiveTimer(cb: (data: TempTimePropertyType) => void) {
-  emitter.on('receiveTimer', (e: any) => cb(e));
-}
 
 export function onExtensionConnected(cb: () => void) {
   emitter.on('extensionConnected', cb);

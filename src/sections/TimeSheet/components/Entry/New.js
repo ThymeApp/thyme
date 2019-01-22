@@ -12,11 +12,14 @@ import startOfDay from 'date-fns/start_of_day';
 import { clearTemporaryItem, loadTemporaryItem, saveTemporaryItem } from 'core/localStorage';
 import {
   changeTimer,
-  offStartTimer,
-  offStopTimer,
   onStartTimer,
+  offStartTimer,
   onStopTimer,
+  offStopTimer,
+  onAddEntry,
+  offAddEntry,
   onReceiveTimer,
+  offReceiveTimer,
 } from 'core/extensions/events';
 
 import { addTime } from '../../actions';
@@ -66,19 +69,32 @@ class New extends Component<NewEntryProps, NewEntryState> {
 
     this.tickInterval = setInterval(this.tickTimer.bind(this), 1000);
 
+    changeTimer({ tracking, ...entry });
+
+    // register listeners
     onStartTimer(this.onStartTimeTracking);
     onStopTimer(this.onStopTimeTracking);
     onReceiveTimer(this.onReceiveTimer);
-
-    changeTimer({ tracking, ...entry });
+    onAddEntry(this.onAddItem);
   }
 
   componentWillUnmount() {
     clearInterval(this.tickInterval);
 
+    // unregister listeners
     offStartTimer(this.onStartTimeTracking);
     offStopTimer(this.onStopTimeTracking);
+    offReceiveTimer(this.onReceiveTimer);
+    offAddEntry(this.onAddItem);
   }
+
+  onAddItem = (entry: TimePropertyType) => {
+    const { onEntryCreate } = this.props;
+
+    onEntryCreate(entry);
+
+    this.onResetItem();
+  };
 
   onReceiveTimer = (entry: TempTimePropertyType) => {
     const { tracking } = entry;

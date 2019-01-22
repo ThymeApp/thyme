@@ -17,6 +17,14 @@ type ExtensionAppState = {
   entry?: TempTimePropertyType;
 };
 
+function safeEntry(entry: TempTimePropertyType | TimePropertyType) {
+  return {
+    ...entry,
+    start: +entry.start,
+    end: +entry.end,
+  };
+}
+
 class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
   state = {
     entry: undefined,
@@ -31,7 +39,7 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
   onUpdate = (entry: TimePropertyType) => {
     const { postMessage } = this.props;
 
-    postMessage({ type: 'changeTimer', entry });
+    postMessage({ type: 'changeTimer', entry: safeEntry(entry) });
   };
 
   onStart = () => {
@@ -46,9 +54,11 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
     postMessage({ type: 'stopTimer' });
   };
 
-  onAdd = () => { console.log('add'); };
+  onAdd = (entry: TimePropertyType) => {
+    const { postMessage } = this.props;
 
-  onAddProject = () => { console.log('add project'); };
+    postMessage({ type: 'addEntry', entry: safeEntry(entry) });
+  };
 
   updateEntry = (entry: TempTimePropertyType) => {
     this.setState({ entry });
@@ -80,7 +90,6 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
       <Entry
         entry={entry}
         onAdd={this.onAdd}
-        onAddNewProject={this.onAddProject}
         onUpdate={this.onUpdate}
         onStart={this.onStart}
         onStop={this.onStop}
