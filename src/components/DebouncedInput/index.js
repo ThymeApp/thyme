@@ -6,6 +6,8 @@ import { valueFromEventTarget } from 'core/dom';
 
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
+const noop = () => ({});
+
 type DebouncedInputState = {
   value: string;
 };
@@ -17,11 +19,11 @@ class DebouncedInput extends Component<*, DebouncedInputState> {
     this.state = { value: props.value || '' };
   }
 
-  componentDidUpdate(): void {
+  componentDidUpdate(prevProps: any): void {
     const { value: stateValue } = this.state;
     const { value } = this.props;
 
-    if (value !== stateValue) {
+    if (value !== prevProps.value && value !== stateValue) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ value });
     }
@@ -41,10 +43,12 @@ class DebouncedInput extends Component<*, DebouncedInputState> {
   render() {
     const { props, state } = this;
     const { value } = state;
+    const { setRef, ...otherProps } = props;
 
     return (
       <Input
-        {...props}
+        {...otherProps}
+        ref={setRef || noop}
         value={value}
         onChange={this.updateValue}
         onBlur={this.onChange}

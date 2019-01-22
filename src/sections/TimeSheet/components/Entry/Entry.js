@@ -53,16 +53,14 @@ type EntryState = {
 class Entry extends Component<EntryProps, EntryState> {
   state = { confirm: false };
 
-  onStartDateChange = (e: Event) => {
+  onStartDateChange = (value: string) => {
     const { enabledEndDate } = this.props;
-
-    const value = valueFromEventTarget(e.target);
 
     // when end date is not manual, change both dates
     this.onDateChange(!enabledEndDate ? 'both' : 'start', value);
   };
 
-  onEndDateChange = (e: Event) => this.onDateChange('end', valueFromEventTarget(e.target));
+  onEndDateChange = (value: string) => this.onDateChange('end', value);
 
   onStartTimeChange = (time: string) => this.onTimeChange('start', time);
 
