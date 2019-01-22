@@ -1,6 +1,6 @@
 {
     "name": "thyme",
-    "version": "1.6.4",
+    "version": "1.7.0",
     "private": false,
     "homepage": "/",
     "scripts": {
@@ -68,9 +68,9 @@
         "css-loader": "^2.1.0",
         "eslint-config-airbnb": "^17.1.0",
         "eslint-plugin-flowtype": "^3.2.0",
-        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-import": "^2.15.0",
         "eslint-plugin-jsx-a11y": "^6.1.2",
-        "eslint-plugin-react": "^7.11.1",
+        "eslint-plugin-react": "^7.12.4",
         "flow-bin": "^0.91.0",
         "pre-push": "^0.1.1",
         "stylelint": "^9.9.0",
