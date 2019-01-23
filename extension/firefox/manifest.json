@@ -1,0 +1,21 @@
+{
+    "name": "Thyme",
+    "version": "1.0.1",
+    "description": "Firefox Extension for controlling Thyme",
+    "manifest_version": 2,
+    "background": {
+        "scripts": ["src/background.js"]
+    },
+    "content_scripts": [{
+        "matches": ["https://usethyme.com/thyme/*", "http://localhost/*"],
+        "js": ["src/content.js"]
+    }],
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "16": "assets/icon-16x16.png",
+        "48": "assets/icon-48x48.png",
+        "128": "assets/icon-128x128.png"
+    }
+}
