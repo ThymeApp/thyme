@@ -153,3 +153,7 @@ declare type SubscriptionInfo = {
 
 declare type ThymeStore = Store<StateShape, *>;
 declare type ThymeDispatch = Dispatch<*>;
+
+// for extension development
+declare var browser: any;
+declare var chrome: any;

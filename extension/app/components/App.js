@@ -11,6 +11,7 @@ type ExtensionAppProps = {
   registerOnMessage: (cb: (msg: any) => void) => void;
   postMessage: (msg: any) => void;
   onUpdateState: (state: StateShape) => void;
+  openTab: () => void;
 };
 
 type ExtensionAppState = {
@@ -85,10 +86,11 @@ class ExtensionApp extends Component<ExtensionAppProps, ExtensionAppState> {
 
   render() {
     const { entry } = this.state;
+    const { openTab } = this.props;
 
     return (
       <Entry
-        openThyme={() => window.chrome.tabs.create({ url: process.env.REACT_APP_TAB_URL })}
+        openThyme={openTab}
         entry={entry}
         onAdd={this.onAdd}
         onUpdate={this.onUpdate}
