@@ -9,6 +9,9 @@ const base = {
   resolve: {
     modules: ['node_modules', '../src'],
   },
+  output: {
+    publicPath: './dist/',
+  },
   module: {
     rules: [
       {
@@ -44,27 +47,32 @@ const base = {
   ],
 };
 
-module.exports = [{
-  ...base,
-  context: path.resolve(__dirname, './chrome'),
-  entry: {
-    main: './src/main.js',
-    background: './src/background.js',
-  },
-  output: {
-    path: path.resolve(__dirname, './chrome/dist'),
-    publicPath: './dist/',
-  },
-}, {
-  ...base,
-  context: path.resolve(__dirname, './firefox'),
-  entry: {
-    main: './src/main.js',
-    content: './src/content.js',
-    background: './src/background.js',
-  },
-  output: {
-    path: path.resolve(__dirname, './firefox/dist'),
-    publicPath: './dist/',
-  },
-}];
+function browserConfig(folder, entry) {
+  return {
+    ...base,
+    context: path.resolve(__dirname, `./${folder}`),
+    entry,
+    output: {
+      ...base.output,
+      path: path.resolve(__dirname, `./${folder}/dist`),
+    },
+  };
+}
+
+module.exports = [
+  browserConfig(
+    './chrome',
+    {
+      main: './src/main.js',
+      background: './src/background.js',
+    },
+  ),
+  browserConfig(
+    './firefox',
+    {
+      main: './src/main.js',
+      content: './src/content.js',
+      background: './src/background.js',
+    },
+  ),
+];
