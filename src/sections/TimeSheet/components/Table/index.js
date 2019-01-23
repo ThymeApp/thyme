@@ -35,7 +35,7 @@ type TimeTableType = {
   enabledEndDate: boolean;
   onAddProject: (project: string) => string;
   onEntryUpdate: (entry: TimePropertyType) => void;
-  onEntryRemove: (id: string) => void;
+  onEntryRemove: (entry: TimeType | TimePropertyType) => void;
 };
 
 function TimeTable({
@@ -148,13 +148,16 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
     onEntryUpdate(entry) {
       dispatch(updateTime(entry));
     },
-    onEntryRemove(id) {
-      dispatch(removeTime(id));
+    onEntryRemove(entry) {
+      dispatch(removeTime(entry.id));
     },
-    onAddProject(project) {
+    onAddProject(project, entry) {
       const newProjectAction = addProject({ parent: null, name: project });
 
+      const projectId = newProjectAction.id;
+
       dispatch(newProjectAction);
+      dispatch(updateTime({ ...entry, project: projectId }));
 
       return newProjectAction.id;
     },

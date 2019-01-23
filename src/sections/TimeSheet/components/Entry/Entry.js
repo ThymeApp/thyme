@@ -4,13 +4,9 @@ import React, { Component, Fragment } from 'react';
 import classnames from 'classnames';
 
 import format from 'date-fns/format';
-import isEqual from 'date-fns/is_equal';
-import startOfDay from 'date-fns/start_of_day';
-import addDays from 'date-fns/add_days';
 import setHours from 'date-fns/set_hours';
 import setMinutes from 'date-fns/set_minutes';
 import parse from 'date-fns/parse';
-import isBefore from 'date-fns/is_before';
 
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
@@ -19,7 +15,6 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 
-import { saveTemporaryItem, clearTemporaryItem } from 'core/localStorage';
 import { timeElapsed } from 'core/thyme';
 import { valueFromEventTarget } from 'core/dom';
 
@@ -33,82 +28,49 @@ import NotesInput from '../NotesInput';
 
 import './Entry.css';
 
-function defaultState(props = {}, now: Date): TimePropertyType {
-  const defaultStart = startOfDay(now);
-
-  return {
-    start: props.start || defaultStart,
-    end: props.end || defaultStart,
-    project: props.project || null,
-    notes: props.notes || '',
-  };
-}
-
 type EntryProps = {
-  now: Date;
+  entry: TimeType | TimePropertyType;
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
-  entry?: TimeType;
-  tempEntry?: TempTimePropertyType;
+  onUpdate: (entry: TimeType | TimePropertyType, tracking: boolean) => void;
+  tracking?: boolean;
+  isNew?: boolean;
   round?: Rounding;
   roundAmount?: number;
+  onStart?: () => void;
+  onStop?: () => void;
   onAdd?: (entry: TimePropertyType) => void;
-  onRemove?: (id: string) => void;
-  onUpdate?: (entry: TimePropertyType) => void;
-  onAddNewProject?: (project: string) => string;
+  onResetItem?: () => void;
+  onAddNewProject?: (project: string, entry: TimeType | TimePropertyType) => string;
+  onRemove?: (entry: TimeType | TimePropertyType) => void;
 };
 
 type EntryState = {
-  entry: TimePropertyType;
-  tracking: boolean;
   confirm: boolean;
 };
 
 class Entry extends Component<EntryProps, EntryState> {
-  constructor(props: EntryProps) {
-    super(props);
+  state = { confirm: false };
 
-    this.state = {
-      entry: defaultState(props.entry || props.tempEntry, props.now),
-      tracking: props.tempEntry ? props.tempEntry.tracking : false,
-      confirm: false,
-    };
-  }
-
-  componentDidMount() {
-    this.tickInterval = setInterval(this.tickTimer.bind(this), 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.tickInterval);
-  }
-
-  onStartDateChange = (e: Event) => {
+  onStartDateChange = (value: string) => {
     const { enabledEndDate } = this.props;
-
-    const value = valueFromEventTarget(e.target);
 
     // when end date is not manual, change both dates
     this.onDateChange(!enabledEndDate ? 'both' : 'start', value);
   };
 
-  onEndDateChange = (e: Event) => this.onDateChange('end', valueFromEventTarget(e.target));
+  onEndDateChange = (value: string) => this.onDateChange('end', value);
 
-  onStartTimeChange = (e: Event) => this.onTimeChange('start', valueFromEventTarget(e.target));
+  onStartTimeChange = (time: string) => this.onTimeChange('start', time);
 
-  onEndTimeChange = (e: Event) => this.onTimeChange('end', valueFromEventTarget(e.target));
+  onEndTimeChange = (time: string) => this.onTimeChange('end', time);
 
-  onProjectChange = (e: Event, project: { value: string | null, label: string }) => (
-    this.onValueChange(
-      'project',
-      project === null ? null : project.value,
-    )
-  );
+  onProjectChange = (value: string | null) => (this.onValueChange('project', value));
 
   onNotesChange = (e: Event) => this.onValueChange('notes', valueFromEventTarget(e.target));
 
-  onAddNewProject = (e: Event, project: { value: string }) => this.addNewProject(project.value);
+  onAddNewProject = (value: string) => this.addNewProject(value);
 
   onOpenConfirm = () => { this.setState({ confirm: true }); };
 
@@ -121,7 +83,7 @@ class Entry extends Component<EntryProps, EntryState> {
       return;
     }
 
-    const { entry } = this.state;
+    const { entry } = this.props;
 
     if (key === 'both') {
       const start = parse(`${value} ${format(entry.start, 'HH:mm')}`);
@@ -130,14 +92,6 @@ class Entry extends Component<EntryProps, EntryState> {
       this.updateEntry({
         start,
         end,
-      });
-
-      this.setState({
-        entry: {
-          ...entry,
-          start,
-          end,
-        },
       });
     } else {
       this.onValueChange(key, parse(`${value} ${format(entry[key], 'HH:mm')}`));
@@ -149,7 +103,7 @@ class Entry extends Component<EntryProps, EntryState> {
       return;
     }
 
-    const { entry } = this.state;
+    const { entry } = this.props;
 
     const [hours, minutes] = value.split(':');
     const newDate = setHours(
@@ -167,55 +121,13 @@ class Entry extends Component<EntryProps, EntryState> {
     this.updateEntry({
       [key]: value,
     });
-
-    const { entry } = this.state;
-
-    this.setState({
-      entry: {
-        ...entry,
-        [key]: value,
-      },
-    });
   }
 
-  onStartTimeTracking = () => {
-    const { now } = this.props;
-    const { entry } = this.state;
-
-    const startTime = new Date();
-
-    const isOldTempItem = isBefore(entry.start, addDays(now, -1));
-    const isNewTempItem = isEqual(entry.start, startOfDay(now));
-
-    this.setState({
-      tracking: true,
-      entry: {
-        ...entry,
-        start: isOldTempItem || isNewTempItem ? startTime : entry.start,
-        end: startTime,
-      },
-    });
-  };
-
-  onStopTimeTracking = () => {
-    const { entry } = this.state;
-
-    this.setState({
-      tracking: false,
-    });
-
-    // stop tracking in localStorage
-    saveTemporaryItem({ ...entry, tracking: false });
-  };
-
   onAddEntry = () => {
-    const { onAdd } = this.props;
-    const { entry } = this.state;
+    const { entry, onAdd } = this.props;
 
     if (typeof onAdd === 'function') {
-      onAdd({
-        ...entry,
-      });
+      onAdd(entry);
 
       // put focus back on date input
       if (this.dateInput) {
@@ -227,9 +139,9 @@ class Entry extends Component<EntryProps, EntryState> {
   };
 
   onKeyPress = (e: KeyboardEvent) => {
-    const { entry } = this.props;
+    const { isNew } = this.props;
     // check if return is pressed
-    if (e.key && e.key === 'Enter' && !entry) {
+    if (e.key && e.key === 'Enter' && isNew) {
       this.onAddEntry();
     }
   };
@@ -240,12 +152,7 @@ class Entry extends Component<EntryProps, EntryState> {
     // close the confirm
     this.onCancelConfirm();
 
-    if (
-      entry && entry.id
-      && typeof onRemove === 'function'
-    ) {
-      onRemove(entry.id);
-    }
+    if (typeof onRemove === 'function') onRemove(entry);
   };
 
   onClearItem = () => {
@@ -253,33 +160,26 @@ class Entry extends Component<EntryProps, EntryState> {
   };
 
   resetItem() {
-    const { now } = this.props;
+    const { onResetItem } = this.props;
 
-    this.setState({
-      tracking: false,
-      entry: defaultState({}, now),
-    });
-
-    // clear item from localStorage
-    clearTemporaryItem();
+    if (onResetItem) onResetItem();
   }
 
   updateEntry(newState: any) {
-    const { entry, onUpdate } = this.props;
-    const { entry: stateEntry } = this.state;
+    const { entry, tracking, onUpdate } = this.props;
 
-    if (typeof onUpdate === 'function' && entry && entry.id) {
-      onUpdate({
-        id: entry.id,
-        ...stateEntry,
+    if (typeof onUpdate === 'function') {
+      const updatedEntry = {
+        ...entry,
         ...newState,
-      });
+      };
+
+      onUpdate(updatedEntry, !!tracking);
     }
   }
 
   addNewProject(project: string) {
-    const { onAddNewProject } = this.props;
-    const { entry } = this.state;
+    const { entry, onAddNewProject } = this.props;
 
     const newProject = project.trim();
 
@@ -287,59 +187,34 @@ class Entry extends Component<EntryProps, EntryState> {
       return;
     }
 
-    if (onAddNewProject) {
-      this.setState({
-        entry: {
-          ...entry,
-          project: onAddNewProject(project),
-        },
-      });
-    }
-  }
-
-  tickTimer() {
-    const { tracking, entry: stateEntry } = this.state;
-
-    if (tracking) {
-      const entry = {
-        ...stateEntry,
-        end: new Date(),
-      };
-
-      // update state of component
-      this.setState({ entry });
-
-      // save temporary state to localStorage
-      saveTemporaryItem({ ...entry, tracking });
-    }
+    if (onAddNewProject) onAddNewProject(project, entry);
   }
 
   dateInput: HTMLInputElement | null;
 
-  tickInterval: IntervalID;
-
   render() {
     const {
       entry,
+      tracking,
       round,
       roundAmount,
       enabledNotes,
       enabledProjects,
       enabledEndDate,
+      isNew,
+      onStart,
+      onStop,
+      onAddNewProject,
     } = this.props;
-    const {
-      tracking,
-      confirm,
-      entry: stateEntry,
-    } = this.state;
+    const { confirm } = this.state;
+
     const {
       start,
       end,
       project,
       notes,
-    } = stateEntry;
+    } = entry;
 
-    const hasId = Boolean(entry && !!entry.id);
     const [hours, minutes, seconds] = (
       timeElapsed(start, end, tracking, true, round, roundAmount)
       || '00:00:00'
@@ -403,7 +278,7 @@ class Entry extends Component<EntryProps, EntryState> {
       <ProjectInput
         value={project}
         size={size}
-        onAddItem={this.onAddNewProject}
+        onAddItem={onAddNewProject && this.onAddNewProject}
         handleChange={this.onProjectChange}
       />
     ) : null;
@@ -417,14 +292,14 @@ class Entry extends Component<EntryProps, EntryState> {
       />
     ) : null;
 
-    const Actions = !hasId ? (
+    const Actions = isNew ? (
       <Responsive max="tablet">
         {maxTablet => (maxTablet ? (
           <Button.Group size="large" vertical>
             <Button
               icon
               color="blue"
-              onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+              onClick={tracking ? onStop : onStart}
               labelPosition="left"
             >
               <Icon name={tracking ? 'pause' : 'play'} />
@@ -448,7 +323,7 @@ class Entry extends Component<EntryProps, EntryState> {
                 <Button
                   icon
                   color="blue"
-                  onClick={tracking ? this.onStopTimeTracking : this.onStartTimeTracking}
+                  onClick={tracking ? onStop : onStart}
                 >
                   <Icon name={tracking ? 'pause' : 'play'} />
                 </Button>

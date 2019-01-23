@@ -1,0 +1,25 @@
+{
+    "name": "Thyme",
+    "version": "1.0.1",
+    "description": "Chrome Extension for controlling Thyme",
+    "manifest_version": 2,
+    "permissions": [
+        "https://usethyme.com/thyme",
+        "tabs"
+    ],
+    "background": {
+        "scripts": ["dist/background.js"],
+        "persistent": false
+    },
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "externally_connectable": {
+        "matches": ["https://usethyme.com/thyme/*", "http://localhost/*"]
+    },
+    "icons": {
+        "16": "assets/icon-16x16.png",
+        "48": "assets/icon-48x48.png",
+        "128": "assets/icon-128x128.png"
+    }
+}

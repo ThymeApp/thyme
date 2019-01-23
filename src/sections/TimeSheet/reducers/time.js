@@ -49,7 +49,7 @@ function notes(state = '', action) {
   switch (action.type) {
     case 'ADD_TIME':
     case 'UPDATE_TIME':
-      return action.notes;
+      return action.notes || '';
     default:
       return state;
   }

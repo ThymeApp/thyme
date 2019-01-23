@@ -1,6 +1,6 @@
 {
     "name": "thyme",
-    "version": "1.6.4",
+    "version": "1.7.0",
     "private": false,
     "homepage": "/",
     "scripts": {
@@ -17,8 +17,10 @@
         "add-sw-code": "cat ./src/custom-sw.js >> ./build/service-worker.js",
         "build": "env-cmd .env.production react-scripts build && npm run add-sw-code && cp package.json build/package.json",
         "build:staging": "env-cmd .env.staging react-scripts build && npm run add-sw-code",
-        "build:dev": "NODE_ENV=development webpack --config node_modules/react-scripts/config/webpack.config.dev.js",
-        "stats": "NODE_ENV=production webpack --config node_modules/react-scripts/config/webpack.config.prod.js --profile --json > stats.json"
+        "extensions": "webpack --config extension/webpack.config.js",
+        "zip:chrome": "rm -f extension/chrome/output/archive.zip && zip -r extension/chrome/output/archive.zip extension/chrome -x \"*/output*\" -x \"*.DS_Store\"",
+        "build:extensions": "NODE_ENV=production npm run extensions && npm run zip:chrome",
+        "start:extensions": "NODE_ENV=development npm run extensions -- --watch"
     },
     "dependencies": {
         "@sentry/browser": "^4.4.2",
@@ -56,12 +58,18 @@
         "thyme-connect": "^1.0.2"
     },
     "devDependencies": {
+        "@babel/core": "^7.2.2",
+        "@babel/plugin-proposal-class-properties": "^7.2.3",
+        "@babel/preset-env": "^7.2.3",
+        "@babel/preset-flow": "^7.0.0",
+        "@babel/preset-react": "^7.0.0",
+        "css-loader": "^2.1.0",
         "eslint-config-airbnb": "^17.1.0",
         "eslint-plugin-flowtype": "^3.2.0",
-        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-import": "^2.15.0",
         "eslint-plugin-jsx-a11y": "^6.1.2",
-        "eslint-plugin-react": "^7.11.1",
-        "flow-bin": "^0.89.0",
+        "eslint-plugin-react": "^7.12.4",
+        "flow-bin": "^0.91.0",
         "pre-push": "^0.1.1",
         "stylelint": "^9.9.0",
         "stylelint-config-standard": "^18.2.0",
@@ -71,7 +79,7 @@
         "lint",
         "flow",
         "test:ci",
-        "build:dev"
+        "build:staging"
     ],
     "browserslist": [
         ">0.2%",

@@ -38,11 +38,7 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
 
   onNameChange = (e: Event) => this.onValueChange('name', valueFromEventTarget(e.target));
 
-  onProjectChange = (e: Event, project: { value: string | null, label: string }) => (
-    this.onValueChange(
-      'parent', project === null ? null : project.value,
-    )
-  );
+  onProjectChange = (value: string | null) => this.onValueChange('parent', value);
 
   onSubmit = () => this.addNew();
 

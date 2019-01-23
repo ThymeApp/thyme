@@ -52,9 +52,15 @@ If you have questions you can leave issues on this repository or send a message 
 
 ## Running your own instance
 
-1. Clone the repository and run `npm install`.
+1. Clone the repository, navigate to the created folder, and run `npm install`.
 2. Use `npm build` to build the application. Assets will be available in `build/`.
 3. Change the location of [Thyme Capsule](https://github.com/ThymeApp/thyme-capsule) by setting the `REACT_APP_API_ROOT` environment variable before building.
+4. Run `npx serve build` to serve your build on localhost.
+
+## Building browser extensions
+
+1. Follow the steps for running your own instance.
+2. Use `npm run build:extensions` to compile and zip the browser extensions.
 
 ## Generating sample data
 
@@ -67,6 +73,15 @@ npm run generate-sample
 
 This will create a new file called `sample.json` in the root of the project. Use the "Export / Import data"
 section of the settings page to import the sample data.
+
+## Development
+
+You can help out with development using the following steps.
+
+1. Clone the repository, navigate to the created folder, and run `npm install`.
+2. Copy the staging environment variables to a local version `cp .env.staging .env.local`. Adjust if needed.
+3. Open a development server by executing `npm start`.
+4. Find source files for the app in `./src`.
 
 ## Made with Create React App
 

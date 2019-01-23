@@ -2,12 +2,12 @@
 
 import React from 'react';
 
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
+import ChangeOnBlurInput from 'components/ChangeOnBlurInput';
 
 type TimeInputType = {
   value: string;
   size: string;
-  onChange: (e: Event) => void;
+  onChange: (time: string) => void;
   onKeyPress: (e: KeyboardEvent) => void;
 }
 
@@ -18,7 +18,7 @@ function TimeInput({
   onKeyPress,
 }: TimeInputType) {
   return (
-    <Input
+    <ChangeOnBlurInput
       type="time"
       value={value}
       onChange={onChange}

@@ -126,7 +126,9 @@ describe('TimeTable', () => {
     endTime.value = '03:00';
 
     page.find('TimeTable').find('input[type="time"]').at(0).simulate('change', { target: startTime });
+    page.find('TimeTable').find('input[type="time"]').at(0).simulate('blur');
     page.find('TimeTable').find('input[type="time"]').at(1).simulate('change', { target: endTime });
+    page.find('TimeTable').find('input[type="time"]').at(1).simulate('blur');
 
     expect(page.find('TimeTable').find('.EntryDuration').at(0).text()).toBe('02:00');
   });
@@ -149,8 +151,11 @@ describe('TimeTable', () => {
     notes.value = 'Testing Thyme';
 
     page.find('TimeTable').find('input[type="time"]').at(0).simulate('change', { target: startTime });
+    page.find('TimeTable').find('input[type="time"]').at(0).simulate('blur');
     page.find('TimeTable').find('input[type="time"]').at(1).simulate('change', { target: endTime });
+    page.find('TimeTable').find('input[type="time"]').at(1).simulate('blur');
     page.find('TimeTable').find('.EntryNotes input').at(0).simulate('change', { target: notes });
+    page.find('TimeTable').find('.EntryNotes input').at(0).simulate('blur');
 
     page.find('TimeTable').find('.EntrySubmit').at(0).simulate('click');
 
@@ -246,6 +251,7 @@ describe('TimeTable', () => {
             project: null,
             start: '2018-08-14T12:00:00.000Z',
             end: '2018-08-14T13:00:00.000Z',
+            notes: '',
           },
         },
         allIds: [1],
@@ -261,6 +267,7 @@ describe('TimeTable', () => {
     startDate.value = '2018-08-15';
 
     page.find('TimeTable').find('input[type="date"]').at(1).simulate('change', { target: startDate });
+    page.find('TimeTable').find('input[type="date"]').at(1).simulate('blur');
 
     const state = store.getState();
     expect(isSameMinute(state.time.byId[1].start, '2018-08-15T12:00:00.000Z')).toBe(true);
@@ -276,6 +283,7 @@ describe('TimeTable', () => {
             project: null,
             start: '2018-08-14T12:00:00.000Z',
             end: '2018-08-14T13:00:00.000Z',
+            notes: '',
           },
         },
         allIds: [1],
@@ -296,6 +304,7 @@ describe('TimeTable', () => {
     startDate.value = '2018-08-13';
 
     page.find('TimeTable').find('input[type="date"]').at(2).simulate('change', { target: startDate });
+    page.find('TimeTable').find('input[type="date"]').at(2).simulate('blur');
 
     const state = store.getState();
     expect(isSameMinute(state.time.byId[1].start, '2018-08-13T12:00:00.000Z')).toBe(true);

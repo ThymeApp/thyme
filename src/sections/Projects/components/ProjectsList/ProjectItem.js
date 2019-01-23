@@ -49,19 +49,17 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
     });
   };
 
-  onChangeParent = (e: Event, parent: { value: string | null, label: string }) => {
+  onChangeParent = (parent: string | null) => {
     const { project, projects, onUpdateProject } = this.props;
 
-    const parentId = parent === null ? null : parent.value;
-
     // Can't move to this project because it's a descendant
-    if (isDescendant(project.id, parentId, projects)) {
+    if (isDescendant(project.id, parent, projects)) {
       return;
     }
 
     onUpdateProject({
       ...project,
-      parent: parentId,
+      parent,
     });
   };
 
@@ -132,7 +130,7 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
                 <ProjectInput
                   handleChange={this.onChangeParent}
                   value={project.parent}
-                  excludeValue
+                  projects={projects}
                 />
               </Table.Cell>
               {renderComponent('projects.tablerow.parent', { ...this.props, isMobile })}
