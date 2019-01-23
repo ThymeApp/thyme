@@ -49,17 +49,17 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
     });
   };
 
-  onChangeParent = (value: string | null) => {
+  onChangeParent = (parent: string | null) => {
     const { project, projects, onUpdateProject } = this.props;
 
     // Can't move to this project because it's a descendant
-    if (isDescendant(project.id, value, projects)) {
+    if (isDescendant(project.id, parent, projects)) {
       return;
     }
 
     onUpdateProject({
       ...project,
-      parent: value,
+      parent,
     });
   };
 
