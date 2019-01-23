@@ -1,6 +1,6 @@
 {
     "name": "thyme",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "private": false,
     "homepage": "/",
     "scripts": {
@@ -18,8 +18,9 @@
         "build": "env-cmd .env.production react-scripts build && npm run add-sw-code && cp package.json build/package.json",
         "build:staging": "env-cmd .env.staging react-scripts build && npm run add-sw-code",
         "extensions": "webpack --config extension/webpack.config.js",
-        "zip:chrome": "rm -f extension/chrome/output/archive.zip && zip -r extension/chrome/output/archive.zip extension/chrome -x \"*/output*\" -x \"*.DS_Store\"",
-        "build:extensions": "NODE_ENV=production npm run extensions && npm run zip:chrome",
+        "zip:chrome": "cd ./extension/chrome && rm -f ./output/archive.zip && zip -r ./output/archive.zip . -x \"./output*\" -x \"*.DS_Store\" -x \"./src*\" && cd ../../",
+        "zip:firefox": "cd ./extension/firefox && rm -f ./output/archive.zip && zip -r ./output/archive.zip . -x \"./output*\" -x \"*.DS_Store\" -x \"./src*\" && cd ../../",
+        "build:extensions": "NODE_ENV=production npm run extensions && npm run zip:chrome && npm run zip:firefox",
         "start:extensions": "NODE_ENV=development npm run extensions -- --watch"
     },
     "dependencies": {
