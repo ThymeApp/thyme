@@ -30,6 +30,11 @@ function postMessage(msg: any) {
 }
 
 function onConnectApp(port) {
+  if (port.sender.url.indexOf(process.env.REACT_APP_TAB_URL) !== 0) {
+    console.log('Connection from invalid source');
+    return;
+  }
+
   function onChangeState(state: StateShape) {
     // update current state
     currentState = state;
