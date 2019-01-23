@@ -1,18 +1,19 @@
 // @flow
 
 import {
-  extensionConnected,
-  onChangeTimer,
-  onChangeState,
+  addEntry,
+  extensionConnected, onChangeState, onChangeTimer,
+  receiveTimer,
   startTimer,
   stopTimer,
-  receiveTimer,
-  addEntry,
 } from './events';
 
-const extensionId = process.env.REACT_APP_CHROME_EXTENSION_ID;
-
-const port = window.chrome.runtime.connect(extensionId);
+function postToExtension(msg: { type: string } & any) {
+  return window.postMessage({
+    from: 'page',
+    ...msg,
+  }, '*');
+}
 
 function handleMessage(msg: { type: string } & any) {
   switch (msg.type) {
@@ -36,25 +37,26 @@ function handleMessage(msg: { type: string } & any) {
   }
 }
 
-port.onMessage.addListener(handleMessage);
-
-function postMessage(msg: { type: string } & any) {
-  try {
-    port.postMessage(msg);
-  } catch (e) {
-    // fail silently
+window.addEventListener('message', (event) => {
+  if (
+    event.source === window
+    && event.data
+    && event.data.type
+    && event.data.from === 'content'
+  ) {
+    handleMessage(event.data);
   }
-}
+});
 
 onChangeTimer((timer) => {
-  postMessage({
+  postToExtension({
     type: 'changeTimer',
     entry: timer,
   });
 });
 
 onChangeState((state) => {
-  postMessage({
+  postToExtension({
     type: 'changeState',
     state,
   });
