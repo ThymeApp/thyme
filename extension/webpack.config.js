@@ -4,17 +4,8 @@ const getEnv = require('react-scripts/config/env');
 
 const env = getEnv();
 
-module.exports = [{
+const base = {
   mode: 'production',
-  context: path.resolve(__dirname, './chrome'),
-  entry: {
-    main: './src/main.js',
-    background: './src/background.js',
-  },
-  output: {
-    path: path.resolve(__dirname, './chrome/dist'),
-    publicPath: './dist/',
-  },
   resolve: {
     modules: ['node_modules', '../src'],
   },
@@ -51,4 +42,29 @@ module.exports = [{
   plugins: [
     new webpack.DefinePlugin(env.stringified),
   ],
+};
+
+module.exports = [{
+  ...base,
+  context: path.resolve(__dirname, './chrome'),
+  entry: {
+    main: './src/main.js',
+    background: './src/background.js',
+  },
+  output: {
+    path: path.resolve(__dirname, './chrome/dist'),
+    publicPath: './dist/',
+  },
+}, {
+  ...base,
+  context: path.resolve(__dirname, './firefox'),
+  entry: {
+    main: './src/main.js',
+    content: './src/content.js',
+    background: './src/background.js',
+  },
+  output: {
+    path: path.resolve(__dirname, './firefox/dist'),
+    publicPath: './dist/',
+  },
 }];
