@@ -43,6 +43,7 @@ function ProjectInput({
         fontSize: size === 'large' ? '1.14285714em' : '1em',
       }}
       onChange={(e: Event, project: { value: string | null }) => {
+        // if the project is new, don't emit handleChange
         if (project.value !== null && !projects.some(p => p.value === project.value)) {
           return;
         }
