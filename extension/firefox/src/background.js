@@ -1,7 +1,5 @@
 // @flow
 
-declare var browser: any;
-
 /* eslint-disable quote-props */
 const regularIcon = {
   '16': 'assets/icon-16x16.png',
@@ -111,7 +109,16 @@ function onConnectPopup(port) {
   onChangeStateListener(currentState);
 }
 
-browser.runtime.onConnect.addListener(onConnectApp);
-console.log('LISTEN TO POPUP CONNECTING');
+function onConnect(port) {
+  if (port.name === 'content') {
+    onConnectApp(port);
+  }
+
+  if (port.name === 'popup') {
+    onConnectPopup(port);
+  }
+}
+
+browser.runtime.onConnect.addListener(onConnect);
 
 browser.browserAction.setBadgeBackgroundColor({ color: '#ba2011' });

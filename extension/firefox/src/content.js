@@ -1,8 +1,6 @@
 // @flow
 
-declare var browser: any;
-
-const port = browser.runtime.connect();
+const port = browser.runtime.connect({ name: 'content' });
 
 function postToPage(msg: { type: string } & any) {
   return window.postMessage({
