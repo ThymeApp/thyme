@@ -93,7 +93,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
 
     onEntryCreate(entry);
 
-    this.onResetItem();
+    this.onResetItem(false);
   };
 
   onReceiveTimer = (entry: TempTimePropertyType) => {
