@@ -124,12 +124,8 @@ class New extends Component<NewEntryProps, NewEntryState> {
   onResetItem = (newItem: boolean) => {
     const { now } = this.props;
     const { entry } = this.state;
-    let newEntry;
-    if (newItem) {
-      newEntry = defaultState({ project: entry.project }, now);
-    } else {
-      newEntry = defaultState({}, now);
-    }
+
+    const newEntry = defaultState(newItem ? { project: entry.project } : {}, now);
 
     this.setState({
       tracking: false,
