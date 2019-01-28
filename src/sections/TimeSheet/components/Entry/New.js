@@ -93,7 +93,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
 
     onEntryCreate(entry);
 
-    this.onResetItem();
+    this.onResetItem(false);
   };
 
   onReceiveTimer = (entry: TempTimePropertyType) => {
@@ -121,14 +121,15 @@ class New extends Component<NewEntryProps, NewEntryState> {
     saveTemporaryItem(timer);
   };
 
-  onResetItem = () => {
+  onResetItem = (newItem: boolean) => {
     const { now } = this.props;
+    const { entry } = this.state;
 
-    const entry = defaultState({}, now);
+    const newEntry = defaultState(newItem ? { project: entry.project } : {}, now);
 
     this.setState({
       tracking: false,
-      entry,
+      entry: newEntry,
     });
 
     // communicate change of timer

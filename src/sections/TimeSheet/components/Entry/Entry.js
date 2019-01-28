@@ -41,7 +41,7 @@ type EntryProps = {
   onStart?: () => void;
   onStop?: () => void;
   onAdd?: (entry: TimePropertyType) => void;
-  onResetItem?: () => void;
+  onResetItem?: (newItem: boolean) => void;
   onAddNewProject?: (project: string, entry: TimeType | TimePropertyType) => string;
   onRemove?: (entry: TimeType | TimePropertyType) => void;
 };
@@ -134,7 +134,7 @@ class Entry extends Component<EntryProps, EntryState> {
         this.dateInput.focus();
       }
 
-      this.resetItem();
+      this.resetItem(true);
     }
   };
 
@@ -156,13 +156,13 @@ class Entry extends Component<EntryProps, EntryState> {
   };
 
   onClearItem = () => {
-    this.resetItem();
+    this.resetItem(false);
   };
 
-  resetItem() {
+  resetItem(newItem: boolean) {
     const { onResetItem } = this.props;
 
-    if (onResetItem) onResetItem();
+    if (onResetItem) onResetItem(newItem);
   }
 
   updateEntry(newState: any) {
