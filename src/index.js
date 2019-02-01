@@ -22,7 +22,7 @@ import runMigrations from './migrations';
 
 import App from './components/App';
 import Routes from './Routes';
-import { register } from './serviceWorker';
+import { register, unregister } from './serviceWorker';
 
 import { registerStore } from './register/reducer';
 import loadPlugins from './plugins/load';
@@ -54,8 +54,8 @@ ReactDOM.render(
 loadPlugins(store.dispatch);
 
 register({
-  onUpdate(registration) {
+  onUpdate() {
+    unregister();
     store.dispatch(updateAvailable());
-    registration.unregister();
   },
 });
