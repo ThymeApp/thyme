@@ -1,6 +1,6 @@
 {
     "name": "thyme",
-    "version": "1.7.2",
+    "version": "1.7.3",
     "private": false,
     "homepage": "/",
     "scripts": {
@@ -14,9 +14,8 @@
         "lint:js": "eslint \"./+(src|scripts)/**/*.js\"",
         "lint": "npm run lint:js && npm run lint:css",
         "flow": "flow",
-        "add-sw-code": "cat ./src/custom-sw.js >> ./build/service-worker.js",
-        "build": "env-cmd .env.production react-scripts build && npm run add-sw-code && cp package.json build/package.json",
-        "build:staging": "env-cmd .env.staging react-scripts build && npm run add-sw-code",
+        "build": "env-cmd .env.production react-scripts build && cp package.json build/package.json",
+        "build:staging": "env-cmd .env.staging react-scripts build",
         "extensions": "webpack --config extension/webpack.config.js",
         "zip:chrome": "cd ./extension/chrome && rm -f ./output/archive.zip && zip -r ./output/archive.zip . -x \"./output*\" -x \"*.DS_Store\" -x \"./src*\" && cd ../../",
         "zip:firefox": "cd ./extension/firefox && rm -f ./output/archive.zip && zip -r ./output/archive.zip . -x \"./output*\" -x \"*.DS_Store\" -x \"./src*\" && cd ../../",

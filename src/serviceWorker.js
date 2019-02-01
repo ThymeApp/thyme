@@ -83,7 +83,6 @@ function registerValidSW(swUrl, config) {
 
               // Execute update callback
               if (config && config.onUpdate) {
-                navigator.serviceWorker.controller.postMessage('skipWaiting');
                 config.onUpdate(registration);
               }
             } else {
@@ -135,9 +134,25 @@ function checkValidServiceWorker(swUrl, config) {
 }
 
 export function unregister(cb = () => {}) {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then(registration => {
-      registration.unregister().then(cb);
-    });
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.getRegistrations()
+      .then(registrations => {
+        Promise.all(
+          registrations.map(registration => {
+            console.log(`Removing ${registration.active.scriptURL}`);
+
+            return registration.unregister()
+              .then(done => {
+                if (done) {
+                  console.log(`Unregistered ${registration.active.scriptURL}`);
+                } else {
+                  console.log(`Could not unregister ${registration.active.scriptURL}`);
+                }
+
+                return done;
+              });
+          })
+        ).then(cb);
+      });
   }
 }
