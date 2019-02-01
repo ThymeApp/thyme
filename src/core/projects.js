@@ -44,29 +44,42 @@ function getProjectTree(
   return projectNames;
 }
 
-export function sortProjects(projects: Array<ProjectType>): Array<ProjectTreeType> {
-  const named = projects
-    .map(project => ({
-      ...project,
-      nameTree: getProjectTree(project, projects),
+export function sortProjects(
+  projects: Array<ProjectType>,
+  project: ?ProjectType,
+): Array<ProjectTreeType> {
+  let sortedByName = projects;
+
+  if (!project) {
+    sortedByName = [...projects];
+
+    sortedByName.sort((a, b) => {
+      if (a.name > b.name) {
+        return 1;
+      }
+
+      if (a.name < b.name) {
+        return -1;
+      }
+
+      return 0;
+    });
+  }
+
+  const parent = (project && project.id) || null;
+
+  return sortedByName
+    .filter(item => item.parent === parent)
+    .reduce((acc, item) => [
+      ...acc,
+      item,
+      ...sortProjects(sortedByName, item),
+    ], [])
+    .filter(item => !!item)
+    .map(item => ({
+      ...item,
+      nameTree: getProjectTree(item, projects),
     }));
-
-  named.sort((a, b) => {
-    const atree = a.nameTree.join('');
-    const btree = b.nameTree.join('');
-
-    if (atree > btree) {
-      return 1;
-    }
-
-    if (atree < btree) {
-      return -1;
-    }
-
-    return 0;
-  });
-
-  return named;
 }
 
 export function treeDisplayName(

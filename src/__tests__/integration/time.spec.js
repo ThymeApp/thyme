@@ -187,6 +187,7 @@ describe('TimeTable', () => {
           1: {
             id: 1,
             name: 'Project name',
+            parent: null,
           },
         },
       },
