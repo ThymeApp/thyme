@@ -20,6 +20,7 @@ import {
   queryStringTo,
   updateReport,
 } from 'core/reportQueryString';
+import { treeDisplayName } from 'core/projects';
 
 import { create as createTable } from 'register/table';
 import { render as renderComponent } from 'register/component';
@@ -161,16 +162,14 @@ class Reports extends Component<ReportsProps, ReportsState> {
       loadOpened,
     } = this.state;
 
+    const projectsWithTime = projects.filter(project => project.time > 0);
+
     const reportTable = createTable(
       'reports', [
         {
           name: 'Project',
           header: () => 'Project',
-          row: (project: ProjectTreeWithTimeType) => (
-            <div style={{ paddingLeft: (project.nameTree.length - 1) * 20 }}>
-              {project.name}
-            </div>
-          ),
+          row: (project: ProjectTreeWithTimeType) => treeDisplayName(project),
         },
         {
           name: 'Total spent',
@@ -184,7 +183,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
           style: { whiteSpace: 'nowrap' },
         },
       ],
-      projects,
+      projectsWithTime,
     );
 
     return (
@@ -214,7 +213,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
           <BuyMessage>Want more insights in your day to day tracked time?</BuyMessage>
         )}
         {renderComponent('reports.afterCharts', this.props)}
-        {projects.length > 0 && (
+        {projectsWithTime.length > 0 && (
           <ReportFilters
             projects={allProjects}
             filters={filters}
@@ -222,7 +221,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
             onToggleProject={this.onToggleFilter}
           />
         )}
-        {projects.length > 0 && reportTable.table}
+        {projectsWithTime.length > 0 && reportTable.table}
         <ReportDetailed
           round={detailedRound}
           roundAmount={roundAmount}
