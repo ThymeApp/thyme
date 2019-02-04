@@ -96,6 +96,7 @@ declare type ProjectProps = {
 };
 
 declare type ProjectType = {
+  archived?: boolean;
   removed?: boolean;
   createdAt: string;
   updatedAt: string;

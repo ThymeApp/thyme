@@ -11,7 +11,7 @@ import BuyMessage from 'components/BuySubscription/Message';
 
 import { hasPremium, isLoaded } from 'sections/Account/selectors';
 
-import { sortedProjects } from './selectors';
+import { allSortedProjects } from './selectors';
 
 import NewProject from './components/NewProject';
 import ProjectsList from './components/ProjectsList';
@@ -40,7 +40,7 @@ function Projects({ projects, showUpgrade }: ProjectsProps) {
 
 function mapStateToProps(state) {
   return {
-    projects: sortedProjects(state),
+    projects: allSortedProjects(state),
     showUpgrade: !hasPremium(state) && isLoaded(state),
   };
 }

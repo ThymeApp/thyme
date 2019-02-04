@@ -24,6 +24,13 @@ export function removeProject(id: string) {
   };
 }
 
+export function archiveProject(id: string) {
+  return {
+    type: 'ARCHIVE_PROJECT',
+    id,
+  };
+}
+
 export function truncateProjects() {
   return { type: 'TRUNCATE_PROJECTS' };
 }

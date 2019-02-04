@@ -23,3 +23,7 @@
   font-size: 1.3em;
   margin: 2em 0;
 }
+
+.ProjectList__item--archived {
+  opacity: 0.5;
+}
