@@ -14,7 +14,7 @@ import format from 'date-fns/format';
 import differenceInMinutes from 'date-fns/difference_in_minutes';
 import addMinutes from 'date-fns/add_minutes';
 
-type HasStart = { start: Date | string };
+type HasStart = { start: Date };
 
 export const sortByTime = (dateSort: SortDirection) => (a: HasStart, b: HasStart) => {
   if (
