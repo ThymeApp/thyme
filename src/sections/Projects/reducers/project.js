@@ -34,7 +34,7 @@ function name(state = '', action) {
 function archived(state = false, action) {
   switch (action.type) {
     case 'ARCHIVE_PROJECT':
-      return true;
+      return !state;
     default:
       return state;
   }

@@ -2,6 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
@@ -34,25 +35,14 @@ export type ProjectItemProps = {
   showAlert: (message: string) => void;
 };
 
+type confirmNames = '' | 'remove' | 'archive';
+
 type ProjectItemState = {
-  confirmDelete: '' | 'remove' | 'archive',
+  confirmDelete: confirmNames,
 };
 
 class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
   state = { confirmDelete: '' };
-
-  confirms = {
-    remove: {
-      text: 'Are you sure you want to remove this project?',
-      buttonText: 'Remove project',
-      onConfirm: () => this.onRemoveProject(),
-    },
-    archive: {
-      text: 'Do you want to archive this project?',
-      buttonText: 'Archive project',
-      onConfirm: () => this.onArchiveProject(),
-    },
-  };
 
   onChangeName = (e: Event) => {
     const { project, onUpdateProject } = this.props;
@@ -108,6 +98,33 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
 
   onCancelConfirm = () => this.setState({ confirmDelete: '' });
 
+  confirmOptions(name: confirmNames) {
+    const { project } = this.props;
+
+    if (name === '') {
+      return {
+        text: '',
+        buttonText: '',
+        onConfirm: () => {},
+      };
+    }
+
+    const confirms = {
+      remove: {
+        text: 'Are you sure you want to remove this project?',
+        buttonText: 'Remove project',
+        onConfirm: () => this.onRemoveProject(),
+      },
+      archive: {
+        text: `Do you want to ${project.archived ? 'unarchive' : 'archive'} this project?`,
+        buttonText: project.archived ? 'Unarchive project' : 'Archive project',
+        onConfirm: () => this.onArchiveProject(),
+      },
+    };
+
+    return confirms[name];
+  }
+
   render() {
     const {
       project,
@@ -124,11 +141,13 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
       />
     );
 
+    const archiveText = project.archived ? 'Unarchive project' : 'Archive project';
+
     const ArchiveButton = (
       <Button icon onClick={this.onArchiveEntry}>
         <Icon name="archive" />
         <Responsive max="tablet">
-          {isMobile => (isMobile ? 'Archive project' : '')}
+          {isMobile => (isMobile ? archiveText : '')}
         </Responsive>
       </Button>
     );
@@ -142,11 +161,13 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
       </Button>
     );
 
+    const confirmOptions = this.confirmOptions(confirmDelete);
+
     return (
       <Fragment>
         <Responsive max="tablet">
           {isMobile => (
-            <Table.Row className="ProjectList__item ui form">
+            <Table.Row className={classnames('ProjectList__item ui form', { 'ProjectList__item--archived': !!project.archived })}>
               <Table.Cell className={`ProjectList__level-${level} field`}>
                 {isMobile ? (
                   <Fragment>
@@ -184,7 +205,7 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
                   <Popup
                     inverted
                     trigger={ArchiveButton}
-                    content="Archive project"
+                    content={archiveText}
                   />
                 )}
               </Table.Cell>
@@ -200,11 +221,11 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
                 )}
                 <Confirm
                   open={confirmDelete !== ''}
-                  content={confirmDelete !== '' ? this.confirms[confirmDelete].text : ''}
-                  confirmButton={confirmDelete !== '' ? this.confirms[confirmDelete].buttonText : ''}
+                  content={confirmOptions.text}
+                  confirmButton={confirmOptions.buttonText}
                   size="mini"
                   onCancel={this.onCancelConfirm}
-                  onConfirm={confirmDelete !== '' ? this.confirms[confirmDelete].onConfirm : () => {}}
+                  onConfirm={confirmOptions.onConfirm}
                 />
               </Table.Cell>
             </Table.Row>
