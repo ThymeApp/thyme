@@ -146,7 +146,6 @@ class Reports extends Component<ReportsProps, ReportsState> {
 
   render() {
     const {
-      allProjects,
       filters,
       projects,
       from,
@@ -215,7 +214,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
         {renderComponent('reports.afterCharts', this.props)}
         {projectsWithTime.length > 0 && (
           <ReportFilters
-            projects={allProjects}
+            projects={projectsWithTime}
             filters={filters}
             columnFilters={reportTable.filters}
             onToggleProject={this.onToggleFilter}
