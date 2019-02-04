@@ -84,6 +84,7 @@ function registerValidSW(swUrl, config) {
               // Execute update callback
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
+                registration.waiting.postMessage('skipWaiting');
               }
             } else {
               // At this point, everything has been precached.
@@ -140,6 +141,8 @@ export function unregister(cb = () => {}) {
         Promise.all(
           registrations.map(registration => {
             console.log(`Removing ${registration.active.scriptURL}`);
+
+            registration.waiting.postMessage('skipWaiting');
 
             return registration.unregister()
               .then(done => {
