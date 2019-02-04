@@ -31,6 +31,15 @@ function name(state = '', action) {
   }
 }
 
+function archived(state = false, action) {
+  switch (action.type) {
+    case 'ARCHIVE_PROJECT':
+      return true;
+    default:
+      return state;
+  }
+}
+
 function removed(state = false, action) {
   switch (action.type) {
     case 'TRUNCATE_PROJECTS':
@@ -64,6 +73,7 @@ export default () => create('projects.project', {
   id,
   parent,
   name,
+  archived,
   removed,
   createdAt,
   updatedAt,
