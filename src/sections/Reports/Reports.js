@@ -183,7 +183,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
           style: { whiteSpace: 'nowrap' },
         },
       ],
-      projects,
+      projectsWithTime,
     );
 
     return (
@@ -213,7 +213,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
           <BuyMessage>Want more insights in your day to day tracked time?</BuyMessage>
         )}
         {renderComponent('reports.afterCharts', this.props)}
-        {projects.length > 0 && (
+        {projectsWithTime.length > 0 && (
           <ReportFilters
             projects={allProjects}
             filters={filters}
@@ -221,7 +221,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
             onToggleProject={this.onToggleFilter}
           />
         )}
-        {projects.length > 0 && reportTable.table}
+        {projectsWithTime.length > 0 && reportTable.table}
         <ReportDetailed
           round={detailedRound}
           roundAmount={roundAmount}
