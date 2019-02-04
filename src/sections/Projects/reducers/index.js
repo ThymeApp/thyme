@@ -8,6 +8,7 @@ const byId = project => (state = {}, action) => {
   switch (action.type) {
     case 'ADD_PROJECT':
     case 'UPDATE_PROJECT':
+    case 'ARCHIVE_PROJECT':
     case 'REMOVE_PROJECT':
       return {
         ...state,
