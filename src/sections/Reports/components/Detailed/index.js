@@ -5,7 +5,7 @@ import format from 'date-fns/format';
 
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 
-import { timeElapsed } from 'core/thyme';
+import { sortByTime, timeElapsed } from 'core/thyme';
 import { treeDisplayName } from 'core/projects';
 
 import { create as createTable } from 'register/table';
@@ -22,6 +22,8 @@ type ReportDetailedType = {
 type ReportDetailedState = {
   opened: boolean;
 };
+
+const sortAsc = sortByTime('asc');
 
 class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> {
   state = {
@@ -43,13 +45,15 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
     } = this.props;
     const { opened } = this.state;
 
-    const rows = projects.reduce((acc, project) => [
-      ...acc,
-      ...project.entries.map(entry => ({
-        ...entry,
-        project,
-      })),
-    ], []);
+    const rows = projects
+      .reduce((acc, project) => [
+        ...acc,
+        ...project.entries.map(entry => ({
+          ...entry,
+          project,
+        })),
+      ], [])
+      .sort(sortAsc);
 
     if (rows.length === 0) {
       return null;
