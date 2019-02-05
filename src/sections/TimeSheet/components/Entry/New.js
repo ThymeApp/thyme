@@ -96,7 +96,9 @@ class New extends Component<NewEntryProps, NewEntryState> {
     this.onResetItem(false);
   };
 
-  onReceiveTimer = (entry: TempTimePropertyType) => {
+  onReceiveTimer = (
+    { entry, emitChange }: { entry: TempTimePropertyType, emitChange: boolean },
+  ) => {
     const { tracking } = entry;
     const newEntry = {
       start: entry.start,
@@ -105,22 +107,22 @@ class New extends Component<NewEntryProps, NewEntryState> {
       notes: entry.notes,
     };
 
-    this.onUpdateItem(newEntry, tracking);
+    this.onUpdateItem(newEntry, tracking, emitChange);
   };
 
-  onUpdateItem = (entry: TimePropertyType, tracking: boolean) => {
+  onUpdateItem = (entry: TimePropertyType, tracking: boolean, emitChange: boolean = true) => {
     const timer = { ...entry, tracking };
 
     // update local state
     this.setState({ entry, tracking });
 
-    // communicate to extensions
-    changeTimer(timer);
-
     // save temporary state to localStorage
     saveTemporaryItem(timer);
 
-    // @TODO save on server
+    if (emitChange) {
+      // communicate to extensions
+      changeTimer(timer);
+    }
   };
 
   onResetItem = (newItem: boolean) => {
@@ -183,7 +185,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
         end: new Date(),
       };
 
-      this.onUpdateItem(entry, tracking);
+      this.onUpdateItem(entry, tracking, false);
 
       // update state of component
       this.setState({ entry });

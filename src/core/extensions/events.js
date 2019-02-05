@@ -27,8 +27,8 @@ export function changeState(state: StateShape) {
   );
 }
 
-export function receiveTimer(entry: TempTimePropertyType) {
-  emitter.emit('receiveTimer', entry);
+export function receiveTimer(entry: TempTimePropertyType, emitChange: boolean = true) {
+  emitter.emit('receiveTimer', { entry, emitChange });
 }
 
 export function startTimer() {
