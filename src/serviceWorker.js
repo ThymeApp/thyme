@@ -23,7 +23,11 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if (
+    process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator
+    // disable in Firefox
+    && navigator.userAgent.toLowerCase().indexOf('firefox') === -1
+  ) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
