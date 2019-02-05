@@ -119,6 +119,8 @@ class New extends Component<NewEntryProps, NewEntryState> {
 
     // save temporary state to localStorage
     saveTemporaryItem(timer);
+
+    // @TODO save on server
   };
 
   onResetItem = (newItem: boolean) => {
