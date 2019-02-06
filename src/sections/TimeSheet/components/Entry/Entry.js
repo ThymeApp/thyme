@@ -34,6 +34,7 @@ type EntryProps = {
   enabledProjects: boolean;
   enabledEndDate: boolean;
   onUpdate: (entry: TimeType | TimePropertyType, tracking: boolean) => void;
+  disabled?: boolean;
   tracking?: boolean;
   isNew?: boolean;
   round?: Rounding;
@@ -201,6 +202,7 @@ class Entry extends Component<EntryProps, EntryState> {
       enabledNotes,
       enabledProjects,
       enabledEndDate,
+      disabled,
       isNew,
       onStart,
       onStop,
@@ -224,6 +226,7 @@ class Entry extends Component<EntryProps, EntryState> {
 
     const StartDate = (
       <DateInput
+        disabled={disabled}
         setRef={this.onSetDateInputRef}
         onKeyPress={this.onKeyPress}
         onChange={this.onStartDateChange}
@@ -234,6 +237,7 @@ class Entry extends Component<EntryProps, EntryState> {
 
     const StartTime = (
       <TimeInput
+        disabled={disabled}
         onKeyPress={this.onKeyPress}
         onChange={this.onStartTimeChange}
         size={size}
@@ -243,6 +247,7 @@ class Entry extends Component<EntryProps, EntryState> {
 
     const EndDate = enabledEndDate ? (
       <DateInput
+        disabled={disabled}
         setRef={this.onSetDateInputRef}
         onKeyPress={this.onKeyPress}
         onChange={this.onEndDateChange}
@@ -253,6 +258,7 @@ class Entry extends Component<EntryProps, EntryState> {
 
     const EndTime = (
       <TimeInput
+        disabled={disabled}
         onKeyPress={this.onKeyPress}
         onChange={this.onEndTimeChange}
         size={size}
@@ -279,6 +285,7 @@ class Entry extends Component<EntryProps, EntryState> {
         value={project}
         size={size}
         onAddItem={onAddNewProject && this.onAddNewProject}
+        disabled={disabled}
         handleChange={this.onProjectChange}
       />
     ) : null;
@@ -288,6 +295,7 @@ class Entry extends Component<EntryProps, EntryState> {
         size={size}
         onKeyPress={this.onKeyPress}
         onChange={this.onNotesChange}
+        disabled={disabled}
         value={notes}
       />
     ) : null;
@@ -300,6 +308,7 @@ class Entry extends Component<EntryProps, EntryState> {
               icon
               color="blue"
               onClick={tracking ? onStop : onStart}
+              disabled={disabled}
               labelPosition="left"
             >
               <Icon name={tracking ? 'pause' : 'play'} />
@@ -309,6 +318,7 @@ class Entry extends Component<EntryProps, EntryState> {
               className="EntrySubmit"
               icon
               onClick={this.onAddEntry}
+              disabled={disabled}
               labelPosition="left"
             >
               <Icon name="add" />
@@ -323,6 +333,7 @@ class Entry extends Component<EntryProps, EntryState> {
                 <Button
                   icon
                   color="blue"
+                  disabled={disabled}
                   onClick={tracking ? onStop : onStart}
                 >
                   <Icon name={tracking ? 'pause' : 'play'} />
@@ -335,7 +346,7 @@ class Entry extends Component<EntryProps, EntryState> {
               trigger={(
                 <Button
                   icon
-                  disabled={tracking}
+                  disabled={tracking || disabled}
                   onClick={this.onClearItem}
                 >
                   <Icon name="redo" />
@@ -350,6 +361,7 @@ class Entry extends Component<EntryProps, EntryState> {
                   className="EntrySubmit"
                   icon
                   color="grey"
+                  disabled={disabled}
                   onClick={this.onAddEntry}
                 >
                   <Icon name="add" />
@@ -365,7 +377,7 @@ class Entry extends Component<EntryProps, EntryState> {
         {maxTablet => (
           <Button.Group size={maxTablet ? 'large' : 'small'}>
             {maxTablet ? (
-              <Button icon onClick={this.onOpenConfirm} labelPosition="left">
+              <Button icon onClick={this.onOpenConfirm} disabled={disabled} labelPosition="left">
                 <Icon name="remove" />
                 Remove entry
               </Button>
@@ -373,7 +385,7 @@ class Entry extends Component<EntryProps, EntryState> {
               <Popup
                 inverted
                 trigger={(
-                  <Button icon onClick={this.onOpenConfirm}>
+                  <Button icon disabled={disabled} onClick={this.onOpenConfirm}>
                     <Icon name="remove" />
                   </Button>
                 )}
@@ -410,7 +422,7 @@ class Entry extends Component<EntryProps, EntryState> {
     );
 
     const CompactEntry = (
-      <Form className={classnames('Entry', { 'Entry--tracking': tracking })}>
+      <Form className={classnames('Entry', { 'Entry--tracking': tracking })} disabled={disabled}>
         <div className="EntryDuration">
           <Icon name="stopwatch" color={tracking ? 'blue' : 'black'} />
           {Duration}

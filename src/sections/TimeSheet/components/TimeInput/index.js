@@ -7,6 +7,7 @@ import ChangeOnBlurInput from 'components/ChangeOnBlurInput';
 type TimeInputType = {
   value: string;
   size: string;
+  disabled?: boolean;
   onChange: (time: string) => void;
   onKeyPress: (e: KeyboardEvent) => void;
 }
@@ -14,6 +15,7 @@ type TimeInputType = {
 function TimeInput({
   value,
   size,
+  disabled,
   onChange,
   onKeyPress,
 }: TimeInputType) {
@@ -21,6 +23,7 @@ function TimeInput({
     <ChangeOnBlurInput
       type="time"
       value={value}
+      disabled={disabled}
       onChange={onChange}
       onKeyPress={onKeyPress}
       size={size}

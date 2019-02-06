@@ -7,6 +7,7 @@ import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 type NotesInputType = {
   value: string;
   size: string;
+  disabled?: boolean;
   onChange: (e: Event) => void;
   onKeyPress: (e: KeyboardEvent) => void;
 };
@@ -14,6 +15,7 @@ type NotesInputType = {
 function NotesInput({
   value,
   size,
+  disabled,
   onChange,
   onKeyPress,
 }: NotesInputType) {
@@ -22,6 +24,7 @@ function NotesInput({
       type="text"
       onChange={onChange}
       value={value}
+      disabled={disabled}
       onKeyPress={onKeyPress}
       size={size || 'small'}
       style={{ width: '100%' }}
