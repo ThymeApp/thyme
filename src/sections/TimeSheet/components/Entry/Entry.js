@@ -267,7 +267,7 @@ class Entry extends Component<EntryProps, EntryState> {
     );
 
     const Duration = (
-      <Fragment>
+      <span className={classnames('Duration', { 'Duration--disabled': disabled })}>
         {hours}
         :
         {minutes}
@@ -277,7 +277,7 @@ class Entry extends Component<EntryProps, EntryState> {
             {seconds}
           </Fragment>
         )}
-      </Fragment>
+      </span>
     );
 
     const Project = enabledProjects ? (

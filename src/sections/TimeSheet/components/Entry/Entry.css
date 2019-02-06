@@ -5,6 +5,10 @@
   border-color: #85b7d9;
 }
 
+.Duration--disabled {
+  opacity: 0.3;
+}
+
 .Entry {
   margin: 2rem 0;
   padding-bottom: 1rem;
