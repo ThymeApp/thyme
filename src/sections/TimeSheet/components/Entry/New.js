@@ -28,7 +28,6 @@ import Entry from './Entry';
 
 type NewEntryProps = {
   now: Date;
-  entry?: TempTimePropertyType;
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
@@ -37,6 +36,7 @@ type NewEntryProps = {
 };
 
 type NewEntryState = {
+  fetching: boolean;
   entry: TimePropertyType;
   tracking: boolean;
 };
@@ -56,11 +56,10 @@ class New extends Component<NewEntryProps, NewEntryState> {
   constructor(props: NewEntryProps) {
     super(props);
 
-    const tempEntry = props.entry || loadTemporaryItem();
-
     this.state = {
-      entry: defaultState(tempEntry, props.now),
-      tracking: Boolean(tempEntry && tempEntry.tracking),
+      fetching: true,
+      entry: defaultState({}, props.now),
+      tracking: false,
     };
   }
 
@@ -86,6 +85,18 @@ class New extends Component<NewEntryProps, NewEntryState> {
     offStopTimer(this.onStopTimeTracking);
     offReceiveTimer(this.onReceiveTimer);
     offAddEntry(this.onAddItem);
+  }
+
+  onReceiveTempItem() {
+    const { now } = this.props;
+
+    const tempEntry = loadTemporaryItem();
+
+    this.state = {
+      fetching: true,
+      entry: defaultState(tempEntry, now),
+      tracking: Boolean(tempEntry && tempEntry.tracking),
+    };
   }
 
   onAddItem = (entry: TimePropertyType) => {
@@ -215,10 +226,11 @@ class New extends Component<NewEntryProps, NewEntryState> {
       onEntryCreate,
       onAddNewProject,
     } = this.props;
-    const { entry, tracking } = this.state;
+    const { entry, tracking, fetching } = this.state;
 
     return (
       <Entry
+        disabled={fetching}
         round="none"
         now={now}
         entry={entry}
