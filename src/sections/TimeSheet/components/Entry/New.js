@@ -116,10 +116,10 @@ class New extends Component<NewEntryProps, NewEntryState> {
     // update local state
     this.setState({ entry, tracking });
 
-    // save temporary state to localStorage
-    saveTemporaryItem(timer);
-
     if (emitChange) {
+      // save temporary state to localStorage
+      saveTemporaryItem(timer);
+
       // communicate to extensions
       changeTimer(timer);
     }
