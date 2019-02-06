@@ -48,4 +48,6 @@ function startSocketConnection(socket: Socket) {
   });
 }
 
-startSocketConnection(io(process.env.REACT_APP_API_ROOT));
+if (process.env.REACT_APP_API_ROOT) {
+  startSocketConnection(io(process.env.REACT_APP_API_ROOT));
+}

@@ -121,14 +121,19 @@ class New extends Component<NewEntryProps, NewEntryState> {
     // update local state
     this.setState({ entry, tracking });
 
+    const storedTimer = {
+      ...timer,
+      updatedAt: +new Date(),
+    };
+
     if (saveTemporary) {
       // save temporary state to localStorage
-      saveTemporaryItem(timer);
+      saveTemporaryItem(storedTimer);
     }
 
     if (emitChange) {
       // communicate to extensions
-      changeTimer(timer);
+      changeTimer(storedTimer);
     }
   };
 
