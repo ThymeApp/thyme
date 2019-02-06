@@ -209,10 +209,14 @@ class New extends Component<NewEntryProps, NewEntryState> {
   resolveTemporaryItem() {
     const { loggedIn } = this.props;
 
+    const tempItem = loadTemporaryItem();
+
     if (!loggedIn) {
-      this.applyTemporaryItem(loadTemporaryItem());
+      this.applyTemporaryItem(tempItem);
     } else {
-      getTemporaryItem().then(this.onReceiveTempItem);
+      getTemporaryItem()
+        .then(this.onReceiveTempItem)
+        .catch(() => this.applyTemporaryItem(tempItem));
     }
   }
 
