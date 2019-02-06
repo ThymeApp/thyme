@@ -114,6 +114,7 @@ declare type TimePropertyType = {
 
 declare type TempTimePropertyType = {
   tracking: boolean;
+  updatedAt: number;
 } & TimePropertyType;
 
 declare type TimeType = {

@@ -22,12 +22,17 @@ import {
   offReceiveTimer,
 } from 'core/extensions/events';
 
+import { isLoggedIn } from 'sections/Account/selectors';
+
 import { addTime } from '../../actions';
+
+import { getTemporaryItem } from '../../api';
 
 import Entry from './Entry';
 
 type NewEntryProps = {
   now: Date;
+  loggedIn: boolean;
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
@@ -64,17 +69,15 @@ class New extends Component<NewEntryProps, NewEntryState> {
   }
 
   componentDidMount() {
-    const { entry, tracking } = this.state;
-
     this.tickInterval = setInterval(this.tickTimer.bind(this), 1000);
-
-    changeTimer({ tracking, ...entry });
 
     // register listeners
     onStartTimer(this.onStartTimeTracking);
     onStopTimer(this.onStopTimeTracking);
     onReceiveTimer(this.onReceiveTimer);
     onAddEntry(this.onAddItem);
+
+    this.resolveTemporaryItem();
   }
 
   componentWillUnmount() {
@@ -85,18 +88,6 @@ class New extends Component<NewEntryProps, NewEntryState> {
     offStopTimer(this.onStopTimeTracking);
     offReceiveTimer(this.onReceiveTimer);
     offAddEntry(this.onAddItem);
-  }
-
-  onReceiveTempItem() {
-    const { now } = this.props;
-
-    const tempEntry = loadTemporaryItem();
-
-    this.state = {
-      fetching: true,
-      entry: defaultState(tempEntry, now),
-      tracking: Boolean(tempEntry && tempEntry.tracking),
-    };
   }
 
   onAddItem = (entry: TimePropertyType) => {
@@ -199,6 +190,46 @@ class New extends Component<NewEntryProps, NewEntryState> {
     });
   };
 
+  onReceiveTempItem = (entry) => {
+    const tempEntry = loadTemporaryItem();
+
+    if (!tempEntry || !tempEntry.updatedAt) {
+      this.applyTemporaryItem(entry || {});
+      return;
+    }
+
+    if (!entry || !entry.updatedAt) {
+      this.applyTemporaryItem(tempEntry);
+      return;
+    }
+
+    this.applyTemporaryItem(isBefore(tempEntry.updatedAt, entry.updatedAt) ? entry : tempEntry);
+  };
+
+  resolveTemporaryItem() {
+    const { loggedIn } = this.props;
+
+    if (!loggedIn) {
+      this.applyTemporaryItem(loadTemporaryItem());
+    } else {
+      getTemporaryItem().then(this.onReceiveTempItem);
+    }
+  }
+
+  applyTemporaryItem(entry) {
+    const { now } = this.props;
+
+    const tracking = Boolean(entry && entry.tracking);
+
+    this.setState({
+      fetching: false,
+      entry: defaultState(entry, now),
+      tracking,
+    });
+
+    changeTimer({ tracking, ...entry });
+  }
+
   tickTimer() {
     const { tracking, entry: stateEntry } = this.state;
 
@@ -250,6 +281,12 @@ class New extends Component<NewEntryProps, NewEntryState> {
   }
 }
 
+function mapStateToProps(state: StateShape) {
+  return {
+    loggedIn: isLoggedIn(state),
+  };
+}
+
 function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     onEntryCreate(entry: TimePropertyType) {
@@ -261,4 +298,4 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(New);
+export default connect(mapStateToProps, mapDispatchToProps)(New);
