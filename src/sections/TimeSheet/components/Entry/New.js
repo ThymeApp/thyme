@@ -110,16 +110,23 @@ class New extends Component<NewEntryProps, NewEntryState> {
     this.onUpdateItem(newEntry, tracking, emitChange);
   };
 
-  onUpdateItem = (entry: TimePropertyType, tracking: boolean, emitChange: boolean = true) => {
+  onUpdateItem = (
+    entry: TimePropertyType,
+    tracking: boolean,
+    emitChange: boolean = true,
+    saveTemporary: boolean = true,
+  ) => {
     const timer = { ...entry, tracking };
 
     // update local state
     this.setState({ entry, tracking });
 
-    if (emitChange) {
+    if (saveTemporary) {
       // save temporary state to localStorage
       saveTemporaryItem(timer);
+    }
 
+    if (emitChange) {
       // communicate to extensions
       changeTimer(timer);
     }
@@ -185,7 +192,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
         end: new Date(),
       };
 
-      this.onUpdateItem(entry, tracking, false);
+      this.onUpdateItem(entry, tracking, false, false);
 
       // update state of component
       this.setState({ entry });
