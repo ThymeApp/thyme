@@ -16,6 +16,7 @@ import addDays from 'date-fns/add_days';
 import parseJwt from 'core/jwt';
 import { mergeImport, stateToExport } from 'core/importExport';
 import { saveState } from 'core/localStorage';
+import { userLogin } from 'core/extensions/events';
 
 import { importJSONData } from 'actions/app';
 
@@ -62,6 +63,8 @@ export const checkTokenEpic = (action$: ActionsObservable, state$: StateObservab
 export const fetchStateEpic = (action$: ActionsObservable, state$: StateObservable) => action$.pipe(
   ofType('ACCOUNT_RECEIVE_INFORMATION'),
   mergeMap(() => {
+    userLogin();
+
     if (!hasPremium(state$.value)) {
       return Promise.resolve(false);
     }

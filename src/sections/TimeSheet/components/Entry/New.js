@@ -20,6 +20,8 @@ import {
   offAddEntry,
   onReceiveTimer,
   offReceiveTimer,
+  onUserLogin,
+  offUserLogin,
 } from 'core/extensions/events';
 
 import { isLoggedIn } from 'sections/Account/selectors';
@@ -62,7 +64,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
     super(props);
 
     this.state = {
-      fetching: true,
+      fetching: false,
       entry: defaultState({}, props.now),
       tracking: false,
     };
@@ -76,7 +78,9 @@ class New extends Component<NewEntryProps, NewEntryState> {
     onStopTimer(this.onStopTimeTracking);
     onReceiveTimer(this.onReceiveTimer);
     onAddEntry(this.onAddItem);
+    onUserLogin(this.resolveTemporaryItem);
 
+    // automatically resolve item
     this.resolveTemporaryItem();
   }
 
@@ -88,6 +92,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
     offStopTimer(this.onStopTimeTracking);
     offReceiveTimer(this.onReceiveTimer);
     offAddEntry(this.onAddItem);
+    offUserLogin(this.resolveTemporaryItem);
   }
 
   onAddItem = (entry: TimePropertyType) => {
@@ -206,7 +211,14 @@ class New extends Component<NewEntryProps, NewEntryState> {
     this.applyTemporaryItem(isBefore(tempEntry.updatedAt, entry.updatedAt) ? entry : tempEntry);
   };
 
-  resolveTemporaryItem() {
+  resolveTemporaryItem = () => {
+    const { fetching } = this.state;
+
+    // ignore if already fetching
+    if (fetching) {
+      return;
+    }
+
     const { loggedIn } = this.props;
 
     this.setState({ fetching: true });
@@ -220,7 +232,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
     } else {
       this.applyTemporaryItem(tempItem);
     }
-  }
+  };
 
   applyTemporaryItem(entry) {
     const { now } = this.props;

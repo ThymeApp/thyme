@@ -43,6 +43,10 @@ export function addEntry(entry: TimePropertyType) {
   emitter.emit('addEntry', entry);
 }
 
+export function userLogin() {
+  emitter.emit('userLogin');
+}
+
 export function onStartTimer(cb: any) {
   emitter.on('startTimer', cb);
 }
@@ -83,7 +87,14 @@ export function onChangeState(cb: (state: StateShape) => void) {
   emitter.on('changeState', (e: any) => cb(e));
 }
 
-
 export function onExtensionConnected(cb: () => void) {
   emitter.on('extensionConnected', cb);
+}
+
+export function onUserLogin(cb: any) {
+  emitter.on('userLogin', cb);
+}
+
+export function offUserLogin(cb: any) {
+  emitter.off('userLogin', cb);
 }
