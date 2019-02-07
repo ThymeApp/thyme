@@ -156,7 +156,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
     });
 
     // communicate change of timer
-    changeTimer({ tracking: false, ...entry, updatedAt: +new Date() });
+    changeTimer({ tracking: false, ...newEntry, updatedAt: +new Date() });
 
     // clear item from localStorage
     clearTemporaryItem();
