@@ -151,7 +151,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
     });
 
     // communicate change of timer
-    changeTimer({ tracking: false, ...entry });
+    changeTimer({ tracking: false, ...entry, updatedAt: +new Date() });
 
     // clear item from localStorage
     clearTemporaryItem();
@@ -209,14 +209,16 @@ class New extends Component<NewEntryProps, NewEntryState> {
   resolveTemporaryItem() {
     const { loggedIn } = this.props;
 
+    this.setState({ fetching: true });
+
     const tempItem = loadTemporaryItem();
 
-    if (!loggedIn) {
-      this.applyTemporaryItem(tempItem);
-    } else {
+    if (loggedIn) {
       getTemporaryItem()
         .then(this.onReceiveTempItem)
         .catch(() => this.applyTemporaryItem(tempItem));
+    } else {
+      this.applyTemporaryItem(tempItem);
     }
   }
 
