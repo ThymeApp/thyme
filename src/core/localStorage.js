@@ -61,8 +61,8 @@ export function loadTemporaryItem(): TempTimePropertyType | typeof undefined {
   return loadItem('ThymeTempItem');
 }
 
-export function saveTemporaryItem(state: TempTimePropertyType): void {
-  saveItem(state, 'ThymeTempItem');
+export function saveTemporaryItem(item: TempTimePropertyType): void {
+  saveItem(item, 'ThymeTempItem');
 }
 
 export function clearTemporaryItem() {

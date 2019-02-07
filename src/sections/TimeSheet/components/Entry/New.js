@@ -20,15 +20,21 @@ import {
   offAddEntry,
   onReceiveTimer,
   offReceiveTimer,
+  onUserLogin,
+  offUserLogin,
 } from 'core/extensions/events';
 
+import { isLoggedIn } from 'sections/Account/selectors';
+
 import { addTime } from '../../actions';
+
+import { getTemporaryItem } from '../../api';
 
 import Entry from './Entry';
 
 type NewEntryProps = {
   now: Date;
-  entry?: TempTimePropertyType;
+  loggedIn: boolean;
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
@@ -37,6 +43,7 @@ type NewEntryProps = {
 };
 
 type NewEntryState = {
+  fetching: boolean;
   entry: TimePropertyType;
   tracking: boolean;
 };
@@ -56,26 +63,25 @@ class New extends Component<NewEntryProps, NewEntryState> {
   constructor(props: NewEntryProps) {
     super(props);
 
-    const tempEntry = props.entry || loadTemporaryItem();
-
     this.state = {
-      entry: defaultState(tempEntry, props.now),
-      tracking: Boolean(tempEntry && tempEntry.tracking),
+      fetching: false,
+      entry: defaultState({}, props.now),
+      tracking: false,
     };
   }
 
   componentDidMount() {
-    const { entry, tracking } = this.state;
-
     this.tickInterval = setInterval(this.tickTimer.bind(this), 1000);
-
-    changeTimer({ tracking, ...entry });
 
     // register listeners
     onStartTimer(this.onStartTimeTracking);
     onStopTimer(this.onStopTimeTracking);
     onReceiveTimer(this.onReceiveTimer);
     onAddEntry(this.onAddItem);
+    onUserLogin(this.resolveTemporaryItem);
+
+    // automatically resolve item
+    this.resolveTemporaryItem();
   }
 
   componentWillUnmount() {
@@ -86,6 +92,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
     offStopTimer(this.onStopTimeTracking);
     offReceiveTimer(this.onReceiveTimer);
     offAddEntry(this.onAddItem);
+    offUserLogin(this.resolveTemporaryItem);
   }
 
   onAddItem = (entry: TimePropertyType) => {
@@ -96,7 +103,9 @@ class New extends Component<NewEntryProps, NewEntryState> {
     this.onResetItem(false);
   };
 
-  onReceiveTimer = (entry: TempTimePropertyType) => {
+  onReceiveTimer = (
+    { entry, emitChange }: { entry: TempTimePropertyType, emitChange: boolean },
+  ) => {
     const { tracking } = entry;
     const newEntry = {
       start: entry.start,
@@ -105,20 +114,34 @@ class New extends Component<NewEntryProps, NewEntryState> {
       notes: entry.notes,
     };
 
-    this.onUpdateItem(newEntry, tracking);
+    this.onUpdateItem(newEntry, tracking, emitChange);
   };
 
-  onUpdateItem = (entry: TimePropertyType, tracking: boolean) => {
+  onUpdateItem = (
+    entry: TimePropertyType,
+    tracking: boolean,
+    emitChange: boolean = true,
+    saveTemporary: boolean = true,
+  ) => {
     const timer = { ...entry, tracking };
 
     // update local state
     this.setState({ entry, tracking });
 
-    // communicate to extensions
-    changeTimer(timer);
+    const storedTimer = {
+      ...timer,
+      updatedAt: +new Date(),
+    };
 
-    // save temporary state to localStorage
-    saveTemporaryItem(timer);
+    if (saveTemporary) {
+      // save temporary state to localStorage
+      saveTemporaryItem(storedTimer);
+    }
+
+    if (emitChange) {
+      // communicate to extensions
+      changeTimer(storedTimer);
+    }
   };
 
   onResetItem = (newItem: boolean) => {
@@ -133,7 +156,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
     });
 
     // communicate change of timer
-    changeTimer({ tracking: false, ...entry });
+    changeTimer({ tracking: false, ...newEntry, updatedAt: +new Date() });
 
     // clear item from localStorage
     clearTemporaryItem();
@@ -172,6 +195,59 @@ class New extends Component<NewEntryProps, NewEntryState> {
     });
   };
 
+  onReceiveTempItem = (entry) => {
+    const tempEntry = loadTemporaryItem();
+
+    if (!tempEntry || !tempEntry.updatedAt) {
+      this.applyTemporaryItem(entry || {});
+      return;
+    }
+
+    if (!entry || !entry.updatedAt) {
+      this.applyTemporaryItem(tempEntry);
+      return;
+    }
+
+    this.applyTemporaryItem(isBefore(tempEntry.updatedAt, entry.updatedAt) ? entry : tempEntry);
+  };
+
+  resolveTemporaryItem = () => {
+    const { fetching } = this.state;
+
+    // ignore if already fetching
+    if (fetching) {
+      return;
+    }
+
+    const { loggedIn } = this.props;
+
+    this.setState({ fetching: true });
+
+    const tempItem = loadTemporaryItem();
+
+    if (loggedIn) {
+      getTemporaryItem()
+        .then(this.onReceiveTempItem)
+        .catch(() => this.applyTemporaryItem(tempItem));
+    } else {
+      this.applyTemporaryItem(tempItem);
+    }
+  };
+
+  applyTemporaryItem(entry) {
+    const { now } = this.props;
+
+    const tracking = Boolean(entry && entry.tracking);
+
+    this.setState({
+      fetching: false,
+      entry: defaultState(entry, now),
+      tracking,
+    });
+
+    changeTimer({ tracking, ...entry });
+  }
+
   tickTimer() {
     const { tracking, entry: stateEntry } = this.state;
 
@@ -181,7 +257,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
         end: new Date(),
       };
 
-      this.onUpdateItem(entry, tracking);
+      this.onUpdateItem(entry, tracking, false, false);
 
       // update state of component
       this.setState({ entry });
@@ -199,10 +275,11 @@ class New extends Component<NewEntryProps, NewEntryState> {
       onEntryCreate,
       onAddNewProject,
     } = this.props;
-    const { entry, tracking } = this.state;
+    const { entry, tracking, fetching } = this.state;
 
     return (
       <Entry
+        disabled={fetching}
         round="none"
         now={now}
         entry={entry}
@@ -222,6 +299,12 @@ class New extends Component<NewEntryProps, NewEntryState> {
   }
 }
 
+function mapStateToProps(state: StateShape) {
+  return {
+    loggedIn: isLoggedIn(state),
+  };
+}
+
 function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     onEntryCreate(entry: TimePropertyType) {
@@ -233,4 +316,4 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(New);
+export default connect(mapStateToProps, mapDispatchToProps)(New);

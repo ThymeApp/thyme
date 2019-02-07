@@ -1,4 +1,4 @@
-// flow-typed signature: 01c8dc26725054d16ae7f1ce71352833
+// flow-typed signature: bf799978ba1e391c6c2e16c4196dbad8
 // flow-typed version: <<STUB>>/stylelint_v^9.9.0/flow_v0.91.0
 
 /**
@@ -1238,6 +1238,10 @@ declare module 'stylelint/lib/utils/parseCalcExpression/index' {
   declare module.exports: any;
 }
 
+declare module 'stylelint/lib/utils/parseCalcExpression/parser' {
+  declare module.exports: any;
+}
+
 declare module 'stylelint/lib/utils/parseSelector' {
   declare module.exports: any;
 }
@@ -2198,6 +2202,9 @@ declare module 'stylelint/lib/utils/optionsMatches.js' {
 }
 declare module 'stylelint/lib/utils/parseCalcExpression/index.js' {
   declare module.exports: $Exports<'stylelint/lib/utils/parseCalcExpression/index'>;
+}
+declare module 'stylelint/lib/utils/parseCalcExpression/parser.js' {
+  declare module.exports: $Exports<'stylelint/lib/utils/parseCalcExpression/parser'>;
 }
 declare module 'stylelint/lib/utils/parseSelector.js' {
   declare module.exports: $Exports<'stylelint/lib/utils/parseSelector'>;

@@ -27,8 +27,8 @@ export function changeState(state: StateShape) {
   );
 }
 
-export function receiveTimer(entry: TempTimePropertyType) {
-  emitter.emit('receiveTimer', entry);
+export function receiveTimer(entry: TempTimePropertyType, emitChange: boolean = true) {
+  emitter.emit('receiveTimer', { entry, emitChange });
 }
 
 export function startTimer() {
@@ -41,6 +41,10 @@ export function stopTimer() {
 
 export function addEntry(entry: TimePropertyType) {
   emitter.emit('addEntry', entry);
+}
+
+export function userLogin() {
+  emitter.emit('userLogin');
 }
 
 export function onStartTimer(cb: any) {
@@ -83,7 +87,14 @@ export function onChangeState(cb: (state: StateShape) => void) {
   emitter.on('changeState', (e: any) => cb(e));
 }
 
-
 export function onExtensionConnected(cb: () => void) {
   emitter.on('extensionConnected', cb);
+}
+
+export function onUserLogin(cb: any) {
+  emitter.on('userLogin', cb);
+}
+
+export function offUserLogin(cb: any) {
+  emitter.off('userLogin', cb);
 }

@@ -23,6 +23,7 @@ type ProjectInputType = {
   projects: ProjectOption[];
   handleChange: (value: string | null) => void;
   onAddItem?: (value: string) => void;
+  disabled?: boolean;
 };
 
 function ProjectInput({
@@ -32,6 +33,7 @@ function ProjectInput({
   projects,
   handleChange,
   onAddItem,
+  disabled,
 }: ProjectInputType) {
   return (
     <Dropdown
@@ -39,6 +41,7 @@ function ProjectInput({
       search
       selection
       value={value}
+      disabled={disabled}
       style={{
         fontSize: size === 'large' ? '1.14285714em' : '1em',
       }}
