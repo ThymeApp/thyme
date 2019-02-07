@@ -9,9 +9,9 @@ export type toExportType = {
 };
 
 export type exportType = {
-  time: Array<TimeType>;
-  projects: Array<ProjectType>;
-  reports: Array<ReportType>;
+  time: TimeType[];
+  projects: ProjectType[];
+  reports: ReportType[];
 };
 
 export function stateToExport({ time, projects, reports }: toExportType): exportType {
