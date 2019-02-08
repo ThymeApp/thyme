@@ -23,8 +23,6 @@ import ProjectInput from 'sections/Projects/components/ProjectInput';
 
 import { updateProject, removeProject, archiveProject } from '../../actions';
 
-import { allSortedProjects } from '../../selectors';
-
 import ProjectsList from './ProjectsList';
 
 export type ProjectItemProps = {
@@ -130,7 +128,6 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
   render() {
     const {
       project,
-      projects,
       level,
     } = this.props;
     const { confirmDelete } = this.state;
@@ -196,7 +193,6 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
                 <ProjectInput
                   handleChange={this.onChangeParent}
                   value={project.parent}
-                  projects={projects}
                 />
               </Table.Cell>
               {renderComponent('projects.tablerow.parent', { ...this.props, isMobile })}
@@ -233,22 +229,14 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
             </Table.Row>
           )}
         </Responsive>
-        {ProjectsList({
-          projects,
-          parent: project.id,
-          level: level + 1,
-        })}
+        <ProjectsList
+          parent={project.id}
+          level={level + 1}
+        />
       </Fragment>
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    projects: allSortedProjects(state),
-  };
-}
-
 
 function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
@@ -270,4 +258,4 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectItem);
+export default connect(null, mapDispatchToProps)(ProjectItem);
