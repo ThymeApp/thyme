@@ -19,6 +19,7 @@ import NewProject from './components/NewProject';
 import ProjectsList from './components/ProjectsList';
 
 import { archiveProject, removeProject, updateProject } from './actions';
+import { isDescendant } from '../../core/projects';
 
 type ProjectsProps = {
   projects: Array<ProjectTreeType>;
@@ -58,6 +59,17 @@ function Projects({
             onRemoveProject(id);
           }}
           onArchiveProject={onArchiveProject}
+          onChangeParent={(project: ProjectTreeType, parent: string) => {
+            // ignore if project is descendant
+            if (isDescendant(project.id, parent, projects)) {
+              return;
+            }
+
+            onUpdateProject({
+              ...project,
+              parent,
+            });
+          }}
         />
         {showUpgrade && <BuyMessage>Want to add hourly rates to projects?</BuyMessage>}
       </section>

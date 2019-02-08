@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import classnames from 'classnames';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
@@ -10,7 +10,6 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
-import { isDescendant } from 'core/projects';
 import { valueFromEventTarget } from 'core/dom';
 import { render as renderComponent } from 'register/component';
 
@@ -21,214 +20,185 @@ import ProjectInput from 'sections/Projects/components/ProjectInput';
 import ProjectsList from './ProjectsList';
 
 export type ProjectItemProps = {
-  projects: Array<ProjectTreeType>;
   project: ProjectTreeType;
   level: number;
   onUpdateProject: (project: ProjectProps) => void;
   onRemoveProject: (id: string) => void;
   onArchiveProject: (id: string) => void;
+  onChangeParent: (project: ProjectTreeType, parent: string | null) => void;
 };
 
 type confirmNames = '' | 'remove' | 'archive';
 
-type ProjectItemState = {
-  confirmDelete: confirmNames,
-};
+function useConfirmDelete(
+  project: ProjectTreeType,
+  onRemoveProject: (id: string) => void,
+  onArchiveProject: (id: string) => void,
+) {
+  const [confirmDelete, setConfirmDelete] = useState<confirmNames>('');
 
-class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
-  state = { confirmDelete: '' };
+  const onArchive = useCallback(() => setConfirmDelete('archive'));
+  const onRemove = useCallback(() => setConfirmDelete('remove'));
+  const onCancel = useCallback(() => setConfirmDelete(''));
 
-  onChangeName = (e: Event) => {
-    const { project, onUpdateProject } = this.props;
+  const confirms = {
+    '': {
+      text: '',
+      buttonText: '',
+      onConfirm: () => {},
+    },
+    remove: {
+      text: 'Are you sure you want to remove this project?',
+      buttonText: 'Remove project',
+      onConfirm: () => {
+        onCancel();
+        onRemoveProject(project.id);
+      },
+    },
+    archive: {
+      text: `Do you want to ${project.archived ? 'unarchive' : 'archive'} this project?`,
+      buttonText: project.archived ? 'Unarchive project' : 'Archive project',
+      onConfirm: () => {
+        onCancel();
+        onArchiveProject(project.id);
+      },
+    },
+  };
 
+  return [confirmDelete, onArchive, onRemove, onCancel, confirms[confirmDelete]];
+}
+
+function ProjectItem(props: ProjectItemProps) {
+  const {
+    project,
+    level,
+    onUpdateProject,
+    onRemoveProject,
+    onArchiveProject,
+    onChangeParent,
+  } = props;
+  const [confirmDelete, onArchive, onRemove, onCancel, confirmOptions] = useConfirmDelete(
+    project,
+    onRemoveProject,
+    onArchiveProject,
+  );
+
+  const onChangeName = useCallback((e: Event) => {
     onUpdateProject({
       ...project,
       name: valueFromEventTarget(e.target),
     });
-  };
+  }, [project]);
 
-  onChangeParent = (parent: string | null) => {
-    const { project, projects, onUpdateProject } = this.props;
+  const onChangeParentProject = useCallback((parent: string | null) => {
+    onChangeParent(project, parent);
+  }, []);
 
-    // Can't move to this project because it's a descendant
-    if (isDescendant(project.id, parent, projects)) {
-      return;
-    }
+  const NameInput = (
+    <Input
+      type="text"
+      value={project.name}
+      onChange={onChangeName}
+    />
+  );
 
-    onUpdateProject({
-      ...project,
-      parent,
-    });
-  };
+  const archiveText = project.archived ? 'Unarchive project' : 'Archive project';
 
-  onRemoveEntry = () => {
-    this.setState({ confirmDelete: 'remove' });
-  };
+  const ArchiveButton = (
+    <Button icon onClick={onArchive}>
+      <Icon name="archive" />
+      <Responsive max="tablet">
+        {isMobile => (isMobile ? archiveText : '')}
+      </Responsive>
+    </Button>
+  );
 
-  onRemoveProject = () => {
-    const { project, onRemoveProject } = this.props;
+  const RemoveButton = (
+    <Button icon onClick={onRemove}>
+      <Icon name="remove" />
+      <Responsive max="tablet">
+        {isMobile => (isMobile ? 'Remove project' : '')}
+      </Responsive>
+    </Button>
+  );
 
-    this.onCancelConfirm();
-    onRemoveProject(project.id);
-  };
-
-  onArchiveEntry = () => {
-    this.setState({ confirmDelete: 'archive' });
-  };
-
-  onArchiveProject = () => {
-    const { project, onArchiveProject } = this.props;
-
-    this.onCancelConfirm();
-    onArchiveProject(project.id);
-  };
-
-  onCancelConfirm = () => this.setState({ confirmDelete: '' });
-
-  confirmOptions(name: confirmNames) {
-    const { project } = this.props;
-
-    if (name === '') {
-      return {
-        text: '',
-        buttonText: '',
-        onConfirm: () => {},
-      };
-    }
-
-    const confirms = {
-      remove: {
-        text: 'Are you sure you want to remove this project?',
-        buttonText: 'Remove project',
-        onConfirm: () => this.onRemoveProject(),
-      },
-      archive: {
-        text: `Do you want to ${project.archived ? 'unarchive' : 'archive'} this project?`,
-        buttonText: project.archived ? 'Unarchive project' : 'Archive project',
-        onConfirm: () => this.onArchiveProject(),
-      },
-    };
-
-    return confirms[name];
-  }
-
-  render() {
-    const {
-      project,
-      level,
-      onUpdateProject,
-      onRemoveProject,
-      onArchiveProject,
-    } = this.props;
-    const { confirmDelete } = this.state;
-
-    const NameInput = (
-      <Input
-        type="text"
-        value={project.name}
-        onChange={this.onChangeName}
-      />
-    );
-
-    const archiveText = project.archived ? 'Unarchive project' : 'Archive project';
-
-    const ArchiveButton = (
-      <Button icon onClick={this.onArchiveEntry}>
-        <Icon name="archive" />
-        <Responsive max="tablet">
-          {isMobile => (isMobile ? archiveText : '')}
-        </Responsive>
-      </Button>
-    );
-
-    const RemoveButton = (
-      <Button icon onClick={this.onRemoveEntry}>
-        <Icon name="remove" />
-        <Responsive max="tablet">
-          {isMobile => (isMobile ? 'Remove project' : '')}
-        </Responsive>
-      </Button>
-    );
-
-    const confirmOptions = this.confirmOptions(confirmDelete);
-
-    return (
-      <Fragment>
-        <Responsive max="tablet">
-          {isMobile => (
-            <Table.Row className={classnames('ProjectList__item ui form', { 'ProjectList__item--archived': !!project.archived })}>
-              <Table.Cell className={`ProjectList__level-${level} field`}>
-                {isMobile ? (
-                  <Fragment>
-                    <label>
-                      Project name
-                    </label>
-                    {NameInput}
-                  </Fragment>
-                ) : (
-                  <div className="ProjectList__item-container">
-                    <div className="ProjectList__spacer" />
-                    <Icon name="caret right" />
-                    {NameInput}
-                  </div>
-                )}
-              </Table.Cell>
-              {renderComponent('projects.tablerow.name', { ...this.props, isMobile })}
-              <Table.Cell className="field">
-                {isMobile && (
+  return (
+    <Fragment>
+      <Responsive max="tablet">
+        {isMobile => (
+          <Table.Row className={classnames('ProjectList__item ui form', { 'ProjectList__item--archived': !!project.archived })}>
+            <Table.Cell className={`ProjectList__level-${level} field`}>
+              {isMobile ? (
+                <Fragment>
                   <label>
-                    Parent project
+                    Project name
                   </label>
-                )}
-                <ProjectInput
-                  handleChange={this.onChangeParent}
-                  value={project.parent}
+                  {NameInput}
+                </Fragment>
+              ) : (
+                <div className="ProjectList__item-container">
+                  <div className="ProjectList__spacer" />
+                  <Icon name="caret right" />
+                  {NameInput}
+                </div>
+              )}
+            </Table.Cell>
+            {renderComponent('projects.tablerow.name', { ...props, isMobile })}
+            <Table.Cell className="field">
+              {isMobile && (
+                <label>
+                  Parent project
+                </label>
+              )}
+              <ProjectInput
+                handleChange={onChangeParentProject}
+                value={project.parent}
+              />
+            </Table.Cell>
+            {renderComponent('projects.tablerow.parent', { ...props, isMobile })}
+            <Table.Cell>
+              {isMobile ? (
+                ArchiveButton
+              ) : (
+                <Popup
+                  inverted
+                  trigger={ArchiveButton}
+                  content={archiveText}
                 />
-              </Table.Cell>
-              {renderComponent('projects.tablerow.parent', { ...this.props, isMobile })}
-              <Table.Cell>
-                {isMobile ? (
-                  ArchiveButton
-                ) : (
-                  <Popup
-                    inverted
-                    trigger={ArchiveButton}
-                    content={archiveText}
-                  />
-                )}
-              </Table.Cell>
-              <Table.Cell>
-                {isMobile ? (
-                  RemoveButton
-                ) : (
-                  <Popup
-                    inverted
-                    trigger={RemoveButton}
-                    content="Remove project"
-                  />
-                )}
-                <Confirm
-                  open={confirmDelete !== ''}
-                  content={confirmOptions.text}
-                  confirmButton={confirmOptions.buttonText}
-                  size="mini"
-                  onCancel={this.onCancelConfirm}
-                  onConfirm={confirmOptions.onConfirm}
+              )}
+            </Table.Cell>
+            <Table.Cell>
+              {isMobile ? (
+                RemoveButton
+              ) : (
+                <Popup
+                  inverted
+                  trigger={RemoveButton}
+                  content="Remove project"
                 />
-              </Table.Cell>
-            </Table.Row>
-          )}
-        </Responsive>
-        <ProjectsList
-          parent={project.id}
-          level={level + 1}
-          onUpdateProject={onUpdateProject}
-          onRemoveProject={onRemoveProject}
-          onArchiveProject={onArchiveProject}
-        />
-      </Fragment>
-    );
-  }
+              )}
+              <Confirm
+                open={confirmDelete !== ''}
+                content={confirmOptions.text}
+                confirmButton={confirmOptions.buttonText}
+                size="mini"
+                onCancel={onCancel}
+                onConfirm={confirmOptions.onConfirm}
+              />
+            </Table.Cell>
+          </Table.Row>
+        )}
+      </Responsive>
+      <ProjectsList
+        parent={project.id}
+        level={level + 1}
+        onUpdateProject={onUpdateProject}
+        onRemoveProject={onRemoveProject}
+        onArchiveProject={onArchiveProject}
+        onChangeParent={onChangeParent}
+      />
+    </Fragment>
+  );
 }
 
 export default ProjectItem;

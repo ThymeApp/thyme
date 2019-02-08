@@ -17,6 +17,7 @@ type ProjectsListProps = {
   onUpdateProject: (project: ProjectProps) => void;
   onRemoveProject: (id: string) => void;
   onArchiveProject: (id: string) => void;
+  onChangeParent: (project: ProjectTreeType, parent: string | null) => void;
 };
 
 function ProjectsList({
@@ -26,6 +27,7 @@ function ProjectsList({
   onUpdateProject,
   onRemoveProject,
   onArchiveProject,
+  onChangeParent,
 }: ProjectsListProps): Element<typeof ProjectItem>[] {
   return projects
     .filter(item => (parent === '' && item.parent === null) || item.parent === parent)
@@ -38,6 +40,7 @@ function ProjectsList({
         onUpdateProject={onUpdateProject}
         onRemoveProject={onRemoveProject}
         onArchiveProject={onArchiveProject}
+        onChangeParent={onChangeParent}
       />
     ));
 }
