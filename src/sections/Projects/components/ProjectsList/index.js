@@ -11,13 +11,22 @@ import { useResponsive } from 'components/Responsive';
 import ProjectsList from './ProjectsList';
 
 type ProjectsListWrapperProps = {
-  projects: Array<ProjectTreeType>;
+  projects: ProjectTreeType[];
+  onUpdateProject: (project: ProjectProps) => void;
+  onRemoveProject: (id: string) => void;
+  onArchiveProject: (id: string) => void;
+  onChangeParent: (project: ProjectTreeType, parent: string | null) => void;
 };
 
 function ProjectsListWrapper(props: ProjectsListWrapperProps) {
+  const {
+    projects,
+    onUpdateProject,
+    onRemoveProject,
+    onArchiveProject,
+    onChangeParent,
+  } = props;
   const [isMinTablet] = useResponsive({ min: 'tablet' });
-
-  const { projects } = props;
 
   if (projects.length === 0) {
     return (
@@ -48,7 +57,12 @@ function ProjectsListWrapper(props: ProjectsListWrapperProps) {
         </Table.Header>
       )}
       <Table.Body>
-        <ProjectsList projects={projects} />
+        <ProjectsList
+          onUpdateProject={onUpdateProject}
+          onRemoveProject={onRemoveProject}
+          onArchiveProject={onArchiveProject}
+          onChangeParent={onChangeParent}
+        />
       </Table.Body>
     </Table>
   );

@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
@@ -35,6 +35,19 @@ function ProjectInput({
   onAddItem,
   disabled,
 }: ProjectInputType) {
+  const onChange = useCallback((e: Event, project: { value: string | null }) => {
+    // if the project is new, don't emit handleChange
+    if (project.value !== null && !projects.some(p => p.value === project.value)) {
+      return;
+    }
+
+    handleChange(project ? project.value : null);
+  }, [projects]);
+  const onAddItemCallback = useCallback(
+    (e: Event, project: { value: string }) => onAddItem && onAddItem(project.value),
+    [onAddItem],
+  );
+
   return (
     <Dropdown
       placeholder={placeholder || 'Select project...'}
@@ -45,16 +58,9 @@ function ProjectInput({
       style={{
         fontSize: size === 'large' ? '1.14285714em' : '1em',
       }}
-      onChange={(e: Event, project: { value: string | null }) => {
-        // if the project is new, don't emit handleChange
-        if (project.value !== null && !projects.some(p => p.value === project.value)) {
-          return;
-        }
-
-        handleChange(project ? project.value : null);
-      }}
+      onChange={onChange}
       allowAdditions={!!onAddItem}
-      onAddItem={(e: Event, project: { value: string }) => onAddItem && onAddItem(project.value)}
+      onAddItem={onAddItemCallback}
       options={[
         { key: null, value: null, text: 'No project' },
         ...projects,
