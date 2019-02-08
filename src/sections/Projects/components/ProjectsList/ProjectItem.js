@@ -13,7 +13,8 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import { valueFromEventTarget } from 'core/dom';
 import { render as renderComponent } from 'register/component';
 
-import Responsive from 'components/Responsive';
+import { useResponsive } from 'components/Responsive';
+import ChangeOnBlurInput from 'components/ChangeOnBlurInput';
 
 import ProjectInput from 'sections/Projects/components/ProjectInput';
 
@@ -82,11 +83,12 @@ function ProjectItem(props: ProjectItemProps) {
     onRemoveProject,
     onArchiveProject,
   );
+  const [isMobile] = useResponsive({ max: 'tablet' });
 
-  const onChangeName = useCallback((e: Event) => {
+  const onChangeName = useCallback((name: string) => {
     onUpdateProject({
       ...project,
-      name: valueFromEventTarget(e.target),
+      name,
     });
   }, [project]);
 
@@ -95,7 +97,7 @@ function ProjectItem(props: ProjectItemProps) {
   }, []);
 
   const NameInput = (
-    <Input
+    <ChangeOnBlurInput
       type="text"
       value={project.name}
       onChange={onChangeName}
@@ -107,88 +109,80 @@ function ProjectItem(props: ProjectItemProps) {
   const ArchiveButton = (
     <Button icon onClick={onArchive}>
       <Icon name="archive" />
-      <Responsive max="tablet">
-        {isMobile => (isMobile ? archiveText : '')}
-      </Responsive>
+      {isMobile ? archiveText : ''}
     </Button>
   );
 
   const RemoveButton = (
     <Button icon onClick={onRemove}>
       <Icon name="remove" />
-      <Responsive max="tablet">
-        {isMobile => (isMobile ? 'Remove project' : '')}
-      </Responsive>
+      {isMobile ? 'Remove project' : ''}
     </Button>
   );
 
   return (
     <Fragment>
-      <Responsive max="tablet">
-        {isMobile => (
-          <Table.Row className={classnames('ProjectList__item ui form', { 'ProjectList__item--archived': !!project.archived })}>
-            <Table.Cell className={`ProjectList__level-${level} field`}>
-              {isMobile ? (
-                <Fragment>
-                  <label>
-                    Project name
-                  </label>
-                  {NameInput}
-                </Fragment>
-              ) : (
-                <div className="ProjectList__item-container">
-                  <div className="ProjectList__spacer" />
-                  <Icon name="caret right" />
-                  {NameInput}
-                </div>
-              )}
-            </Table.Cell>
-            {renderComponent('projects.tablerow.name', { ...props, isMobile })}
-            <Table.Cell className="field">
-              {isMobile && (
-                <label>
-                  Parent project
-                </label>
-              )}
-              <ProjectInput
-                handleChange={onChangeParentProject}
-                value={project.parent}
-              />
-            </Table.Cell>
-            {renderComponent('projects.tablerow.parent', { ...props, isMobile })}
-            <Table.Cell>
-              {isMobile ? (
-                ArchiveButton
-              ) : (
-                <Popup
-                  inverted
-                  trigger={ArchiveButton}
-                  content={archiveText}
-                />
-              )}
-            </Table.Cell>
-            <Table.Cell>
-              {isMobile ? (
-                RemoveButton
-              ) : (
-                <Popup
-                  inverted
-                  trigger={RemoveButton}
-                  content="Remove project"
-                />
-              )}
-              <Confirm
-                open={confirmDelete !== ''}
-                content={confirmOptions.text}
-                confirmButton={confirmOptions.buttonText}
-                size="mini"
-                onCancel={onCancel}
-                onConfirm={confirmOptions.onConfirm}
-              />
-            </Table.Cell>
-          </Table.Row>
-        )}
-      </Responsive>
+      <Table.Row className={classnames('ProjectList__item ui form', { 'ProjectList__item--archived': !!project.archived })}>
+        <Table.Cell className={`ProjectList__level-${level} field`}>
+          {isMobile ? (
+            <Fragment>
+              <label>
+                Project name
+              </label>
+              {NameInput}
+            </Fragment>
+          ) : (
+            <div className="ProjectList__item-container">
+              <div className="ProjectList__spacer" />
+              <Icon name="caret right" />
+              {NameInput}
+            </div>
+          )}
+        </Table.Cell>
+        {renderComponent('projects.tablerow.name', { ...props, isMobile })}
+        <Table.Cell className="field">
+          {isMobile && (
+            <label>
+              Parent project
+            </label>
+          )}
+          <ProjectInput
+            handleChange={onChangeParentProject}
+            value={project.parent}
+          />
+        </Table.Cell>
+        {renderComponent('projects.tablerow.parent', { ...props, isMobile })}
+        <Table.Cell>
+          {isMobile ? (
+            ArchiveButton
+          ) : (
+            <Popup
+              inverted
+              trigger={ArchiveButton}
+              content={archiveText}
+            />
+          )}
+        </Table.Cell>
+        <Table.Cell>
+          {isMobile ? (
+            RemoveButton
+          ) : (
+            <Popup
+              inverted
+              trigger={RemoveButton}
+              content="Remove project"
+            />
+          )}
+          <Confirm
+            open={confirmDelete !== ''}
+            content={confirmOptions.text}
+            confirmButton={confirmOptions.buttonText}
+            size="mini"
+            onCancel={onCancel}
+            onConfirm={confirmOptions.onConfirm}
+          />
+        </Table.Cell>
+      </Table.Row>
       <ProjectsList
         parent={project.id}
         level={level + 1}
