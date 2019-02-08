@@ -1,6 +1,6 @@
 // @flow
 
-import { Component } from 'react';
+import { Component, useState, useEffect } from 'react';
 import throttle from 'lodash/throttle';
 
 type Breakpoint = 'mobile' | 'tablet' | 'desktop' | 'large' | 'wide';
@@ -99,6 +99,35 @@ class Responsive extends Component<ResponsiveProps, ResponsiveState> {
 
     return children(matchesBreakpoint(breakpoints, { min, max }), isBreakpoints(breakpoints));
   }
+}
+
+export function useResponsive(
+  { min, max }: { min?: Breakpoint, max?: Breakpoint },
+): [boolean, isBreakpointsType] {
+  const [width, setWidth] = useState(null);
+
+  const onWindowResize = throttle(() => setWidth(window.innerWidth), 50);
+
+  useEffect(() => {
+    // subscribe to changes
+    window.addEventListener('resize', onWindowResize);
+
+    // call once
+    onWindowResize();
+
+    return () => {
+      // unsubscribe
+      window.removeEventListener('resize', onWindowResize);
+    };
+  });
+
+  if (width === null) {
+    return [false, {}];
+  }
+
+  const breakpoints = currentBreakpoints(width, BrowserBreakpoints);
+
+  return [matchesBreakpoint(breakpoints, { min, max }), isBreakpoints(breakpoints)];
 }
 
 export default Responsive;
