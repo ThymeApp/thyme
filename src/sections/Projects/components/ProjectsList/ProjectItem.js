@@ -23,6 +23,8 @@ import ProjectInput from 'sections/Projects/components/ProjectInput';
 
 import { updateProject, removeProject, archiveProject } from '../../actions';
 
+import { allSortedProjects } from '../../selectors';
+
 import ProjectsList from './ProjectsList';
 
 export type ProjectItemProps = {
@@ -241,6 +243,13 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    projects: allSortedProjects(state),
+  };
+}
+
+
 function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     onUpdateProject(project: ProjectProps) {
@@ -261,4 +270,4 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(ProjectItem);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectItem);

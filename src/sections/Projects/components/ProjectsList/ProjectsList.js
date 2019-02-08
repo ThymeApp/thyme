@@ -2,13 +2,16 @@
 
 import React from 'react';
 import type { Element } from 'react';
+import { connect } from 'react-redux';
 
 import ProjectItem from './ProjectItem'; // eslint-disable-line import/no-cycle
+
+import { allSortedProjects } from '../../selectors';
 
 import './ProjectsList.css';
 
 type ProjectsListProps = {
-  projects: Array<ProjectTreeType>;
+  projects: ProjectTreeType[];
   parent?: string;
   level?: number;
 };
@@ -30,4 +33,10 @@ function ProjectsList({
     ));
 }
 
-export default ProjectsList;
+function mapStateToProps(state) {
+  return {
+    projects: allSortedProjects(state),
+  };
+}
+
+export default connect(mapStateToProps)(ProjectsList);

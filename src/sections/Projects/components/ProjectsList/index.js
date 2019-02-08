@@ -48,7 +48,7 @@ function ProjectsListWrapper(props: ProjectsListWrapperProps) {
         )}
       </Responsive>
       <Table.Body>
-        <ProjectsList projects={projects} />
+        <ProjectsList />
       </Table.Body>
     </Table>
   );
