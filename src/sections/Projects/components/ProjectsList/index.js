@@ -12,10 +12,19 @@ import ProjectsList from './ProjectsList';
 
 type ProjectsListWrapperProps = {
   projects: Array<ProjectTreeType>;
+  onUpdateProject: (project: ProjectProps) => void;
+  onRemoveProject: (id: string) => void;
+  onArchiveProject: (id: string) => void;
 };
 
+
 function ProjectsListWrapper(props: ProjectsListWrapperProps) {
-  const { projects } = props;
+  const {
+    projects,
+    onUpdateProject,
+    onRemoveProject,
+    onArchiveProject,
+  } = props;
 
   if (projects.length === 0) {
     return (
@@ -48,7 +57,11 @@ function ProjectsListWrapper(props: ProjectsListWrapperProps) {
         )}
       </Responsive>
       <Table.Body>
-        <ProjectsList />
+        <ProjectsList
+          onUpdateProject={onUpdateProject}
+          onRemoveProject={onRemoveProject}
+          onArchiveProject={onArchiveProject}
+        />
       </Table.Body>
     </Table>
   );

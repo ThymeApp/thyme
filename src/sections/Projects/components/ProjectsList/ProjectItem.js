@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
 import classnames from 'classnames';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
@@ -17,11 +16,7 @@ import { render as renderComponent } from 'register/component';
 
 import Responsive from 'components/Responsive';
 
-import { alert } from 'actions/app';
-
 import ProjectInput from 'sections/Projects/components/ProjectInput';
-
-import { updateProject, removeProject, archiveProject } from '../../actions';
 
 import ProjectsList from './ProjectsList';
 
@@ -32,7 +27,6 @@ export type ProjectItemProps = {
   onUpdateProject: (project: ProjectProps) => void;
   onRemoveProject: (id: string) => void;
   onArchiveProject: (id: string) => void;
-  showAlert: (message: string) => void;
 };
 
 type confirmNames = '' | 'remove' | 'archive';
@@ -68,13 +62,6 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
   };
 
   onRemoveEntry = () => {
-    const { project, projects, showAlert } = this.props;
-
-    if (projects.find(item => item.parent === project.id)) {
-      showAlert('This project has children, parent cannot be removed.');
-      return;
-    }
-
     this.setState({ confirmDelete: 'remove' });
   };
 
@@ -129,6 +116,9 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
     const {
       project,
       level,
+      onUpdateProject,
+      onRemoveProject,
+      onArchiveProject,
     } = this.props;
     const { confirmDelete } = this.state;
 
@@ -232,30 +222,13 @@ class ProjectItem extends Component<ProjectItemProps, ProjectItemState> {
         <ProjectsList
           parent={project.id}
           level={level + 1}
+          onUpdateProject={onUpdateProject}
+          onRemoveProject={onRemoveProject}
+          onArchiveProject={onArchiveProject}
         />
       </Fragment>
     );
   }
 }
 
-function mapDispatchToProps(dispatch: ThymeDispatch) {
-  return {
-    onUpdateProject(project: ProjectProps) {
-      dispatch(updateProject(project));
-    },
-
-    onRemoveProject(id: string) {
-      dispatch(removeProject(id));
-    },
-
-    onArchiveProject(id: string) {
-      dispatch(archiveProject(id));
-    },
-
-    showAlert(message: string) {
-      dispatch(alert(message));
-    },
-  };
-}
-
-export default connect(null, mapDispatchToProps)(ProjectItem);
+export default ProjectItem;
