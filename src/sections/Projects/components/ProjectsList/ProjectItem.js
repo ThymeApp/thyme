@@ -4,13 +4,11 @@ import React, { Fragment, useState, useCallback } from 'react';
 import classnames from 'classnames';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
-import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
-import { valueFromEventTarget } from 'core/dom';
 import { render as renderComponent } from 'register/component';
 
 import { useResponsive } from 'components/Responsive';
