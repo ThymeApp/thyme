@@ -59,7 +59,7 @@ function Projects({
             onRemoveProject(id);
           }}
           onArchiveProject={onArchiveProject}
-          onChangeParent={(project: ProjectTreeType, parent: string) => {
+          onChangeParent={(project: ProjectTreeType, parent: string | null) => {
             // ignore if project is descendant
             if (isDescendant(project.id, parent, projects)) {
               return;
