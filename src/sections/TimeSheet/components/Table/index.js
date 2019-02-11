@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
-import Responsive from 'components/Responsive';
+import { useResponsive } from 'components/Responsive';
 
 import {
   getDurationRounding,
@@ -51,6 +51,8 @@ function TimeTable({
   onEntryRemove,
   onAddProject,
 }: TimeTableType) {
+  const [isMobile] = useResponsive({ max: 'tablet' });
+
   const New = (
     <NewEntry
       now={now}
@@ -83,7 +85,12 @@ function TimeTable({
     </Fragment>
   );
 
-  const TableContent = (
+  // only render Entries on mobile
+  if (isMobile) {
+    return Entries;
+  }
+
+  return (
     <Table basic="very">
       <Table.Header>
         <Table.Row>
@@ -121,12 +128,6 @@ function TimeTable({
         {Entries}
       </Table.Body>
     </Table>
-  );
-
-  return (
-    <Responsive max="tablet">
-      {matched => (matched ? Entries : TableContent)}
-    </Responsive>
   );
 }
 
