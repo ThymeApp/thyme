@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
@@ -10,7 +10,7 @@ import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagina
 
 import { render as renderComponent } from 'register/component';
 
-import Responsive from 'components/Responsive';
+import { useResponsive } from 'components/Responsive';
 
 import { getEntriesPerPage } from '../Settings/selectors';
 
@@ -25,93 +25,76 @@ import { getCurrentTimeEntries, getPage } from './selectors';
 import './TimeSheet.css';
 
 type TimeSheetProps = {
-  entries: Array<TimeType>;
+  entries: TimeType[];
   now: Date;
   page: number;
   entriesPerPage: number;
   changeEntriesPage: (page: number) => void;
 };
 
-type TimeSheetState = {
-  filterOpen: boolean;
-}
+function TimeSheet(props: TimeSheetProps) {
+  const {
+    entries,
+    now,
+    page,
+    entriesPerPage,
+    changeEntriesPage,
+  } = props;
+  const [filterOpen, setFilterOpen] = useState<boolean>(false);
+  const [isMobile] = useResponsive({ max: 'tablet' });
 
-class TimeSheet extends Component<TimeSheetProps, TimeSheetState> {
-  state = {
-    filterOpen: false,
-  };
+  const totalPages = Math.ceil(entries.length / entriesPerPage);
+  const start = (page - 1) * entriesPerPage;
+  const end = (page * entriesPerPage) - 1;
 
-  handleToggle = () => {
-    const { filterOpen } = this.state;
+  const onPageChange = (
+    e: Event,
+    { activePage }: { activePage: number },
+  ) => changeEntriesPage(activePage);
 
-    this.setState({ filterOpen: !filterOpen });
-  };
-
-  handlePaginationChange = (e: Event, { activePage }: { activePage: number }) => {
-    const { changeEntriesPage } = this.props;
-
-    changeEntriesPage(activePage);
-  };
-
-  render() {
-    const {
-      entries,
-      now,
-      page,
-      entriesPerPage,
-    } = this.props;
-    const { filterOpen } = this.state;
-
-    const totalPages = Math.ceil(entries.length / entriesPerPage);
-    const start = (page - 1) * entriesPerPage;
-    const end = (page * entriesPerPage) - 1;
-
-    return (
-      <div className="TimeSheet">
-        <Responsive max="tablet">
-          {matched => (matched ? (
-            <Fragment>
-              <Accordion fluid>
-                <Accordion.Title
-                  active={filterOpen}
-                  onClick={this.handleToggle}
-                  content="Filters / sorting"
-                />
-                <Accordion.Content active={filterOpen}>
-                  <Header as="h5">Date range:</Header>
-                  <DateRange vertical />
-                  <Header as="h5">Sort by:</Header>
-                  <DateSort />
-                </Accordion.Content>
-              </Accordion>
-              <Divider />
-            </Fragment>
-          ) : (
-            <div className="TimeSheet__RangeSort">
-              <DateRange />
+  return (
+    <div className="TimeSheet">
+      {isMobile ? (
+        <Fragment>
+          <Accordion fluid>
+            <Accordion.Title
+              active={filterOpen}
+              onClick={() => setFilterOpen(!filterOpen)}
+              content="Filters / sorting"
+            />
+            <Accordion.Content active={filterOpen}>
+              <Header as="h5">Date range:</Header>
+              <DateRange vertical />
+              <Header as="h5">Sort by:</Header>
               <DateSort />
-            </div>
-          ))}
-        </Responsive>
-        {renderComponent('timesheet.beforeTable', this.props)}
-        <TimeTable
-          entries={entries.filter((item, index) => index <= end && index >= start)}
-          now={now}
+            </Accordion.Content>
+          </Accordion>
+          <Divider />
+        </Fragment>
+      ) : (
+        <div className="TimeSheet__RangeSort">
+          <DateRange />
+          <DateSort />
+        </div>
+      )}
+      {renderComponent('timesheet.beforeTable', props)}
+      <TimeTable
+        entries={entries.filter((item, index) => index <= end && index >= start)}
+        now={now}
+      />
+      {totalPages > 1 && (
+        <Pagination
+          firstItem={null}
+          lastItem={null}
+          activePage={page}
+          totalPages={totalPages}
+          siblingRange={2}
+          onPageChange={onPageChange}
         />
-        {totalPages > 1 && (
-          <Pagination
-            firstItem={null}
-            lastItem={null}
-            activePage={page}
-            totalPages={totalPages}
-            siblingRange={2}
-            onPageChange={this.handlePaginationChange}
-          />
-        )}
-        {renderComponent('timesheet.afterTable', this.props)}
-      </div>
-    );
-  }
+      )}
+      {renderComponent('timesheet.afterTable', props)}
+    </div>
+  );
 }
 
 function mapStateToProps(state: StateShape, props: TimeSheetProps) {

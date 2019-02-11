@@ -34,10 +34,10 @@ class DebouncedInput extends Component<*, DebouncedInputState> {
   };
 
   onChange = () => {
-    const { value } = this.state;
-    const { onChange } = this.props;
+    const { value: stateValue } = this.state;
+    const { onChange, value } = this.props;
 
-    if (onChange) onChange(value);
+    if (onChange && value !== stateValue) onChange(stateValue);
   };
 
   render() {

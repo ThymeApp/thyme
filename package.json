@@ -1,6 +1,6 @@
 {
     "name": "thyme",
-    "version": "1.10.1",
+    "version": "1.11.0",
     "private": false,
     "homepage": "/",
     "scripts": {
@@ -70,6 +70,7 @@
         "eslint-plugin-import": "^2.16.0",
         "eslint-plugin-jsx-a11y": "^6.2.1",
         "eslint-plugin-react": "^7.12.4",
+        "eslint-plugin-react-hooks": "^1.0.1",
         "flow-bin": "^0.92.1",
         "pre-push": "^0.1.1",
         "stylelint": "^9.9.0",

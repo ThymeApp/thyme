@@ -6,16 +6,27 @@ import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 
 import { render as renderComponent } from 'register/component';
 
-import Responsive from 'components/Responsive';
+import { useResponsive } from 'components/Responsive';
 
 import ProjectsList from './ProjectsList';
 
 type ProjectsListWrapperProps = {
-  projects: Array<ProjectTreeType>;
+  projects: ProjectTreeType[];
+  onUpdateProject: (project: ProjectProps) => void;
+  onRemoveProject: (id: string) => void;
+  onArchiveProject: (id: string) => void;
+  onChangeParent: (project: ProjectTreeType, parent: string | null) => void;
 };
 
 function ProjectsListWrapper(props: ProjectsListWrapperProps) {
-  const { projects } = props;
+  const {
+    projects,
+    onUpdateProject,
+    onRemoveProject,
+    onArchiveProject,
+    onChangeParent,
+  } = props;
+  const [isMinTablet] = useResponsive({ min: 'tablet' });
 
   if (projects.length === 0) {
     return (
@@ -27,28 +38,29 @@ function ProjectsListWrapper(props: ProjectsListWrapperProps) {
 
   return (
     <Table>
-      <Responsive min="tablet">
-        {matched => matched && (
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>
-                Name
-              </Table.HeaderCell>
-              {renderComponent('projects.tableheader.name', props)}
-              <Table.HeaderCell width={5}>
-                Parent
-              </Table.HeaderCell>
-              {renderComponent('projects.tableheader.parent', props)}
-              <Table.HeaderCell width={1}>
-              </Table.HeaderCell>
-              <Table.HeaderCell width={1}>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-        )}
-      </Responsive>
+      {isMinTablet && (
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>
+              Name
+            </Table.HeaderCell>
+            {renderComponent('projects.tableheader.name', props)}
+            <Table.HeaderCell width={5}>
+              Parent
+            </Table.HeaderCell>
+            {renderComponent('projects.tableheader.parent', props)}
+            <Table.HeaderCell width={3}>
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+      )}
       <Table.Body>
-        <ProjectsList projects={projects} />
+        <ProjectsList
+          onUpdateProject={onUpdateProject}
+          onRemoveProject={onRemoveProject}
+          onArchiveProject={onArchiveProject}
+          onChangeParent={onChangeParent}
+        />
       </Table.Body>
     </Table>
   );
