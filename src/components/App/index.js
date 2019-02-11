@@ -81,7 +81,8 @@ function App({
     );
   }, [location]);
 
-  useEffect(() => onInitialize());
+  // callback on mount
+  useEffect(() => onInitialize(), []);
 
   const MenuItems = (
     <Fragment>

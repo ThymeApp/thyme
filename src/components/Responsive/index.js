@@ -119,7 +119,7 @@ export function useResponsive(
       // unsubscribe
       window.removeEventListener('resize', onWindowResize);
     };
-  });
+  }, []);
 
   if (width === null) {
     return [false, {}];
