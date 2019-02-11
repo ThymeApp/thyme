@@ -21,6 +21,7 @@ import createStore from './createStore';
 import runMigrations from './migrations';
 
 import App from './components/App';
+import ErrorBoundary from './components/ErrorBoundary';
 import Routes from './Routes';
 import { register, unregister } from './serviceWorker';
 
@@ -43,9 +44,11 @@ onExtensionConnected(() => changeState(store.getState()));
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter basename={process.env.PUBLIC_URL || ''}>
-      <App>
-        <Routes />
-      </App>
+      <ErrorBoundary>
+        <App>
+          <Routes />
+        </App>
+      </ErrorBoundary>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root') || document.createElement('div'),
