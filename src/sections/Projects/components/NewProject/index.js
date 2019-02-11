@@ -9,7 +9,7 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 
 import { valueFromEventTarget } from 'core/dom';
 
-import Responsive from 'components/Responsive';
+import { useResponsive } from 'components/Responsive';
 
 import ProjectInput from 'sections/Projects/components/ProjectInput';
 
@@ -45,6 +45,7 @@ function useNewProjectState(defaultProject = defaultState()) {
 
 function NewProject({ onAddProject }: NewProjectProps) {
   const [name, parent, setName, setParent, resetState] = useNewProjectState();
+  const [showLabels] = useResponsive({ max: 'tablet' });
 
   const onSubmit = useCallback(() => {
     if (name.trim() === '') {
@@ -66,41 +67,37 @@ function NewProject({ onAddProject }: NewProjectProps) {
     <div className="NewProject">
       <Form onSubmit={onSubmit}>
         <Form.Group widths="equal">
-          <Responsive max="tablet">
-            {showLabels => (
-              <Fragment>
-                <Form.Field>
-                  {showLabels && (
-                    <label htmlFor="project-name">
-                      Project name
-                    </label>
-                  )}
-                  <Input
-                    id="project-name"
-                    name="project-name"
-                    className="NewProject__input"
-                    type="text"
-                    placeholder="Project name"
-                    value={name}
-                    onChange={onNameChange}
-                    style={{ marginRight: 12 }}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  {showLabels && (
-                    <label>
-                      Parent project
-                    </label>
-                  )}
-                  <ProjectInput
-                    placeholder="Select parent..."
-                    handleChange={onProjectChange}
-                    value={parent}
-                  />
-                </Form.Field>
-              </Fragment>
-            )}
-          </Responsive>
+          <Fragment>
+            <Form.Field>
+              {showLabels && (
+                <label htmlFor="project-name">
+                  Project name
+                </label>
+              )}
+              <Input
+                id="project-name"
+                name="project-name"
+                className="NewProject__input"
+                type="text"
+                placeholder="Project name"
+                value={name}
+                onChange={onNameChange}
+                style={{ marginRight: 12 }}
+              />
+            </Form.Field>
+            <Form.Field>
+              {showLabels && (
+                <label>
+                  Parent project
+                </label>
+              )}
+              <ProjectInput
+                placeholder="Select parent..."
+                handleChange={onProjectChange}
+                value={parent}
+              />
+            </Form.Field>
+          </Fragment>
           <Form.Field width={8}>
             <Button
               icon="add"

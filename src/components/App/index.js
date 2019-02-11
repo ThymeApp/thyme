@@ -23,7 +23,7 @@ import { getAlert } from 'selectors/app';
 
 import Account from 'sections/Account/components/MenuItem';
 
-import Responsive from '../Responsive';
+import { useResponsive } from '../Responsive';
 import Notifier from '../Notifier';
 import CompletePurchase from '../BuySubscription/Complete';
 
@@ -84,6 +84,8 @@ function App({
   // callback on mount
   useEffect(() => onInitialize(), []);
 
+  const [isDesktop] = useResponsive({ min: 'desktop' });
+
   const MenuItems = (
     <Fragment>
       {appLink('Timesheet', '/', 'stopwatch', true)}
@@ -114,45 +116,41 @@ function App({
           visible={menuOpened}
           onHide={handleClose}
         >
-          <Responsive max="desktop">
-            {matched => (matched ? MenuItems : null)}
-          </Responsive>
+          {isDesktop ? null : MenuItems}
         </Sidebar>
 
         <Sidebar.Pusher dimmed={menuOpened}>
           <Menu fixed="top" inverted>
             <Container>
-              <Responsive min="desktop">
-                {matched => (matched ? (
-                  <Fragment>
-                    <Link className="header item" to="/">
-                      <Image
-                        size="mini"
-                        src={thyme}
-                        alt="Thyme"
-                        style={{ width: 24, marginRight: '1.5em' }}
-                      />
-                      Thyme
-                    </Link>
-                    {MenuItems}
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <Menu.Item position="left" onClick={handleToggle}>
-                      <Icon name="sidebar" />
-                    </Menu.Item>
-                    <Menu.Item className="App-Title">
-                      <Image
-                        size="mini"
-                        src={thyme}
-                        alt="Thyme"
-                        style={{ width: 24, marginRight: '1.5em' }}
-                      />
-                      Thyme
-                    </Menu.Item>
-                  </Fragment>
-                ))}
-              </Responsive>
+              {isDesktop ? (
+                <Fragment>
+                  <Link className="header item" to="/">
+                    <Image
+                      size="mini"
+                      src={thyme}
+                      alt="Thyme"
+                      style={{ width: 24, marginRight: '1.5em' }}
+                    />
+                    Thyme
+                  </Link>
+                  {MenuItems}
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Menu.Item position="left" onClick={handleToggle}>
+                    <Icon name="sidebar" />
+                  </Menu.Item>
+                  <Menu.Item className="App-Title">
+                    <Image
+                      size="mini"
+                      src={thyme}
+                      alt="Thyme"
+                      style={{ width: 24, marginRight: '1.5em' }}
+                    />
+                    Thyme
+                  </Menu.Item>
+                </Fragment>
+              )}
             </Container>
           </Menu>
           <Container fluid className="App__Container">
