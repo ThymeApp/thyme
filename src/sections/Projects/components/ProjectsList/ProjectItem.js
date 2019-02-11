@@ -105,17 +105,19 @@ function ProjectItem(props: ProjectItemProps) {
   const archiveText = project.archived ? 'Unarchive project' : 'Archive project';
 
   const ArchiveButton = (
-    <Button icon onClick={onArchive}>
-      <Icon name="archive" />
-      {isMobile ? archiveText : ''}
-    </Button>
+    <Button
+      onClick={onArchive}
+      icon="archive"
+      content={isMobile ? archiveText : ''}
+    />
   );
 
   const RemoveButton = (
-    <Button icon onClick={onRemove}>
-      <Icon name="remove" />
-      {isMobile ? 'Remove project' : ''}
-    </Button>
+    <Button
+      icon="remove"
+      onClick={onRemove}
+      content={isMobile ? 'Remove project' : ''}
+    />
   );
 
   return (
