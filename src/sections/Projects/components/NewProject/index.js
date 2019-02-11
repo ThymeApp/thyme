@@ -4,6 +4,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 
@@ -14,8 +15,6 @@ import Responsive from 'components/Responsive';
 import ProjectInput from 'sections/Projects/components/ProjectInput';
 
 import { addProject } from '../../actions';
-
-import './NewProject.css';
 
 function defaultState() {
   return {
@@ -105,10 +104,14 @@ class NewProject extends Component<NewProjectType, NewProjectStateType> {
                 </Fragment>
               )}
             </Responsive>
-            <Form.Field>
-              <Button color="blue" type="submit">
-                Add project
-              </Button>
+            <Form.Field width={8}>
+              <Button
+                icon="add"
+                color="blue"
+                fluid
+                type="submit"
+                content="Add project"
+              />
             </Form.Field>
           </Form.Group>
         </Form>
