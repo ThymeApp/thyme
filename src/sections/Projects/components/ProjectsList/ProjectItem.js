@@ -108,7 +108,7 @@ function ProjectItem(props: ProjectItemProps) {
     <Button
       onClick={onArchive}
       icon="archive"
-      content={isMobile ? archiveText : ''}
+      content={isMobile ? archiveText : null}
     />
   );
 
@@ -116,7 +116,7 @@ function ProjectItem(props: ProjectItemProps) {
     <Button
       icon="remove"
       onClick={onRemove}
-      content={isMobile ? 'Remove project' : ''}
+      content={isMobile ? 'Remove project' : null}
     />
   );
 
