@@ -3,7 +3,8 @@
   margin-bottom: 2rem;
   display: flex;
   align-items: center;
-  padding: 0 1% 2rem 1%;
+  padding: 0 1% 1.5rem 1%;
+  box-shadow: 0 8px 12px 0 rgba(100, 100, 100, 0.06);
 }
 
 .AddNew__Date,
@@ -28,6 +29,7 @@
 }
 
 .AddNew__Date {
+  margin-left: 0.5rem;
   margin-right: 0.5rem;
 }
 

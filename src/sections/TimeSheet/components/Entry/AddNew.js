@@ -4,12 +4,14 @@ import React from 'react';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 
 import './AddNew.css';
 
 function AddNew() {
   return (
     <div className="AddNew">
+      <Icon name="stopwatch" color="black" size="large" />
       <div className="AddNew__Date">
         12 / 02 / 2019
       </div>
@@ -31,7 +33,7 @@ function AddNew() {
       </div>
 
       <div className="AddNew__Project">
-        <Button content="Select project" icon="briefcase" />
+        <Button compact content="Select project" icon="briefcase" />
         {/* <Button color="grey" content="Super Secret Project" /> */}
       </div>
 

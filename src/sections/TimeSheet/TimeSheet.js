@@ -55,6 +55,8 @@ function TimeSheet(props: TimeSheetProps) {
 
   return (
     <div className="TimeSheet">
+      <AddNew />
+
       {isMobile ? (
         <Fragment>
           <Accordion fluid>
@@ -78,8 +80,6 @@ function TimeSheet(props: TimeSheetProps) {
           <DateSort />
         </div>
       )}
-
-      <AddNew />
 
       <div className="TimeSheet__Listing">
         {renderComponent('timesheet.beforeTable', props)}
