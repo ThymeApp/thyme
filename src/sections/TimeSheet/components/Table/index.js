@@ -53,15 +53,17 @@ function TimeTable({
 }: TimeTableType) {
   const [isMobile] = useResponsive({ max: 'tablet' });
 
-  const New = (
-    <NewEntry
-      now={now}
-      enabledNotes={enabledNotes}
-      enabledProjects={enabledProjects}
-      enabledEndDate={enabledEndDate}
-      onAddNewProject={onAddProject}
-    />
-  );
+  // const New = (
+  //   <NewEntry
+  //     now={now}
+  //     enabledNotes={enabledNotes}
+  //     enabledProjects={enabledProjects}
+  //     enabledEndDate={enabledEndDate}
+  //     onAddNewProject={onAddProject}
+  //   />
+  // );
+
+  const New = null;
 
   const Entries = (
     <Fragment>

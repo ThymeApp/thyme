@@ -1,0 +1,51 @@
+.AddNew {
+  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1% 2rem 1%;
+}
+
+.AddNew__Date,
+.AddNew__Notes,
+.AddNew__TimeInput,
+.AddNew__Time {
+  font-size: 1.3rem;
+  line-height: 34px;
+  height: 34px;
+  display: block;
+}
+
+.AddNew__Date,
+.AddNew__TimeInput,
+.AddNew__Notes {
+  border-bottom: 2px dotted rgba(34, 36, 38, 0.1);
+}
+
+.AddNew__TimeInput {
+  display: inline-block;
+  margin: 0 0.5rem;
+}
+
+.AddNew__Date {
+  margin-right: 0.5rem;
+}
+
+.AddNew__Notes .ui.input {
+  width: 100%;
+}
+
+.AddNew__Notes {
+  margin-left: 1.5rem;
+  flex-grow: 1;
+  align-items: center;
+  display: flex;
+}
+
+.AddNew__Project {
+  margin-left: 2rem;
+}
+
+.AddNew__Actions {
+  margin-left: 1rem;
+}

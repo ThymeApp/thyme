@@ -17,6 +17,7 @@ import { getEntriesPerPage } from '../Settings/selectors';
 import DateRange from './components/DateRange';
 import DateSort from './components/DateSort';
 import TimeTable from './components/Table';
+import AddNew from './components/Entry/AddNew';
 
 import { changePage } from './actions';
 
@@ -77,22 +78,27 @@ function TimeSheet(props: TimeSheetProps) {
           <DateSort />
         </div>
       )}
-      {renderComponent('timesheet.beforeTable', props)}
-      <TimeTable
-        entries={entries.filter((item, index) => index <= end && index >= start)}
-        now={now}
-      />
-      {totalPages > 1 && (
-        <Pagination
-          firstItem={null}
-          lastItem={null}
-          activePage={page}
-          totalPages={totalPages}
-          siblingRange={2}
-          onPageChange={onPageChange}
+
+      <AddNew />
+
+      <div className="TimeSheet__Listing">
+        {renderComponent('timesheet.beforeTable', props)}
+        <TimeTable
+          entries={entries.filter((item, index) => index <= end && index >= start)}
+          now={now}
         />
-      )}
-      {renderComponent('timesheet.afterTable', props)}
+        {totalPages > 1 && (
+          <Pagination
+            firstItem={null}
+            lastItem={null}
+            activePage={page}
+            totalPages={totalPages}
+            siblingRange={2}
+            onPageChange={onPageChange}
+          />
+        )}
+        {renderComponent('timesheet.afterTable', props)}
+      </div>
     </div>
   );
 }
