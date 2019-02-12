@@ -1,46 +1,98 @@
 // @flow
 
-import React from 'react';
+import React, { useState } from 'react';
+import classnames from 'classnames';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 
+import ProjectInput from 'sections/Projects/components/ProjectInput';
+
+import DateInput from '../DateInput';
+import TimeInput from '../TimeInput';
+
 import './AddNew.css';
 
+function useTracking() {
+  const [tracking, setTracking] = useState<boolean>(false);
+
+  function toggleTracking() {
+    setTracking(!tracking);
+  }
+
+  return [tracking, toggleTracking, setTracking];
+}
+
 function AddNew() {
+  const [tracking, toggleTracking] = useTracking();
+
   return (
-    <div className="AddNew">
-      <Icon name="stopwatch" color="black" size="large" />
-      <div className="AddNew__Date">
-        12 / 02 / 2019
-      </div>
+    <div className={classnames('AddNew', { 'AddNew--tracking': tracking })}>
+      {tracking && (
+        <Icon
+          name="stopwatch"
+          size="large"
+          color="blue"
+        />
+      )}
+
+      {!tracking && (
+        <div className="AddNew__Date">
+          <DateInput
+            value="2019-02-12"
+            onChange={() => {}}
+            onKeyPress={() => {}}
+            setRef={() => {}}
+            size="big"
+          />
+        </div>
+      )}
+
+      {tracking && (
+        <div className="AddNew__Duration">
+          2:00:00
+        </div>
+      )}
+
       <div className="AddNew__Time">
-        <span className="AddNew__TimeInput">
-          09:00
-        </span>
-        →
-        <span className="AddNew__TimeInput">
-          11:00
-        </span>
+        <TimeInput
+          value="09:00"
+          onChange={() => {}}
+          onKeyPress={() => {}}
+          setRef={() => {}}
+          size="big"
+        />
+        <span className="AddNew__TimeSeparator">→</span>
+        <TimeInput
+          value="11:00"
+          onChange={() => {}}
+          onKeyPress={() => {}}
+          setRef={() => {}}
+          size="big"
+        />
       </div>
 
       <div className="AddNew__Notes">
         <Input
           placeholder="What are you working on?"
           transparent
+          size="big"
         />
       </div>
 
       <div className="AddNew__Project">
-        <Button compact content="Select project" icon="briefcase" />
-        {/* <Button color="grey" content="Super Secret Project" /> */}
+        <ProjectInput handleChange={() => {}} />
       </div>
 
       <div className="AddNew__Actions">
         <Button.Group size="small">
-          <Button icon="play" color="blue" />
-          <Button icon="redo" />
+          <Button
+            icon={tracking ? 'pause' : 'play'}
+            onClick={toggleTracking}
+            color={tracking ? 'green' : 'blue'}
+          />
+          <Button icon="redo" disabled={tracking} />
           <Button icon="add" color="grey" />
         </Button.Group>
       </div>

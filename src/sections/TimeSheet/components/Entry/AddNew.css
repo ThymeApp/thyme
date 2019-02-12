@@ -9,18 +9,13 @@
 
 .AddNew__Date,
 .AddNew__Notes,
-.AddNew__TimeInput,
 .AddNew__Time {
-  font-size: 1.3rem;
-  line-height: 34px;
-  height: 34px;
   display: block;
 }
 
-.AddNew__Date,
-.AddNew__TimeInput,
-.AddNew__Notes {
-  border-bottom: 2px dotted rgba(34, 36, 38, 0.1);
+.AddNew__TimeSeparator {
+  margin: 0 0.5rem;
+  padding-bottom: 2px;
 }
 
 .AddNew__TimeInput {
@@ -28,9 +23,10 @@
   margin: 0 0.5rem;
 }
 
+.AddNew__Duration,
+.AddNew__Time,
 .AddNew__Date {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
 }
 
 .AddNew__Notes .ui.input {
@@ -38,7 +34,6 @@
 }
 
 .AddNew__Notes {
-  margin-left: 1.5rem;
   flex-grow: 1;
   align-items: center;
   display: flex;
@@ -50,4 +45,23 @@
 
 .AddNew__Actions {
   margin-left: 1rem;
+}
+
+.AddNew__Duration {
+  font-size: 1.6rem;
+}
+
+.AddNew .ui.input input {
+  border: 0;
+  padding: 0.4em 0 !important;
+  border-top: 2px solid transparent;
+  border-bottom: 2px dotted rgba(34, 36, 38, 0.1) !important;
+}
+
+.AddNew--tracking .ui.selection.dropdown {
+  border-color: rgba(33, 133, 208, 0.5) !important;
+}
+
+.AddNew--tracking .ui.input input {
+  border-bottom-color: rgba(33, 133, 208, 0.5) !important;
 }
