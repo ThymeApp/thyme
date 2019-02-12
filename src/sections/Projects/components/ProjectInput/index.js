@@ -53,6 +53,7 @@ function ProjectInput({
       placeholder={placeholder || 'Select project...'}
       search
       selection
+      deburr
       value={value}
       disabled={disabled}
       style={{
