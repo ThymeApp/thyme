@@ -30,8 +30,6 @@ export function formatTime(date: Date) {
 
   return parsedDate.toLocaleTimeString(
     'i-default',
-    {
-      localeMatcher: 'lookup',
-    },
+    { hour: '2-digit', minute: '2-digit' },
   );
 }
