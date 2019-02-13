@@ -8,6 +8,7 @@
   box-shadow: 0 8px 12px 0 rgba(100, 100, 100, 0.06);
 }
 
+.AddNew__DurationTime,
 .AddNew__Date,
 .AddNew__Notes,
 .AddNew__Time {
@@ -16,10 +17,29 @@
   align-items: center;
 }
 
-.AddNew__Notes,
+.AddNew__DurationTime,
+.AddNew__Notes {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.AddNew__DurationTime .icon {
+  display: block;
+}
+
 .AddNew__Time {
   width: 100%;
-  justify-content: space-between;
+}
+
+.AddNew__DurationTime {
+  flex-direction: row;
+  min-height: 41px;
+}
+
+.AddNew__Duration {
+  margin-right: 1rem;
+  font-size: 1.8rem;
+  line-height: 1.2rem;
 }
 
 .AddNew__Notes {
@@ -29,8 +49,9 @@
   display: flex;
 }
 
-.AddNew--endDateEnabled .AddNew__Time {
+.AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__Time {
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .AddNew__Date {
@@ -42,16 +63,12 @@
   justify-content: center;
 }
 
-.AddNew--endDateEnabled .AddNew__TimeContainer {
-  width: 100%;
-}
-
 .AddNew__TimeSeparator {
   margin: 0.5rem;
   padding-bottom: 2px;
 }
 
-.AddNew--endDateEnabled .AddNew__TimeSeparator {
+.AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__TimeSeparator {
   transform: rotate(90deg);
 }
 
@@ -60,6 +77,8 @@
 }
 
 .AddNew__Project,
+.AddNew__Actions,
+.AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__TimeContainer,
 .AddNew__Project .ui.dropdown,
 .AddNew__Notes .ui.input {
   width: 100%;
@@ -67,15 +86,6 @@
 
 .AddNew__Project {
   margin-bottom: 1rem;
-}
-
-.AddNew__Actions {
-  margin-left: 1rem;
-}
-
-.AddNew__Duration {
-  font-size: 1.8rem;
-  line-height: 1.2rem;
 }
 
 .AddNew .ui.input input {
@@ -98,14 +108,26 @@
   border-bottom-color: rgba(33, 133, 208, 0.7) !important;
 }
 
+@media screen and (min-width: 520px) {
+  .AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__DurationTime {
+    justify-content: center;
+  }
+
+  .AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__TimeSeparator {
+    transform: rotate(0deg);
+  }
+
+  .AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__Time {
+    flex-direction: row;
+    justify-content: space-between;
+    width: auto;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .AddNew {
     padding: 0 1% 1.5rem 1%;
     flex-direction: row;
-  }
-
-  .AddNew--endDateEnabled .AddNew__TimeSeparator {
-    transform: rotate(0deg);
   }
 
   .AddNew__Duration,
@@ -117,13 +139,28 @@
     margin: 0;
   }
 
-  .AddNew__Project {
-    margin-left: 2rem;
+  .AddNew__Actions {
+    margin-left: 1rem;
+    width: auto;
   }
 
+  .AddNew__Project {
+    margin-left: 2rem;
+    margin-bottom: 0;
+  }
+
+  .AddNew__DurationTime {
+    flex-direction: column;
+  }
+
+  .AddNew__DurationTime,
   .AddNew__Time,
   .AddNew__ProjectActions {
     width: auto;
+  }
+
+  .AddNew--tracking .AddNew__DurationTime {
+    flex-direction: row;
   }
 
   .AddNew--endDateEnabled .AddNew__Time {
