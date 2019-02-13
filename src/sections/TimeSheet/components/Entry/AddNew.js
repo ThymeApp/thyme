@@ -3,9 +3,13 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 
+import format from 'date-fns/format';
+
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
+
+import { formatTime } from 'core/intl';
 
 import { useResponsive } from 'components/Responsive';
 
@@ -32,8 +36,8 @@ function AddNew() {
 
   const disabled = false;
   const endDateEnabled = false;
-  const startTime = '09:00';
-  const endTime = '11:00';
+  const startTime = new Date(2019, 1, 13, 9, 0, 0);
+  const endTime = new Date(2019, 1, 13, 11, 0, 0);
 
   const Buttons = isMobile ? (
     <Button.Group size="large" fluid>
@@ -85,7 +89,7 @@ function AddNew() {
             {!tracking && (
               <div className="AddNew__Date">
                 <DateInput
-                  value="2019-02-13"
+                  value={format(startTime, 'YYYY-MM-DD')}
                   onChange={() => {}}
                   onKeyPress={() => {}}
                   setRef={() => {}}
@@ -95,10 +99,10 @@ function AddNew() {
             )}
 
             {tracking ? (
-              <span className="AddNew__TimeValue ui big input">{startTime}</span>
+              <span className="AddNew__TimeValue ui big input">{formatTime(startTime)}</span>
             ) : (
               <TimeInput
-                value={startTime}
+                value={format(startTime, 'HH:mm')}
                 onChange={() => {}}
                 onKeyPress={() => {}}
                 setRef={() => {}}
@@ -113,7 +117,7 @@ function AddNew() {
             {!tracking && endDateEnabled && (
               <div className="AddNew__Date">
                 <DateInput
-                  value="2019-02-14"
+                  value={format(endTime, 'YYYY-MM-DD')}
                   onChange={() => {}}
                   onKeyPress={() => {}}
                   setRef={() => {}}
@@ -123,10 +127,10 @@ function AddNew() {
             )}
 
             {tracking ? (
-              <span className="AddNew__TimeValue ui big input">{endTime}</span>
+              <span className="AddNew__TimeValue ui big input">{formatTime(endTime)}</span>
             ) : (
               <TimeInput
-                value={endTime}
+                value={format(endTime, 'HH:mm')}
                 onChange={() => {}}
                 onKeyPress={() => {}}
                 setRef={() => {}}
