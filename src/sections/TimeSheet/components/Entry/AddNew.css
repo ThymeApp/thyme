@@ -2,45 +2,71 @@
   border-bottom: 1px solid rgba(34, 36, 38, 0.1);
   margin-bottom: 2rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 0 1% 1.5rem 1%;
+  padding: 0 2.5% 1.5rem 2.5%;
   box-shadow: 0 8px 12px 0 rgba(100, 100, 100, 0.06);
 }
 
 .AddNew__Date,
 .AddNew__Notes,
 .AddNew__Time {
-  display: block;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.AddNew__TimeSeparator {
-  margin: 0 0.5rem;
-  padding-bottom: 2px;
-}
-
-.AddNew__TimeInput {
-  display: inline-block;
-  margin: 0 0.5rem;
-}
-
-.AddNew__Duration,
-.AddNew__Time,
-.AddNew__Date {
-  margin-right: 1rem;
-}
-
-.AddNew__Notes .ui.input {
+.AddNew__Notes,
+.AddNew__Time {
   width: 100%;
+  justify-content: space-between;
 }
 
 .AddNew__Notes {
+  margin: 1rem 0;
   flex-grow: 1;
   align-items: center;
   display: flex;
 }
 
+.AddNew--endDateEnabled .AddNew__Time {
+  flex-direction: column;
+}
+
+.AddNew__Date {
+  margin-right: 0.5rem;
+}
+
+.AddNew__TimeContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.AddNew--endDateEnabled .AddNew__TimeContainer {
+  width: 100%;
+}
+
+.AddNew__TimeSeparator {
+  margin: 0.5rem;
+  padding-bottom: 2px;
+}
+
+.AddNew--endDateEnabled .AddNew__TimeSeparator {
+  transform: rotate(90deg);
+}
+
+.AddNew__TimeValue {
+  letter-spacing: 1px;
+}
+
+.AddNew__Project,
+.AddNew__Project .ui.dropdown,
+.AddNew__Notes .ui.input {
+  width: 100%;
+}
+
 .AddNew__Project {
-  margin-left: 2rem;
+  margin-bottom: 1rem;
 }
 
 .AddNew__Actions {
@@ -48,10 +74,12 @@
 }
 
 .AddNew__Duration {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  line-height: 1.2rem;
 }
 
 .AddNew .ui.input input {
+  background-color: transparent;
   border: 0;
   padding: 0.4em 0 !important;
   border-top: 2px solid transparent;
@@ -64,4 +92,41 @@
 
 .AddNew--tracking .ui.input input {
   border-bottom-color: rgba(33, 133, 208, 0.5) !important;
+}
+
+.AddNew .ui.input input:focus {
+  border-bottom-color: rgba(33, 133, 208, 0.7) !important;
+}
+
+@media screen and (min-width: 768px) {
+  .AddNew {
+    padding: 0 1% 1.5rem 1%;
+    flex-direction: row;
+  }
+
+  .AddNew--endDateEnabled .AddNew__TimeSeparator {
+    transform: rotate(0deg);
+  }
+
+  .AddNew__Duration,
+  .AddNew__Time {
+    margin-right: 1rem;
+  }
+
+  .AddNew__Notes {
+    margin: 0;
+  }
+
+  .AddNew__Project {
+    margin-left: 2rem;
+  }
+
+  .AddNew__Time,
+  .AddNew__ProjectActions {
+    width: auto;
+  }
+
+  .AddNew--endDateEnabled .AddNew__Time {
+    flex-direction: row;
+  }
 }

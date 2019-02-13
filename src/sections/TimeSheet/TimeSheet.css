@@ -1,15 +1,33 @@
 .TimeSheet__RangeSort {
-  padding: 0 1%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2rem;
 }
 
+.TimeSheet__MobileRangeSort,
+.TimeSheet__RangeSort,
 .TimeSheet__Listing {
-  padding: 0 1%;
+  padding: 0 2.5%;
 }
 
 .accordion .ui.vertical.menu {
   width: auto;
+}
+
+.TimeSheet {
+  margin-left: -1em;
+  margin-right: -1em;
+}
+
+@media screen and (min-width: 768px) {
+  .TimeSheet {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .TimeSheet__RangeSort,
+  .TimeSheet__Listing {
+    padding: 0 1%;
+  }
 }

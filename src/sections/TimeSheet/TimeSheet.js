@@ -58,7 +58,7 @@ function TimeSheet(props: TimeSheetProps) {
       <AddNew />
 
       {isMobile ? (
-        <Fragment>
+        <div className="TimeSheet__MobileRangeSort">
           <Accordion fluid>
             <Accordion.Title
               active={filterOpen}
@@ -73,7 +73,7 @@ function TimeSheet(props: TimeSheetProps) {
             </Accordion.Content>
           </Accordion>
           <Divider />
-        </Fragment>
+        </div>
       ) : (
         <div className="TimeSheet__RangeSort">
           <DateRange />
