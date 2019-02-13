@@ -2,17 +2,9 @@
 
 import parse from 'date-fns/parse';
 
-function getLocale() {
-  if (navigator.languages !== undefined) {
-    return navigator.languages[0];
-  }
-
-  return navigator.language;
-}
-
 export function formatCurrency(currency: string, value: number) {
   return new Intl
-    .NumberFormat(getLocale(), { style: 'currency', currency })
+    .NumberFormat('i-default', { style: 'currency', currency })
     .format(value);
 }
 
@@ -20,15 +12,26 @@ export function formatShortDate(date: Date, numberOfDays: number) {
   const parsedDate = parse(date);
 
   if (numberOfDays > 14 && parsedDate.getDate() === 1) {
-    return parsedDate.toLocaleDateString(getLocale(), { month: 'short' });
+    return parsedDate.toLocaleDateString('i-default', { month: 'short' });
   }
 
   return parsedDate.toLocaleDateString(
-    getLocale(),
+    'i-default',
     {
       month: numberOfDays < 15 ? '2-digit' : undefined,
       day: '2-digit',
       weekday: numberOfDays < 9 ? 'short' : undefined,
+    },
+  );
+}
+
+export function formatTime(date: Date) {
+  const parsedDate = parse(date);
+
+  return parsedDate.toLocaleTimeString(
+    'i-default',
+    {
+      localeMatcher: 'lookup',
     },
   );
 }
