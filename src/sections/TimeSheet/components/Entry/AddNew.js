@@ -8,6 +8,7 @@ import format from 'date-fns/format';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
+import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import { formatTime } from 'core/intl';
 
@@ -57,14 +58,31 @@ function AddNew() {
     </Button.Group>
   ) : (
     <Button.Group size="small">
-      <Button
-        icon={tracking ? 'pause' : 'play'}
-        onClick={toggleTracking}
-        color={tracking ? 'purple' : 'blue'}
-        disabled={disabled}
+      <Popup
+        inverted
+        position="bottom center"
+        trigger={(
+          <Button
+            icon={tracking ? 'pause' : 'play'}
+            onClick={toggleTracking}
+            color={tracking ? 'purple' : 'blue'}
+            disabled={disabled}
+          />
+        )}
+        content={tracking ? 'Pause timer' : 'Start timer'}
       />
-      <Button icon="redo" disabled={tracking || disabled} />
-      <Button icon="add" disabled={disabled} color="grey" />
+      <Popup
+        inverted
+        position="bottom center"
+        trigger={<Button icon="redo" disabled={tracking || disabled} />}
+        content="Clear timer"
+      />
+      <Popup
+        inverted
+        position="bottom right"
+        trigger={<Button icon="add" disabled={disabled} color="grey" />}
+        content="Add this entry"
+      />
     </Button.Group>
   );
 

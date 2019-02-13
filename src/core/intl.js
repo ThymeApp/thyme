@@ -25,7 +25,7 @@ export function formatShortDate(date: Date, numberOfDays: number) {
   );
 }
 
-export function formatTime(date: Date) {
+export function formatTime(date: Date | number) {
   const parsedDate = parse(date);
 
   return parsedDate.toLocaleTimeString(
