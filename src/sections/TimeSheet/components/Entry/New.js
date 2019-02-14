@@ -30,7 +30,7 @@ import { addTime } from '../../actions';
 
 import { getTemporaryItem } from '../../api';
 
-import Entry from './Entry';
+import EditableEntry from './EditableEntry';
 
 type NewEntryProps = {
   now: Date;
@@ -278,7 +278,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
     const { entry, tracking, fetching } = this.state;
 
     return (
-      <Entry
+      <EditableEntry
         disabled={fetching}
         round="none"
         now={now}

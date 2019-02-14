@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
@@ -11,21 +11,13 @@ import {
   getDurationRounding,
   getDurationAmount,
   getRoundingOn,
-  getEnableNotes,
-  getEnableProjects,
-  getEnableEndDate,
 } from 'sections/Settings/selectors';
-
-import { addProject } from 'sections/Projects/actions';
 
 import { updateTime, removeTime } from '../../actions';
 
-import { getDateSort } from '../../selectors';
-
-import { NewEntry, Entry } from '../Entry';
+import { Entry } from '../Entry';
 
 type TimeTableType = {
-  sort: SortDirection;
   entries: Array<TimeType>;
   now: Date;
   round: Rounding;
@@ -39,7 +31,6 @@ type TimeTableType = {
 };
 
 function TimeTable({
-  sort,
   entries,
   now,
   round,
@@ -53,39 +44,21 @@ function TimeTable({
 }: TimeTableType) {
   const [isMobile] = useResponsive({ max: 'tablet' });
 
-  // const New = (
-  //   <NewEntry
-  //     now={now}
-  //     enabledNotes={enabledNotes}
-  //     enabledProjects={enabledProjects}
-  //     enabledEndDate={enabledEndDate}
-  //     onAddNewProject={onAddProject}
-  //   />
-  // );
-
-  const New = null;
-
-  const Entries = (
-    <Fragment>
-      {sort === 'desc' && New}
-      {entries.map(entry => (
-        <Entry
-          key={entry.id}
-          round={round}
-          roundAmount={roundAmount}
-          entry={entry}
-          now={now}
-          enabledNotes={enabledNotes}
-          enabledProjects={enabledProjects}
-          enabledEndDate={enabledEndDate}
-          onAddNewProject={onAddProject}
-          onUpdate={onEntryUpdate}
-          onRemove={onEntryRemove}
-        />
-      ))}
-      {sort === 'asc' && New}
-    </Fragment>
-  );
+  const Entries = entries.map(entry => (
+    <Entry
+      key={entry.id}
+      round={round}
+      roundAmount={roundAmount}
+      entry={entry}
+      now={now}
+      enabledNotes={enabledNotes}
+      enabledProjects={enabledProjects}
+      enabledEndDate={enabledEndDate}
+      onAddNewProject={onAddProject}
+      onUpdate={onEntryUpdate}
+      onRemove={onEntryRemove}
+    />
+  ));
 
   // only render Entries on mobile
   if (isMobile) {
@@ -137,12 +110,8 @@ function mapStateToProps(state) {
   const roundingOn = getRoundingOn(state);
 
   return {
-    sort: getDateSort(state),
     round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
     roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
-    enabledNotes: getEnableNotes(state),
-    enabledProjects: getEnableProjects(state),
-    enabledEndDate: getEnableEndDate(state),
   };
 }
 
@@ -153,16 +122,6 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
     },
     onEntryRemove(entry) {
       dispatch(removeTime(entry.id));
-    },
-    onAddProject(project, entry) {
-      const newProjectAction = addProject({ parent: null, name: project });
-
-      const projectId = newProjectAction.id;
-
-      dispatch(newProjectAction);
-      dispatch(updateTime({ ...entry, project: projectId }));
-
-      return newProjectAction.id;
     },
   };
 }

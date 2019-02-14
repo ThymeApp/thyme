@@ -1,4 +1,4 @@
-.AddNew {
+.EditableEntry {
   border-bottom: 1px solid rgba(34, 36, 38, 0.1);
   margin-bottom: 2rem;
   display: flex;
@@ -8,88 +8,88 @@
   box-shadow: 0 8px 12px 0 rgba(100, 100, 100, 0.06);
 }
 
-.AddNew__DurationTime,
-.AddNew__Date,
-.AddNew__Notes,
-.AddNew__Time {
+.EditableEntry__DurationTime,
+.EditableEntry__Date,
+.EditableEntry__Notes,
+.EditableEntry__Time {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.AddNew__DurationTime,
-.AddNew__Notes {
+.EditableEntry__DurationTime,
+.EditableEntry__Notes {
   width: 100%;
   justify-content: flex-start;
 }
 
-.AddNew__DurationTime .icon {
+.EditableEntry__DurationTime .icon {
   display: block;
 }
 
-.AddNew__Time {
+.EditableEntry__Time {
   width: 100%;
 }
 
-.AddNew__DurationTime {
+.EditableEntry__DurationTime {
   flex-direction: row;
   min-height: 41px;
 }
 
-.AddNew__Duration {
+.EditableEntry__Duration {
   margin-right: 1rem;
   font-size: 1.8rem;
   line-height: 1.2rem;
 }
 
-.AddNew__Notes {
+.EditableEntry__Notes {
   flex-grow: 1;
   align-items: center;
   display: flex;
 }
 
-.AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__Time {
+.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__Time {
   flex-direction: column;
   justify-content: space-between;
 }
 
-.AddNew__Date {
+.EditableEntry__Date {
   margin-right: 0.5rem;
 }
 
-.AddNew__TimeContainer {
+.EditableEntry__TimeContainer {
   display: flex;
   justify-content: center;
 }
 
-.AddNew__TimeSeparator {
+.EditableEntry__TimeSeparator {
   margin: 0.5rem;
   padding-bottom: 2px;
 }
 
-.AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__TimeSeparator {
+.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__TimeSeparator {
   transform: rotate(90deg);
 }
 
-.AddNew__TimeValue {
+.EditableEntry__TimeValue {
   letter-spacing: 1px;
 }
 
-.AddNew__Notes,
-.AddNew__Project,
-.AddNew__Actions {
+.EditableEntry__Notes,
+.EditableEntry__Project,
+.EditableEntry__Actions {
   margin-top: 1rem;
 }
 
-.AddNew__Project,
-.AddNew__Actions,
-.AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__TimeContainer,
-.AddNew__Project .ui.dropdown,
-.AddNew__Notes .ui.input {
+.EditableEntry__Project,
+.EditableEntry__Actions,
+.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__TimeContainer,
+.EditableEntry__Project .ui.dropdown,
+.EditableEntry__Notes .ui.input {
   width: 100%;
 }
 
-.AddNew .ui.input input {
+.EditableEntry .ui.input input {
   background-color: transparent;
   border: 0;
   padding: 0.4em 0 !important;
@@ -97,28 +97,28 @@
   border-bottom: 2px dotted rgba(34, 36, 38, 0.1) !important;
 }
 
-.AddNew--tracking .ui.selection.dropdown {
+.EditableEntry--tracking .ui.selection.dropdown {
   border-color: rgba(33, 133, 208, 0.5) !important;
 }
 
-.AddNew--tracking .ui.input input {
+.EditableEntry--tracking .ui.input input {
   border-bottom-color: rgba(33, 133, 208, 0.5) !important;
 }
 
-.AddNew .ui.input input:focus {
+.EditableEntry .ui.input input:focus {
   border-bottom-color: rgba(33, 133, 208, 0.7) !important;
 }
 
 @media screen and (min-width: 520px) {
-  .AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__DurationTime {
+  .EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__DurationTime {
     justify-content: center;
   }
 
-  .AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__TimeSeparator {
+  .EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__TimeSeparator {
     transform: rotate(0deg);
   }
 
-  .AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__Time {
+  .EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__Time {
     flex-direction: row;
     justify-content: space-between;
     width: auto;
@@ -126,47 +126,47 @@
 }
 
 @media screen and (min-width: 768px) {
-  .AddNew {
+  .EditableEntry {
     padding: 0 1% 1.5rem 1%;
     flex-direction: row;
   }
 
-  .AddNew__Duration,
-  .AddNew__Time {
+  .EditableEntry__Duration,
+  .EditableEntry__Time {
     margin-right: 1rem;
   }
 
-  .AddNew__Notes {
+  .EditableEntry__Notes {
     margin: 0;
   }
 
-  .AddNew__Actions {
+  .EditableEntry__Actions {
     margin-left: 1rem;
     margin-top: 0;
     width: auto;
   }
 
-  .AddNew__Project {
+  .EditableEntry__Project {
     margin-left: 2rem;
     margin-top: 0;
   }
 
-  .AddNew__DurationTime {
+  .EditableEntry__DurationTime {
     margin-right: auto;
     flex-direction: column;
   }
 
-  .AddNew__DurationTime,
-  .AddNew__Time,
-  .AddNew__Project {
+  .EditableEntry__DurationTime,
+  .EditableEntry__Time,
+  .EditableEntry__Project {
     width: auto;
   }
 
-  .AddNew--tracking .AddNew__DurationTime {
+  .EditableEntry--tracking .EditableEntry__DurationTime {
     flex-direction: row;
   }
 
-  .AddNew--endDateEnabled .AddNew__Time {
+  .EditableEntry--endDateEnabled .EditableEntry__Time {
     flex-direction: row;
   }
 }

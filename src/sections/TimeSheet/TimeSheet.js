@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
@@ -12,14 +12,21 @@ import { render as renderComponent } from 'register/component';
 
 import { useResponsive } from 'components/Responsive';
 
-import { getEntriesPerPage } from '../Settings/selectors';
+import { addProject } from 'sections/Projects/actions';
+
+import {
+  getEnableEndDate,
+  getEnableNotes,
+  getEnableProjects,
+  getEntriesPerPage,
+} from '../Settings/selectors';
 
 import DateRange from './components/DateRange';
 import DateSort from './components/DateSort';
 import TimeTable from './components/Table';
-import AddNew from './components/Entry/AddNew';
+import { NewEntry } from './components/Entry';
 
-import { changePage } from './actions';
+import { changePage, updateTime } from './actions';
 
 import { getCurrentTimeEntries, getPage } from './selectors';
 
@@ -31,6 +38,10 @@ type TimeSheetProps = {
   page: number;
   entriesPerPage: number;
   changeEntriesPage: (page: number) => void;
+  enabledNotes: boolean;
+  enabledProjects: boolean;
+  enabledEndDate: boolean;
+  onAddProject: (project: string) => string;
 };
 
 function TimeSheet(props: TimeSheetProps) {
@@ -40,6 +51,10 @@ function TimeSheet(props: TimeSheetProps) {
     page,
     entriesPerPage,
     changeEntriesPage,
+    enabledNotes,
+    enabledProjects,
+    enabledEndDate,
+    onAddProject,
   } = props;
   const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const [isMobile] = useResponsive({ max: 'tablet' });
@@ -55,22 +70,12 @@ function TimeSheet(props: TimeSheetProps) {
 
   return (
     <div className="TimeSheet">
-      <AddNew
-        entry={{
-          id: 'HaYPC2nWg',
-          project: 'q4M-VS6OX',
-          start: new Date(2019, 1, 14, 8, 0, 0),
-          end: new Date(2019, 1, 14, 11, 0, 0),
-          notes: 'Some notes',
-          removed: false,
-          createdAt: '2019-01-16T11:17:13.629Z',
-          updatedAt: '2019-01-17T13:32:53.058Z',
-        }}
-        enabledEndDate={false}
-        enabledNotes
-        enabledProjects
-        onUpdate={entry => console.log(entry)}
-        tracking={false}
+      <NewEntry
+        now={now}
+        enabledNotes={enabledNotes}
+        enabledProjects={enabledProjects}
+        enabledEndDate={enabledEndDate}
+        onAddNewProject={onAddProject}
       />
 
       {isMobile ? (
@@ -102,6 +107,10 @@ function TimeSheet(props: TimeSheetProps) {
         <TimeTable
           entries={entries.filter((item, index) => index <= end && index >= start)}
           now={now}
+          enabledNotes={enabledNotes}
+          enabledProjects={enabledProjects}
+          enabledEndDate={enabledEndDate}
+          onAddNewProject={onAddProject}
         />
         {totalPages > 1 && (
           <Pagination
@@ -129,6 +138,9 @@ function mapStateToProps(state: StateShape, props: TimeSheetProps) {
     now: currentDate,
     page: getPage(state),
     entriesPerPage: getEntriesPerPage(state),
+    enabledNotes: getEnableNotes(state),
+    enabledProjects: getEnableProjects(state),
+    enabledEndDate: getEnableEndDate(state),
   };
 }
 
@@ -136,6 +148,16 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {
     changeEntriesPage(page: number) {
       dispatch(changePage(page));
+    },
+    onAddProject(project, entry) {
+      const newProjectAction = addProject({ parent: null, name: project });
+
+      const projectId = newProjectAction.id;
+
+      dispatch(newProjectAction);
+      dispatch(updateTime({ ...entry, project: projectId }));
+
+      return newProjectAction.id;
     },
   };
 }
