@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 
+import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
@@ -21,6 +22,25 @@ import TimeInput from '../TimeInput';
 
 import './AddNew.css';
 
+type EntryProps = {
+  entry: TimeType | TimePropertyType;
+  enabledNotes: boolean;
+  enabledProjects: boolean;
+  enabledEndDate: boolean;
+  disabled?: boolean;
+  tracking?: boolean;
+  isNew?: boolean;
+  round?: Rounding;
+  roundAmount?: number;
+  onStart?: () => void;
+  onStop?: () => void;
+  onUpdate: (entry: TimeType | TimePropertyType, tracking: boolean) => void;
+  onAdd?: (entry: TimePropertyType) => void;
+  onResetItem?: (newItem: boolean) => void;
+  onAddNewProject?: (project: string, entry: TimeType | TimePropertyType) => string;
+  onRemove?: (entry: TimeType | TimePropertyType) => void;
+};
+
 function useTracking() {
   const [tracking, setTracking] = useState<boolean>(false);
 
@@ -31,14 +51,20 @@ function useTracking() {
   return [tracking, toggleTracking, setTracking];
 }
 
-function AddNew() {
+function AddNew(props: EntryProps) {
+  const {
+    entry,
+    enabledNotes,
+    enabledProjects,
+    enabledEndDate,
+    disabled,
+  } = props;
+
   const [tracking, toggleTracking] = useTracking();
   const [isMobile] = useResponsive({ max: 'tablet' });
 
-  const disabled = false;
-  const endDateEnabled = false;
-  const startTime = new Date(2019, 1, 13, 9, 0, 0);
-  const endTime = new Date(2019, 1, 13, 11, 0, 0);
+  const startTime = parse(entry.start);
+  const endTime = parse(entry.end);
 
   const Buttons = isMobile ? (
     <Button.Group size="large" fluid>
@@ -87,7 +113,7 @@ function AddNew() {
   );
 
   return (
-    <div className={classnames('AddNew', { 'AddNew--tracking': tracking, 'AddNew--endDateEnabled': endDateEnabled })}>
+    <div className={classnames('AddNew', { 'AddNew--tracking': tracking, 'AddNew--endDateEnabled': enabledEndDate })}>
       <section className="AddNew__DurationTime">
         {tracking && (
           <>
@@ -132,7 +158,7 @@ function AddNew() {
           <span className="AddNew__TimeSeparator">→</span>
 
           <section className="AddNew__TimeContainer">
-            {!tracking && endDateEnabled && (
+            {!tracking && enabledEndDate && (
               <div className="AddNew__Date">
                 <DateInput
                   value={format(endTime, 'YYYY-MM-DD')}
@@ -159,17 +185,21 @@ function AddNew() {
         </div>
       </section>
 
-      <div className="AddNew__Notes">
-        <Input
-          placeholder="What are you working on?"
-          transparent
-          size="big"
-        />
-      </div>
+      {enabledNotes && (
+        <div className="AddNew__Notes">
+          <Input
+            placeholder="What are you working on?"
+            transparent
+            size="big"
+          />
+        </div>
+      )}
 
-      <div className="AddNew__Project">
-        <ProjectInput handleChange={() => {}} size="large" />
-      </div>
+      {enabledProjects && (
+        <div className="AddNew__Project">
+          <ProjectInput handleChange={() => {}} size="large" />
+        </div>
+      )}
 
       <div className="AddNew__Actions">{Buttons}</div>
     </div>

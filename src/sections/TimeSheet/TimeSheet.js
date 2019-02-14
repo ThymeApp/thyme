@@ -55,7 +55,22 @@ function TimeSheet(props: TimeSheetProps) {
 
   return (
     <div className="TimeSheet">
-      <AddNew />
+      <AddNew
+        entry={{
+          id: 'HaYPC2nWg',
+          project: 'q4M-VS6OX',
+          start: new Date(2019, 1, 14, 8, 0, 0),
+          end: new Date(2019, 1, 14, 11, 0, 0),
+          notes: 'Some notes',
+          removed: false,
+          createdAt: '2019-01-16T11:17:13.629Z',
+          updatedAt: '2019-01-17T13:32:53.058Z',
+        }}
+        enabledEndDate={false}
+        enabledNotes
+        enabledProjects
+        onUpdate={entry => console.log(entry)}
+      />
 
       {isMobile ? (
         <div className="TimeSheet__MobileRangeSort">

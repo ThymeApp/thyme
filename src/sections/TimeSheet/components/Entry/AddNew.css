@@ -43,7 +43,6 @@
 }
 
 .AddNew__Notes {
-  margin: 1rem 0;
   flex-grow: 1;
   align-items: center;
   display: flex;
@@ -76,16 +75,18 @@
   letter-spacing: 1px;
 }
 
+.AddNew__Notes,
+.AddNew__Project,
+.AddNew__Actions {
+  margin-top: 1rem;
+}
+
 .AddNew__Project,
 .AddNew__Actions,
 .AddNew--endDateEnabled:not(.AddNew--tracking) .AddNew__TimeContainer,
 .AddNew__Project .ui.dropdown,
 .AddNew__Notes .ui.input {
   width: 100%;
-}
-
-.AddNew__Project {
-  margin-bottom: 1rem;
 }
 
 .AddNew .ui.input input {
@@ -141,15 +142,17 @@
 
   .AddNew__Actions {
     margin-left: 1rem;
+    margin-top: 0;
     width: auto;
   }
 
   .AddNew__Project {
     margin-left: 2rem;
-    margin-bottom: 0;
+    margin-top: 0;
   }
 
   .AddNew__DurationTime {
+    margin-right: auto;
     flex-direction: column;
   }
 
