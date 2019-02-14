@@ -301,7 +301,7 @@ function EditableEntry(props: EntryProps) {
     }
 
     return 'older';
-  }, [isMobile, isNew, tracking, disabled]);
+  }, [isMobile, isNew, tracking, disabled, onAddEntry]);
 
   const duration = timeElapsed(startTime, endTime, tracking, true, round, roundAmount) || '0:00:00';
 

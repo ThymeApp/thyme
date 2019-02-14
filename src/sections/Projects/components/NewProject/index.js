@@ -58,10 +58,17 @@ function NewProject({ onAddProject }: NewProjectProps) {
     });
 
     resetState();
-  }, [name, parent]);
+  }, [name, parent, onAddProject, resetState]);
 
-  const onNameChange = useCallback((e: Event) => setName(valueFromEventTarget(e.target)));
-  const onProjectChange = useCallback((value: string | null) => setParent(value));
+  const onNameChange = useCallback(
+    (e: Event) => setName(valueFromEventTarget(e.target)),
+    [setName],
+  );
+
+  const onProjectChange = useCallback(
+    (value: string | null) => setParent(value),
+    [setParent],
+  );
 
   return (
     <div className="NewProject">
