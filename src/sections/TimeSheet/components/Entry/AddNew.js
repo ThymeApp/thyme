@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 import classnames from 'classnames';
 
 import parse from 'date-fns/parse';
@@ -12,6 +12,7 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
 import { formatTime } from 'core/intl';
+import { timeElapsed } from 'core/thyme';
 
 import { useResponsive } from 'components/Responsive';
 
@@ -34,22 +35,12 @@ type EntryProps = {
   roundAmount?: number;
   onStart?: () => void;
   onStop?: () => void;
-  onUpdate: (entry: TimeType | TimePropertyType, tracking: boolean) => void;
   onAdd?: (entry: TimePropertyType) => void;
+  onUpdate: (entry: TimeType | TimePropertyType, tracking: boolean) => void;
   onResetItem?: (newItem: boolean) => void;
   onAddNewProject?: (project: string, entry: TimeType | TimePropertyType) => string;
   onRemove?: (entry: TimeType | TimePropertyType) => void;
 };
-
-function useTracking() {
-  const [tracking, setTracking] = useState<boolean>(false);
-
-  function toggleTracking() {
-    setTracking(!tracking);
-  }
-
-  return [tracking, toggleTracking, setTracking];
-}
 
 function AddNew(props: EntryProps) {
   const {
@@ -58,59 +49,120 @@ function AddNew(props: EntryProps) {
     enabledProjects,
     enabledEndDate,
     disabled,
+    tracking,
+    isNew,
+    round,
+    roundAmount,
+    onStart,
+    onStop,
+    onAdd,
+    onResetItem,
   } = props;
 
-  const [tracking, toggleTracking] = useTracking();
   const [isMobile] = useResponsive({ max: 'tablet' });
 
-  const startTime = parse(entry.start);
-  const endTime = parse(entry.end);
+  const [
+    startTime,
+    endTime,
+    startDateFormatted,
+    startTimeFormatted,
+    endDateFormatted,
+    endTimeFormatted,
+  ] = useMemo(() => {
+    const parsedStartTime = parse(entry.start);
+    const parsedEndTime = parse(entry.end);
 
-  const Buttons = isMobile ? (
-    <Button.Group size="large" fluid>
-      <Button
-        icon={tracking ? 'pause' : 'play'}
-        disabled={disabled}
-        onClick={toggleTracking}
-        color={tracking ? 'purple' : 'blue'}
-        content={tracking ? 'Pause timer' : 'Start timer'}
-      />
-      <Button
-        icon="add"
-        disabled={disabled}
-        color="grey"
-        content="Add entry"
-      />
-    </Button.Group>
-  ) : (
-    <Button.Group size="small">
-      <Popup
-        inverted
-        position="bottom center"
-        trigger={(
+    return [
+      parsedStartTime,
+      parsedEndTime,
+      format(parsedStartTime, 'YYYY-MM-DD'),
+      format(parsedStartTime, 'HH:mm'),
+      format(parsedEndTime, 'YYYY-MM-DD'),
+      format(parsedEndTime, 'HH:mm'),
+    ];
+  }, [entry.start, entry.end]);
+
+  const dateInput = useRef(null);
+
+  const resetItem = useCallback((newItem: boolean) => {
+    if (onResetItem) onResetItem(newItem);
+  }, [onResetItem]);
+
+  const onClearItem = useCallback(() => resetItem(false), []);
+
+  const onAddEntry = useCallback(() => {
+    if (typeof onAdd === 'function') {
+      onAdd(entry);
+
+      // put focus back on date input
+      if (dateInput && dateInput.current) {
+        dateInput.current.focus();
+      }
+
+      resetItem(true);
+    }
+  }, [entry, onAdd, dateInput, resetItem]);
+
+  const onKeyPress = useCallback((e: KeyboardEvent) => {
+    // check if return is pressed
+    if (e.key && e.key === 'Enter' && isNew) {
+      onAddEntry();
+    }
+  }, []);
+
+  const Buttons = useCallback(() => {
+    if (!isNew) {
+      return isMobile ? (
+        <Button.Group size="large" fluid>
           <Button
             icon={tracking ? 'pause' : 'play'}
-            onClick={toggleTracking}
-            color={tracking ? 'purple' : 'blue'}
             disabled={disabled}
+            onClick={tracking ? onStop : onStart}
+            color={tracking ? 'purple' : 'blue'}
+            content={tracking ? 'Pause timer' : 'Start timer'}
           />
-        )}
-        content={tracking ? 'Pause timer' : 'Start timer'}
-      />
-      <Popup
-        inverted
-        position="bottom center"
-        trigger={<Button icon="redo" disabled={tracking || disabled} />}
-        content="Clear timer"
-      />
-      <Popup
-        inverted
-        position="bottom right"
-        trigger={<Button icon="add" disabled={disabled} color="grey" />}
-        content="Add this entry"
-      />
-    </Button.Group>
-  );
+          <Button
+            icon="add"
+            disabled={disabled}
+            color="grey"
+            content="Add entry"
+          />
+        </Button.Group>
+      ) : (
+        <Button.Group size="small">
+          <Popup
+            inverted
+            position="bottom center"
+            trigger={(
+              <Button
+                icon={tracking ? 'pause' : 'play'}
+                onClick={tracking ? onStop : onStart}
+                color={tracking ? 'purple' : 'blue'}
+                disabled={disabled}
+              />
+            )}
+            content={tracking ? 'Pause timer' : 'Start timer'}
+          />
+          <Popup
+            inverted
+            position="bottom center"
+            trigger={<Button icon="redo" onClick={onClearItem} disabled={tracking || disabled} />}
+            content="Clear timer"
+          />
+          <Popup
+            inverted
+            position="bottom right"
+            trigger={<Button icon="add" disabled={disabled} color="grey" />}
+            content="Add this entry"
+          />
+        </Button.Group>
+      );
+    }
+
+    return 'older';
+  }, [isMobile, isNew, tracking, disabled]);
+
+  const duration = timeElapsed(startTime, endTime, tracking, true, round, roundAmount) || '0:00:00';
 
   return (
     <div className={classnames('AddNew', { 'AddNew--tracking': tracking, 'AddNew--endDateEnabled': enabledEndDate })}>
@@ -123,7 +175,7 @@ function AddNew(props: EntryProps) {
               color="blue"
             />
             <div className="AddNew__Duration">
-              2:00:00
+              {duration}
             </div>
           </>
         )}
@@ -133,10 +185,10 @@ function AddNew(props: EntryProps) {
             {!tracking && (
               <div className="AddNew__Date">
                 <DateInput
-                  value={format(startTime, 'YYYY-MM-DD')}
+                  setRef={dateInput}
+                  value={startDateFormatted}
                   onChange={() => {}}
-                  onKeyPress={() => {}}
-                  setRef={() => {}}
+                  onKeyPress={onKeyPress}
                   size="big"
                 />
               </div>
@@ -146,10 +198,9 @@ function AddNew(props: EntryProps) {
               <span className="AddNew__TimeValue ui big input">{formatTime(startTime)}</span>
             ) : (
               <TimeInput
-                value={format(startTime, 'HH:mm')}
+                value={startTimeFormatted}
                 onChange={() => {}}
-                onKeyPress={() => {}}
-                setRef={() => {}}
+                onKeyPress={onKeyPress}
                 size="big"
               />
             )}
@@ -161,10 +212,9 @@ function AddNew(props: EntryProps) {
             {!tracking && enabledEndDate && (
               <div className="AddNew__Date">
                 <DateInput
-                  value={format(endTime, 'YYYY-MM-DD')}
+                  value={endDateFormatted}
                   onChange={() => {}}
-                  onKeyPress={() => {}}
-                  setRef={() => {}}
+                  onKeyPress={onKeyPress}
                   size="big"
                 />
               </div>
@@ -174,10 +224,9 @@ function AddNew(props: EntryProps) {
               <span className="AddNew__TimeValue ui big input">{formatTime(endTime)}</span>
             ) : (
               <TimeInput
-                value={format(endTime, 'HH:mm')}
+                value={endTimeFormatted}
                 onChange={() => {}}
-                onKeyPress={() => {}}
-                setRef={() => {}}
+                onKeyPress={onKeyPress}
                 size="big"
               />
             )}
@@ -191,17 +240,27 @@ function AddNew(props: EntryProps) {
             placeholder="What are you working on?"
             transparent
             size="big"
+            value={entry.notes}
+            disabled={disabled}
+            onKeyPress={onKeyPress}
           />
         </div>
       )}
 
       {enabledProjects && (
         <div className="AddNew__Project">
-          <ProjectInput handleChange={() => {}} size="large" />
+          <ProjectInput
+            value={entry.project}
+            handleChange={() => {}}
+            size="large"
+            disabled={disabled}
+          />
         </div>
       )}
 
-      <div className="AddNew__Actions">{Buttons}</div>
+      <div className="AddNew__Actions">
+        {Buttons()}
+      </div>
     </div>
   );
 }

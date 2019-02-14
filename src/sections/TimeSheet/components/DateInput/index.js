@@ -8,7 +8,7 @@ type DateInputType = {
   value: string,
   size: string,
   disabled?: boolean;
-  setRef: (input: HTMLInputElement | null) => void,
+  setRef?: any,
   onChange: (date: string) => void,
   onKeyPress: (e: KeyboardEvent) => void,
 };

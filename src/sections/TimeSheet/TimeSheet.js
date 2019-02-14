@@ -70,6 +70,7 @@ function TimeSheet(props: TimeSheetProps) {
         enabledNotes
         enabledProjects
         onUpdate={entry => console.log(entry)}
+        tracking={false}
       />
 
       {isMobile ? (
