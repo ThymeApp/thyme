@@ -163,6 +163,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
     } = this.state;
 
     const projectsWithTime = projects.filter(project => project.time > 0);
+    const allProjectsWithTime = allProjects.filter(project => project.time > 0);
 
     const reportTable = createTable(
       'reports', [
@@ -213,9 +214,9 @@ class Reports extends Component<ReportsProps, ReportsState> {
           <BuyMessage>Want more insights in your day to day tracked time?</BuyMessage>
         )}
         {renderComponent('reports.afterCharts', this.props)}
-        {projects.length > 0 && (
+        {projectsWithTime.length > 0 && (
           <ReportFilters
-            projects={allProjects}
+            projects={allProjectsWithTime}
             filters={filters}
             columnFilters={reportTable.filters}
             onToggleProject={this.onToggleFilter}
