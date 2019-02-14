@@ -55,7 +55,7 @@ export default ({ from, to, projects }: ReportsProps) => {
 
       const projectDetails = {
         ...project,
-        colour: colours[index],
+        colour: colours[index % 20],
       };
 
       if (dayEntries.length === 0) {
