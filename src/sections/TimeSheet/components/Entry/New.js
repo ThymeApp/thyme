@@ -25,6 +25,7 @@ import {
 } from 'core/extensions/events';
 
 import { isLoggedIn } from 'sections/Account/selectors';
+import { addProject } from 'sections/Projects/actions';
 
 import { addTime } from '../../actions';
 
@@ -211,6 +212,20 @@ class New extends Component<NewEntryProps, NewEntryState> {
     this.applyTemporaryItem(isBefore(tempEntry.updatedAt, entry.updatedAt) ? entry : tempEntry);
   };
 
+  onAddNewProject = (projectName: string, entry: TimeType | TimePropertyType): string => {
+    const { onAddNewProject } = this.props;
+    const { tracking } = this.state;
+
+    const project = onAddNewProject(projectName);
+
+    this.onUpdateItem({
+      ...entry,
+      project,
+    }, tracking);
+
+    return project;
+  };
+
   resolveTemporaryItem = () => {
     const { fetching } = this.state;
 
@@ -273,7 +288,6 @@ class New extends Component<NewEntryProps, NewEntryState> {
       enabledProjects,
       enabledEndDate,
       onEntryCreate,
-      onAddNewProject,
     } = this.props;
     const { entry, tracking, fetching } = this.state;
 
@@ -292,7 +306,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
         onUpdate={this.onUpdateItem}
         onStart={this.onStartTimeTracking}
         onStop={this.onStopTimeTracking}
-        onAddNewProject={onAddNewProject}
+        onAddNewProject={this.onAddNewProject}
         onResetItem={this.onResetItem}
       />
     );
@@ -312,6 +326,13 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
         ...entry,
         id: shortid.generate(),
       }));
+    },
+    onAddNewProject(project) {
+      const newProjectAction = addProject({ parent: null, name: project });
+
+      dispatch(newProjectAction);
+
+      return newProjectAction.id;
     },
   };
 }

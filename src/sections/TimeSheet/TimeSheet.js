@@ -75,7 +75,6 @@ function TimeSheet(props: TimeSheetProps) {
         enabledNotes={enabledNotes}
         enabledProjects={enabledProjects}
         enabledEndDate={enabledEndDate}
-        onAddNewProject={onAddProject}
       />
 
       {isMobile ? (

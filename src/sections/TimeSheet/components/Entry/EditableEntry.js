@@ -172,11 +172,11 @@ function useEntryHandlers(props: EntryProps) {
 
   const onNotesChange = useCallback(
     (e: Event) => updateEntry({ notes: valueFromEventTarget(e.target) }),
-    [updateEntry],
+    [entry, updateEntry],
   );
   const onProjectChange = useCallback(
     (value: string | null) => updateEntry({ project: value }),
-    [updateEntry],
+    [entry, updateEntry],
   );
 
   const addNewProject = useMemo(() => {
