@@ -330,6 +330,7 @@ function EditableEntry(props: EntryProps) {
                   value={startDateFormatted}
                   onChange={onStartDateChange}
                   size="big"
+                  disabled={disabled}
                 />
               </div>
             )}
@@ -340,6 +341,7 @@ function EditableEntry(props: EntryProps) {
               <TimeInput
                 value={startTimeFormatted}
                 onChange={onStartTimeChange}
+                disabled={disabled}
                 size="big"
               />
             )}
@@ -352,6 +354,7 @@ function EditableEntry(props: EntryProps) {
               <div className="EditableEntry__Date">
                 <DateInput
                   value={endDateFormatted}
+                  disabled={disabled}
                   onChange={onEndDateChange}
                   size="big"
                 />
@@ -363,6 +366,7 @@ function EditableEntry(props: EntryProps) {
             ) : (
               <TimeInput
                 value={endTimeFormatted}
+                disabled={disabled}
                 onChange={onEndTimeChange}
                 size="big"
               />
