@@ -112,7 +112,7 @@ function useEntryHandlers(props: EntryProps) {
 
       onUpdate(updatedEntry, !!tracking);
     }
-  }, [entry, tracking, onUpdate]);
+  }, [entry, onUpdate, tracking]);
 
   const onDateChange = useCallback((key: 'start' | 'end' | 'both', value: string | null) => {
     if (!value) {
@@ -158,7 +158,7 @@ function useEntryHandlers(props: EntryProps) {
     updateEntry({
       [key]: newDate,
     });
-  }, [updateEntry]);
+  }, [entry, updateEntry]);
 
   const onStartTimeChange = useCallback(
     (time: string) => onTimeChange('start', time),
@@ -172,11 +172,11 @@ function useEntryHandlers(props: EntryProps) {
 
   const onNotesChange = useCallback(
     (e: Event) => updateEntry({ notes: valueFromEventTarget(e.target) }),
-    [entry, updateEntry],
+    [updateEntry],
   );
   const onProjectChange = useCallback(
     (value: string | null) => updateEntry({ project: value }),
-    [entry, updateEntry],
+    [updateEntry],
   );
 
   const addNewProject = useMemo(() => {
@@ -329,7 +329,6 @@ function EditableEntry(props: EntryProps) {
                   setRef={dateInput}
                   value={startDateFormatted}
                   onChange={onStartDateChange}
-                  onKeyPress={onKeyPress}
                   size="big"
                 />
               </div>
@@ -341,7 +340,6 @@ function EditableEntry(props: EntryProps) {
               <TimeInput
                 value={startTimeFormatted}
                 onChange={onStartTimeChange}
-                onKeyPress={onKeyPress}
                 size="big"
               />
             )}
@@ -355,7 +353,6 @@ function EditableEntry(props: EntryProps) {
                 <DateInput
                   value={endDateFormatted}
                   onChange={onEndDateChange}
-                  onKeyPress={onKeyPress}
                   size="big"
                 />
               </div>
@@ -367,7 +364,6 @@ function EditableEntry(props: EntryProps) {
               <TimeInput
                 value={endTimeFormatted}
                 onChange={onEndTimeChange}
-                onKeyPress={onKeyPress}
                 size="big"
               />
             )}

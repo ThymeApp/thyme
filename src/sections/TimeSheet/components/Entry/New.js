@@ -124,6 +124,8 @@ class New extends Component<NewEntryProps, NewEntryState> {
     emitChange: boolean = true,
     saveTemporary: boolean = true,
   ) => {
+    console.log(entry);
+
     const timer = { ...entry, tracking };
 
     // update local state

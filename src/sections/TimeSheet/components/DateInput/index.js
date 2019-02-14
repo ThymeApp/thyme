@@ -7,10 +7,10 @@ import ChangeOnBlurInput from 'components/ChangeOnBlurInput';
 type DateInputType = {
   value: string,
   size: string,
+  onChange: (date: string) => void,
   disabled?: boolean;
   setRef?: any,
-  onChange: (date: string) => void,
-  onKeyPress: (e: KeyboardEvent) => void,
+  onKeyPress?: (e: KeyboardEvent) => void,
 };
 
 function DateInput({
