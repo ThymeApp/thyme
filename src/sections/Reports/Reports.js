@@ -148,6 +148,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
     const {
       filters,
       projects,
+      allProjects,
       from,
       to,
       detailedRound,
@@ -162,6 +163,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
     } = this.state;
 
     const projectsWithTime = projects.filter(project => project.time > 0);
+    const allProjectsWithTime = allProjects.filter(project => project.time > 0);
 
     const reportTable = createTable(
       'reports', [
@@ -207,14 +209,14 @@ class Reports extends Component<ReportsProps, ReportsState> {
           updateDateRange={this.onUpdateDateRange}
         />
         {renderComponent('reports.beforeCharts', this.props)}
-        <ReportCharts projects={projects} />
+        <ReportCharts projects={projectsWithTime} />
         {showUpgrade && (
           <BuyMessage>Want more insights in your day to day tracked time?</BuyMessage>
         )}
         {renderComponent('reports.afterCharts', this.props)}
         {projectsWithTime.length > 0 && (
           <ReportFilters
-            projects={projectsWithTime}
+            projects={allProjectsWithTime}
             filters={filters}
             columnFilters={reportTable.filters}
             onToggleProject={this.onToggleFilter}
@@ -224,7 +226,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
         <ReportDetailed
           round={detailedRound}
           roundAmount={roundAmount}
-          projects={projects}
+          projects={projectsWithTime}
           enabledEndDate={enabledEndDate}
         />
         {showUpgrade && <PrintCredits />}
