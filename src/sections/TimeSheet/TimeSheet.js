@@ -98,6 +98,10 @@ function TimeSheet(props: TimeSheetProps) {
 
       <div className="TimeSheet__Listing">
         {renderComponent('timesheet.beforeTable', props)}
+        {totalPages === 0 && (
+          <Header style={{ textAlign: 'center' }} as="h4">No entries in this date range.</Header>
+        )}
+
         <TimeTable
           entries={entries.filter((item, index) => index <= end && index >= start)}
           now={now}

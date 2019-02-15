@@ -7,3 +7,7 @@
 .DayHeader__Date {
   margin-right: auto;
 }
+
+.DayHeader__Total {
+  margin-right: 0.5rem;
+}
