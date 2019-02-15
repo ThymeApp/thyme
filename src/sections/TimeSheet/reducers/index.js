@@ -56,15 +56,6 @@ function dateRange(state = 'today', action): DateRanges {
   }
 }
 
-function dateSort(state = 'desc', action): SortDirection {
-  switch (action.type) {
-    case 'CHANGE_DATE_SORT':
-      return action.dateSort;
-    default:
-      return state;
-  }
-}
-
 function page(state = 1, action): number {
   switch (action.type) {
     case 'CHANGE_DATE_SORT':
@@ -81,6 +72,5 @@ export default () => create('timesheet', {
   byId: byId(createTimeReducer()),
   allIds,
   dateRange,
-  dateSort,
   page,
 });

@@ -32,13 +32,6 @@ export function changeDateRange(dateRange: DateRanges) {
   };
 }
 
-export function changeDateSort(dateSort: SortDirection) {
-  return {
-    type: 'CHANGE_DATE_SORT',
-    dateSort,
-  };
-}
-
 export function changePage(page: number) {
   return {
     type: 'CHANGE_PAGE',

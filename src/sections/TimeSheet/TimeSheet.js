@@ -22,7 +22,6 @@ import {
 } from '../Settings/selectors';
 
 import DateRange from './components/DateRange';
-import DateSort from './components/DateSort';
 import TimeTable from './components/Table';
 import { NewEntry } from './components/Entry';
 
@@ -88,8 +87,6 @@ function TimeSheet(props: TimeSheetProps) {
             <Accordion.Content active={filterOpen}>
               <Header as="h5">Date range:</Header>
               <DateRange vertical />
-              <Header as="h5">Sort by:</Header>
-              <DateSort />
             </Accordion.Content>
           </Accordion>
           <Divider />
@@ -97,7 +94,6 @@ function TimeSheet(props: TimeSheetProps) {
       ) : (
         <div className="TimeSheet__RangeSort">
           <DateRange />
-          <DateSort />
         </div>
       )}
 
