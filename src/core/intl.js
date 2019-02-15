@@ -8,7 +8,13 @@ export function formatCurrency(currency: string, value: number) {
     .format(value);
 }
 
-export function formatShortDate(date: Date, numberOfDays: number) {
+type Weekday = 'narrow' | 'short' | 'long';
+
+export function formatShortDate(
+  date: Date | string,
+  numberOfDays: number,
+  weekday: Weekday = 'short',
+) {
   const parsedDate = parse(date);
 
   if (numberOfDays > 14 && parsedDate.getDate() === 1) {
@@ -20,7 +26,7 @@ export function formatShortDate(date: Date, numberOfDays: number) {
     {
       month: numberOfDays < 15 ? '2-digit' : undefined,
       day: '2-digit',
-      weekday: numberOfDays < 9 ? 'short' : undefined,
+      weekday: numberOfDays < 9 ? weekday : undefined,
     },
   );
 }

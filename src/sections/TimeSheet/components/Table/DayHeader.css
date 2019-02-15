@@ -1,0 +1,9 @@
+.DayHeader {
+  margin: 2rem 0 0.5rem;
+  font-weight: bold;
+  display: flex;
+}
+
+.DayHeader__Date {
+  margin-right: auto;
+}

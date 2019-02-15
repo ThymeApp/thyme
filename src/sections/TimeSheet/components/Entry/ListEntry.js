@@ -44,16 +44,16 @@ function ListEntry(props: ListEntryProps) {
 
   return (
     <div className="ListEntry">
-      {enabledNotes && (
-        <div className="ListEntry__Notes">
-          {notes}
-        </div>
-      )}
       {enabledProjects && project && (
         <div className="ListEntry__Project">
           <Label>
             {treeDisplayName(project)}
           </Label>
+        </div>
+      )}
+      {enabledNotes && (
+        <div className="ListEntry__Notes">
+          {notes || <span className="ListEntry__NotesEmpty">(no notes)</span>}
         </div>
       )}
       <div className="ListEntry__Time">

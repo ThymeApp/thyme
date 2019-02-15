@@ -5,8 +5,14 @@
   align-items: center;
 }
 
+.ListEntry__Project,
 .ListEntry__Notes {
   margin-right: 0.5rem;
+}
+
+.ListEntry__NotesEmpty {
+  color: rgba(0, 0, 0, 0.5);
+  font-style: italic;
 }
 
 .ListEntry__Time {

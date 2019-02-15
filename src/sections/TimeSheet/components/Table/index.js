@@ -3,6 +3,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import isSameDay from 'date-fns/is_same_day';
+
 import {
   getDurationRounding,
   getDurationAmount,
@@ -13,6 +15,7 @@ import { getAllProjects } from 'sections/Projects/selectors';
 import { updateTime, removeTime } from '../../actions';
 
 import { ListEntry } from '../Entry';
+import DayHeader from './DayHeader';
 
 type TimeTableType = {
   entries: TimeType[];
@@ -36,19 +39,40 @@ function TimeTable({
   enabledNotes,
   enabledProjects,
 }: TimeTableType) {
+  const days = [];
+
+  const firstEntries = entries.filter((entry) => {
+    if (days.some(day => isSameDay(entry.start, day))) {
+      return false;
+    }
+
+    days.push(entry.start);
+
+    return true;
+  });
+
   return (
     <section className="TimeSheet__Entries">
       {entries.map(entry => (
-        <ListEntry
-          key={entry.id}
-          round={round}
-          roundAmount={roundAmount}
-          projects={projects}
-          entry={entry}
-          now={now}
-          enabledNotes={enabledNotes}
-          enabledProjects={enabledProjects}
-        />
+        <div key={entry.id}>
+          {firstEntries.find(e => e.id === entry.id) && (
+            <DayHeader
+              date={entry.start}
+              entries={entries.filter(e => isSameDay(e.start, entry.start))}
+              round={round}
+              roundAmount={roundAmount}
+            />
+          )}
+          <ListEntry
+            round={round}
+            roundAmount={roundAmount}
+            projects={projects}
+            entry={entry}
+            now={now}
+            enabledNotes={enabledNotes}
+            enabledProjects={enabledProjects}
+          />
+        </div>
       ))}
     </section>
   );
