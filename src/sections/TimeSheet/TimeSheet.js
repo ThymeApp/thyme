@@ -82,10 +82,9 @@ function TimeSheet(props: TimeSheetProps) {
             <Accordion.Title
               active={filterOpen}
               onClick={() => setFilterOpen(!filterOpen)}
-              content="Filters / sorting"
+              content="Date range"
             />
             <Accordion.Content active={filterOpen}>
-              <Header as="h5">Date range:</Header>
               <DateRange vertical />
             </Accordion.Content>
           </Accordion>

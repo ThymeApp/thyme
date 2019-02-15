@@ -44,27 +44,33 @@ function ListEntry(props: ListEntryProps) {
 
   return (
     <div className="ListEntry">
-      {enabledProjects && project && (
-        <div className="ListEntry__Project">
-          <Label>
-            {treeDisplayName(project)}
-          </Label>
+      {((enabledProjects && project) || enabledNotes) && (
+        <div className="ListEntry__ProjectNotes">
+          {enabledProjects && project && (
+            <div className="ListEntry__Project">
+              <Label>
+                {treeDisplayName(project)}
+              </Label>
+            </div>
+          )}
+          {enabledNotes && (
+            <div className="ListEntry__Notes">
+              {notes || <span className="ListEntry__NotesEmpty">(no notes)</span>}
+            </div>
+          )}
         </div>
       )}
-      {enabledNotes && (
-        <div className="ListEntry__Notes">
-          {notes || <span className="ListEntry__NotesEmpty">(no notes)</span>}
+      <div className="ListEntry__TimeDuration">
+        <div className="ListEntry__Time">
+          {showDates && <span className="ListEntry__DateValue">{formatDate(start)}</span>}
+          <span className="ListEntry__TimeValue">{formatTime(start)}</span>
+          <span className="ListEntry__TimeSeparator">→</span>
+          {showDates && <span className="ListEntry__DateValue">{formatDate(end)}</span>}
+          <span className="ListEntry__TimeValue">{formatTime(end)}</span>
         </div>
-      )}
-      <div className="ListEntry__Time">
-        {showDates && <span className="ListEntry__DateValue">{formatDate(start)}</span>}
-        <span className="ListEntry__TimeValue">{formatTime(start)}</span>
-        <span className="ListEntry__TimeSeparator">→</span>
-        {showDates && <span className="ListEntry__DateValue">{formatDate(end)}</span>}
-        <span className="ListEntry__TimeValue">{formatTime(end)}</span>
-      </div>
-      <div className="ListEntry__Duration">
-        {duration}
+        <div className="ListEntry__Duration">
+          {duration}
+        </div>
       </div>
     </div>
   );

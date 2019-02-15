@@ -3,6 +3,7 @@
   border-bottom: 1px solid rgba(34, 36, 38, 0.1);
   padding: 0.5rem 0;
   align-items: center;
+  flex-direction: column;
 }
 
 .ListEntry__Project,
@@ -17,7 +18,6 @@
 
 .ListEntry__Time {
   color: rgba(0, 0, 0, 0.5);
-  margin-left: auto;
 }
 
 .ListEntry__TimeSeparator {
@@ -29,7 +29,37 @@
 }
 
 .ListEntry__Duration {
-  margin-left: 0.5rem;
-  min-width: 50px;
-  text-align: right;
+  margin-left: auto;
+}
+
+.ListEntry__ProjectNotes {
+  margin: 0.5rem 0;
+}
+
+.ListEntry__ProjectNotes,
+.ListEntry__TimeDuration {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .ListEntry {
+    flex-direction: row;
+  }
+
+  .ListEntry__TimeDuration {
+    margin-left: auto;
+    width: auto;
+  }
+
+  .ListEntry__ProjectNotes {
+    margin: 0;
+  }
+
+  .ListEntry__Duration {
+    margin-left: 0.5rem;
+    min-width: 50px;
+    text-align: right;
+  }
 }
