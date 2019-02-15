@@ -28,6 +28,7 @@
   margin: 0 0.3rem;
 }
 
+.ListEntry__Duration,
 .ListEntry__DateValue {
   margin-right: 0.5rem;
 }
@@ -48,6 +49,24 @@
   padding: 0 0.5rem;
 }
 
+.ListEntry__TimeDuration {
+  padding-right: 0;
+}
+
+.ListEntry__Actions {
+  margin: 1rem 0 0.5rem;
+  width: 100%;
+}
+
+.ListEntry__Actions .ui.button {
+  box-shadow: none;
+  margin: 0;
+}
+
+.ListEntry__Actions:hover .ui.button {
+  box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset;
+}
+
 @media screen and (min-width: 768px) {
   .ListEntry {
     flex-direction: row;
@@ -66,5 +85,9 @@
     margin-left: 0.5rem;
     min-width: 50px;
     text-align: right;
+  }
+
+  .ListEntry__Actions {
+    margin: 0;
   }
 }
