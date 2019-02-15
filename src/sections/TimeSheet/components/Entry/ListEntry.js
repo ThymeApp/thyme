@@ -66,6 +66,18 @@ function ListEntry(props: ListEntryProps) {
   }, []);
 
   const onConfirmRemove = useCallback(() => onRemove(entry), [entry]);
+  const onEdit = useCallback(() => console.log('edit'), [entry]);
+  const onHandleEdit = useCallback((e) => {
+    if (
+      e.target
+      && (e.target.classList.contains('button') || e.target.classList.contains('popup'))
+    ) {
+      e.preventDefault();
+      return;
+    }
+
+    onEdit();
+  }, [onEdit]);
 
   const duration = timeElapsed(start, end, false, false, round, roundAmount);
   const showDates = !isSameDay(start, end);
@@ -77,6 +89,7 @@ function ListEntry(props: ListEntryProps) {
         basic
         color="grey"
         content="Edit entry"
+        onClick={onEdit}
       />
       <Button
         basic
@@ -89,7 +102,7 @@ function ListEntry(props: ListEntryProps) {
   );
 
   return (
-    <div className="ListEntry">
+    <div className="ListEntry" role="presentation" onClick={onHandleEdit}>
       {((enabledProjects && project) || enabledNotes) && (
         <div className="ListEntry__ProjectNotes">
           {enabledProjects && project && (
