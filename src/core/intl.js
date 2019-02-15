@@ -25,6 +25,12 @@ export function formatShortDate(date: Date, numberOfDays: number) {
   );
 }
 
+export function formatDate(date: Date | number) {
+  const parsedDate = parse(date);
+
+  return parsedDate.toLocaleDateString('i-default');
+}
+
 export function formatTime(date: Date | number) {
   const parsedDate = parse(date);
 

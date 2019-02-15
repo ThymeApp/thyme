@@ -1,0 +1,29 @@
+.ListEntry {
+  display: flex;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+  padding: 0.5rem 0;
+  align-items: center;
+}
+
+.ListEntry__Notes {
+  margin-right: 0.5rem;
+}
+
+.ListEntry__Time {
+  color: rgba(0, 0, 0, 0.5);
+  margin-left: auto;
+}
+
+.ListEntry__TimeSeparator {
+  margin: 0 0.3rem;
+}
+
+.ListEntry__DateValue {
+  margin-right: 0.5rem;
+}
+
+.ListEntry__Duration {
+  margin-left: 0.5rem;
+  min-width: 50px;
+  text-align: right;
+}

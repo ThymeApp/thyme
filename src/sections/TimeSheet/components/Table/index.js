@@ -3,28 +3,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
-
-import { useResponsive } from 'components/Responsive';
-
 import {
   getDurationRounding,
   getDurationAmount,
   getRoundingOn,
 } from 'sections/Settings/selectors';
+import { getAllProjects } from 'sections/Projects/selectors';
 
 import { updateTime, removeTime } from '../../actions';
 
-import { Entry } from '../Entry';
+import { ListEntry } from '../Entry';
 
 type TimeTableType = {
-  entries: Array<TimeType>;
+  entries: TimeType[];
+  projects: ProjectType[];
   now: Date;
   round: Rounding;
   roundAmount: number;
   enabledNotes: boolean;
   enabledProjects: boolean;
-  enabledEndDate: boolean;
   onAddProject: (project: string) => string;
   onEntryUpdate: (entry: TimePropertyType) => void;
   onEntryRemove: (entry: TimeType | TimePropertyType) => void;
@@ -32,84 +29,37 @@ type TimeTableType = {
 
 function TimeTable({
   entries,
+  projects,
   now,
   round,
   roundAmount,
   enabledNotes,
   enabledProjects,
-  enabledEndDate,
-  onEntryUpdate,
-  onEntryRemove,
-  onAddProject,
 }: TimeTableType) {
-  const [isMobile] = useResponsive({ max: 'tablet' });
-
-  const Entries = entries.map(entry => (
-    <Entry
-      key={entry.id}
-      round={round}
-      roundAmount={roundAmount}
-      entry={entry}
-      now={now}
-      enabledNotes={enabledNotes}
-      enabledProjects={enabledProjects}
-      enabledEndDate={enabledEndDate}
-      onAddNewProject={onAddProject}
-      onUpdate={onEntryUpdate}
-      onRemove={onEntryRemove}
-    />
-  ));
-
-  // only render Entries on mobile
-  if (isMobile) {
-    return Entries;
-  }
-
   return (
-    <Table basic="very">
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>
-            {enabledEndDate ? 'Start date' : 'Date'}
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-            {enabledEndDate ? 'Start time' : 'Start'}
-          </Table.HeaderCell>
-          {enabledEndDate && (
-            <Table.HeaderCell>
-              End date
-            </Table.HeaderCell>
-          )}
-          <Table.HeaderCell>
-            {enabledEndDate ? 'End time' : 'End'}
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-            Duration
-          </Table.HeaderCell>
-          {enabledProjects && (
-            <Table.HeaderCell>
-              Project
-            </Table.HeaderCell>
-          )}
-          {enabledNotes && (
-            <Table.HeaderCell>
-              Notes
-            </Table.HeaderCell>
-          )}
-          <Table.HeaderCell />
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {Entries}
-      </Table.Body>
-    </Table>
+    <section className="TimeSheet__Entries">
+      {entries.map(entry => (
+        <ListEntry
+          key={entry.id}
+          round={round}
+          roundAmount={roundAmount}
+          projects={projects}
+          entry={entry}
+          now={now}
+          enabledNotes={enabledNotes}
+          enabledProjects={enabledProjects}
+        />
+      ))}
+    </section>
   );
 }
 
 function mapStateToProps(state) {
   const roundingOn = getRoundingOn(state);
+  const projects = getAllProjects(state);
 
   return {
+    projects,
     round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
     roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
   };
