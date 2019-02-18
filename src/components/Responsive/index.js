@@ -1,6 +1,11 @@
 // @flow
 
-import { Component, useState, useEffect, useCallback } from 'react';
+import {
+  Component,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 import throttle from 'lodash/throttle';
 
 type Breakpoint = 'mobile' | 'miniTablet' | 'tablet' | 'desktop' | 'large' | 'wide';
