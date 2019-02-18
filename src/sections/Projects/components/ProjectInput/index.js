@@ -42,7 +42,7 @@ function ProjectInput({
     }
 
     handleChange(project ? project.value : null);
-  }, [projects]);
+  }, [projects, handleChange]);
   const onAddItemCallback = useCallback(
     (e: Event, project: { value: string }) => onAddItem && onAddItem(project.value),
     [onAddItem],
@@ -53,6 +53,7 @@ function ProjectInput({
       placeholder={placeholder || 'Select project...'}
       search
       selection
+      deburr
       value={value}
       disabled={disabled}
       style={{

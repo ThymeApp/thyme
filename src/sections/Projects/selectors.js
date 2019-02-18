@@ -10,7 +10,7 @@ export const getAllProjects = (state: StateShape): ProjectType[] => state.projec
   .map(id => state.projects.byId[id])
   .filter(project => !project.removed);
 
-const unarchivedProjects = createSelector<StateShape, *, *, *>(
+export const unarchivedProjects = createSelector<StateShape, *, *, *>(
   getAllProjects,
   projects => projects.filter(project => !project.archived),
 );

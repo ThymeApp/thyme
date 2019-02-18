@@ -1,146 +1,100 @@
 // @flow
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
-
-import { useResponsive } from 'components/Responsive';
+import isSameDay from 'date-fns/is_same_day';
 
 import {
   getDurationRounding,
   getDurationAmount,
   getRoundingOn,
-  getEnableNotes,
-  getEnableProjects,
-  getEnableEndDate,
 } from 'sections/Settings/selectors';
-
-import { addProject } from 'sections/Projects/actions';
+import { getAllProjects } from 'sections/Projects/selectors';
 
 import { updateTime, removeTime } from '../../actions';
 
-import { getDateSort } from '../../selectors';
-
-import { NewEntry, Entry } from '../Entry';
+import { ListEntry } from '../Entry';
+import DayHeader from './DayHeader';
 
 type TimeTableType = {
-  sort: SortDirection;
-  entries: Array<TimeType>;
+  entries: TimeType[];
+  projects: ProjectType[];
   now: Date;
   round: Rounding;
   roundAmount: number;
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
+  onEntryRemove: (entry: TimeType | TimePropertyType) => void;
   onAddProject: (project: string) => string;
   onEntryUpdate: (entry: TimePropertyType) => void;
-  onEntryRemove: (entry: TimeType | TimePropertyType) => void;
 };
 
 function TimeTable({
-  sort,
   entries,
+  projects,
   now,
   round,
   roundAmount,
   enabledNotes,
   enabledProjects,
   enabledEndDate,
-  onEntryUpdate,
   onEntryRemove,
+  onEntryUpdate,
   onAddProject,
 }: TimeTableType) {
-  const [isMobile] = useResponsive({ max: 'tablet' });
+  const days = [];
 
-  const New = (
-    <NewEntry
-      now={now}
-      enabledNotes={enabledNotes}
-      enabledProjects={enabledProjects}
-      enabledEndDate={enabledEndDate}
-      onAddNewProject={onAddProject}
-    />
-  );
+  const firstEntries = entries.filter((entry) => {
+    if (days.some(day => isSameDay(entry.start, day))) {
+      return false;
+    }
 
-  const Entries = (
-    <Fragment>
-      {sort === 'desc' && New}
-      {entries.map(entry => (
-        <Entry
-          key={entry.id}
-          round={round}
-          roundAmount={roundAmount}
-          entry={entry}
-          now={now}
-          enabledNotes={enabledNotes}
-          enabledProjects={enabledProjects}
-          enabledEndDate={enabledEndDate}
-          onAddNewProject={onAddProject}
-          onUpdate={onEntryUpdate}
-          onRemove={onEntryRemove}
-        />
-      ))}
-      {sort === 'asc' && New}
-    </Fragment>
-  );
+    days.push(entry.start);
 
-  // only render Entries on mobile
-  if (isMobile) {
-    return Entries;
-  }
+    return true;
+  });
 
   return (
-    <Table basic="very">
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>
-            {enabledEndDate ? 'Start date' : 'Date'}
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-            {enabledEndDate ? 'Start time' : 'Start'}
-          </Table.HeaderCell>
-          {enabledEndDate && (
-            <Table.HeaderCell>
-              End date
-            </Table.HeaderCell>
+    <section className="TimeSheet__Entries">
+      {entries.map(entry => (
+        <div key={entry.id}>
+          {firstEntries.find(e => e.id === entry.id) && (
+            <DayHeader
+              date={entry.start}
+              entries={entries.filter(e => isSameDay(e.start, entry.start))}
+              round={round}
+              roundAmount={roundAmount}
+            />
           )}
-          <Table.HeaderCell>
-            {enabledEndDate ? 'End time' : 'End'}
-          </Table.HeaderCell>
-          <Table.HeaderCell>
-            Duration
-          </Table.HeaderCell>
-          {enabledProjects && (
-            <Table.HeaderCell>
-              Project
-            </Table.HeaderCell>
-          )}
-          {enabledNotes && (
-            <Table.HeaderCell>
-              Notes
-            </Table.HeaderCell>
-          )}
-          <Table.HeaderCell />
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {Entries}
-      </Table.Body>
-    </Table>
+          <ListEntry
+            round={round}
+            roundAmount={roundAmount}
+            projects={projects}
+            entry={entry}
+            now={now}
+            enabledNotes={enabledNotes}
+            enabledProjects={enabledProjects}
+            enabledEndDate={enabledEndDate}
+            onRemove={onEntryRemove}
+            onEntryUpdate={onEntryUpdate}
+            onAddProject={onAddProject}
+          />
+        </div>
+      ))}
+    </section>
   );
 }
 
 function mapStateToProps(state) {
   const roundingOn = getRoundingOn(state);
+  const projects = getAllProjects(state);
 
   return {
-    sort: getDateSort(state),
+    projects,
     round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
     roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
-    enabledNotes: getEnableNotes(state),
-    enabledProjects: getEnableProjects(state),
-    enabledEndDate: getEnableEndDate(state),
   };
 }
 
@@ -151,16 +105,6 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
     },
     onEntryRemove(entry) {
       dispatch(removeTime(entry.id));
-    },
-    onAddProject(project, entry) {
-      const newProjectAction = addProject({ parent: null, name: project });
-
-      const projectId = newProjectAction.id;
-
-      dispatch(newProjectAction);
-      dispatch(updateTime({ ...entry, project: projectId }));
-
-      return newProjectAction.id;
     },
   };
 }

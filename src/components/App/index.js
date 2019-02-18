@@ -84,7 +84,7 @@ function App({
         {name}
       </Link>
     );
-  }, [location]);
+  }, [location, handleClose]);
 
   // callback on mount
   useEffect(() => onInitialize(), []);

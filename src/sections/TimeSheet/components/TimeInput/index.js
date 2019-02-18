@@ -9,7 +9,7 @@ type TimeInputType = {
   size: string;
   disabled?: boolean;
   onChange: (time: string) => void;
-  onKeyPress: (e: KeyboardEvent) => void;
+  onKeyPress?: (e: KeyboardEvent) => void;
 }
 
 function TimeInput({

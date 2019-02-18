@@ -1,12 +1,18 @@
 // @flow
 
-import { Component, useState, useEffect } from 'react';
+import {
+  Component,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 import throttle from 'lodash/throttle';
 
-type Breakpoint = 'mobile' | 'tablet' | 'desktop' | 'large' | 'wide';
+type Breakpoint = 'mobile' | 'miniTablet' | 'tablet' | 'desktop' | 'large' | 'wide';
 type Breakpoints = { [breakpoint: Breakpoint]: number };
 type isBreakpointsType = {
   isMobile: boolean;
+  isMiniTablet: boolean;
   isTablet: boolean;
   isDesktop: boolean;
   isLarge: boolean;
@@ -15,6 +21,7 @@ type isBreakpointsType = {
 
 const BrowserBreakpoints: Breakpoints = {
   mobile: 0,
+  miniTablet: 520,
   tablet: 768,
   desktop: 992,
   large: 1200,
@@ -28,7 +35,8 @@ export function currentBreakpoints(width: number, breakpoints: Breakpoints): Bre
 
 export function isBreakpoints(breakpoints: Breakpoint[]): isBreakpointsType {
   return {
-    isMobile: breakpoints.indexOf('mobile') > -1 && breakpoints.indexOf('tablet') === -1,
+    isMobile: breakpoints.indexOf('mobile') > -1 && breakpoints.indexOf('miniTablet') === -1,
+    isMiniTablet: breakpoints.indexOf('miniTablet') > -1 && breakpoints.indexOf('tablet') === -1,
     isTablet: breakpoints.indexOf('tablet') > -1 && breakpoints.indexOf('desktop') === -1,
     isDesktop: breakpoints.indexOf('desktop') > -1 && breakpoints.indexOf('large') === -1,
     isLarge: breakpoints.indexOf('large') > -1 && breakpoints.indexOf('wide') === -1,
@@ -102,11 +110,14 @@ class Responsive extends Component<ResponsiveProps, ResponsiveState> {
 }
 
 export function useResponsive(
-  { min, max }: { min?: Breakpoint, max?: Breakpoint },
+  { min, max, element }: { min?: Breakpoint, max?: Breakpoint, element?: HTMLElement | null },
 ): [boolean, isBreakpointsType] {
   const [width, setWidth] = useState(null);
 
-  const onWindowResize = throttle(() => setWidth(window.innerWidth), 50);
+  const onWindowResize = useCallback(
+    throttle(() => setWidth(element ? element.offsetWidth : window.innerWidth), 50),
+    [element],
+  );
 
   useEffect(() => {
     // subscribe to changes
@@ -119,7 +130,7 @@ export function useResponsive(
       // unsubscribe
       window.removeEventListener('resize', onWindowResize);
     };
-  }, []);
+  }, [element]);
 
   if (width === null) {
     return [false, {}];

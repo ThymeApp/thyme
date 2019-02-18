@@ -88,11 +88,11 @@ function ProjectItem(props: ProjectItemProps) {
       ...project,
       name,
     });
-  }, [project]);
+  }, [project, onUpdateProject]);
 
   const onChangeParentProject = useCallback((parent: string | null) => {
     onChangeParent(project, parent);
-  }, []);
+  }, [onChangeParent]);
 
   const NameInput = (
     <ChangeOnBlurInput

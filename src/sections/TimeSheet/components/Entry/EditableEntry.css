@@ -1,0 +1,179 @@
+.EditableEntry {
+  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 2.5% 1.5rem 2.5%;
+  box-shadow: 0 8px 12px 0 rgba(100, 100, 100, 0.06);
+}
+
+.modal .EditableEntry {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.EditableEntry__DurationTime,
+.EditableEntry__Date,
+.EditableEntry__Notes,
+.EditableEntry__Time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.EditableEntry__DurationTime,
+.EditableEntry__Notes {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.EditableEntry__DurationTime .icon {
+  display: block;
+}
+
+.EditableEntry__Time {
+  width: 100%;
+}
+
+.EditableEntry__DurationTime {
+  flex-direction: row;
+  min-height: 41px;
+}
+
+.EditableEntry__Duration {
+  margin-right: 1rem;
+  font-size: 1.8rem;
+  line-height: 1.2rem;
+}
+
+.EditableEntry__Notes {
+  flex-grow: 1;
+  align-items: center;
+  display: flex;
+}
+
+.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__Time {
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.EditableEntry__Date {
+  margin-right: 0.5rem;
+}
+
+.EditableEntry__TimeContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.EditableEntry__TimeSeparator {
+  margin: 0.5rem;
+  padding-bottom: 2px;
+}
+
+.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__TimeSeparator {
+  transform: rotate(90deg);
+}
+
+.EditableEntry__TimeValue {
+  letter-spacing: 1px;
+}
+
+.EditableEntry__Notes,
+.EditableEntry__Project,
+.EditableEntry__Actions {
+  margin-top: 1rem;
+}
+
+.EditableEntry__Project,
+.EditableEntry__Actions,
+.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__TimeContainer,
+.EditableEntry__Project .ui.dropdown,
+.EditableEntry__Notes .ui.input {
+  width: 100%;
+}
+
+.EditableEntry .ui.input input {
+  background-color: transparent;
+  border: 0;
+  padding: 0.4em 0 !important;
+  border-top: 2px solid transparent;
+  border-bottom: 2px dotted rgba(34, 36, 38, 0.1) !important;
+}
+
+.EditableEntry--tracking .ui.selection.dropdown {
+  border-color: rgba(33, 133, 208, 0.5) !important;
+}
+
+.EditableEntry--tracking .ui.input input {
+  border-bottom-color: rgba(33, 133, 208, 0.5) !important;
+}
+
+.EditableEntry .ui.input input:focus {
+  border-bottom-color: rgba(33, 133, 208, 0.7) !important;
+}
+
+/* MINI TABLET MEDIA QUERY */
+
+.EditableEntry--minitablet.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__DurationTime {
+  justify-content: center;
+}
+
+.EditableEntry--minitablet.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__TimeSeparator {
+  transform: rotate(0deg);
+}
+
+.EditableEntry--minitablet.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__Time {
+  flex-direction: row;
+  justify-content: space-between;
+  width: auto;
+}
+
+/* TABLET MEDIA QUERY */
+
+.EditableEntry--tablet {
+  padding: 0 1% 1.5rem 1%;
+  flex-direction: row;
+}
+
+.EditableEntry--tablet .EditableEntry__Duration,
+.EditableEntry--tablet .EditableEntry__Time {
+  margin-right: 1rem;
+}
+
+.EditableEntry--tablet .EditableEntry__Notes {
+  margin: 0;
+}
+
+.EditableEntry--tablet .EditableEntry__Actions {
+  margin-left: 1rem;
+  margin-top: 0;
+  width: auto;
+}
+
+.EditableEntry--tablet .EditableEntry__Project {
+  margin-left: 2rem;
+  margin-top: 0;
+}
+
+.EditableEntry--tablet .EditableEntry__DurationTime {
+  margin-right: auto;
+  flex-direction: column;
+}
+
+.EditableEntry--tablet .EditableEntry__DurationTime,
+.EditableEntry--tablet .EditableEntry__Time,
+.EditableEntry--tablet .EditableEntry__Project {
+  width: auto;
+}
+
+.EditableEntry--tablet.EditableEntry--tracking .EditableEntry__DurationTime {
+  flex-direction: row;
+}
+
+.EditableEntry--tablet.EditableEntry--endDateEnabled .EditableEntry__Time {
+  flex-direction: row;
+}

@@ -15,7 +15,6 @@ export const getAllTimeEntries = (state: StateShape): TimeType[] => state.time.a
   .map(id => state.time.byId[id])
   .filter(time => !time.removed);
 export const getDateRange = (state: StateShape) => state.time.dateRange;
-export const getDateSort = (state: StateShape) => state.time.dateSort;
 export const getPage = (state: StateShape) => state.time.page;
 
 const today = now => (entry: TimeType) => isSameDay(entry.start, now);
@@ -43,13 +42,12 @@ export const getCurrentTimeEntries = (now: Date) => createSelector<StateShape, *
   (state: StateShape) => ([
     getAllTimeEntries(state),
     getDateRange(state),
-    getDateSort(state),
   ]),
-  ([timeEntries, dateRange, dateSort]) => {
+  ([timeEntries, dateRange]) => {
     const entries = timeEntries.filter(dateRangeFilter(dateRange, now));
 
     // sort entries
-    entries.sort(sortByTime(dateSort));
+    entries.sort(sortByTime('desc'));
 
     return entries;
   },

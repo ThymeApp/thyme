@@ -33,31 +33,31 @@ describe('Calculate total project time', () => {
 describe('Returns correct time differences', () => {
   // with minute precision
   expect(timeElapsed('2018-01-03T10:00:00.000Z', '2018-01-03T12:00:00.000Z', false, true))
-    .toBe('02:00:00');
+    .toBe('2:00:00');
   expect(timeElapsed('2018-01-03T10:00:10.000Z', '2018-01-03T12:00:00.000Z', false, true))
-    .toBe('02:00:00');
+    .toBe('2:00:00');
 
   // without minute precision
   expect(timeElapsed('2018-01-03T10:00:10.000Z', '2018-01-03T12:00:00.000Z', true, true))
-    .toBe('01:59:50');
+    .toBe('1:59:50');
 
   // no seconds
   expect(timeElapsed('2018-01-03T10:00:10.000Z', '2018-01-03T12:00:00.000Z', true, false))
-    .toBe('01:59');
+    .toBe('1:59');
 
   // use rounding of time
   expect(
     timeElapsed('2018-01-03T10:00:00.000Z', '2018-01-03T12:33:00.000Z', false, false, 'round', 5),
-  ).toBe('02:35');
+  ).toBe('2:35');
   expect(
     timeElapsed('2018-01-03T10:00:00.000Z', '2018-01-03T12:33:00.000Z', false, false, 'floor', 5),
-  ).toBe('02:30');
+  ).toBe('2:30');
   expect(
     timeElapsed('2018-01-03T10:00:00.000Z', '2018-01-03T12:31:00.000Z', false, false, 'ceil', 5),
-  ).toBe('02:35');
+  ).toBe('2:35');
   expect(
     timeElapsed('2018-01-03T10:00:00.000Z', '2018-01-03T12:33:00.000Z', false, false),
-  ).toBe('02:33');
+  ).toBe('2:33');
 });
 
 

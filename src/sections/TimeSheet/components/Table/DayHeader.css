@@ -1,0 +1,19 @@
+.DayHeader {
+  margin: 2rem 0 0.5rem;
+  font-weight: bold;
+  display: flex;
+}
+
+.DayHeader__Date {
+  margin-right: auto;
+}
+
+.DayHeader__Total {
+  margin-right: 0.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .DayHeader__Total {
+    padding-right: 33.4px;
+  }
+}
