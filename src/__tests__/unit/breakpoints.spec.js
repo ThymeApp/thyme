@@ -15,10 +15,11 @@ describe('currentBreakpoints', () => {
 
 describe('isBreakpoints', () => {
   it('Should create a breakpoints state object', () => {
-    const breakpoints = ['mobile', 'tablet'];
+    const breakpoints = ['mobile', 'miniTablet', 'tablet'];
 
     const output = {
       isMobile: false,
+      isMiniTablet: false,
       isTablet: true,
       isDesktop: false,
       isLarge: false,
@@ -29,10 +30,11 @@ describe('isBreakpoints', () => {
   });
 
   it('Should create correct breakpoints state object when is wide', () => {
-    const breakpoints = ['mobile', 'tablet', 'desktop', 'large', 'wide'];
+    const breakpoints = ['mobile', 'miniTablet', 'tablet', 'desktop', 'large', 'wide'];
 
     const output = {
       isMobile: false,
+      isMiniTablet: false,
       isTablet: false,
       isDesktop: false,
       isLarge: false,
@@ -47,6 +49,7 @@ describe('isBreakpoints', () => {
 
     const output = {
       isMobile: true,
+      isMiniTablet: false,
       isTablet: false,
       isDesktop: false,
       isLarge: false,
