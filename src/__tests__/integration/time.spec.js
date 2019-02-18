@@ -137,7 +137,7 @@ describe('EditableEntry', () => {
     page.find('EditableEntry')
       .find('.EditableEntry__Actions')
       .find('Button')
-      .at(2)
+      .at(1)
       .simulate('click');
 
     const state = store.getState();
@@ -185,7 +185,7 @@ describe('EditableEntry', () => {
     page.find('EditableEntry')
       .find('.EditableEntry__Actions')
       .find('Button')
-      .at(2)
+      .at(1)
       .simulate('click');
 
     const state = store.getState();
@@ -241,7 +241,7 @@ describe('EditableEntry', () => {
     page.find('EditableEntry')
       .find('.EditableEntry__Actions')
       .find('Button')
-      .at(2)
+      .at(1)
       .simulate('click');
 
     const state = store.getState();
@@ -278,7 +278,7 @@ describe('EditableEntry', () => {
     page.find('EditableEntry')
       .find('.EditableEntry__Actions')
       .find('Button')
-      .at(2)
+      .at(1)
       .simulate('click');
 
     const state = store.getState();
@@ -312,7 +312,7 @@ it('Renders duration when times changes', () => {
   page.find('EditableEntry')
     .find('.EditableEntry__Actions')
     .find('Button')
-    .at(0)
+    .at(1)
     .simulate('click');
 
   expect(page.find('ListEntry').find('.ListEntry__Duration').at(0).text()).toBe('2:00');
