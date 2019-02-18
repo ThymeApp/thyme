@@ -288,42 +288,64 @@ describe('EditableEntry', () => {
   });
 });
 
+describe('ListEntry', () => {
+  it('Renders duration when times changes', () => {
+    const store = createStore();
+    const page = mount(
+      <Provider store={store}>
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
+      </Provider>,
+    );
 
-it('Renders duration when times changes', () => {
-  const store = createStore();
-  const page = mount(
-    <Provider store={store}>
-      <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
-    </Provider>,
-  );
+    // change start time at 01:00 and end time to 03:00
+    const startTime = document.createElement('input');
+    startTime.value = '01:00';
 
-  // change start time at 01:00 and end time to 03:00
-  const startTime = document.createElement('input');
-  startTime.value = '01:00';
+    const endTime = document.createElement('input');
+    endTime.value = '03:00';
 
-  const endTime = document.createElement('input');
-  endTime.value = '03:00';
+    page.find('EditableEntry').find('input[type="time"]').at(0).simulate('change', { target: startTime });
+    page.find('EditableEntry').find('input[type="time"]').at(0).simulate('blur');
+    page.find('EditableEntry').find('input[type="time"]').at(1).simulate('change', { target: endTime });
+    page.find('TimeSheet').find('input[type="time"]').at(1).simulate('blur');
 
-  page.find('EditableEntry').find('input[type="time"]').at(0).simulate('change', { target: startTime });
-  page.find('EditableEntry').find('input[type="time"]').at(0).simulate('blur');
-  page.find('EditableEntry').find('input[type="time"]').at(1).simulate('change', { target: endTime });
-  page.find('TimeSheet').find('input[type="time"]').at(1).simulate('blur');
+    page.find('EditableEntry')
+      .find('.EditableEntry__Actions')
+      .find('Button')
+      .at(1)
+      .simulate('click');
 
-  page.find('EditableEntry')
-    .find('.EditableEntry__Actions')
-    .find('Button')
-    .at(1)
-    .simulate('click');
+    expect(page.find('ListEntry').find('.ListEntry__Duration').at(0).text()).toBe('2:00');
+  });
 
-  expect(page.find('ListEntry').find('.ListEntry__Duration').at(0).text()).toBe('2:00');
-});
-
-/* @TODO Test update to time
   it('Can update time entries', () => {
+    const store = createStore({
+      time: {
+        byId: {
+          1: {
+            id: 1,
+            project: null,
+            start: '2018-08-14T12:00:00.000Z',
+            end: '2018-08-14T13:00:00.000Z',
+          },
+        },
+        allIds: [1],
+      },
+    });
+    const page = mount(
+      <Provider store={store}>
+        <TimeSheet now={parse('2018-08-14T19:00:00.000Z')} />
+      </Provider>,
+    );
+
+    // open edit modal
+    page.find('ListEntry').at(0).simulate('click');
+
     // testing updates
+    const notes = document.createElement('input');
     notes.value = 'Updated notes';
 
-    const notesInput = page.find('TimeTable').find('.EntryNotes input').at(1);
+    const notesInput = page.find('Modal').find('.EditableEntry__Notes input').at(0);
     notesInput.simulate('change', { target: notes });
     notesInput.simulate('blur');
 
@@ -332,4 +354,4 @@ it('Renders duration when times changes', () => {
 
     expect(updatedEntries[0].notes).toBe('Updated notes');
   });
-  */
+});
