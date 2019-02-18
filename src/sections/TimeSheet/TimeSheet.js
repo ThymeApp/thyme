@@ -107,6 +107,8 @@ function TimeSheet(props: TimeSheetProps) {
           now={now}
           enabledNotes={enabledNotes}
           enabledProjects={enabledProjects}
+          enabledEndDate={enabledEndDate}
+          onAddProject={onAddProject}
         />
         {totalPages > 1 && (
           <Pagination

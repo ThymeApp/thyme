@@ -8,6 +8,7 @@ import isSameDay from 'date-fns/is_same_day';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
+import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 
 import { timeElapsed } from 'core/thyme';
@@ -18,6 +19,8 @@ import { useResponsive } from 'components/Responsive';
 
 import { sortedProjects } from 'sections/Projects/selectors';
 
+import EditableEntry from './EditableEntry';
+
 import './ListEntry.css';
 
 type ListEntryProps = {
@@ -25,9 +28,12 @@ type ListEntryProps = {
   project: ProjectTreeWithTimeType;
   enabledNotes: boolean;
   enabledProjects: boolean;
+  enabledEndDate: boolean;
   round: Rounding;
   roundAmount: number;
   onRemove: (entry: TimeType | TimePropertyType) => void;
+  onEntryUpdate: (entry: TimePropertyType) => void;
+  onAddProject: (project: string) => string;
 };
 
 function useToggle() {
@@ -48,7 +54,10 @@ function ListEntry(props: ListEntryProps) {
     roundAmount,
     enabledNotes,
     enabledProjects,
+    enabledEndDate,
     onRemove,
+    onEntryUpdate,
+    onAddProject,
   } = props;
   const {
     start,
@@ -59,14 +68,18 @@ function ListEntry(props: ListEntryProps) {
   const [isMobile] = useResponsive({ max: 'tablet' });
   const [confirmOpen, openConfirm, closeConfirm] = useToggle();
   const [popupOpen, openPopup, closePopup] = useToggle();
+  const [editOpen, openEdit, closeEdit] = useToggle();
 
+  const onHandleOpenEdit = useCallback(() => {
+    closePopup();
+    openEdit();
+  }, [closePopup, openEdit]);
   const onHandleRemove = useCallback(() => {
     closePopup();
     openConfirm();
-  }, []);
+  }, [closePopup, openConfirm]);
 
   const onConfirmRemove = useCallback(() => onRemove(entry), [entry]);
-  const onEdit = useCallback(() => console.log('edit'), [entry]);
   const onHandleEdit = useCallback((e) => {
     if (
       e.target
@@ -76,8 +89,8 @@ function ListEntry(props: ListEntryProps) {
       return;
     }
 
-    onEdit();
-  }, [onEdit]);
+    openEdit();
+  }, [openEdit]);
 
   const duration = timeElapsed(start, end, false, false, round, roundAmount);
   const showDates = !isSameDay(start, end);
@@ -89,7 +102,7 @@ function ListEntry(props: ListEntryProps) {
         basic
         color="grey"
         content="Edit entry"
-        onClick={onEdit}
+        onClick={onHandleOpenEdit}
       />
       <Button
         basic
@@ -167,6 +180,29 @@ function ListEntry(props: ListEntryProps) {
         onCancel={closeConfirm}
         onConfirm={onConfirmRemove}
       />
+
+      {editOpen && (
+        <Modal
+          open={editOpen}
+          onClose={closeEdit}
+          size="small"
+        >
+          <Modal.Content>
+            <EditableEntry
+              entry={entry}
+              enabledEndDate={enabledEndDate}
+              enabledNotes={enabledNotes}
+              enabledProjects={enabledProjects}
+              onUpdate={onEntryUpdate}
+              onAddNewProject={onAddProject}
+            />
+          </Modal.Content>
+          <Modal.Actions>
+            <Button icon="window close" onClick={closeEdit} content="Close" />
+          </Modal.Actions>
+        </Modal>
+      )}
+
     </div>
   );
 }

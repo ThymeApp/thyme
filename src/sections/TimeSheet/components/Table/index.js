@@ -25,6 +25,7 @@ type TimeTableType = {
   roundAmount: number;
   enabledNotes: boolean;
   enabledProjects: boolean;
+  enabledEndDate: boolean;
   onEntryRemove: (entry: TimeType | TimePropertyType) => void;
   onAddProject: (project: string) => string;
   onEntryUpdate: (entry: TimePropertyType) => void;
@@ -38,7 +39,10 @@ function TimeTable({
   roundAmount,
   enabledNotes,
   enabledProjects,
+  enabledEndDate,
   onEntryRemove,
+  onEntryUpdate,
+  onAddProject,
 }: TimeTableType) {
   const days = [];
 
@@ -72,7 +76,10 @@ function TimeTable({
             now={now}
             enabledNotes={enabledNotes}
             enabledProjects={enabledProjects}
+            enabledEndDate={enabledEndDate}
             onRemove={onEntryRemove}
+            onEntryUpdate={onEntryUpdate}
+            onAddProject={onAddProject}
           />
         </div>
       ))}

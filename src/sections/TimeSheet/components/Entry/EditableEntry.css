@@ -8,6 +8,13 @@
   box-shadow: 0 8px 12px 0 rgba(100, 100, 100, 0.06);
 }
 
+.modal .EditableEntry {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+}
+
 .EditableEntry__DurationTime,
 .EditableEntry__Date,
 .EditableEntry__Notes,
@@ -109,64 +116,64 @@
   border-bottom-color: rgba(33, 133, 208, 0.7) !important;
 }
 
-@media screen and (min-width: 520px) {
-  .EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__DurationTime {
-    justify-content: center;
-  }
+/* MINI TABLET MEDIA QUERY */
 
-  .EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__TimeSeparator {
-    transform: rotate(0deg);
-  }
-
-  .EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__Time {
-    flex-direction: row;
-    justify-content: space-between;
-    width: auto;
-  }
+.EditableEntry--minitablet.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__DurationTime {
+  justify-content: center;
 }
 
-@media screen and (min-width: 768px) {
-  .EditableEntry {
-    padding: 0 1% 1.5rem 1%;
-    flex-direction: row;
-  }
+.EditableEntry--minitablet.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__TimeSeparator {
+  transform: rotate(0deg);
+}
 
-  .EditableEntry__Duration,
-  .EditableEntry__Time {
-    margin-right: 1rem;
-  }
+.EditableEntry--minitablet.EditableEntry--endDateEnabled:not(.EditableEntry--tracking) .EditableEntry__Time {
+  flex-direction: row;
+  justify-content: space-between;
+  width: auto;
+}
 
-  .EditableEntry__Notes {
-    margin: 0;
-  }
+/* TABLET MEDIA QUERY */
 
-  .EditableEntry__Actions {
-    margin-left: 1rem;
-    margin-top: 0;
-    width: auto;
-  }
+.EditableEntry--tablet {
+  padding: 0 1% 1.5rem 1%;
+  flex-direction: row;
+}
 
-  .EditableEntry__Project {
-    margin-left: 2rem;
-    margin-top: 0;
-  }
+.EditableEntry--tablet .EditableEntry__Duration,
+.EditableEntry--tablet .EditableEntry__Time {
+  margin-right: 1rem;
+}
 
-  .EditableEntry__DurationTime {
-    margin-right: auto;
-    flex-direction: column;
-  }
+.EditableEntry--tablet .EditableEntry__Notes {
+  margin: 0;
+}
 
-  .EditableEntry__DurationTime,
-  .EditableEntry__Time,
-  .EditableEntry__Project {
-    width: auto;
-  }
+.EditableEntry--tablet .EditableEntry__Actions {
+  margin-left: 1rem;
+  margin-top: 0;
+  width: auto;
+}
 
-  .EditableEntry--tracking .EditableEntry__DurationTime {
-    flex-direction: row;
-  }
+.EditableEntry--tablet .EditableEntry__Project {
+  margin-left: 2rem;
+  margin-top: 0;
+}
 
-  .EditableEntry--endDateEnabled .EditableEntry__Time {
-    flex-direction: row;
-  }
+.EditableEntry--tablet .EditableEntry__DurationTime {
+  margin-right: auto;
+  flex-direction: column;
+}
+
+.EditableEntry--tablet .EditableEntry__DurationTime,
+.EditableEntry--tablet .EditableEntry__Time,
+.EditableEntry--tablet .EditableEntry__Project {
+  width: auto;
+}
+
+.EditableEntry--tablet.EditableEntry--tracking .EditableEntry__DurationTime {
+  flex-direction: row;
+}
+
+.EditableEntry--tablet.EditableEntry--endDateEnabled .EditableEntry__Time {
+  flex-direction: row;
 }

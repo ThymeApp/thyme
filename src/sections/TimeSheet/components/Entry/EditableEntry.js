@@ -225,7 +225,10 @@ function EditableEntry(props: EntryProps) {
     onStop,
   } = props;
 
-  const [isMobile] = useResponsive({ max: 'tablet' });
+  const containerElement = useRef(null);
+
+  const [isMobile] = useResponsive({ max: 'tablet', element: containerElement.current || null });
+  const [isMiniTablet] = useResponsive({ min: 'miniTablet', element: containerElement.current || null });
 
   const [
     startTime,
@@ -300,13 +303,21 @@ function EditableEntry(props: EntryProps) {
       );
     }
 
-    return 'older';
+    return null;
   }, [isMobile, isNew, tracking, disabled, onAddEntry]);
 
   const duration = timeElapsed(startTime, endTime, tracking, true, round, roundAmount) || '0:00:00';
 
   return (
-    <div className={classnames('EditableEntry', { 'EditableEntry--tracking': tracking, 'EditableEntry--endDateEnabled': enabledEndDate })}>
+    <div
+      className={classnames('EditableEntry', {
+        'EditableEntry--tracking': tracking,
+        'EditableEntry--endDateEnabled': enabledEndDate,
+        'EditableEntry--minitablet': isMiniTablet,
+        'EditableEntry--tablet': !isMobile,
+      })}
+      ref={containerElement}
+    >
       <section className="EditableEntry__DurationTime">
         {tracking && (
           <>
