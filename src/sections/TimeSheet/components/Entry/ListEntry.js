@@ -219,7 +219,6 @@ function ListEntry(props: ListEntryProps) {
           </Modal.Actions>
         </Modal>
       )}
-
     </div>
   );
 }
