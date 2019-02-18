@@ -1,7 +1,6 @@
 // @flow
 
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback } from 'react';
 
 import isSameDay from 'date-fns/is_same_day';
 
@@ -12,6 +11,8 @@ import {
 } from 'sections/Settings/selectors';
 import { getAllProjects } from 'sections/Projects/selectors';
 
+import { useMappedState, useDispatch } from 'core/useRedux';
+
 import { updateTime, removeTime } from '../../actions';
 
 import { ListEntry } from '../Entry';
@@ -19,31 +20,45 @@ import DayHeader from './DayHeader';
 
 type TimeTableType = {
   entries: TimeType[];
-  projects: ProjectType[];
   now: Date;
-  round: Rounding;
-  roundAmount: number;
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
-  onEntryRemove: (entry: TimeType | TimePropertyType) => void;
   onAddProject: (project: string) => string;
-  onEntryUpdate: (entry: TimePropertyType) => void;
 };
 
 function TimeTable({
   entries,
-  projects,
   now,
-  round,
-  roundAmount,
   enabledNotes,
   enabledProjects,
   enabledEndDate,
-  onEntryRemove,
-  onEntryUpdate,
   onAddProject,
 }: TimeTableType) {
+  const {
+    projects,
+    round,
+    roundAmount,
+  } = useMappedState(useCallback((state) => {
+    const roundingOn = getRoundingOn(state);
+    return {
+      projects: getAllProjects(state),
+      round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
+      roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
+    };
+  }, []));
+  const {
+    onEntryUpdate,
+    onEntryRemove,
+  } = useDispatch(useCallback(dispatch => ({
+    onEntryUpdate(entry: TimeType | TimePropertyType) {
+      dispatch(updateTime(entry));
+    },
+    onEntryRemove(entry: TimeType) {
+      dispatch(removeTime(entry.id));
+    },
+  }), []));
+
   const days = [];
 
   const firstEntries = entries.filter((entry) => {
@@ -87,26 +102,4 @@ function TimeTable({
   );
 }
 
-function mapStateToProps(state) {
-  const roundingOn = getRoundingOn(state);
-  const projects = getAllProjects(state);
-
-  return {
-    projects,
-    round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
-    roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
-  };
-}
-
-function mapDispatchToProps(dispatch: ThymeDispatch) {
-  return {
-    onEntryUpdate(entry) {
-      dispatch(updateTime(entry));
-    },
-    onEntryRemove(entry) {
-      dispatch(removeTime(entry.id));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TimeTable);
+export default TimeTable;

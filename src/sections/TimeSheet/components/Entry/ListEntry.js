@@ -30,8 +30,8 @@ type ListEntryProps = {
   enabledEndDate: boolean;
   round: Rounding;
   roundAmount: number;
-  onRemove: (entry: TimeType | TimePropertyType) => void;
-  onEntryUpdate: (entry: TimePropertyType) => void;
+  onRemove: (entry: TimeType) => void;
+  onEntryUpdate: (entry: TimeType | TimePropertyType) => void;
   onAddProject: (project: string) => string;
 };
 
