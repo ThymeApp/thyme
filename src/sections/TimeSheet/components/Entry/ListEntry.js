@@ -32,7 +32,7 @@ type ListEntryProps = {
   roundAmount: number;
   onRemove: (entry: TimeType) => void;
   onEntryUpdate: (entry: TimeType | TimePropertyType) => void;
-  onAddProject: (project: string) => string;
+  onAddProject: (project: string, entry: TimeType | TimePropertyType) => string;
 };
 
 function useToggle() {
