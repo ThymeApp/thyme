@@ -76,6 +76,7 @@ function ListEntry(props: ListEntryProps) {
   }, [closePopup, openEdit]);
   const onHandleRemove = useCallback(() => {
     closePopup();
+    closeEdit();
     openConfirm();
   }, [closePopup, openConfirm]);
 
@@ -198,7 +199,17 @@ function ListEntry(props: ListEntryProps) {
             />
           </Modal.Content>
           <Modal.Actions>
-            <Button icon="window close" onClick={closeEdit} content="Close" />
+            <Button
+              icon="remove"
+              onClick={onHandleRemove}
+              color="red"
+              content="Remove entry"
+            />
+            <Button
+              icon="window close"
+              onClick={closeEdit}
+              content="Close"
+            />
           </Modal.Actions>
         </Modal>
       )}
