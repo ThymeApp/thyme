@@ -1,7 +1,6 @@
 // @flow
 
 import React, { useState, useCallback } from 'react';
-import { connect } from 'react-redux';
 
 import isSameDay from 'date-fns/is_same_day';
 
@@ -14,6 +13,7 @@ import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import { timeElapsed } from 'core/thyme';
 import { formatTime, formatDate } from 'core/intl';
 import { treeDisplayName } from 'core/projects';
+import { useMappedState } from 'core/useRedux';
 
 import { useResponsive } from 'components/Responsive';
 
@@ -25,7 +25,6 @@ import './ListEntry.css';
 
 type ListEntryProps = {
   entry: TimeType;
-  project: ProjectTreeWithTimeType;
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
@@ -49,7 +48,6 @@ function useToggle() {
 function ListEntry(props: ListEntryProps) {
   const {
     entry,
-    project,
     round,
     roundAmount,
     enabledNotes,
@@ -70,6 +68,14 @@ function ListEntry(props: ListEntryProps) {
   const [popupOpen, openPopup, closePopup] = useToggle();
   const [editOpen, openEdit, closeEdit] = useToggle();
 
+  const { project } = useMappedState(useCallback((state) => {
+    const projects = sortedProjects(state);
+
+    return {
+      project: projects.find(item => item.id === entry.project),
+    };
+  }, [entry.project]));
+
   const onHandleOpenEdit = useCallback(() => {
     closePopup();
     openEdit();
@@ -80,7 +86,7 @@ function ListEntry(props: ListEntryProps) {
     openConfirm();
   }, [closePopup, openConfirm]);
 
-  const onConfirmRemove = useCallback(() => onRemove(entry), [entry]);
+  const onConfirmRemove = useCallback(() => onRemove(entry), [entry, onRemove]);
   const onHandleEdit = useCallback((e) => {
     if (
       e.target
@@ -218,13 +224,4 @@ function ListEntry(props: ListEntryProps) {
   );
 }
 
-function mapStateToProps(state: StateShape, ownProps: ListEntryProps) {
-  const projects = sortedProjects(state);
-  const project = projects.find(item => item.id === ownProps.entry.project);
-
-  return {
-    project,
-  };
-}
-
-export default connect(mapStateToProps)(ListEntry);
+export default ListEntry;
