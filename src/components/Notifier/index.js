@@ -16,9 +16,7 @@ const reloadWindow = () => window.location.reload();
 function Notifier() {
   const isUpdateAvailable = useMappedState(updateAvailable);
 
-  if (!isUpdateAvailable) {
-    return null;
-  }
+  if (!isUpdateAvailable) return null;
 
   return (
     <div className="Notifier">
