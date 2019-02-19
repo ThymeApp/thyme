@@ -1,7 +1,7 @@
 // @flow
 
-import { store } from './Provider';
-import type { UpdateActions } from './Provider';
+import store from './Store';
+import type { UpdateActions } from './Store';
 
 function dispatch(action: UpdateActions) {
   store.dispatch(action);
