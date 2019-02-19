@@ -19,8 +19,6 @@ import Sidebar from 'semantic-ui-react/dist/commonjs/modules/Sidebar';
 
 import { useMappedState, useDispatch } from 'core/useRedux';
 
-import { updateOnRegistration } from 'register/component';
-
 import { clearAlert, appInit } from 'actions/app';
 
 import { getAlert } from 'selectors/app';
@@ -186,4 +184,4 @@ function App({
   );
 }
 
-export default withRouter<*>(updateOnRegistration<*>(App));
+export default withRouter<*>(App);
