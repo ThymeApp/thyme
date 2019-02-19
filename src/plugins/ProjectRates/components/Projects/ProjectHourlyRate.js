@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
@@ -12,7 +12,7 @@ import type { ProjectItemProps } from 'sections/Projects/components/ProjectsList
 
 import { getRatesCurrencySign } from '../../selectors';
 
-import type { ProjectWithRate, StoreShapeWithRates } from '../../types';
+import type { ProjectWithRate } from '../../types';
 
 type ProjectHourlyRatePassedProps = {
   isMobile: boolean;
@@ -29,6 +29,15 @@ function ProjectHourlyRate({
 }: ProjectHourlyRateProps) {
   const currencySign = useMappedState(getRatesCurrencySign);
 
+  const onChange = useCallback((e: Event) => {
+    const rate = parseInt(valueFromEventTarget(e.target), 10);
+
+    onUpdateProject({
+      ...project,
+      rate: Number.isNaN(rate) ? 0 : rate,
+    });
+  }, [project, onUpdateProject]);
+
   return (
     <Table.Cell className="field">
       {isMobile && (
@@ -42,14 +51,7 @@ function ProjectHourlyRate({
         type="number"
         placeholder="Project rate"
         value={project.rate || ''}
-        onChange={(e: Event) => {
-          const rate = parseInt(valueFromEventTarget(e.target), 10);
-
-          onUpdateProject({
-            ...project,
-            rate: Number.isNaN(rate) ? 0 : rate,
-          });
-        }}
+        onChange={onChange}
       />
     </Table.Cell>
   );
