@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react';
-import { connect } from 'react-redux';
 
 import { formatCurrency } from 'core/intl';
+import { useMappedState } from 'core/useRedux';
 
 import { totalProjectPrice } from '../../helpers';
 
@@ -15,24 +15,15 @@ type ReportTableTotalProps = {
   projects: ProjectRatesReportProject[];
 };
 
-function ReportTableTotal({
-  currency,
-  projects,
-}: { currency: string } & ReportTableTotalProps) {
+function ReportTableTotal({ projects }: ReportTableTotalProps) {
+  const currency = useMappedState(getRatesCurrency);
+
   return formatCurrency(
     currency,
     projects.reduce((acc, project) => acc + totalProjectPrice(project), 0),
   );
 }
 
-function mapDispatchToProps(state) {
-  return {
-    currency: getRatesCurrency(state),
-  };
-}
-
-const EnhancedReportTableTotal = connect(mapDispatchToProps)(ReportTableTotal);
-
 export default (projects: ProjectRatesReportProject[]) => (
-  <EnhancedReportTableTotal projects={projects} />
+  <ReportTableTotal projects={projects} />
 );

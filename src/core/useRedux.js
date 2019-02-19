@@ -5,9 +5,11 @@ import { ReactReduxContext } from 'react-redux';
 
 export function useMappedState<SP, SS>(mapState: (state: SS) => SP): SP {
   const context = useContext(ReactReduxContext);
+  const state = context.store.getState();
+
   return useMemo(
-    () => mapState(context.store.getState()),
-    [context.store.getState(), mapState],
+    () => mapState(state),
+    [state, mapState],
   );
 }
 
