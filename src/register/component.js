@@ -12,9 +12,9 @@ export function register(name: string, key: string, renderProp: (...any) => any)
 
 export function render(name: string, props: any) {
   return (
-    <RegisterConsumer propKey="components">
-      {components => (components[name]
-        ? components[name].map(c => (
+    <RegisterConsumer>
+      {state => (state.components[name]
+        ? state.components[name].map(c => (
           <Fragment key={`${name}_${c.key}`}>
             {c.render(props)}
           </Fragment>

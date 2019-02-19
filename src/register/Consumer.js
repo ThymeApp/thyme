@@ -5,12 +5,10 @@ import React from 'react';
 import RegisterContext from './Context';
 import type { ContextType } from './Context';
 
-export default function RegisterConsumer<T>(
-  { propKey, children }: { propKey?: string, children: (items: T | ContextType) => any },
-) {
+export default function RegisterConsumer({ children }: { children: (items: ContextType) => any }) {
   return (
     <RegisterContext.Consumer>
-      {(state: ContextType) => children(propKey ? state[propKey] : state)}
+      {(state: ContextType) => children(state)}
     </RegisterContext.Consumer>
   );
 }

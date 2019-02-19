@@ -94,9 +94,11 @@ class Settings extends Component<SettingsProps> {
           Settings
         </Header>
 
-        <RegisterConsumer propKey="settingsPanels">
-          {extraPanels => (
-            <Accordion fluid styled>{[...panels, ...extraPanels].map(this.settingsItem)}</Accordion>
+        <RegisterConsumer>
+          {state => (
+            <Accordion fluid styled>
+              {[...panels, ...state.settingsPanels].map(this.settingsItem)}
+            </Accordion>
           )}
         </RegisterConsumer>
 
