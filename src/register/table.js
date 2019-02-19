@@ -1,17 +1,19 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { useCallback } from 'react';
 import type { Node } from 'react';
-import mitt from 'mitt';
 import { invoke } from 'thyme-connect';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
 import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
+import RegisterConsumer from './Consumer';
+import { registerTableColumn, toggleTableColumn } from './Actions';
+
 type RenderProp = (...any) => Node;
 
-type TableColumn = {
+export type TableColumn = {
   name: string;
   row: RenderProp;
   header?: RenderProp;
@@ -23,103 +25,38 @@ type TableColumn = {
 
 type TableRow = { id: any } & any;
 
-const emitter = mitt();
-const ADD_COLUMN = 'table.add.column';
-const UPDATE_HIDDEN_COLUMNS = 'table.update.hiddenColumns';
-
-const registeredColumns: {
-  [name: string]: TableColumn[];
-} = {};
-
 export function registerColumn(name: string, column: TableColumn) {
-  if (!registeredColumns[name]) {
-    registeredColumns[name] = [];
-  }
-
-  registeredColumns[name] = [...registeredColumns[name], column];
-
-  emitter.emit(ADD_COLUMN, name);
+  registerTableColumn(name, column);
 }
 
 // register method on thyme-connect
 invoke('registerColumn', registerColumn);
 
-function getRegisteredColumns(name: string): TableColumn[] {
-  return registeredColumns[name] || [];
-}
-
-function toggleFilter(filters: string[], filter: string) {
-  if (filters.indexOf(filter) > -1) {
-    return filters.filter(item => item !== filter);
-  }
-
-  return [...filters, filter];
-}
-
-type ColumnWrapperState = {
-  extraColumns: TableColumn[];
-  hiddenColumns: string[];
-};
-
 type ColumnWrapperProps = {
   name: string;
-  children: (ColumnWrapperState & { onToggleColumn: (name: string) => void }) => any;
+  children: ({
+    extraColumns: TableColumn[];
+    hiddenColumns: string[];
+    onToggleColumn: (name: string) => void;
+  }) => Node;
 };
 
-class ColumnWrapper extends Component<ColumnWrapperProps, ColumnWrapperState> {
-  constructor(props: ColumnWrapperProps) {
-    super();
+function ColumnWrapper(props: ColumnWrapperProps) {
+  const { children, name } = props;
 
-    this.state = {
-      extraColumns: getRegisteredColumns(props.name),
-      hiddenColumns: [],
-    };
-  }
+  const onToggleColumn = useCallback((columnName: string) => {
+    toggleTableColumn(name, columnName);
+  }, [name]);
 
-  componentDidMount() {
-    emitter.on(ADD_COLUMN, this.updateColumns);
-    emitter.on(UPDATE_HIDDEN_COLUMNS, this.updateHiddenColumns);
-  }
-
-  componentWillUnmount() {
-    emitter.off(ADD_COLUMN, this.updateColumns);
-    emitter.off(UPDATE_HIDDEN_COLUMNS, this.updateHiddenColumns);
-  }
-
-  onToggleColumn = (columnName: string) => {
-    const { name } = this.props;
-    const { hiddenColumns } = this.state;
-
-    emitter.emit(UPDATE_HIDDEN_COLUMNS, {
-      tableName: name,
-      hiddenColumns: toggleFilter(hiddenColumns, columnName),
-    });
-  };
-
-  updateColumns = (tableName: any) => {
-    const { name } = this.props;
-
-    if (tableName === name) {
-      this.setState({
-        extraColumns: getRegisteredColumns(name),
-      });
-    }
-  };
-
-  updateHiddenColumns = ({ tableName, hiddenColumns }: any) => {
-    const { name } = this.props;
-
-    if (tableName === name) {
-      this.setState({ hiddenColumns });
-    }
-  };
-
-  render() {
-    const { children } = this.props;
-    const { extraColumns, hiddenColumns } = this.state;
-
-    return children({ extraColumns, hiddenColumns, onToggleColumn: this.onToggleColumn });
-  }
+  return (
+    <RegisterConsumer>
+      {state => children({
+        extraColumns: (state.columns[name] || []),
+        hiddenColumns: (state.hiddenColumns[name] || []),
+        onToggleColumn,
+      })}
+    </RegisterConsumer>
+  );
 }
 
 type TableProps = {

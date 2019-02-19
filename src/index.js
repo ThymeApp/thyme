@@ -26,6 +26,7 @@ import Routes from './Routes';
 import { register, unregister } from './serviceWorker';
 
 import { registerStore } from './register/reducer';
+import RegisterProvider from './register/Provider';
 import loadPlugins from './plugins/load';
 
 const initialState = runMigrations(loadState());
@@ -43,13 +44,15 @@ onExtensionConnected(() => changeState(store.getState()));
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter basename={process.env.PUBLIC_URL || ''}>
-      <ErrorBoundary>
-        <App>
-          <Routes />
-        </App>
-      </ErrorBoundary>
-    </BrowserRouter>
+    <RegisterProvider>
+      <BrowserRouter basename={process.env.PUBLIC_URL || ''}>
+        <ErrorBoundary>
+          <App>
+            <Routes />
+          </App>
+        </ErrorBoundary>
+      </BrowserRouter>
+    </RegisterProvider>
   </Provider>,
   document.getElementById('root') || document.createElement('div'),
 );
