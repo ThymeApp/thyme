@@ -1,27 +1,27 @@
 // @flow
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { invoke } from 'thyme-connect';
 
-import RegisterConsumer from './Consumer';
+import { useRegisterConsumer } from './Consumer';
 import { registerComponent } from './Actions';
 
 export function register(name: string, key: string, renderProp: (...any) => any) {
   registerComponent(name, key, renderProp);
 }
 
+function RenderComponent({ name, props }: { name: string, props: any }) {
+  const components = useRegisterConsumer('components');
+
+  if (!components[name]) {
+    return null;
+  }
+
+  return components[name].map(c => <c.render key={`${name}_${c.key}`} {...props} />);
+}
+
 export function render(name: string, props: any) {
-  return (
-    <RegisterConsumer>
-      {state => (state.components[name]
-        ? state.components[name].map(c => (
-          <Fragment key={`${name}_${c.key}`}>
-            {c.render(props)}
-          </Fragment>
-        ))
-        : null)}
-    </RegisterConsumer>
-  );
+  return <RenderComponent name={name} props={props} />;
 }
 
 // register method on thyme-connect
