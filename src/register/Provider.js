@@ -10,30 +10,55 @@ import Context from './Context';
 
 const defaultState: ContextType = {
   settingsPanels: [],
+  components: {},
 };
 
 type AddSettingPanel = {
-  key: 'settingsPanels';
+  type: 'ADD_SETTINGS_PANEL';
   item: SettingsPanel;
 };
 
-export type UpdateActions = AddSettingPanel;
-type StoreActions = UpdateActions & { type: 'UPDATE' };
+type AddComponent = {
+  type: 'ADD_COMPONENT';
+  name: string;
+  key: string;
+  renderProp: (...any) => any;
+};
 
-export const store = createStore<ContextType, StoreActions, Dispatch<StoreActions>>(
+export type UpdateActions = AddSettingPanel | AddComponent;
+
+export const store = createStore<ContextType, UpdateActions, Dispatch<UpdateActions>>(
   (state, action) => {
     if (!state) {
       return defaultState;
     }
 
-    if (action.type === 'UPDATE') {
-      return {
-        ...state,
-        [action.key]: [...state[action.key], action.item],
-      };
-    }
+    switch (action.type) {
+      case 'ADD_SETTINGS_PANEL':
+        return {
+          ...state,
+          settingsPanels: [...state.settingsPanels, action.item],
+        };
+      case 'ADD_COMPONENT': {
+        const { name, key, renderProp } = action;
 
-    return state;
+        return {
+          ...state,
+          components: {
+            ...state.components,
+            [name]: [
+              ...(state.components[name] || []),
+              {
+                key,
+                render: renderProp,
+              },
+            ],
+          },
+        };
+      }
+      default:
+        return state;
+    }
   },
   defaultState,
 );

@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+
 import RegisterContext from './Context';
 import type { ContextType } from './Context';
 
