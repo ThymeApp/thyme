@@ -2,6 +2,7 @@
 
 import store from './Store';
 import type { UpdateActions } from './Store';
+import type { TableColumn } from './table';
 
 function dispatch(action: UpdateActions) {
   store.dispatch(action);
@@ -17,5 +18,21 @@ export function registerComponent(name: string, key: string, renderProp: (...any
     name,
     key,
     renderProp,
+  });
+}
+
+export function registerTableColumn(name: string, column: TableColumn) {
+  dispatch({
+    type: 'ADD_TABLE_COLUMN',
+    name,
+    column,
+  });
+}
+
+export function toggleTableColumn(name: string, column: string) {
+  dispatch({
+    type: 'TOGGLE_TABLE_COLUMN',
+    name,
+    column,
   });
 }
