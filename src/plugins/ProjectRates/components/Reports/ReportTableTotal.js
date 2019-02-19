@@ -24,6 +24,4 @@ function ReportTableTotal({ projects }: ReportTableTotalProps) {
   );
 }
 
-export default (projects: ProjectRatesReportProject[]) => (
-  <ReportTableTotal projects={projects} />
-);
+export default (projects: ProjectRatesReportProject[]) => <ReportTableTotal projects={projects} />;
