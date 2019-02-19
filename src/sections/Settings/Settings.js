@@ -8,7 +8,7 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
 
-import { listen, unlisten, items } from '../../register/settings';
+import RegisterConsumer from 'register/Consumer';
 
 import TimeSheet from './components/TimeSheet';
 import Rounding from './components/Rounding';
@@ -23,31 +23,7 @@ type SettingsProps = {
   history: RouterHistory;
 };
 
-type SettingsState = {
-  extraPanels: SettingsPanel[];
-};
-
-class Settings extends Component<SettingsProps, SettingsState> {
-  constructor() {
-    super();
-
-    this.state = {
-      extraPanels: items(),
-    };
-  }
-
-  componentDidMount() {
-    listen(this.onPanelAdd);
-  }
-
-  componentWillUnmount() {
-    unlisten(this.onPanelAdd);
-  }
-
-  onPanelAdd = () => {
-    this.setState({ extraPanels: items() });
-  };
-
+class Settings extends Component<SettingsProps> {
   settingsItem = (item: SettingsPanel | null) => {
     if (!item) {
       return null;
@@ -84,8 +60,6 @@ class Settings extends Component<SettingsProps, SettingsState> {
   };
 
   render() {
-    const { extraPanels } = this.state;
-
     const panels: Array<SettingsPanel | null> = [
       {
         url: 'timesheet',
@@ -112,7 +86,6 @@ class Settings extends Component<SettingsProps, SettingsState> {
         name: 'Advanced settings',
         content: <Advanced />,
       },
-      ...extraPanels,
     ];
 
     return (
@@ -121,7 +94,11 @@ class Settings extends Component<SettingsProps, SettingsState> {
           Settings
         </Header>
 
-        <Accordion fluid styled>{panels.map(this.settingsItem)}</Accordion>
+        <RegisterConsumer propKey="settingsPanels">
+          {extraPanels => (
+            <Accordion fluid styled>{[...panels, ...extraPanels].map(this.settingsItem)}</Accordion>
+          )}
+        </RegisterConsumer>
 
         <Header as="h3">
           About
