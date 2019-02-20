@@ -1,10 +1,11 @@
 // @flow
 
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback } from 'react';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
+
+import { useMappedState, useDispatch } from 'core/useRedux';
 
 import { popular, other } from '../../currencies';
 
@@ -26,12 +27,12 @@ const currencyOptions = [
   ...transformToOption(other),
 ];
 
-type ProjectRatesSettingsProps = {
-  currency: string;
-  onCurrencyChange: (e: any, data: { value: string }) => void;
-};
+function ProjectRatesSettings() {
+  const currency = useMappedState(getRatesCurrency);
+  const onCurrencyChange = useCallback(useDispatch(dispatch => (e, data) => {
+    dispatch(updateCurrency(data.value));
+  }), []);
 
-function ProjectRatesSettings({ currency, onCurrencyChange }: ProjectRatesSettingsProps) {
   return (
     <Form>
       <Form.Field style={{ maxWidth: 300 }}>
@@ -50,23 +51,4 @@ function ProjectRatesSettings({ currency, onCurrencyChange }: ProjectRatesSettin
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    currency: getRatesCurrency(state),
-  };
-}
-
-function mapDispatchToProps(dispatch: ThymeDispatch) {
-  return {
-    onCurrencyChange(e, data) {
-      dispatch(updateCurrency(data.value));
-    },
-  };
-}
-
-const EnhancedProjectRatesSettings = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProjectRatesSettings);
-
-export default () => <EnhancedProjectRatesSettings />;
+export default <ProjectRatesSettings />;

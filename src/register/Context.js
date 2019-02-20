@@ -1,6 +1,7 @@
 // @flow
 
 import { createContext } from 'react';
+import type { Node } from 'react';
 
 import { defaultState } from './Store';
 
@@ -9,7 +10,7 @@ import type { TableColumn } from './table';
 export type ContextType = {
   settingsPanels: SettingsPanel[];
   components: {
-    [name: string]: { key: string, render: (...any) => any }[];
+    [name: string]: { key: string, render: Node }[];
   };
   columns: {
     [name: string]: TableColumn[];

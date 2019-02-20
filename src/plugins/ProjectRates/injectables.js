@@ -21,7 +21,7 @@ export default () => {
   registerSettingsPanel({
     url: 'project-rates',
     name: 'Project rates',
-    content: ProjectRatesSettings(),
+    content: ProjectRatesSettings,
   });
 
   // Reports page

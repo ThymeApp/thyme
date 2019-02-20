@@ -1,12 +1,13 @@
 // @flow
 
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useCallback } from 'react';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordion';
 import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagination';
+
+import { useMappedState, useDispatch } from 'core/useRedux';
 
 import { render as renderComponent } from 'register/component';
 
@@ -32,31 +33,58 @@ import { getCurrentTimeEntries, getPage } from './selectors';
 import './TimeSheet.css';
 
 type TimeSheetProps = {
-  entries: TimeType[];
-  now: Date;
-  page: number;
-  entriesPerPage: number;
-  changeEntriesPage: (page: number) => void;
-  enabledNotes: boolean;
-  enabledProjects: boolean;
-  enabledEndDate: boolean;
-  onAddProject: (project: string) => string;
+  now?: Date;
 };
 
 function TimeSheet(props: TimeSheetProps) {
+  const { now } = props;
+
+  const [filterOpen, setFilterOpen] = useState<boolean>(false);
+  const [isMobile] = useResponsive({ max: 'tablet' });
+
   const {
     entries,
-    now,
+    now: mappedNow,
     page,
     entriesPerPage,
-    changeEntriesPage,
     enabledNotes,
     enabledProjects,
     enabledEndDate,
+  } = useMappedState(useCallback((state) => {
+    const currentDate = props.now || new Date();
+
+    return {
+      entries: getCurrentTimeEntries(currentDate)(state),
+      now: currentDate,
+      page: getPage(state),
+      entriesPerPage: getEntriesPerPage(state),
+      enabledNotes: getEnableNotes(state),
+      enabledProjects: getEnableProjects(state),
+      enabledEndDate: getEnableEndDate(state),
+    };
+  }, [now]));
+
+  const {
+    changeEntriesPage,
     onAddProject,
-  } = props;
-  const [filterOpen, setFilterOpen] = useState<boolean>(false);
-  const [isMobile] = useResponsive({ max: 'tablet' });
+  } = useDispatch(useCallback(dispatch => ({
+    changeEntriesPage(newPage: number) {
+      dispatch(changePage(newPage));
+    },
+    onAddProject(project, entry: any) {
+      const newProjectAction = addProject({ parent: null, name: project });
+
+      const projectId = newProjectAction.id;
+
+      dispatch(newProjectAction);
+      dispatch(updateTime({
+        ...entry,
+        project: projectId,
+      }));
+
+      return newProjectAction.id;
+    },
+  }), []));
 
   const totalPages = Math.ceil(entries.length / entriesPerPage);
   const start = (page - 1) * entriesPerPage;
@@ -70,7 +98,7 @@ function TimeSheet(props: TimeSheetProps) {
   return (
     <div className="TimeSheet">
       <NewEntry
-        now={now}
+        now={mappedNow}
         enabledNotes={enabledNotes}
         enabledProjects={enabledProjects}
         enabledEndDate={enabledEndDate}
@@ -104,7 +132,7 @@ function TimeSheet(props: TimeSheetProps) {
 
         <TimeTable
           entries={entries.filter((item, index) => index <= end && index >= start)}
-          now={now}
+          now={mappedNow}
           enabledNotes={enabledNotes}
           enabledProjects={enabledProjects}
           enabledEndDate={enabledEndDate}
@@ -126,38 +154,4 @@ function TimeSheet(props: TimeSheetProps) {
   );
 }
 
-function mapStateToProps(state: StateShape, props: TimeSheetProps) {
-  const { now } = props;
-
-  const currentDate = now || new Date();
-
-  return {
-    entries: getCurrentTimeEntries(currentDate)(state),
-    now: currentDate,
-    page: getPage(state),
-    entriesPerPage: getEntriesPerPage(state),
-    enabledNotes: getEnableNotes(state),
-    enabledProjects: getEnableProjects(state),
-    enabledEndDate: getEnableEndDate(state),
-  };
-}
-
-function mapDispatchToProps(dispatch: ThymeDispatch) {
-  return {
-    changeEntriesPage(page: number) {
-      dispatch(changePage(page));
-    },
-    onAddProject(project, entry) {
-      const newProjectAction = addProject({ parent: null, name: project });
-
-      const projectId = newProjectAction.id;
-
-      dispatch(newProjectAction);
-      dispatch(updateTime({ ...entry, project: projectId }));
-
-      return newProjectAction.id;
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TimeSheet);
+export default TimeSheet;

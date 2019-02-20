@@ -2,7 +2,8 @@
 
 import React from 'react';
 import type { Element } from 'react';
-import { connect } from 'react-redux';
+
+import { useMappedState } from 'core/useRedux';
 
 import ProjectItem from './ProjectItem'; // eslint-disable-line import/no-cycle
 
@@ -11,7 +12,6 @@ import { allSortedProjects } from '../../selectors';
 import './ProjectsList.css';
 
 type ProjectsListProps = {
-  projects: ProjectTreeType[];
   parent?: string;
   level?: number;
   onUpdateProject: (project: ProjectProps) => void;
@@ -21,7 +21,6 @@ type ProjectsListProps = {
 };
 
 function ProjectsList({
-  projects,
   parent = '',
   level = 1,
   onUpdateProject,
@@ -29,6 +28,8 @@ function ProjectsList({
   onArchiveProject,
   onChangeParent,
 }: ProjectsListProps): Element<typeof ProjectItem>[] {
+  const projects = useMappedState(allSortedProjects);
+
   return projects
     .filter(item => (parent === '' && item.parent === null) || item.parent === parent)
     .map(project => (
@@ -45,10 +46,4 @@ function ProjectsList({
     ));
 }
 
-function mapStateToProps(state) {
-  return {
-    projects: allSortedProjects(state),
-  };
-}
-
-export default connect(mapStateToProps)(ProjectsList);
+export default ProjectsList;

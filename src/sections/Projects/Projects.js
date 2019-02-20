@@ -1,11 +1,13 @@
 // @flow
 
 import React from 'react';
-import { connect } from 'react-redux';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
+
+import { useMappedState, useDispatch } from 'core/useRedux';
+import { isDescendant } from 'core/projects';
 
 import BuyMessage from 'components/BuySubscription/Message';
 
@@ -19,25 +21,25 @@ import NewProject from './components/NewProject';
 import ProjectsList from './components/ProjectsList';
 
 import { archiveProject, removeProject, updateProject } from './actions';
-import { isDescendant } from '../../core/projects';
 
-type ProjectsProps = {
-  projects: Array<ProjectTreeType>;
-  showUpgrade: boolean;
-  showAlert: (message: string) => void;
-  onUpdateProject: (project: ProjectProps) => void;
-  onRemoveProject: (id: string) => void;
-  onArchiveProject: (id: string) => void;
-};
+function Projects() {
+  const { projects, showUpgrade } = useMappedState(state => ({
+    projects: allSortedProjects(state),
+    showUpgrade: !hasPremium(state) && isLoaded(state),
+  }));
 
-function Projects({
-  projects,
-  showUpgrade,
-  showAlert,
-  onUpdateProject,
-  onRemoveProject,
-  onArchiveProject,
-}: ProjectsProps) {
+  const {
+    showAlert,
+    onUpdateProject,
+    onRemoveProject,
+    onArchiveProject,
+  } = useDispatch(dispatch => ({
+    onUpdateProject: (project: ProjectProps) => dispatch(updateProject(project)),
+    onRemoveProject: (id: string) => dispatch(removeProject(id)),
+    onArchiveProject: (id: string) => dispatch(archiveProject(id)),
+    showAlert: (message: string) => dispatch(alert(message)),
+  }));
+
   return (
     <Container>
       <Header as="h1">
@@ -77,31 +79,4 @@ function Projects({
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    projects: allSortedProjects(state),
-    showUpgrade: !hasPremium(state) && isLoaded(state),
-  };
-}
-
-function mapDispatchToProps(dispatch: ThymeDispatch) {
-  return {
-    onUpdateProject(project: ProjectProps) {
-      dispatch(updateProject(project));
-    },
-
-    onRemoveProject(id: string) {
-      dispatch(removeProject(id));
-    },
-
-    onArchiveProject(id: string) {
-      dispatch(archiveProject(id));
-    },
-
-    showAlert(message: string) {
-      dispatch(alert(message));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Projects);
+export default Projects;

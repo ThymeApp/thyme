@@ -1,9 +1,10 @@
 // @flow
 
 import React from 'react';
-import { connect } from 'react-redux';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
+
+import { useMappedState } from 'core/useRedux';
 
 import Loading from 'components/Loading';
 import Button from 'components/BuySubscription/Button';
@@ -12,12 +13,12 @@ import { hasPremium, isLoaded } from '../../selectors';
 
 import ListSubscription from '../../components/ListSubscription';
 
-type SubscriptionProps = {
-  isPremium: boolean;
-  isLoading: boolean;
-};
+function Subscription() {
+  const { isPremium, isLoading } = useMappedState(state => ({
+    isPremium: hasPremium(state),
+    isLoading: !isLoaded(state),
+  }));
 
-function Subscription({ isPremium, isLoading }: SubscriptionProps) {
   if (isLoading) {
     return (
       <Loading noPadding size="medium" />
@@ -46,11 +47,4 @@ function Subscription({ isPremium, isLoading }: SubscriptionProps) {
   return <ListSubscription />;
 }
 
-function mapStateToProps(state: StateShape) {
-  return {
-    isPremium: hasPremium(state),
-    isLoading: !isLoaded(state),
-  };
-}
-
-export default connect(mapStateToProps)(Subscription);
+export default Subscription;

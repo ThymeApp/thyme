@@ -1,7 +1,8 @@
 // @flow
 
 import React from 'react';
-import { connect } from 'react-redux';
+
+import { useMappedState } from 'core/useRedux';
 
 import Loading from 'components/Loading';
 
@@ -13,13 +14,13 @@ import Completed from './Completed';
 
 import './Premium.css';
 
-type PremiumProps = {
-  isPremium: boolean;
-  loggedIn: boolean;
-  loadingDone: boolean;
-}
+function Premium() {
+  const { loadingDone, isPremium, loggedIn } = useMappedState(state => ({
+    isPremium: hasPremium(state),
+    loggedIn: isLoggedIn(state),
+    loadingDone: isLoaded(state),
+  }));
 
-function Premium({ loadingDone, isPremium, loggedIn }: PremiumProps) {
   if (loggedIn && !loadingDone) {
     return <Loading />;
   }
@@ -35,12 +36,4 @@ function Premium({ loadingDone, isPremium, loggedIn }: PremiumProps) {
   return <SignUp />;
 }
 
-function mapStateToProps(state: StateShape) {
-  return {
-    isPremium: hasPremium(state),
-    loggedIn: isLoggedIn(state),
-    loadingDone: isLoaded(state),
-  };
-}
-
-export default connect(mapStateToProps)(Premium);
+export default Premium;

@@ -7,7 +7,7 @@ export function addTime(entry: TimePropertyType) {
   };
 }
 
-export function updateTime(entry: { id: string } & TimePropertyType) {
+export function updateTime(entry: TimeType | TimePropertyType) {
   return {
     type: 'UPDATE_TIME',
     ...entry,

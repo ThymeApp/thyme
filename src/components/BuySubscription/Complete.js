@@ -1,21 +1,22 @@
 // @flow
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Route, Switch } from 'react-router';
-import { connect } from 'react-redux';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
+
+import { useMappedState } from 'core/useRedux';
 
 import { hasPremium, isLoaded, isLoggedIn } from 'sections/Account/selectors';
 
 import BuyButton from './Button';
 
-type CompleteProps = {
-  showMessage: boolean;
-};
+function Complete() {
+  const { showMessage } = useMappedState(useCallback(state => ({
+    showMessage: !hasPremium(state) && isLoaded(state) && isLoggedIn(state),
+  })));
 
-function Complete({ showMessage }: CompleteProps) {
   if (!showMessage) {
     return null;
   }
@@ -41,19 +42,11 @@ function Complete({ showMessage }: CompleteProps) {
   );
 }
 
-function mapStateToProps(state: StateShape) {
-  return {
-    showMessage: !hasPremium(state) && isLoaded(state) && isLoggedIn(state),
-  };
-}
-
-const EnhancedComplete = connect(mapStateToProps)(Complete);
-
 export default function CompletedOnRoute() {
   return (
     <Switch>
       <Route path="/premium" />
-      <Route component={EnhancedComplete} />
+      <Route component={Complete} />
     </Switch>
   );
 }

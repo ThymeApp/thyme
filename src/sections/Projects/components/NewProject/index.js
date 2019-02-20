@@ -1,13 +1,13 @@
 // @flow
 
 import React, { Fragment, useState, useCallback } from 'react';
-import { connect } from 'react-redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 
 import { valueFromEventTarget } from 'core/dom';
+import { useDispatch } from 'core/useRedux';
 
 import { useResponsive } from 'components/Responsive';
 
@@ -22,15 +22,6 @@ function defaultState() {
   };
 }
 
-type NewProjectState = {
-  name: string,
-  parent: string | null,
-};
-
-type NewProjectProps = {
-  onAddProject: (project: NewProjectState) => void,
-};
-
 function useNewProjectState(defaultProject = defaultState()) {
   const [name, setName] = useState<string>(defaultProject.name);
   const [parent, setParent] = useState<string | null>(defaultProject.parent);
@@ -43,9 +34,10 @@ function useNewProjectState(defaultProject = defaultState()) {
   return [name, parent, setName, setParent, resetState];
 }
 
-function NewProject({ onAddProject }: NewProjectProps) {
+function NewProject() {
   const [name, parent, setName, setParent, resetState] = useNewProjectState();
   const [showLabels] = useResponsive({ max: 'tablet' });
+  const onAddProject = useDispatch(dispatch => project => dispatch(addProject({ ...project })));
 
   const onSubmit = useCallback(() => {
     if (name.trim() === '') {
@@ -120,14 +112,4 @@ function NewProject({ onAddProject }: NewProjectProps) {
   );
 }
 
-function mapDispatchToProps(dispatch: ThymeDispatch) {
-  return {
-    onAddProject(project) {
-      dispatch(addProject({
-        ...project,
-      }));
-    },
-  };
-}
-
-export default connect(null, mapDispatchToProps)(NewProject);
+export default NewProject;
