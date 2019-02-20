@@ -15,6 +15,10 @@ export function registerStore(store: ThymeStore) {
   registeredStore = store;
 }
 
+export function getState() {
+  return registeredStore && registeredStore.getState();
+}
+
 export function register(path: string, reducers: Reducers, store: ?ThymeStore) {
   if (!registeredReducers[path]) {
     registeredReducers[path] = [];
