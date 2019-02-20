@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import isSameDay from 'date-fns/is_same_day';
 
@@ -39,25 +39,25 @@ function TimeTable({
     projects,
     round,
     roundAmount,
-  } = useMappedState(useCallback((state) => {
+  } = useMappedState((state) => {
     const roundingOn = getRoundingOn(state);
     return {
       projects: getAllProjects(state),
       round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
       roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
     };
-  }, []));
+  });
   const {
     onEntryUpdate,
     onEntryRemove,
-  } = useDispatch(useCallback(dispatch => ({
+  } = useDispatch(dispatch => ({
     onEntryUpdate(entry: TimeType | TimePropertyType) {
       dispatch(updateTime(entry));
     },
     onEntryRemove(entry: TimeType) {
       dispatch(removeTime(entry.id));
     },
-  }), []));
+  }));
 
   const days = [];
 

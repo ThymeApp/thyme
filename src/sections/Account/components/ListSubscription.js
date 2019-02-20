@@ -27,10 +27,7 @@ function ListSubscription() {
       });
   }, []);
 
-  const showAlert = useCallback(
-    useDispatch(dispatch => message => dispatch(alert(message))),
-    [alert],
-  );
+  const showAlert = useDispatch(dispatch => message => dispatch(alert(message)));
 
   const onCancel = useCallback(() => {
     showAlert('Please send an email to support@usethyme.com and add that you would like to cancel your subscription.');
