@@ -12,7 +12,6 @@ import { allSortedProjects } from '../../selectors';
 import './ProjectsList.css';
 
 type ProjectsListProps = {
-  projects: ProjectTreeType[];
   parent?: string;
   level?: number;
   onUpdateProject: (project: ProjectProps) => void;
