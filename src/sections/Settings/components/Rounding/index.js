@@ -1,10 +1,11 @@
 // @flow
 
 import React from 'react';
-import { connect } from 'react-redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
+
+import { useMappedState, useDispatch } from 'core/useRedux';
 
 import {
   updateDurationRounding,
@@ -20,23 +21,29 @@ import RoundingOn from './RoundingOn';
 
 import './Rounding.css';
 
-type RoundingProps = {
-  durationAmount: number;
-  durationRounding: Rounding;
-  roundingOn: RoundableOn;
-  onChangeDurationRounding: (round: Rounding) => void;
-  onChangeDurationRoundingAmount: (amount: number) => void;
-  onChangeRoundingOn: (roundingOn: RoundableOn) => void;
-}
+function RoundingSettings() {
+  const {
+    durationAmount,
+    durationRounding,
+    roundingOn,
+  } = useMappedState(state => ({
+    durationRounding: getDurationRounding(state),
+    durationAmount: getDurationAmount(state),
+    roundingOn: getRoundingOn(state),
+  }));
 
-function RoundingSettings({
-  durationAmount,
-  durationRounding,
-  roundingOn,
-  onChangeDurationRounding,
-  onChangeDurationRoundingAmount,
-  onChangeRoundingOn,
-}: RoundingProps) {
+  const {
+    onChangeDurationRounding,
+    onChangeDurationRoundingAmount,
+    onChangeRoundingOn,
+  } = useDispatch(dispatch => ({
+    onChangeDurationRounding: (round: Rounding) => dispatch(updateDurationRounding(round)),
+    onChangeDurationRoundingAmount: (amount: number) => dispatch(
+      updateDurationRoundingAmount(amount),
+    ),
+    onChangeRoundingOn: (rounding: RoundableOn) => dispatch(updateRoundingOn(rounding)),
+  }));
+
   return (
     <div>
       <Message attached>
@@ -65,26 +72,4 @@ function RoundingSettings({
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    durationRounding: getDurationRounding(state),
-    durationAmount: getDurationAmount(state),
-    roundingOn: getRoundingOn(state),
-  };
-}
-
-function mapDispatchToProps(dispatch: ThymeDispatch) {
-  return {
-    onChangeDurationRounding(round: Rounding) {
-      dispatch(updateDurationRounding(round));
-    },
-    onChangeDurationRoundingAmount(amount: number) {
-      dispatch(updateDurationRoundingAmount(amount));
-    },
-    onChangeRoundingOn(roundingOn: RoundableOn) {
-      dispatch(updateRoundingOn(roundingOn));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RoundingSettings);
+export default RoundingSettings;
