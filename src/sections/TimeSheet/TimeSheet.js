@@ -72,7 +72,11 @@ function TimeSheet(props: TimeSheetProps) {
       dispatch(changePage(newPage));
     },
     onAddProject(project, entry?: any): string {
-      const newProjectAction = addProject({ parent: null, name: project });
+      const newProjectAction = addProject({
+        colour: null,
+        name: project,
+        parent: null,
+      });
 
       const projectId = newProjectAction.id;
 

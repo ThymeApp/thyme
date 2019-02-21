@@ -328,7 +328,11 @@ function mapDispatchToProps(dispatch: ThymeDispatch) {
       }));
     },
     onAddNewProject(project) {
-      const newProjectAction = addProject({ parent: null, name: project });
+      const newProjectAction = addProject({
+        colour: null,
+        name: project,
+        parent: null,
+      });
 
       dispatch(newProjectAction);
 
