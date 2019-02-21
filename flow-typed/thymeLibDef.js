@@ -90,7 +90,7 @@ declare type ReportType = {
 };
 
 declare type ProjectColour = 'red' | 'orange' | 'yellow' | 'olive' | 'green' | 'teal' | 'blue' |
-  'violet' | 'purple' | 'pink' | 'brown' | 'grey' | 'black';
+  'violet' | 'purple' | 'pink' | 'brown' | 'grey' | 'black' | 'neutral';
 
 declare type ProjectProps = {
   id: string;
