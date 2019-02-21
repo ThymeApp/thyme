@@ -32,10 +32,28 @@ export const colours: ProjectColour[] = [
   'grey',
 ];
 
+export const coloursSorted: ProjectColour[] = [
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green',
+  'teal',
+  'blue',
+  'violet',
+  'purple',
+  'pink',
+  'brown',
+  'grey',
+  'black',
+];
+
+export const defaultColour = 'grey';
+
 export function projectColour(project: ProjectType, index?: number): string {
   if (typeof index !== 'undefined') {
     return colourMap[project.colour || colours[index % colours.length]];
   }
 
-  return colourMap[project.colour || 'grey'];
+  return colourMap[project.colour || defaultColour];
 }

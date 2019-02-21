@@ -15,3 +15,20 @@
 .ProjectColourPicker.ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {
   margin: 0;
 }
+
+.ProjectColourPicker__Popup .ui.button {
+  width: 42px;
+  height: 42px;
+  margin: 2px;
+  border: 2px solid transparent;
+}
+
+.ProjectColourPicker__Popup .ui.button.selected {
+  border-color: #000;
+}
+
+.ProjectColourPicker__Popup .content {
+  display: flex;
+  flex-wrap: wrap;
+  width: 250px;
+}

@@ -16,27 +16,48 @@ import ProjectColourPicker from '../ProjectColourPicker';
 
 import { addProject } from '../../actions';
 
+import { defaultColour } from '../../colours';
+
 function defaultState() {
   return {
+    colour: defaultColour,
     name: '',
     parent: null,
   };
 }
 
 function useNewProjectState(defaultProject = defaultState()) {
+  const [colour, setColour] = useState<ProjectColour>(defaultProject.colour);
   const [name, setName] = useState<string>(defaultProject.name);
   const [parent, setParent] = useState<string | null>(defaultProject.parent);
 
   function resetState() {
+    setColour(defaultProject.colour);
     setName(defaultProject.name);
     setParent(defaultProject.parent);
   }
 
-  return [name, parent, setName, setParent, resetState];
+  return {
+    colour,
+    name,
+    parent,
+    setColour,
+    setName,
+    setParent,
+    resetState,
+  };
 }
 
 function NewProject() {
-  const [name, parent, setName, setParent, resetState] = useNewProjectState();
+  const {
+    colour,
+    name,
+    parent,
+    setColour,
+    setName,
+    setParent,
+    resetState,
+  } = useNewProjectState();
   const [showLabels] = useResponsive({ max: 'tablet' });
   const onAddProject = useDispatch(dispatch => project => dispatch(addProject({ ...project })));
 
@@ -46,6 +67,7 @@ function NewProject() {
     }
 
     onAddProject({
+      colour,
       name,
       parent,
     });
@@ -73,7 +95,7 @@ function NewProject() {
                 Colour
               </label>
             )}
-            <ProjectColourPicker />
+            <ProjectColourPicker colour={colour} onChange={setColour} />
           </Form.Field>
           <Form.Field>
             {showLabels && (

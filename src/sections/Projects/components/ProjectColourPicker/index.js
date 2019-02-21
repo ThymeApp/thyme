@@ -1,19 +1,50 @@
 // @flow
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
+import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
+
+import { coloursSorted } from '../../colours';
 
 import './ProjectColourPicker.css';
 
-function ProjectColourPicker() {
+type ProjectColourPickerProps = {
+  colour: ProjectColour;
+  onChange: (colour: ProjectColour) => void;
+};
+
+function ProjectColourPicker({ colour, onChange }: ProjectColourPickerProps) {
+  const [isOpened, setOpened] = useState<boolean>(false);
+
   return (
-    <Button basic compact className="ProjectColourPicker">
-      <Label color="red" size="medium" />
-      <Icon name="caret down" />
-    </Button>
+    <Popup
+      className="ProjectColourPicker__Popup"
+      open={isOpened}
+      onClose={() => setOpened(false)}
+      onOpen={() => setOpened(true)}
+      trigger={(
+        <Button basic compact className="ProjectColourPicker">
+          <Label color={colour} size="medium" />
+          <Icon name="caret down" />
+        </Button>
+      )}
+      position="bottom left"
+      on="click"
+      content={coloursSorted.map(c => (
+        <Button
+          className={c === colour ? 'selected' : ''}
+          key={c}
+          color={c}
+          onClick={() => {
+            onChange(c);
+            setOpened(false);
+          }}
+        />
+      ))}
+    />
   );
 }
 
