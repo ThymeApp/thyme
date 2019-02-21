@@ -67,7 +67,7 @@ function ListEntry(props: ListEntryProps) {
   const [confirmOpen, openConfirm, closeConfirm] = useToggle();
   const [popupOpen, openPopup, closePopup] = useToggle();
   const [editOpen, openEdit, closeEdit] = useToggle();
-  const [editingEntry, setEditingEntry] = useState<TimeType | TimePropertyType>(entry);
+  const [editingEntry, setEditingEntry] = useState<TimeType>({ ...entry });
 
   const { project } = useMappedState(useCallback((state) => {
     const projects = sortedProjects(state);
@@ -79,7 +79,7 @@ function ListEntry(props: ListEntryProps) {
 
   const onHandleOpenEdit = useCallback(() => {
     // reset editing entry to current entry
-    setEditingEntry(entry);
+    setEditingEntry({ ...entry });
 
     // close the popup if it's open
     closePopup();
@@ -106,6 +106,9 @@ function ListEntry(props: ListEntryProps) {
     openEdit();
   }, [openEdit]);
 
+  const onEditingEntryUpdate = useCallback((newEntry: any) => {
+    setEditingEntry(newEntry);
+  }, [setEditingEntry]);
   const onEditAddProject = useCallback((newProject: string): string => {
     const id = onAddProject(newProject);
     editingEntry.project = id;
@@ -221,7 +224,7 @@ function ListEntry(props: ListEntryProps) {
               enabledEndDate={enabledEndDate}
               enabledNotes={enabledNotes}
               enabledProjects={enabledProjects}
-              onUpdate={setEditingEntry}
+              onUpdate={onEditingEntryUpdate}
               onAddNewProject={onEditAddProject}
             />
           </Modal.Content>
