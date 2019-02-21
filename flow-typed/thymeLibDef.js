@@ -89,9 +89,13 @@ declare type ReportType = {
   createdAt: string;
 };
 
+declare type ProjectColour = 'red' | 'orange' | 'yellow' | 'olive' | 'green' | 'teal' | 'blue' |
+  'violet' | 'purple' | 'pink' | 'brown' | 'grey' | 'black';
+
 declare type ProjectProps = {
   id: string;
   parent: string | null;
+  colour: ProjectColour;
   name: string;
 };
 
