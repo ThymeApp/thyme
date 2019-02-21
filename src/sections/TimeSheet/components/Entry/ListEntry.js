@@ -115,6 +115,11 @@ function ListEntry(props: ListEntryProps) {
     return id;
   }, [editingEntry]);
 
+  const onSave = useCallback(() => {
+    onEntryUpdate(editingEntry);
+    closeEdit();
+  }, [editingEntry, onEntryUpdate, closeEdit]);
+
   const duration = timeElapsed(start, end, false, false, round, roundAmount);
   const showDates = !isSameDay(start, end);
 
@@ -223,7 +228,7 @@ function ListEntry(props: ListEntryProps) {
           <Modal.Actions>
             <Button
               icon="check"
-              onClick={() => {}}
+              onClick={onSave}
               positive
               content="Save Changes"
             />
