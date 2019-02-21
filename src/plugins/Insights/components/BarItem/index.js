@@ -12,7 +12,7 @@ import { projectColour } from 'sections/Projects/colours';
 import './BarItem.css';
 
 type BarItemProps = {
-  project: ProjectTreeWithTimeType & { colour: string };
+  project: ProjectTreeWithTimeType;
   hours: number;
   barHeight: number;
 };
