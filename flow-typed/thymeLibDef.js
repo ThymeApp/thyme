@@ -95,12 +95,12 @@ declare type ProjectColour = 'red' | 'orange' | 'yellow' | 'olive' | 'green' | '
 declare type ProjectProps = {
   id: string;
   parent: string | null;
-  colour: ProjectColour;
+  colour: ProjectColour | null;
   name: string;
+  archived?: boolean;
 };
 
 declare type ProjectType = {
-  archived?: boolean;
   removed?: boolean;
   createdAt: string;
   updatedAt: string;
