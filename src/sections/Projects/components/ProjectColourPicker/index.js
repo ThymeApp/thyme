@@ -7,7 +7,7 @@ import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 
-import { coloursSorted } from '../../colours';
+import { coloursSorted, colourValue } from '../../colours';
 
 import './ProjectColourPicker.css';
 
@@ -27,7 +27,7 @@ function ProjectColourPicker({ colour, onChange }: ProjectColourPickerProps) {
       onOpen={() => setOpened(true)}
       trigger={(
         <Button basic compact className="ProjectColourPicker">
-          <Label color={colour} size="medium" />
+          <Label color={colourValue(colour)} size="medium" />
           <Icon name="caret down" />
         </Button>
       )}
@@ -37,7 +37,7 @@ function ProjectColourPicker({ colour, onChange }: ProjectColourPickerProps) {
         <Button
           className={c === colour ? 'selected' : ''}
           key={c}
-          color={c}
+          color={colourValue(c)}
           onClick={() => {
             onChange(c);
             setOpened(false);

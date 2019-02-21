@@ -2,7 +2,9 @@
 
 import shortid from 'shortid';
 
-export function addProject(entry: { colour: ProjectColour, parent: string | null, name: string }) {
+export function addProject(
+  entry: { colour: ProjectColour | null, parent: string | null, name: string },
+) {
   return {
     type: 'ADD_PROJECT',
     id: shortid.generate(),

@@ -18,6 +18,7 @@ import { useMappedState } from 'core/useRedux';
 import { useResponsive } from 'components/Responsive';
 
 import { sortedProjects } from 'sections/Projects/selectors';
+import { colourValue } from 'sections/Projects/colours';
 
 import EditableEntry from '../Entry/EditableEntry';
 
@@ -149,7 +150,7 @@ function ListEntry(props: ListEntryProps) {
         <div className="ListEntry__ProjectNotes">
           {enabledProjects && project && (
             <div className="ListEntry__Project">
-              <Label color={project.colour}>
+              <Label color={colourValue(project.colour)}>
                 {treeDisplayName(project)}
               </Label>
             </div>

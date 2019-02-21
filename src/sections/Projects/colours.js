@@ -14,6 +14,7 @@ export const colourMap: { [key: ProjectColour]: string } = {
   violet: '#6435c9',
   black: '#1b1c1d',
   grey: '#767676',
+  neutral: '#e8e8e8',
 };
 
 export const colours: ProjectColour[] = [
@@ -46,9 +47,14 @@ export const coloursSorted: ProjectColour[] = [
   'brown',
   'grey',
   'black',
+  'neutral',
 ];
 
-export const defaultColour = 'grey';
+export const defaultColour = 'neutral';
+
+export function colourValue(colour: ProjectColour | null) {
+  return colour === 'neutral' ? null : colour;
+}
 
 export function projectColour(project: ProjectType, index?: number): string {
   if (typeof index !== 'undefined') {
