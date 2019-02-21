@@ -32,7 +32,7 @@ type ListEntryProps = {
   roundAmount: number;
   onRemove: (entry: TimeType) => void;
   onEntryUpdate: (entry: TimeType | TimePropertyType) => void;
-  onAddProject: (project: string, entry: TimeType | TimePropertyType) => string;
+  onAddProject: (project: string, entry?: TimeType | TimePropertyType) => string;
 };
 
 function useToggle() {
@@ -67,7 +67,7 @@ function ListEntry(props: ListEntryProps) {
   const [confirmOpen, openConfirm, closeConfirm] = useToggle();
   const [popupOpen, openPopup, closePopup] = useToggle();
   const [editOpen, openEdit, closeEdit] = useToggle();
-  const [editingEntry, setEditingEntry] = useState<TimeType>(entry);
+  const [editingEntry, setEditingEntry] = useState<TimeType | TimePropertyType>(entry);
 
   const { project } = useMappedState(useCallback((state) => {
     const projects = sortedProjects(state);
@@ -105,6 +105,15 @@ function ListEntry(props: ListEntryProps) {
 
     openEdit();
   }, [openEdit]);
+
+  const onEditAddProject = useCallback((newProject: string): string => {
+    const id = onAddProject(newProject);
+    editingEntry.project = id;
+
+    setEditingEntry(editingEntry);
+
+    return id;
+  }, [editingEntry]);
 
   const duration = timeElapsed(start, end, false, false, round, roundAmount);
   const showDates = !isSameDay(start, end);
@@ -207,21 +216,21 @@ function ListEntry(props: ListEntryProps) {
               enabledEndDate={enabledEndDate}
               enabledNotes={enabledNotes}
               enabledProjects={enabledProjects}
-              onUpdate={onEntryUpdate}
-              onAddNewProject={onAddProject}
+              onUpdate={setEditingEntry}
+              onAddNewProject={onEditAddProject}
             />
           </Modal.Content>
           <Modal.Actions>
             <Button
-              icon="remove"
-              onClick={onHandleRemove}
-              color="red"
-              content="Remove entry"
+              icon="check"
+              onClick={() => {}}
+              positive
+              content="Save Changes"
             />
             <Button
-              icon="window close"
+              icon="close"
               onClick={closeEdit}
-              content="Close"
+              content="Cancel"
             />
           </Modal.Actions>
         </Modal>
