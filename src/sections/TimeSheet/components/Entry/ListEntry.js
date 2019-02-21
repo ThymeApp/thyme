@@ -32,7 +32,7 @@ type ListEntryProps = {
   roundAmount: number;
   onRemove: (entry: TimeType) => void;
   onEntryUpdate: (entry: TimeType | TimePropertyType) => void;
-  onAddProject: (project: string, entry: TimeType | TimePropertyType) => string;
+  onAddProject: (project: string, entry?: TimeType | TimePropertyType) => string;
 };
 
 function useToggle() {
@@ -67,6 +67,7 @@ function ListEntry(props: ListEntryProps) {
   const [confirmOpen, openConfirm, closeConfirm] = useToggle();
   const [popupOpen, openPopup, closePopup] = useToggle();
   const [editOpen, openEdit, closeEdit] = useToggle();
+  const [editingEntry, setEditingEntry] = useState<TimeType>({ ...entry });
 
   const { project } = useMappedState(useCallback((state) => {
     const projects = sortedProjects(state);
@@ -77,7 +78,13 @@ function ListEntry(props: ListEntryProps) {
   }, [entry.project]));
 
   const onHandleOpenEdit = useCallback(() => {
+    // reset editing entry to current entry
+    setEditingEntry({ ...entry });
+
+    // close the popup if it's open
     closePopup();
+
+    // open the modal
     openEdit();
   }, [closePopup, openEdit]);
   const onHandleRemove = useCallback(() => {
@@ -98,6 +105,23 @@ function ListEntry(props: ListEntryProps) {
 
     openEdit();
   }, [openEdit]);
+
+  const onEditingEntryUpdate = useCallback((newEntry: any) => {
+    setEditingEntry(newEntry);
+  }, [setEditingEntry]);
+  const onEditAddProject = useCallback((newProject: string): string => {
+    const id = onAddProject(newProject);
+    editingEntry.project = id;
+
+    setEditingEntry(editingEntry);
+
+    return id;
+  }, [editingEntry]);
+
+  const onSave = useCallback(() => {
+    onEntryUpdate(editingEntry);
+    closeEdit();
+  }, [editingEntry, onEntryUpdate, closeEdit]);
 
   const duration = timeElapsed(start, end, false, false, round, roundAmount);
   const showDates = !isSameDay(start, end);
@@ -196,25 +220,25 @@ function ListEntry(props: ListEntryProps) {
         >
           <Modal.Content>
             <EditableEntry
-              entry={entry}
+              entry={editingEntry}
               enabledEndDate={enabledEndDate}
               enabledNotes={enabledNotes}
               enabledProjects={enabledProjects}
-              onUpdate={onEntryUpdate}
-              onAddNewProject={onAddProject}
+              onUpdate={onEditingEntryUpdate}
+              onAddNewProject={onEditAddProject}
             />
           </Modal.Content>
           <Modal.Actions>
             <Button
-              icon="remove"
-              onClick={onHandleRemove}
-              color="red"
-              content="Remove entry"
+              icon="check"
+              onClick={onSave}
+              positive
+              content="Save Changes"
             />
             <Button
-              icon="window close"
+              icon="close"
               onClick={closeEdit}
-              content="Close"
+              content="Cancel"
             />
           </Modal.Actions>
         </Modal>

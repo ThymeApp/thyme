@@ -71,16 +71,19 @@ function TimeSheet(props: TimeSheetProps) {
     changeEntriesPage(newPage: number) {
       dispatch(changePage(newPage));
     },
-    onAddProject(project, entry: any) {
+    onAddProject(project, entry?: any): string {
       const newProjectAction = addProject({ parent: null, name: project });
 
       const projectId = newProjectAction.id;
 
       dispatch(newProjectAction);
-      dispatch(updateTime({
-        ...entry,
-        project: projectId,
-      }));
+
+      if (entry) {
+        dispatch(updateTime({
+          ...entry,
+          project: projectId,
+        }));
+      }
 
       return newProjectAction.id;
     },

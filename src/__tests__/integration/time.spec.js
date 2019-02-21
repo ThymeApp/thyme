@@ -349,6 +349,9 @@ describe('ListEntry', () => {
     notesInput.simulate('change', { target: notes });
     notesInput.simulate('blur');
 
+    // save the entry
+    page.find('Modal').find('.actions .button').at(0).simulate('click');
+
     const updatedState = store.getState();
     const updatedEntries = updatedState.time.allIds.map(id => updatedState.time.byId[id]);
 

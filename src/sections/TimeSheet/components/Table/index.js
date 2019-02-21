@@ -24,7 +24,7 @@ type TimeTableType = {
   enabledNotes: boolean;
   enabledProjects: boolean;
   enabledEndDate: boolean;
-  onAddProject: (project: string, entry: TimeType | TimePropertyType) => string;
+  onAddProject: (project: string, entry?: TimeType | TimePropertyType) => string;
 };
 
 function TimeTable({
