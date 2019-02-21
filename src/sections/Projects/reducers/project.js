@@ -31,6 +31,16 @@ function name(state = '', action) {
   }
 }
 
+function colour(state = null, action) {
+  switch (action.type) {
+    case 'ADD_PROJECT':
+    case 'UPDATE_PROJECT':
+      return action.colour;
+    default:
+      return state;
+  }
+}
+
 function archived(state = false, action) {
   switch (action.type) {
     case 'ARCHIVE_PROJECT':
@@ -73,6 +83,7 @@ export default () => create('projects.project', {
   id,
   parent,
   name,
+  colour,
   archived,
   removed,
   createdAt,

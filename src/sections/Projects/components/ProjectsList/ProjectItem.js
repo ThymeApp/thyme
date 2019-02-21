@@ -14,9 +14,12 @@ import { render as renderComponent } from 'register/component';
 import { useResponsive } from 'components/Responsive';
 import ChangeOnBlurInput from 'components/ChangeOnBlurInput';
 
-import ProjectInput from 'sections/Projects/components/ProjectInput';
+import ProjectColourPicker from '../ProjectColourPicker';
+import ProjectInput from '../ProjectInput';
 
 import ProjectsList from './ProjectsList';
+
+import { defaultColour } from '../../colours';
 
 export type ProjectItemProps = {
   project: ProjectTreeType;
@@ -83,6 +86,13 @@ function ProjectItem(props: ProjectItemProps) {
   );
   const [isMobile] = useResponsive({ max: 'tablet' });
 
+  const onChangeColour = useCallback((colour: ProjectColour) => {
+    onUpdateProject({
+      ...project,
+      colour,
+    });
+  }, [project, onUpdateProject]);
+
   const onChangeName = useCallback((name: string) => {
     onUpdateProject({
       ...project,
@@ -99,6 +109,13 @@ function ProjectItem(props: ProjectItemProps) {
       type="text"
       value={project.name}
       onChange={onChangeName}
+    />
+  );
+
+  const ColourInput = (
+    <ProjectColourPicker
+      colour={project.colour || defaultColour}
+      onChange={onChangeColour}
     />
   );
 
@@ -129,12 +146,14 @@ function ProjectItem(props: ProjectItemProps) {
               <label>
                 Project name
               </label>
+              {ColourInput}
               {NameInput}
             </Fragment>
           ) : (
             <div className="ProjectList__item-container">
               <div className="ProjectList__spacer" />
               <Icon name="caret right" />
+              {ColourInput}
               {NameInput}
             </div>
           )}
@@ -152,7 +171,7 @@ function ProjectItem(props: ProjectItemProps) {
           />
         </Table.Cell>
         {renderComponent('projects.tablerow.parent', { ...props, isMobile })}
-        <Table.Cell textAlign="right">
+        <Table.Cell textAlign="right" style={{ whiteSpace: isMobile ? 'normal' : 'nowrap' }}>
           {isMobile ? (
             ArchiveButton
           ) : (

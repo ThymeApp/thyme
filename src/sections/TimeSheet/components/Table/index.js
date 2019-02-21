@@ -15,8 +15,8 @@ import { useMappedState, useDispatch } from 'core/useRedux';
 
 import { updateTime, removeTime } from '../../actions';
 
-import { ListEntry } from '../Entry';
 import DayHeader from './DayHeader';
+import ListEntry from './ListEntry';
 
 type TimeTableType = {
   entries: TimeType[];

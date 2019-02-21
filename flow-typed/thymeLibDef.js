@@ -89,14 +89,18 @@ declare type ReportType = {
   createdAt: string;
 };
 
+declare type ProjectColour = 'red' | 'orange' | 'yellow' | 'olive' | 'green' | 'teal' | 'blue' |
+  'violet' | 'purple' | 'pink' | 'brown' | 'grey' | 'black' | 'neutral';
+
 declare type ProjectProps = {
   id: string;
   parent: string | null;
+  colour: ProjectColour | null;
   name: string;
+  archived?: boolean;
 };
 
 declare type ProjectType = {
-  archived?: boolean;
   removed?: boolean;
   createdAt: string;
   updatedAt: string;

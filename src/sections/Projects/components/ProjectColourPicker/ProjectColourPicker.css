@@ -1,0 +1,35 @@
+.ProjectColourPicker.ui.compact.button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  padding: 6px;
+  align-items: center;
+}
+
+.ProjectColourPicker .ui.label {
+  padding: 0;
+  width: 26px;
+  height: 26px;
+}
+
+.ProjectColourPicker.ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {
+  margin: 0;
+}
+
+.ProjectColourPicker__Popup .ui.button {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  margin: 2px;
+  border: 2px solid transparent;
+}
+
+.ProjectColourPicker__Popup .ui.button.selected {
+  border-color: #000;
+}
+
+.ProjectColourPicker__Popup .content {
+  display: flex;
+  flex-wrap: wrap;
+  width: 230px;
+}

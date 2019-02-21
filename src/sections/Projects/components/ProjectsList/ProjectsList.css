@@ -15,7 +15,7 @@
   align-items: center;
 }
 
-.ProjectList__level-1 .icon {
+.ProjectList__level-1 .ProjectList__item-container > .icon {
   display: none;
 }
 

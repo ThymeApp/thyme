@@ -18,8 +18,9 @@ import { useMappedState } from 'core/useRedux';
 import { useResponsive } from 'components/Responsive';
 
 import { sortedProjects } from 'sections/Projects/selectors';
+import { colourValue } from 'sections/Projects/colours';
 
-import EditableEntry from './EditableEntry';
+import EditableEntry from '../Entry/EditableEntry';
 
 import './ListEntry.css';
 
@@ -69,12 +70,10 @@ function ListEntry(props: ListEntryProps) {
   const [editOpen, openEdit, closeEdit] = useToggle();
   const [editingEntry, setEditingEntry] = useState<TimeType>({ ...entry });
 
-  const { project } = useMappedState(useCallback((state) => {
+  const project = useMappedState(useCallback((state) => {
     const projects = sortedProjects(state);
 
-    return {
-      project: projects.find(item => item.id === entry.project),
-    };
+    return projects.find(item => item.id === entry.project);
   }, [entry.project]));
 
   const onHandleOpenEdit = useCallback(() => {
@@ -151,7 +150,7 @@ function ListEntry(props: ListEntryProps) {
         <div className="ListEntry__ProjectNotes">
           {enabledProjects && project && (
             <div className="ListEntry__Project">
-              <Label>
+              <Label color={colourValue(project.colour)}>
                 {treeDisplayName(project)}
               </Label>
             </div>

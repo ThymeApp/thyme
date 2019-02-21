@@ -7,10 +7,12 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import { formatDuration } from 'core/thyme';
 import { treeDisplayName } from 'core/projects';
 
+import { projectColour } from 'sections/Projects/colours';
+
 import './BarItem.css';
 
 type BarItemProps = {
-  project: ProjectTreeWithTimeType & { colour: string };
+  project: ProjectTreeWithTimeType;
   hours: number;
   barHeight: number;
 };
@@ -27,7 +29,7 @@ function BarItem({ project, hours, barHeight }: BarItemProps) {
           key={project.id}
           style={{
             height: (barHeight * (project.time / (hours * 60)) - 4),
-            backgroundColor: project.colour,
+            backgroundColor: projectColour(project),
           }}
         />
       )}
