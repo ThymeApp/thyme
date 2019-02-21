@@ -2,18 +2,32 @@
 
 export const colourMap: { [key: ProjectColour]: string } = {
   red: '#db2828',
-  orange: '#f2711c',
-  yellow: '#fbbd08',
-  olive: '#b5cc18',
-  green: '#21ba45',
-  teal: '#00b5ad',
   blue: '#2185d0',
-  violet: '#6435c9',
-  purple: '#a333c8',
+  yellow: '#fbbd08',
+  green: '#21ba45',
   pink: '#e03997',
+  teal: '#00b5ad',
+  olive: '#b5cc18',
+  orange: '#f2711c',
+  purple: '#a333c8',
   brown: '#a5673f',
-  grey: '#767676',
+  violet: '#6435c9',
   black: '#1b1c1d',
+  grey: '#767676',
 };
 
-export const colours: ProjectColour[] = Object.keys(colourMap);
+export const colours: ProjectColour[] = [
+  'red',
+  'blue',
+  'yellow',
+  'green',
+  'pink',
+  'teal',
+  'olive',
+  'orange',
+  'purple',
+  'brown',
+  'violet',
+  'black',
+  'grey',
+];
