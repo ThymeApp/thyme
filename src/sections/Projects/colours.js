@@ -31,3 +31,11 @@ export const colours: ProjectColour[] = [
   'black',
   'grey',
 ];
+
+export function projectColour(project: ProjectType, index?: number): string {
+  if (typeof index !== 'undefined') {
+    return colourMap[project.colour || colours[index % colours.length]];
+  }
+
+  return colourMap[project.colour || 'grey'];
+}

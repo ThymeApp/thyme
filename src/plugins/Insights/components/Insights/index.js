@@ -11,7 +11,7 @@ import isAfter from 'date-fns/is_after';
 import { totalProjectTime } from 'core/thyme';
 import { formatShortDate } from 'core/intl';
 
-import { colours } from 'sections/Projects/consts';
+import { colours } from 'sections/Projects/colours';
 
 import type { ReportsProps } from 'sections/Reports/Reports';
 
