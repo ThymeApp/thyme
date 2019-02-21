@@ -152,7 +152,7 @@ function ProjectItem(props: ProjectItemProps) {
           />
         </Table.Cell>
         {renderComponent('projects.tablerow.parent', { ...props, isMobile })}
-        <Table.Cell textAlign="right">
+        <Table.Cell textAlign="right" style={{ whiteSpace: isMobile ? 'normal' : 'nowrap' }}>
           {isMobile ? (
             ArchiveButton
           ) : (
