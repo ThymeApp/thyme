@@ -1,0 +1,17 @@
+.ProjectColourPicker.ui.compact.button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  padding: 6px;
+  align-items: center;
+}
+
+.ProjectColourPicker .ui.label {
+  padding: 0;
+  width: 26px;
+  height: 26px;
+}
+
+.ProjectColourPicker.ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {
+  margin: 0;
+}
