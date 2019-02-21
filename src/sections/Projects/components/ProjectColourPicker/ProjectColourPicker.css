@@ -19,6 +19,7 @@
 .ProjectColourPicker__Popup .ui.button {
   width: 42px;
   height: 42px;
+  padding: 0;
   margin: 2px;
   border: 2px solid transparent;
 }
@@ -30,5 +31,5 @@
 .ProjectColourPicker__Popup .content {
   display: flex;
   flex-wrap: wrap;
-  width: 250px;
+  width: 230px;
 }
