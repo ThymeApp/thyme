@@ -11,7 +11,7 @@ import isAfter from 'date-fns/is_after';
 import { totalProjectTime } from 'core/thyme';
 import { formatShortDate } from 'core/intl';
 
-import { colours } from 'sections/Reports/components/Charts';
+import { colours } from 'sections/Projects/consts';
 
 import type { ReportsProps } from 'sections/Reports/Reports';
 
@@ -55,7 +55,7 @@ export default ({ from, to, projects }: ReportsProps) => {
 
       const projectDetails = {
         ...project,
-        colour: colours[index % 20],
+        colour: project.colour || colours[index % colours.length],
       };
 
       if (dayEntries.length === 0) {
