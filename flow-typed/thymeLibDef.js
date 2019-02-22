@@ -70,6 +70,7 @@ declare type StateShape = {
   app: {
     alert: string;
     syncing: boolean;
+    lastSync: Date;
     update: boolean;
     plugins: string[];
   };
