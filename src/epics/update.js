@@ -12,7 +12,7 @@ import { updateAvailable } from 'actions/app';
 import { unregister } from '../serviceWorker';
 
 export const announcePlugin = (action$: ActionsObservable) => action$.pipe(
-  ofType('APP_INIT'),
+  ofType('APP_INIT', 'APP_CHECK_UPDATE'),
   mergeMap(() => getAppVersion()
     .then((version) => {
       if (isNewerVersion(version, process.env.REACT_APP_VERSION || '')) {
