@@ -40,6 +40,7 @@ type EntryProps = {
   onStop?: () => void;
   /* eslint-disable react/no-unused-prop-types */
   onAdd?: (entry: TimePropertyType) => void;
+  onSave?: () => void;
   onUpdate: (entry: TimeType | TimePropertyType, tracking: boolean) => void;
   onResetItem?: (newItem: boolean) => void;
   onAddNewProject?: (project: string, entry: TimeType | TimePropertyType) => string;
@@ -73,6 +74,7 @@ function useEntryHandlers(props: EntryProps) {
     onAdd,
     onUpdate,
     onAddNewProject,
+    onSave,
   } = props;
 
   const dateInput = useRef(null);
@@ -98,10 +100,14 @@ function useEntryHandlers(props: EntryProps) {
 
   const onKeyPress = useCallback((e: KeyboardEvent) => {
     // check if return is pressed
-    if (e.key && e.key === 'Enter' && isNew) {
-      onAddEntry();
+    if (e.key && e.key === 'Enter') {
+      if (isNew) {
+        onAddEntry();
+      } else if (!isNew && onSave) {
+        onSave();
+      }
     }
-  }, [onAddEntry, isNew]);
+  }, [onAddEntry, onSave, isNew]);
 
   const updateEntry = useCallback((newState: any) => {
     if (typeof onUpdate === 'function') {
