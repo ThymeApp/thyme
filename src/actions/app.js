@@ -48,6 +48,10 @@ export function appInit() {
   return { type: 'APP_INIT' };
 }
 
+export function checkForUpdate() {
+  return { type: 'APP_CHECK_UPDATE' };
+}
+
 export function pluginInit(name: string) {
   return {
     type: 'PLUGIN_INIT',
