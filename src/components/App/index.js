@@ -96,6 +96,7 @@ function App({
   // callback on mount
   useEffect(() => onInitialize(), []);
 
+  // check version every one so often
   useEffect(() => {
     const waitingTime = 1000 * 60 * 10; // 10 minutes
     const intervalId = setInterval(onCheckForUpdate, waitingTime);
