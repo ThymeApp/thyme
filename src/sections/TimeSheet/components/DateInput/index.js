@@ -1,8 +1,10 @@
 // @flow
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
-import ChangeOnBlurInput from 'components/ChangeOnBlurInput';
+import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
+
+import { valueFromEventTarget } from 'core/dom';
 
 type DateInputType = {
   value: string,
@@ -21,13 +23,15 @@ function DateInput({
   onChange,
   onKeyPress,
 }: DateInputType) {
+  const onChangeHandler = useCallback(e => onChange(valueFromEventTarget(e.target)), [onChange]);
+
   return (
-    <ChangeOnBlurInput
+    <Input
       type="date"
       disabled={disabled}
-      setRef={setRef}
+      ref={setRef}
       onKeyPress={onKeyPress}
-      onChange={onChange}
+      onChange={onChangeHandler}
       value={value}
       size={size}
       required
