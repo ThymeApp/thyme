@@ -19,7 +19,7 @@ import Sidebar from 'semantic-ui-react/dist/commonjs/modules/Sidebar';
 
 import { useMappedState, useDispatch } from 'core/useRedux';
 
-import { clearAlert, appInit } from 'actions/app';
+import { clearAlert, appInit, checkForUpdate } from 'actions/app';
 
 import { getAlert } from 'selectors/app';
 
@@ -61,6 +61,9 @@ const mapDispatch = dispatch => ({
   onCloseAlert() {
     dispatch(clearAlert());
   },
+  onCheckForUpdate() {
+    dispatch(checkForUpdate());
+  },
 });
 
 function App({
@@ -68,7 +71,7 @@ function App({
   location,
 }: AppProps) {
   const { alertMessage } = useMappedState(mapState);
-  const { onInitialize, onCloseAlert } = useDispatch(mapDispatch);
+  const { onInitialize, onCloseAlert, onCheckForUpdate } = useDispatch(mapDispatch);
 
   const [menuOpened, handleToggle, handleClose] = useMenuOpened(false);
   const appLink = useCallback((name, path, icon: string, exact = false) => {
@@ -92,6 +95,13 @@ function App({
 
   // callback on mount
   useEffect(() => onInitialize(), []);
+
+  useEffect(() => {
+    const waitingTime = 1000 * 60 * 10; // 10 minutes
+    const intervalId = setInterval(onCheckForUpdate, waitingTime);
+
+    return () => clearInterval(intervalId);
+  }, [onCheckForUpdate]);
 
   const [isDesktop] = useResponsive({ min: 'desktop' });
 
