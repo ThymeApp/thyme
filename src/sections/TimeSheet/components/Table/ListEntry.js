@@ -224,6 +224,7 @@ function ListEntry(props: ListEntryProps) {
               enabledNotes={enabledNotes}
               enabledProjects={enabledProjects}
               onUpdate={onEditingEntryUpdate}
+              onSave={onSave}
               onAddNewProject={onEditAddProject}
             />
           </Modal.Content>
