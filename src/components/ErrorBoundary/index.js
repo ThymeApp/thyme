@@ -14,7 +14,7 @@ class ErrorBoundary extends Component<*, ErrorBoundaryState> {
   };
 
   componentDidCatch(error: Error, errorInfo: any) {
-    if (error.message.match(/Loading chunk [0-9]+ failed/)) {
+    if (error.message.match(/Loading( CSS)? chunk [0-9]+ failed/)) {
       this.setState({ showError: true });
       return;
     }
@@ -29,9 +29,9 @@ class ErrorBoundary extends Component<*, ErrorBoundaryState> {
     if (showError) {
       return (
         <div style={{ padding: '3em', textAlign: 'center' }}>
-          <h2>Whoops! Could not load necessary files.</h2>
+          <h2>Whoops! Could not load necessary files for this page.</h2>
           <p>
-            Please reload to try again.
+            Please reload the page to try again.
           </p>
         </div>
       );
