@@ -272,7 +272,7 @@ class New extends Component<NewEntryProps, NewEntryState> {
         end: new Date(),
       };
 
-      this.onUpdateItem(entry, tracking, false, false);
+      this.onUpdateItem(entry, tracking, true, false);
 
       // update state of component
       this.setState({ entry });
