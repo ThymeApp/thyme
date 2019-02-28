@@ -1,6 +1,6 @@
 {
     "name": "Thyme",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Firefox Extension for controlling Thyme",
     "manifest_version": 2,
     "background": {

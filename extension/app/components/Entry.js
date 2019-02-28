@@ -12,7 +12,7 @@ import {
   getEnableProjects,
 } from 'sections/Settings/selectors';
 
-import { Entry } from 'sections/TimeSheet/components/Entry';
+import EditableEntry from 'sections/TimeSheet/components/Entry/EditableEntry';
 
 type ExtensionEntryProps = {
   ready: boolean;
@@ -41,7 +41,14 @@ function ExtensionEntry({
 }: ExtensionEntryProps) {
   if (!entry || !ready) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '1em 0.5em',
+        }}
+      >
         <Header>You need to have Thyme running</Header>
         <Button primary onClick={openThyme}>Open Thyme in new tab</Button>
       </div>
@@ -49,7 +56,7 @@ function ExtensionEntry({
   }
 
   return (
-    <Entry
+    <EditableEntry
       round="none"
       entry={entry}
       isNew

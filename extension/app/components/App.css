@@ -1,10 +1,12 @@
 body,
 html {
   margin: 0;
-  padding: 0.5em;
   height: auto;
 }
 
-.ui.form.Entry {
-  margin-top: 0;
+.EditableEntry {
+  width: 620px;
+  padding-top: 1em !important;
+  box-shadow: none !important;
+  margin: 0;
 }
