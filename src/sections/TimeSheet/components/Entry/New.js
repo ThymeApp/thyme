@@ -9,6 +9,7 @@ import addDays from 'date-fns/add_days';
 import isEqual from 'date-fns/is_equal';
 import startOfDay from 'date-fns/start_of_day';
 
+import { trackEvent } from 'core/analytics';
 import { clearTemporaryItem, loadTemporaryItem, saveTemporaryItem } from 'core/localStorage';
 import {
   changeTimer,
@@ -161,6 +162,9 @@ class New extends Component<NewEntryProps, NewEntryState> {
 
     // clear item from localStorage
     clearTemporaryItem();
+
+    // track event
+    trackEvent('TimeSheet', 'reset');
   };
 
   onStartTimeTracking = () => {
@@ -184,6 +188,9 @@ class New extends Component<NewEntryProps, NewEntryState> {
       tracking: true,
       entry: newEntry,
     });
+
+    // track event
+    trackEvent('TimeSheet', 'start tracking');
   };
 
   onStopTimeTracking = () => {
@@ -194,6 +201,9 @@ class New extends Component<NewEntryProps, NewEntryState> {
     this.setState({
       tracking: false,
     });
+
+    // track event
+    trackEvent('TimeSheet', 'stop tracking');
   };
 
   onReceiveTempItem = (entry) => {
