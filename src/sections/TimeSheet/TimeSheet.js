@@ -38,11 +38,12 @@ type TimeSheetProps = {
 };
 
 function TimeSheet(props: TimeSheetProps) {
+  useTrackPageview('TimeSheet');
+
   const { now } = props;
 
   const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const [isMobile] = useResponsive({ max: 'tablet' });
-  useTrackPageview('TimeSheet');
 
   const {
     entries,

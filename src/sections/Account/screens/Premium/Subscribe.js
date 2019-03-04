@@ -60,7 +60,7 @@ class Subscribe extends Component<SubscribeProps, SubscribeState> {
 
     if (document.body) document.body.appendChild(stripeJs);
 
-    trackPageview('Subscribe');
+    trackPageview('Premium / Subscribe');
   }
 
   handleSubmit = (values, { setSubmitting, setStatus, setFieldError }) => {

@@ -9,6 +9,8 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
+import { trackPageview } from 'core/analytics';
+
 type CompletedState = {
   pop: boolean;
 };
@@ -20,6 +22,8 @@ class Completed extends Component<*, CompletedState> {
 
   componentDidMount() {
     this.setState({ pop: true });
+
+    trackPageview('Premium / Completed');
   }
 
   render() {
