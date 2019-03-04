@@ -8,11 +8,13 @@ import accountEpics from 'sections/Account/epics';
 
 import pluginEpics from './plugins';
 import updateEpics from './update';
+import trackingEpics from './tracking';
 
 const epics = combineEpics(
   ...accountEpics,
   ...pluginEpics,
   ...updateEpics,
+  ...trackingEpics,
 );
 
 export const epic$ = new BehaviorSubject<any>(epics);

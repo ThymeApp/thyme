@@ -1,23 +1,25 @@
-/* eslint-disable */
+// @flow
 
+import { useEffect } from 'react';
+
+const _paq = window._paq || []; // eslint-disable-line
 const skipEnvs = ['development', 'test'];
 
-if (skipEnvs.indexOf(process.env.NODE_ENV) === -1) {
-  (function(f, a, t, h, o, m){
-    a[h]=a[h]||function(){
-      (a[h].q=a[h].q||[]).push(arguments)
-    };
-    o=f.createElement('script'),
-      m=f.getElementsByTagName('script')[0];
-    o.async=1; o.src=t; o.id='fathom-script';
-    m.parentNode.insertBefore(o,m)
-  })(document, window, '//thyme.usesfathom.com/tracker.js', 'fathom');
+const enabled = skipEnvs.indexOf(process.env.NODE_ENV) === -1;
 
-  fathom('trackPageview');
+export function trackPageview(pageName: string = '') {
+  if (enabled) _paq.push(['trackPageView', pageName]);
 }
 
-export default function trackPageview() {
-  if (skipEnvs.indexOf(process.env.NODE_ENV) === -1) {
-    fathom('trackPageview');
-  }
+export function trackEvent(
+  category: string = '',
+  action: string = '',
+  varName?: string,
+  varValue?: string,
+) {
+  if (enabled) _paq.push(['trackEvent', category, action, varName, varValue]);
+}
+
+export function useTrackPageview(pageName: string = '') {
+  useEffect(() => trackPageview(pageName), []);
 }

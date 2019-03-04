@@ -8,6 +8,7 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid';
 
+import { trackPageview } from 'core/analytics';
 import {
   totalProjectTime,
   projectTimeEntries,
@@ -80,6 +81,10 @@ class Reports extends Component<ReportsProps, ReportsState> {
     saveOpened: false,
     loadOpened: false,
   };
+
+  componentDidMount() {
+    trackPageview('Reports');
+  }
 
   onToggleFilter = (filter: string | null) => {
     const nextFilters = toggleFilter(this.currentFilters(), filter);

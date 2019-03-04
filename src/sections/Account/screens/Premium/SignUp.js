@@ -13,6 +13,7 @@ import Checkbox from 'semantic-ui-react/dist/commonjs/modules/Checkbox';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
 import createValidation from 'core/validate';
+import { trackPageview } from 'core/analytics';
 
 import FormField from 'components/FormField/FormField';
 
@@ -33,6 +34,10 @@ type PremiumState = {
 
 class Premium extends Component<PremiumProps, PremiumState> {
   state = { page: 'register' };
+
+  componentDidMount() {
+    trackPageview('Premium / Sign up');
+  }
 
   showLogin = () => this.setState({
     page: 'login',

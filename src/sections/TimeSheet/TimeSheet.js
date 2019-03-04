@@ -8,6 +8,7 @@ import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordi
 import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagination';
 
 import { useMappedState, useDispatch } from 'core/useRedux';
+import { useTrackPageview } from 'core/analytics';
 
 import { render as renderComponent } from 'register/component';
 
@@ -37,6 +38,8 @@ type TimeSheetProps = {
 };
 
 function TimeSheet(props: TimeSheetProps) {
+  useTrackPageview('TimeSheet');
+
   const { now } = props;
 
   const [filterOpen, setFilterOpen] = useState<boolean>(false);

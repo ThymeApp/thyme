@@ -8,6 +8,8 @@ import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion';
 
+import { trackPageview } from 'core/analytics';
+
 import RegisterConsumer from 'register/Consumer';
 
 import TimeSheet from './components/TimeSheet';
@@ -24,6 +26,10 @@ type SettingsProps = {
 };
 
 class Settings extends Component<SettingsProps> {
+  componentDidMount() {
+    trackPageview('Settings');
+  }
+
   settingsItem = (item: SettingsPanel | null) => {
     if (!item) {
       return null;
@@ -41,7 +47,7 @@ class Settings extends Component<SettingsProps> {
       <Fragment key={name}>
         <Accordion.Title
           active={active}
-          onClick={this.handleAccordionToggle(url)}
+          onClick={this.handleAccordionToggle(url, name)}
         >
           <Icon name="dropdown" />
           {name}
@@ -53,10 +59,12 @@ class Settings extends Component<SettingsProps> {
     );
   };
 
-  handleAccordionToggle = (url: string) => () => {
+  handleAccordionToggle = (url: string, name: string) => () => {
     const { history } = this.props;
 
     history.push(`/settings/${url}`);
+
+    trackPageview(`Settings / ${name}`);
   };
 
   render() {

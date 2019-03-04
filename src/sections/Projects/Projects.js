@@ -6,6 +6,7 @@ import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 
+import { useTrackPageview } from 'core/analytics';
 import { useMappedState, useDispatch } from 'core/useRedux';
 import { isDescendant } from 'core/projects';
 
@@ -23,6 +24,8 @@ import ProjectsList from './components/ProjectsList';
 import { archiveProject, removeProject, updateProject } from './actions';
 
 function Projects() {
+  useTrackPageview('Projects');
+
   const { projects, showUpgrade } = useMappedState(state => ({
     projects: allSortedProjects(state),
     showUpgrade: !hasPremium(state) && isLoaded(state),
