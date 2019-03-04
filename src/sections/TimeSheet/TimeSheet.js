@@ -8,6 +8,7 @@ import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordi
 import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagination';
 
 import { useMappedState, useDispatch } from 'core/useRedux';
+import { useTrackPageview } from 'core/analytics';
 
 import { render as renderComponent } from 'register/component';
 
@@ -41,6 +42,7 @@ function TimeSheet(props: TimeSheetProps) {
 
   const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const [isMobile] = useResponsive({ max: 'tablet' });
+  useTrackPageview('TimeSheet');
 
   const {
     entries,

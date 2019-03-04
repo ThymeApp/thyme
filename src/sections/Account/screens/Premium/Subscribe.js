@@ -14,7 +14,7 @@ import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
-import trackPageview from 'core/analytics';
+import { trackPageview } from 'core/analytics';
 import createValidation from 'core/validate';
 
 import FormField from 'components/FormField/FormField';
@@ -60,7 +60,7 @@ class Subscribe extends Component<SubscribeProps, SubscribeState> {
 
     if (document.body) document.body.appendChild(stripeJs);
 
-    trackPageview();
+    trackPageview('Subscribe');
   }
 
   handleSubmit = (values, { setSubmitting, setStatus, setFieldError }) => {
