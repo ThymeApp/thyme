@@ -11,8 +11,13 @@ export function trackPageview(pageName: string = '') {
   if (enabled) _paq.push(['trackPageView', pageName]);
 }
 
-export function trackEvent(category: string = '', action: string = '') {
-  if (enabled) _paq.push(['trackEvent', category, action]);
+export function trackEvent(
+  category: string = '',
+  action: string = '',
+  varName?: string,
+  varValue?: string,
+) {
+  if (enabled) _paq.push(['trackEvent', category, action, varName, varValue]);
 }
 
 export function useTrackPageview(pageName: string = '') {
