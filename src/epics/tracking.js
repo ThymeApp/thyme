@@ -21,7 +21,12 @@ export const createTracking = (
 );
 
 export default [
-  createTracking('APP_INIT', () => ({ category: 'App', action: 'init' })),
+  createTracking('APP_INIT', () => ({
+    category: 'App',
+    action: 'init',
+    name: 'version',
+    value: process.env.REACT_APP_VERSION || '',
+  })),
   createTracking('IMPORT_JSON_DATA', () => ({ category: 'App', action: 'import' })),
 
   createTracking('ACCOUNT_LOGIN', () => ({ category: 'Account', action: 'login' })),
