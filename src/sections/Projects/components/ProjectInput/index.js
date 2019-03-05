@@ -32,6 +32,11 @@ function ProjectInput({
       value: project.id,
       text: treeDisplayName(project),
       content: treeDisplayName(project),
+      label: project.colour ? {
+        color: project.colour,
+        empty: true,
+        circular: true,
+      } : undefined,
     })));
 
   const onChange = useCallback((e: Event, project: { value: string | null }) => {
