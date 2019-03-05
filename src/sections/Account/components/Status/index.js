@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 
@@ -63,10 +63,10 @@ class Status extends Component<StatusProps, StatusState> {
         {!loaded && 'connecting'}
         {loaded && isPremium && (online ? 'connected' : 'offline')}
         {loaded && !isPremium && (
-          <Fragment>
+          <>
             subscribe to sync
             <Icon name="caret down" />
-          </Fragment>
+          </>
         )}
       </div>
     );

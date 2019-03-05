@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import classnames from 'classnames';
 
 import format from 'date-fns/format';
@@ -272,10 +272,10 @@ class Entry extends Component<EntryProps, EntryState> {
         :
         {minutes}
         {tracking && (
-          <Fragment>
+          <>
             :
             {seconds}
-          </Fragment>
+          </>
         )}
       </span>
     );

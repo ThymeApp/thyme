@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import type { RouterHistory } from 'react-router';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid';
 
@@ -175,7 +176,20 @@ class Reports extends Component<ReportsProps, ReportsState> {
         {
           name: 'Project',
           header: () => 'Project',
-          row: (project: ProjectTreeWithTimeType) => treeDisplayName(project),
+          row: (project: ProjectTreeWithTimeType) => (
+            <>
+              {project.colour && (
+                <Label
+                  circular
+                  size="small"
+                  color={project.colour}
+                  empty
+                  style={{ marginRight: 5 }}
+                />
+              )}
+              {treeDisplayName(project)}
+            </>
+          ),
         },
         {
           name: 'Total spent',
