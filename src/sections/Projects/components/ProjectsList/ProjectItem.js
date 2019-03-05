@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Fragment, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import classnames from 'classnames';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table';
@@ -138,17 +138,17 @@ function ProjectItem(props: ProjectItemProps) {
   );
 
   return (
-    <Fragment>
+    <>
       <Table.Row className={classnames('ProjectList__item ui form', { 'ProjectList__item--archived': !!project.archived })}>
         <Table.Cell className={`ProjectList__level-${level} field`}>
           {isMobile ? (
-            <Fragment>
+            <>
               <label>
                 Project name
               </label>
               {ColourInput}
               {NameInput}
-            </Fragment>
+            </>
           ) : (
             <div className="ProjectList__item-container">
               <div className="ProjectList__spacer" />
@@ -208,7 +208,7 @@ function ProjectItem(props: ProjectItemProps) {
         onArchiveProject={onArchiveProject}
         onChangeParent={onChangeParent}
       />
-    </Fragment>
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
@@ -62,7 +62,7 @@ class DeleteData extends Component<DeleteDataProps, DeleteDataState> {
     } = this.state;
 
     return (
-      <Fragment>
+      <>
         <Button color="red" onClick={this.onRemoveTime}>
           <Icon name="trash" />
           Remove timesheet data
@@ -88,7 +88,7 @@ class DeleteData extends Component<DeleteDataProps, DeleteDataState> {
           onCancel={this.onCancelConfirm}
           onConfirm={this.onConfirmRemoveProjects}
         />
-      </Fragment>
+      </>
     );
   }
 }

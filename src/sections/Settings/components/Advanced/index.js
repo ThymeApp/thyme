@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
 
@@ -70,7 +70,7 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
     const { connection } = this.state;
 
     return (
-      <Fragment>
+      <>
         <Message attached warning icon>
           <Icon name="warning" />
           <div>
@@ -127,7 +127,7 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
             </Form.Field>
           )}
         </Form>
-      </Fragment>
+      </>
     );
   }
 }
