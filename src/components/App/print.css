@@ -5,6 +5,7 @@
   .accordion .title,
   .Reports h1,
   .Reports > .grid:first-child,
+  .Reports .Insights,
   .App .Report__filters {
     display: none !important;
   }
