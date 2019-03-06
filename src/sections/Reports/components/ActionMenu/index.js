@@ -13,9 +13,15 @@ type ActionMenuProps = {
   onNew: () => void;
   onSave: () => void;
   onLoad: () => void;
+  onDownload: () => void;
 };
 
-function ActionMenu({ onNew, onSave, onLoad }: ActionMenuProps) {
+function ActionMenu({
+  onNew,
+  onSave,
+  onLoad,
+  onDownload,
+}: ActionMenuProps) {
   const hasPrint = !!window.print;
 
   return (
@@ -39,6 +45,13 @@ function ActionMenu({ onNew, onSave, onLoad }: ActionMenuProps) {
         position="bottom right"
         trigger={<Button onClick={onSave} icon="save" />}
         content="Save current report"
+      />
+
+      <Popup
+        inverted
+        position="bottom right"
+        trigger={<Button onClick={onDownload} icon="download" />}
+        content="Download PDF report"
       />
 
       {hasPrint && (
