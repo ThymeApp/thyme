@@ -98,6 +98,27 @@ class Reports extends Component<ReportsProps, ReportsState> {
     this.updateReport(this.currentFilters(), from, to);
   };
 
+  onDownload = () => {
+    const {
+      from,
+      to,
+      projects,
+      report,
+    } = this.props;
+
+    const projectWithTime = projects.filter(project => project.time > 0);
+
+    // only import when using
+    import('./helpers/downloadPdf')
+      .then(m => m.default)
+      .then(downloadPdf => downloadPdf({
+        from,
+        to,
+        projects: projectWithTime,
+        report,
+      }));
+  };
+
   onNewReport = () => {
     const { history } = this.props;
 
@@ -204,6 +225,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
         },
       ],
       projectsWithTime,
+      { className: 'ReportsTable' },
     );
 
     return (
@@ -219,6 +241,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
               onNew={this.onNewReport}
               onSave={this.onOpenSave}
               onLoad={this.onOpenLoad}
+              onDownload={this.onDownload}
             />
           </Grid.Column>
         </Grid>
