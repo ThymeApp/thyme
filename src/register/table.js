@@ -64,6 +64,7 @@ type TableProps = {
   rows: TableRow[];
   extraColumns: TableColumn[];
   hiddenColumns: string[];
+  extraProps?: any;
 };
 
 function TableComponent({
@@ -71,6 +72,7 @@ function TableComponent({
   rows,
   extraColumns,
   hiddenColumns,
+  extraProps,
 }: TableProps) {
   const allColumns = [...columns, ...extraColumns]
     .filter(column => hiddenColumns.indexOf(column.name) === -1);
@@ -83,7 +85,7 @@ function TableComponent({
   const hasFooter = allColumns.some(column => !!column.footer);
 
   return (
-    <Table celled unstackable>
+    <Table {...extraProps} celled unstackable>
       {hasHeader && (
         <Table.Header>
           <Table.Row>
@@ -180,6 +182,7 @@ export function create(
   name: string,
   columns: Array<TableColumn | null>,
   rows: TableRow[],
+  props?: any,
 ): { filters: Node, table: Node } {
   const cols: TableColumn[] = [];
 
@@ -208,6 +211,7 @@ export function create(
             rows={rows}
             extraColumns={extraColumns}
             hiddenColumns={hiddenColumns}
+            extraProps={props}
           />
         )}
       </ColumnWrapper>
