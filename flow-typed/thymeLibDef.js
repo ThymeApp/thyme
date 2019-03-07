@@ -66,6 +66,7 @@ declare type StateShape = {
     jwt: string | null;
     capabilities: Capability[];
     isLoaded: boolean;
+    isPremium: boolean;
   };
   app: {
     alert: string;
