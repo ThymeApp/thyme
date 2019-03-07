@@ -6,7 +6,7 @@ import startOfDay from 'date-fns/start_of_day';
 
 import { sync, syncFailed, syncSuccess } from 'actions/app';
 
-import { isLoggedIn, hasPremium } from 'sections/Account/selectors';
+import { hasPremium } from 'sections/Account/selectors';
 
 import { post } from './fetch';
 import { stateToExport } from './importExport';
@@ -26,7 +26,7 @@ let prevState: exportType = {
 };
 
 function syncWithApi(state: StateShape, dispatch: ThymeDispatch) {
-  if (!isLoggedIn(state) || !hasPremium(state)) {
+  if (!hasPremium(state)) {
     return;
   }
 

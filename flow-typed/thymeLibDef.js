@@ -59,13 +59,11 @@ declare type SettingsShape = {
   advanced: SettingsAdvanced;
 };
 
-declare type Capability = 'premium' | 'project_rates' | 'insights';
-
 declare type StateShape = {
   account: {
     jwt: string | null;
-    capabilities: Capability[];
     isLoaded: boolean;
+    isPremium: boolean;
   };
   app: {
     alert: string;
@@ -144,7 +142,7 @@ declare type StateObservable = {
 };
 
 declare type AccountInformation = {
-  capabilities: Capability[];
+  capabilities: string[];
 };
 
 declare type SettingsPanel = {
