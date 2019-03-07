@@ -220,7 +220,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
           ),
           row: (project: ProjectTreeWithTimeType) => formatDuration(project.time * 60),
           textAlign: 'right',
-          width: 2,
+          collapsing: true,
           style: { whiteSpace: 'nowrap' },
         },
       ],

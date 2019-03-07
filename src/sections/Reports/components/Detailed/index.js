@@ -65,21 +65,25 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
           name: enabledEndDate ? 'Start Date' : 'Date',
           header: () => (enabledEndDate ? 'Start Date' : 'Date'),
           row: entry => format(entry.start, 'DD/MM/YYYY'),
+          collapsing: true,
         },
         {
           name: 'Start',
           header: () => 'Start',
           row: entry => format(entry.start, 'HH:mm'),
+          collapsing: true,
         },
         enabledEndDate ? {
           name: 'End Date',
           header: () => 'End Date',
           row: entry => format(entry.end, 'DD/MM/YYYY'),
+          collapsing: true,
         } : null,
         {
           name: 'End',
           header: () => 'End',
           row: entry => format(entry.end, 'HH:mm'),
+          collapsing: true,
         },
         {
           name: 'Duration',
@@ -92,11 +96,14 @@ class ReportDetailed extends Component<ReportDetailedType, ReportDetailedState> 
             round,
             roundAmount,
           ),
+          textAlign: 'right',
+          collapsing: true,
         },
         {
           name: 'Project',
           header: () => 'Project',
           row: entry => treeDisplayName(entry.project),
+          collapsing: true,
         },
         {
           name: 'Notes',
