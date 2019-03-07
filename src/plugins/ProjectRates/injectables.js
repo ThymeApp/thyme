@@ -31,7 +31,7 @@ export default () => {
     footer: ReportTableTotal,
     row: ReportTableRow,
     textAlign: 'right',
-    width: 2,
+    collapsing: true,
     style: { whiteSpace: 'no-wrap' },
   });
 };
