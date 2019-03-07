@@ -142,7 +142,7 @@ declare type StateObservable = {
 };
 
 declare type AccountInformation = {
-  capabilities: Capability[];
+  capabilities: string[];
 };
 
 declare type SettingsPanel = {
