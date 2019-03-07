@@ -61,7 +61,7 @@ class Status extends Component<StatusProps, StatusState> {
     return (
       <div className={classnames('Status', { [`Status--${status}`]: loaded && isPremium })}>
         {!loaded && 'connecting'}
-        {loaded && isPremium && (online ? 'connected' : 'offline')}
+        {isPremium && (online ? 'connected' : 'offline')}
         {loaded && !isPremium && (
           <>
             subscribe to sync
