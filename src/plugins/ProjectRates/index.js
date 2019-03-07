@@ -1,9 +1,7 @@
 // @flow
 
-import { loadOnCapability } from 'register/plugin';
-
-import { canAddRates } from './selectors';
+import { loadOnPremium } from 'register/plugin';
 
 export default function registerProjectRates(pluginInit: (name: string) => void) {
-  loadOnCapability(() => import('./async'), canAddRates, { pluginInit });
+  loadOnPremium(() => import('./async'), { pluginInit });
 }

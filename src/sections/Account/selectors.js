@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 export const getJwt = (state: StateShape) => state.account.jwt;
 export const getCapabilities = (state: StateShape) => state.account.capabilities;
 export const isLoaded = (state: StateShape) => state.account.isLoaded;
+export const isPremium = (state: StateShape) => state.account.isPremium;
 
 export const isLoggedIn = createSelector<StateShape, *, boolean, *>(getJwt, jwt => !!jwt);
 export const hasCapability = (
@@ -16,4 +17,7 @@ export const hasCapability = (
   (capabilities: Capability[]) => capabilities.indexOf(ability) > -1,
 );
 
-export const hasPremium = hasCapability('premium');
+export const hasPremium = createSelector<StateShape, *, *, boolean, *>(
+  [isLoaded, isPremium],
+  (loaded, premium) => loaded && premium,
+);

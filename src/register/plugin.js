@@ -6,14 +6,16 @@ import { filter, mergeMap } from 'rxjs/operators';
 import { inject } from 'register/epic';
 import { getState } from 'register/reducer';
 
-export function loadOnCapability(
+import { hasPremium } from 'sections/Account/selectors';
+
+export function loadOnPremium(
   importModule: () => Promise<*>,
-  selector: (state: any) => boolean,
   args: any,
 ) {
   const onLoadPlugin = () => importModule()
     .then(module => module && typeof module.default === 'function' && module.default(args));
-  const initialMatchesCapability = selector(getState());
+  const state = getState();
+  const initialMatchesCapability = state ? hasPremium(state) : false;
 
   // if already possible, don't wait for receiving information
   if (initialMatchesCapability) {
@@ -25,9 +27,7 @@ export function loadOnCapability(
     ) => action$.pipe(
       ofType('ACCOUNT_RECEIVE_INFORMATION'),
       mergeMap((): any[] | Promise<*> => {
-        const matchesCapability = selector(state$.value);
-
-        if (!matchesCapability) {
+        if (!hasPremium(state$.value)) {
           return [];
         }
 
