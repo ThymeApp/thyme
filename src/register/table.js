@@ -20,6 +20,7 @@ export type TableColumn = {
   footer?: RenderProp;
   textAlign?: 'left' | 'right';
   width?: number;
+  collapsing?: boolean;
   style?: any;
 };
 
@@ -94,6 +95,7 @@ function TableComponent({
                 key={column.name}
                 width={column.width}
                 style={column.style}
+                collapsing={column.collapsing}
                 textAlign={column.textAlign || 'left'}
               >
                 {column.header ? column.header(rows) : null}
@@ -110,6 +112,7 @@ function TableComponent({
                 key={column.name}
                 width={column.width}
                 style={column.style}
+                collapsing={column.collapsing}
                 textAlign={column.textAlign || 'left'}
               >
                 {column.row(row)}
@@ -126,6 +129,7 @@ function TableComponent({
                 key={column.name}
                 width={column.width}
                 style={column.style}
+                collapsing={column.collapsing}
                 textAlign={column.textAlign || 'left'}
               >
                 {column.footer ? column.footer(rows) : null}
