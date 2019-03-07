@@ -27,6 +27,18 @@ function capabilities(state: Capability[] = [], action) {
   }
 }
 
+function isPremium(state: boolean = false, action) {
+  switch (action.type) {
+    case 'LOG_OUT':
+    case 'APP_INIT':
+      return false;
+    case 'ACCOUNT_RECEIVE_INFORMATION':
+      return action.information.capabilities.indexOf('premium') > -1;
+    default:
+      return state;
+  }
+}
+
 function isLoaded(state: boolean = false, action) {
   switch (action.type) {
     case 'ACCOUNT_CHECKED':
@@ -43,4 +55,5 @@ export default () => create('account', {
   jwt,
   capabilities,
   isLoaded,
+  isPremium,
 });
