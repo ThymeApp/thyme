@@ -59,12 +59,9 @@ declare type SettingsShape = {
   advanced: SettingsAdvanced;
 };
 
-declare type Capability = 'premium' | 'project_rates' | 'insights';
-
 declare type StateShape = {
   account: {
     jwt: string | null;
-    capabilities: Capability[];
     isLoaded: boolean;
     isPremium: boolean;
   };

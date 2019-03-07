@@ -15,12 +15,13 @@ export function loadOnPremium(
   const onLoadPlugin = () => importModule()
     .then(module => module && typeof module.default === 'function' && module.default(args));
   const state = getState();
-  const initialMatchesCapability = state ? hasPremium(state) : false;
+  const isPremium = state ? hasPremium(state) : false;
 
-  // if already possible, don't wait for receiving information
-  if (initialMatchesCapability) {
+  if (isPremium) {
+    // if already possible, don't wait for receiving information
     onLoadPlugin();
   } else {
+    // if not premium yet, wait until accounts goes premium
     const asyncEpic = (
       action$: ActionsObservable,
       state$: StateObservable,

@@ -15,18 +15,6 @@ function jwt(state: string | null = null, action) {
   }
 }
 
-function capabilities(state: Capability[] = [], action) {
-  switch (action.type) {
-    case 'LOG_OUT':
-    case 'APP_INIT':
-      return [];
-    case 'ACCOUNT_RECEIVE_INFORMATION':
-      return action.information.capabilities || [];
-    default:
-      return state;
-  }
-}
-
 function isPremium(state: boolean = false, action) {
   switch (action.type) {
     case 'LOG_OUT':
@@ -53,7 +41,6 @@ function isLoaded(state: boolean = false, action) {
 
 export default () => create('account', {
   jwt,
-  capabilities,
   isLoaded,
   isPremium,
 });
