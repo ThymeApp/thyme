@@ -96,7 +96,12 @@ function ListEntry(props: ListEntryProps) {
   const onHandleEdit = useCallback((e) => {
     if (
       e.target
-      && (e.target.classList.contains('button') || e.target.classList.contains('popup'))
+      && (
+        e.target.classList.contains('button')
+        || e.target.classList.contains('popup')
+        || e.target.parentNode.classList.contains('ListEntry__Actions')
+        || e.target.parentNode.parentNode.classList.contains('ListEntry__Actions')
+      )
     ) {
       e.preventDefault();
       return;
