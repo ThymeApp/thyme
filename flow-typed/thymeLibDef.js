@@ -156,6 +156,32 @@ declare type SubscriptionInfo = {
   plan: 'EUR' | 'USD';
 };
 
+declare type RenderProp = (...any) => Node;
+
+declare type TableColumn = {
+  name: string;
+  row: RenderProp;
+  header?: RenderProp;
+  footer?: RenderProp;
+  textAlign?: 'left' | 'right';
+  width?: number;
+  collapsing?: boolean;
+  style?: any;
+};
+
+declare type ContextType = {
+  settingsPanels: SettingsPanel[];
+  components: {
+    [name: string]: { key: string, render: Node }[];
+  };
+  columns: {
+    [name: string]: TableColumn[];
+  };
+  hiddenColumns: {
+    [name: string]: string[];
+  };
+};
+
 declare type ThymeStore = Store<StateShape, *>;
 declare type ThymeDispatch = Dispatch<*>;
 

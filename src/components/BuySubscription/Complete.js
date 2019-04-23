@@ -15,7 +15,7 @@ import BuyButton from './Button';
 function Complete() {
   const { showMessage } = useMappedState(useCallback(state => ({
     showMessage: !hasPremium(state) && isLoaded(state) && isLoggedIn(state),
-  })));
+  }), []));
 
   if (!showMessage) {
     return null;

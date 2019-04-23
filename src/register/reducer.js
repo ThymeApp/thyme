@@ -4,12 +4,15 @@ import { combineReducers } from 'redux';
 import type { Reducer } from 'redux';
 import { invoke } from 'thyme-connect';
 
-import createReducers from '../reducers/index';
-
 type Reducers = { [key: string]: Reducer<ThymeStore, *> };
 
 const registeredReducers: { [path: string]: Reducers[] } = {};
 let registeredStore: ?ThymeStore;
+let createReducers: () => any;
+
+export function registerCreateReducers(f: () => any) {
+  createReducers = f;
+}
 
 export function registerStore(store: ThymeStore) {
   registeredStore = store;

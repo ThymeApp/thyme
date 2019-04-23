@@ -54,7 +54,7 @@ function TimeSheet(props: TimeSheetProps) {
     enabledProjects,
     enabledEndDate,
   } = useMappedState(useCallback((state) => {
-    const currentDate = props.now || new Date();
+    const currentDate = now || new Date();
 
     return {
       entries: getCurrentTimeEntries(currentDate)(state),

@@ -94,7 +94,7 @@ function App({
   }, [location, handleClose]);
 
   // callback on mount
-  useEffect(() => onInitialize(), []);
+  useEffect(() => onInitialize(), [onInitialize]);
 
   // check version every one so often
   useEffect(() => {

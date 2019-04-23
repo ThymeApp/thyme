@@ -21,5 +21,5 @@ export function trackEvent(
 }
 
 export function useTrackPageview(pageName: string = '') {
-  useEffect(() => trackPageview(pageName), []);
+  useEffect(() => trackPageview(pageName), [pageName]);
 }
