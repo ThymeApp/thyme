@@ -11,19 +11,6 @@ import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 import RegisterConsumer from './Consumer';
 import { registerTableColumn, toggleTableColumn } from './Actions';
 
-type RenderProp = (...any) => Node;
-
-export type TableColumn = {
-  name: string;
-  row: RenderProp;
-  header?: RenderProp;
-  footer?: RenderProp;
-  textAlign?: 'left' | 'right';
-  width?: number;
-  collapsing?: boolean;
-  style?: any;
-};
-
 type TableRow = { id: any } & any;
 
 export function registerColumn(name: string, column: TableColumn) {

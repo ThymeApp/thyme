@@ -2,7 +2,6 @@
 
 import store from './Store';
 import type { UpdateActions } from './Store';
-import type { TableColumn } from './table';
 
 function dispatch(action: UpdateActions) {
   store.dispatch(action);

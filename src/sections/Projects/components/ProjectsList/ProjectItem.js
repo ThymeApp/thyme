@@ -17,7 +17,7 @@ import ChangeOnBlurInput from 'components/ChangeOnBlurInput';
 import ProjectColourPicker from '../ProjectColourPicker';
 import ProjectInput from '../ProjectInput';
 
-import ProjectsList from './ProjectsList';
+import ProjectsList from './ProjectsList'; // eslint-disable-line import/no-cycle
 
 import { defaultColour } from '../../colours';
 

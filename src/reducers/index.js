@@ -1,6 +1,6 @@
 // @flow
 
-import { create } from 'register/reducer';
+import { create, registerCreateReducers } from 'register/reducer';
 
 import createReportsReducers from 'sections/Reports/reducers';
 import createSettingsReducers from 'sections/Settings/reducers';
@@ -12,7 +12,7 @@ import runMigrations from '../migrations';
 
 import createAppReducers from './app';
 
-export default () => {
+const createReducers = () => {
   const combinedReducers = create('thyme', {
     account: createAccountReducers(),
     app: createAppReducers(),
@@ -31,3 +31,7 @@ export default () => {
     return combinedReducers(state, action);
   };
 };
+
+registerCreateReducers(createReducers);
+
+export default createReducers;

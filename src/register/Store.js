@@ -4,9 +4,6 @@ import { createStore } from 'redux';
 import type { Dispatch } from 'redux';
 import { devToolsEnhancer } from 'redux-devtools-extension/developmentOnly';
 
-import type { ContextType } from './Context';
-import type { TableColumn } from './table';
-
 export const defaultState: ContextType = {
   settingsPanels: [],
   components: {},
