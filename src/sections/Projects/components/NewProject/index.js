@@ -73,7 +73,7 @@ function NewProject() {
     });
 
     resetState();
-  }, [name, parent, onAddProject, resetState]);
+  }, [name, colour, parent, onAddProject, resetState]);
 
   const onNameChange = useCallback(
     (e: Event) => setName(valueFromEventTarget(e.target)),

@@ -130,7 +130,7 @@ export function useResponsive(
       // unsubscribe
       window.removeEventListener('resize', onWindowResize);
     };
-  }, [element]);
+  }, [element, onWindowResize]);
 
   if (width === null) {
     return [false, {}];

@@ -83,7 +83,7 @@ function useEntryHandlers(props: EntryProps) {
     if (onResetItem) onResetItem(newItem);
   }, [onResetItem]);
 
-  const onClearItem = useCallback(() => resetItem(false), []);
+  const onClearItem = useCallback(() => resetItem(false), [resetItem]);
 
   const onAddEntry = useCallback(() => {
     if (typeof onAdd === 'function') {
@@ -310,7 +310,7 @@ function EditableEntry(props: EntryProps) {
     }
 
     return null;
-  }, [isMobile, isNew, tracking, disabled, onAddEntry]);
+  }, [isMobile, isNew, tracking, disabled, onAddEntry, onStart, onStop, onClearItem]);
 
   const duration = timeElapsed(startTime, endTime, tracking, true, round, roundAmount) || '0:00:00';
 

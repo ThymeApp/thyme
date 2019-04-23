@@ -39,9 +39,9 @@ function useConfirmDelete(
 ) {
   const [confirmDelete, setConfirmDelete] = useState<confirmNames>('');
 
-  const onArchive = useCallback(() => setConfirmDelete('archive'));
-  const onRemove = useCallback(() => setConfirmDelete('remove'));
-  const onCancel = useCallback(() => setConfirmDelete(''));
+  const onArchive = useCallback(() => setConfirmDelete('archive'), [setConfirmDelete]);
+  const onRemove = useCallback(() => setConfirmDelete('remove'), [setConfirmDelete]);
+  const onCancel = useCallback(() => setConfirmDelete(''), [setConfirmDelete]);
 
   const confirms = {
     '': {
@@ -102,7 +102,7 @@ function ProjectItem(props: ProjectItemProps) {
 
   const onChangeParentProject = useCallback((parent: string | null) => {
     onChangeParent(project, parent);
-  }, [onChangeParent]);
+  }, [project, onChangeParent]);
 
   const NameInput = (
     <ChangeOnBlurInput

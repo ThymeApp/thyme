@@ -42,7 +42,7 @@ function Login({ goToRegister }: LoginProps) {
         setSubmitting(false);
         setStatus({ error: err.message });
       }),
-    [onLoginAccount, login],
+    [onLoginAccount],
   );
 
   return (
