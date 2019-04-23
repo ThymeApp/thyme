@@ -102,5 +102,6 @@ const jsonFile = JSON.stringify({
 fs.writeFile(path.resolve(__dirname, '../sample.json'), jsonFile, 'utf8', (e) => {
   if (e) throw e;
 
+  // eslint-disable-next-line no-console
   console.info('Successfully saved sample data in "sample.json"');
 });

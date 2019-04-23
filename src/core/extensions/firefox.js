@@ -33,6 +33,7 @@ function handleMessage(msg: { type: string } & any) {
       addEntry(msg.entry);
       break;
     default:
+      // eslint-disable-next-line no-console
       console.error('Unable to handle message from extension', msg);
   }
 }
