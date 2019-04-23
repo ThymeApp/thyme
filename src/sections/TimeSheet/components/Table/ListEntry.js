@@ -85,12 +85,13 @@ function ListEntry(props: ListEntryProps) {
 
     // open the modal
     openEdit();
-  }, [closePopup, openEdit]);
+  }, [entry, closePopup, openEdit]);
+
   const onHandleRemove = useCallback(() => {
     closePopup();
     closeEdit();
     openConfirm();
-  }, [closePopup, openConfirm]);
+  }, [closePopup, openConfirm, closeEdit]);
 
   const onConfirmRemove = useCallback(() => onRemove(entry), [entry, onRemove]);
   const onHandleEdit = useCallback((e) => {
@@ -120,7 +121,7 @@ function ListEntry(props: ListEntryProps) {
     setEditingEntry(editingEntry);
 
     return id;
-  }, [editingEntry]);
+  }, [editingEntry, onAddProject]);
 
   const onSave = useCallback(() => {
     onEntryUpdate(editingEntry);
