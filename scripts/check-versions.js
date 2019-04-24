@@ -14,6 +14,7 @@ Run \`npm install\` to solve.
 `;
 
 if (packageJson.version !== packageLockJson.version) {
+  // eslint-disable-next-line no-console
   console.error(errorMessage);
   process.exit(1);
 }
@@ -25,6 +26,7 @@ https.get(githubPackageJsonLocation, (res) => {
     const data = JSON.parse(rawData);
 
     if (!semver.lt(data.version, packageJson.version)) {
+      // eslint-disable-next-line no-console
       console.error(`Published version ${data.version} is greater or equal to ${packageJson.version}.
 
 Increase version in package.json
@@ -35,5 +37,6 @@ Checked against: ${githubPackageJsonLocation}
     }
   });
 }).on('error', (e) => {
+  // eslint-disable-next-line no-console
   console.error(e);
 });
