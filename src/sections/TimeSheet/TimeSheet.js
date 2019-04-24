@@ -25,7 +25,7 @@ import {
 
 import DateRange from './components/DateRange';
 import TimeTable from './components/Table';
-import { NewEntry } from './components/Entry';
+import NewEntry from './components/Entry/New';
 
 import { changePage, updateTime } from './actions';
 
