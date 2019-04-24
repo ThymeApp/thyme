@@ -1,10 +1,11 @@
 // @flow
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
+
+import { useMappedState } from 'core/useRedux';
 
 import { isSyncing } from 'selectors/app';
 
@@ -16,69 +17,45 @@ type ConnectionStates = 'connected' | 'syncing' | 'offline';
 
 type StatusProps = {
   closePopup: () => void;
-  connectionState: ConnectionStates;
-  isPremium: boolean;
-  loaded: boolean;
 }
 
-type StatusState = {
-  online: boolean;
-};
-
-class Status extends Component<StatusProps, StatusState> {
-  state = {
-    online: navigator.onLine,
-  };
-
-  componentDidMount() {
-    const { closePopup } = this.props;
-
-    closePopup();
-
-    window.addEventListener('online', this.goOnline);
-    window.addEventListener('offline', this.goOffline);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timeout);
-
-    window.removeEventListener('online', this.goOnline);
-    window.removeEventListener('offline', this.goOffline);
-  }
-
-  goOnline = () => this.setState({ online: true });
-
-  goOffline = () => this.setState({ online: false });
-
-  timeout: TimeoutID;
-
-  render() {
-    const { connectionState, isPremium, loaded } = this.props;
-    const { online } = this.state;
-
-    const status: ConnectionStates = online ? connectionState : 'offline';
-
-    return (
-      <div className={classnames('Status', { [`Status--${status}`]: loaded && isPremium })}>
-        {!loaded && 'connecting'}
-        {isPremium && (online ? 'connected' : 'offline')}
-        {loaded && !isPremium && (
-          <>
-            subscribe to sync
-            <Icon name="caret down" />
-          </>
-        )}
-      </div>
-    );
-  }
-}
-
-function mapStateToProps(state) {
-  return {
+function Status({ closePopup }: StatusProps) {
+  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+  const { connectionState, isPremium, loaded } = useMappedState(state => ({
     connectionState: isSyncing(state) ? 'syncing' : 'connected',
     isPremium: hasPremium(state),
     loaded: isLoaded(state),
-  };
+  }));
+
+  useEffect(() => {
+    closePopup();
+
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', goOnline);
+    window.addEventListener('offline', goOffline);
+
+    return () => {
+      window.removeEventListener('online', goOnline);
+      window.removeEventListener('offline', goOffline);
+    };
+  }, [closePopup]);
+
+  const status: ConnectionStates = isOnline ? connectionState : 'offline';
+
+  return (
+    <div className={classnames('Status', { [`Status--${status}`]: loaded && isPremium })}>
+      {!loaded && 'connecting'}
+      {isPremium && (isOnline ? 'connected' : 'offline')}
+      {loaded && !isPremium && (
+        <>
+          subscribe to sync
+          <Icon name="caret down" />
+        </>
+      )}
+    </div>
+  );
 }
 
-export default connect(mapStateToProps)(Status);
+export default Status;
