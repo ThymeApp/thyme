@@ -57,6 +57,7 @@
         "rxjs": "^6.5.1",
         "semantic-ui-css": "^2.4.1",
         "semantic-ui-react": "^0.86.0",
+        "semver": "^6.0.0",
         "shortid": "^2.2.14",
         "socket.io-client": "^2.2.0",
         "source-map-explorer": "^1.8.0",
