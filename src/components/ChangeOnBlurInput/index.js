@@ -32,8 +32,11 @@ function DebouncedInput(props: any) {
   );
 
   useEffect(() => {
-    if (value !== prevValue && value !== cachedValue) {
+    if (value !== prevValue) {
       setPrevValue(value);
+    }
+
+    if (value !== prevValue && value !== cachedValue) {
       setValue(value);
     }
   }, [value, prevValue, cachedValue, setPrevValue, setValue]);
