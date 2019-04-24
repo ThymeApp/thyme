@@ -1,60 +1,52 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { valueFromEventTarget } from 'core/dom';
 
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 
-const noop = () => ({});
+function DebouncedInput(props: any) {
+  const {
+    value,
+    setRef,
+    onChange,
+    ...otherProps
+  } = props;
+  const [cachedValue, setValue] = useState(value);
+  const [prevValue, setPrevValue] = useState(value);
+  const noop = useCallback(() => undefined, []);
 
-type DebouncedInputState = {
-  value: string;
-};
+  const updateValue = useCallback(
+    (e: Event) => {
+      setValue(valueFromEventTarget(e.target));
+    },
+    [setValue],
+  );
 
-class DebouncedInput extends Component<*, DebouncedInputState> {
-  constructor(props: any) {
-    super(props);
+  const onBlur = useCallback(
+    () => {
+      if (onChange && value !== cachedValue) onChange(cachedValue);
+    },
+    [cachedValue, onChange, value],
+  );
 
-    this.state = { value: props.value || '' };
-  }
-
-  componentDidUpdate(prevProps: any): void {
-    const { value: stateValue } = this.state;
-    const { value } = this.props;
-
-    if (value !== prevProps.value && value !== stateValue) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ value });
+  useEffect(() => {
+    if (value !== prevValue && value !== cachedValue) {
+      setPrevValue(value);
+      setValue(value);
     }
-  }
+  }, [value, prevValue, cachedValue, setPrevValue, setValue]);
 
-  updateValue = (e: Event) => {
-    this.setState({ value: valueFromEventTarget(e.target) });
-  };
-
-  onChange = () => {
-    const { value: stateValue } = this.state;
-    const { onChange, value } = this.props;
-
-    if (onChange && value !== stateValue) onChange(stateValue);
-  };
-
-  render() {
-    const { props, state } = this;
-    const { value } = state;
-    const { setRef, ...otherProps } = props;
-
-    return (
-      <Input
-        {...otherProps}
-        ref={setRef || noop}
-        value={value}
-        onChange={this.updateValue}
-        onBlur={this.onChange}
-      />
-    );
-  }
+  return (
+    <Input
+      {...otherProps}
+      ref={setRef || noop}
+      value={cachedValue}
+      onChange={updateValue}
+      onBlur={onBlur}
+    />
+  );
 }
 
 export default DebouncedInput;
