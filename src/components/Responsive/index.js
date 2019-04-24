@@ -1,11 +1,6 @@
 // @flow
 
-import {
-  Component,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import throttle from 'lodash/throttle';
 
 type Breakpoint = 'mobile' | 'miniTablet' | 'tablet' | 'desktop' | 'large' | 'wide';
@@ -66,52 +61,10 @@ export function matchesBreakpoint(
 type ResponsiveProps = {
   min?: Breakpoint;
   max?: Breakpoint;
-  children: (matched: boolean, breakpoints: isBreakpointsType) => any;
+  element?: HTMLElement | null;
 };
 
-type ResponsiveState = {
-  width: number | null;
-};
-
-class Responsive extends Component<ResponsiveProps, ResponsiveState> {
-  state = {
-    width: null,
-  };
-
-  componentDidMount() {
-    window.addEventListener('resize', this.onWindowResize);
-    this.onWindowResize();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onWindowResize);
-  }
-
-  onWindowResize = throttle(() => {
-    this.setState({ width: window.innerWidth });
-  }, 50);
-
-  render() {
-    const { width } = this.state;
-    const { min, max, children } = this.props;
-
-    if (typeof children !== 'function') {
-      throw new Error('Pass render prop as children');
-    }
-
-    if (width === null) {
-      return null;
-    }
-
-    const breakpoints = currentBreakpoints(width, BrowserBreakpoints);
-
-    return children(matchesBreakpoint(breakpoints, { min, max }), isBreakpoints(breakpoints));
-  }
-}
-
-export function useResponsive(
-  { min, max, element }: { min?: Breakpoint, max?: Breakpoint, element?: HTMLElement | null },
-): [boolean, isBreakpointsType] {
+function useResponsive({ min, max, element }: ResponsiveProps): [boolean, isBreakpointsType] {
   const [width, setWidth] = useState(null);
 
   const onWindowResize = useCallback(
@@ -141,4 +94,4 @@ export function useResponsive(
   return [matchesBreakpoint(breakpoints, { min, max }), isBreakpoints(breakpoints)];
 }
 
-export default Responsive;
+export { useResponsive };
