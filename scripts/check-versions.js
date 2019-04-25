@@ -5,7 +5,7 @@ const packageJson = require('../package.json');
 const packageLockJson = require('../package-lock.json');
 
 // skip checking remote version if travis is checking master
-const skipRemoteVersion = process.env.TRAVIS_BRANCH === 'master' || false;
+const skipRemoteVersion = process.env.TRAVIS_BRANCH === 'master' && !process.env.TRAVIS_PULL_REQUEST;
 
 const githubPackageJsonLocation = 'https://raw.githubusercontent.com/ThymeApp/thyme/master/package.json';
 
