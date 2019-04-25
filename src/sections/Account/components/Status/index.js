@@ -2,10 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
+import { useSelector } from 'react-redux';
 
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
-
-import { useMappedState } from 'core/useRedux';
 
 import { isSyncing } from 'selectors/app';
 
@@ -19,13 +18,15 @@ type StatusProps = {
   closePopup: () => void;
 }
 
+const selectors = state => ({
+  connectionState: isSyncing(state) ? 'syncing' : 'connected',
+  isPremium: hasPremium(state),
+  loaded: isLoaded(state),
+});
+
 function Status({ closePopup }: StatusProps) {
   const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
-  const { connectionState, isPremium, loaded } = useMappedState(state => ({
-    connectionState: isSyncing(state) ? 'syncing' : 'connected',
-    isPremium: hasPremium(state),
-    loaded: isLoaded(state),
-  }));
+  const { connectionState, isPremium, loaded } = useSelector(selectors);
 
   useEffect(() => {
     closePopup();

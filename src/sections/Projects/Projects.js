@@ -1,13 +1,13 @@
 // @flow
 
 import React from 'react';
+import { useSelector, useActions } from 'react-redux';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 
 import { useTrackPageview } from 'core/analytics';
-import { useMappedState, useDispatch } from 'core/useRedux';
 import { isDescendant } from 'core/projects';
 
 import BuyMessage from 'components/BuySubscription/Message';
@@ -23,25 +23,27 @@ import ProjectsList from './components/ProjectsList';
 
 import { archiveProject, removeProject, updateProject } from './actions';
 
+const selectors = state => ({
+  projects: allSortedProjects(state),
+  showUpgrade: !hasPremium(state) && isLoaded(state),
+});
+
 function Projects() {
   useTrackPageview('Projects');
 
-  const { projects, showUpgrade } = useMappedState(state => ({
-    projects: allSortedProjects(state),
-    showUpgrade: !hasPremium(state) && isLoaded(state),
-  }));
+  const { projects, showUpgrade } = useSelector(selectors);
 
-  const {
+  const [
     showAlert,
     onUpdateProject,
     onRemoveProject,
     onArchiveProject,
-  } = useDispatch(dispatch => ({
-    onUpdateProject: (project: ProjectProps) => dispatch(updateProject(project)),
-    onRemoveProject: (id: string) => dispatch(removeProject(id)),
-    onArchiveProject: (id: string) => dispatch(archiveProject(id)),
-    showAlert: (message: string) => dispatch(alert(message)),
-  }));
+  ] = useActions([
+    updateProject,
+    removeProject,
+    archiveProject,
+    alert,
+  ]);
 
   return (
     <Container>

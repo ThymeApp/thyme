@@ -2,8 +2,7 @@
 
 import React from 'react';
 import type { Element } from 'react';
-
-import { useMappedState } from 'core/useRedux';
+import { useSelector } from 'react-redux';
 
 import ProjectItem from './ProjectItem'; // eslint-disable-line import/no-cycle
 
@@ -28,7 +27,7 @@ function ProjectsList({
   onArchiveProject,
   onChangeParent,
 }: ProjectsListProps): Element<typeof ProjectItem>[] {
-  const projects = useMappedState(allSortedProjects);
+  const projects = useSelector(allSortedProjects);
 
   return projects
     .filter(item => (parent === '' && item.parent === null) || item.parent === parent)

@@ -1,6 +1,7 @@
 // @flow
 
 import React, { useState, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 import isSameDay from 'date-fns/is_same_day';
 
@@ -13,7 +14,6 @@ import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm';
 import { timeElapsed } from 'core/thyme';
 import { formatTime, formatDate } from 'core/intl';
 import { treeDisplayName } from 'core/projects';
-import { useMappedState } from 'core/useRedux';
 
 import { useResponsive } from 'components/Responsive';
 
@@ -70,7 +70,7 @@ function ListEntry(props: ListEntryProps) {
   const [editOpen, openEdit, closeEdit] = useToggle();
   const [editingEntry, setEditingEntry] = useState<TimeType>({ ...entry });
 
-  const project = useMappedState(useCallback((state) => {
+  const project = useSelector(useCallback((state) => {
     const projects = sortedProjects(state);
 
     return projects.find(item => item.id === entry.project);

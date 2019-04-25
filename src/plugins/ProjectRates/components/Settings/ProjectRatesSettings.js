@@ -1,11 +1,10 @@
 // @flow
 
-import React, { useCallback } from 'react';
+import React from 'react';
+import { useSelector, useActions } from 'react-redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
-
-import { useMappedState, useDispatch } from 'core/useRedux';
 
 import { popular, other } from '../../currencies';
 
@@ -28,10 +27,8 @@ const currencyOptions = [
 ];
 
 function ProjectRatesSettings() {
-  const currency = useMappedState(getRatesCurrency);
-  const onCurrencyChange = useCallback(useDispatch(dispatch => (e, data) => {
-    dispatch(updateCurrency(data.value));
-  }), []);
+  const currency = useSelector(getRatesCurrency);
+  const onCurrencyChange = useActions((e, data) => updateCurrency(data.value), []);
 
   return (
     <Form>

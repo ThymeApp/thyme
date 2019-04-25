@@ -1,11 +1,10 @@
 // @flow
 
 import React from 'react';
+import { useSelector, useActions } from 'react-redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
-
-import { useMappedState, useDispatch } from 'core/useRedux';
 
 import {
   updateDurationRounding,
@@ -21,28 +20,24 @@ import RoundingOn from './RoundingOn';
 
 import './Rounding.css';
 
+const selectors = state => ({
+  durationRounding: getDurationRounding(state),
+  durationAmount: getDurationAmount(state),
+  roundingOn: getRoundingOn(state),
+});
+
 function RoundingSettings() {
   const {
     durationAmount,
     durationRounding,
     roundingOn,
-  } = useMappedState(state => ({
-    durationRounding: getDurationRounding(state),
-    durationAmount: getDurationAmount(state),
-    roundingOn: getRoundingOn(state),
-  }));
+  } = useSelector(selectors);
 
   const {
     onChangeDurationRounding,
     onChangeDurationRoundingAmount,
     onChangeRoundingOn,
-  } = useDispatch(dispatch => ({
-    onChangeDurationRounding: (round: Rounding) => dispatch(updateDurationRounding(round)),
-    onChangeDurationRoundingAmount: (amount: number) => dispatch(
-      updateDurationRoundingAmount(amount),
-    ),
-    onChangeRoundingOn: (rounding: RoundableOn) => dispatch(updateRoundingOn(rounding)),
-  }));
+  } = useActions([updateDurationRounding, updateDurationRoundingAmount, updateRoundingOn]);
 
   return (
     <div>

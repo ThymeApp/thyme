@@ -2,13 +2,13 @@
 
 import React, { useCallback } from 'react';
 import { Formik } from 'formik';
+import { useActions } from 'react-redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 import createValidation from 'core/validate';
-import { useDispatch } from 'core/useRedux';
 
 import FormField from 'components/FormField/FormField';
 
@@ -31,7 +31,7 @@ type LoginProps = {
 };
 
 function Login({ goToRegister }: LoginProps) {
-  const onLoginAccount = useDispatch(dispatch => token => dispatch(loginAccount(token)));
+  const onLoginAccount = useActions(loginAccount);
 
   const onSubmit = useCallback(
     (values, { setSubmitting, setStatus }) => login(values.email, values.password)

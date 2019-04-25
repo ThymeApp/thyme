@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { useSelector, useActions } from 'react-redux';
 
 import isSameDay from 'date-fns/is_same_day';
 
@@ -10,8 +11,6 @@ import {
   getRoundingOn,
 } from 'sections/Settings/selectors';
 import { getAllProjects } from 'sections/Projects/selectors';
-
-import { useMappedState, useDispatch } from 'core/useRedux';
 
 import { updateTime, removeTime } from '../../actions';
 
@@ -27,6 +26,20 @@ type TimeTableType = {
   onAddProject: (project: string, entry?: TimeType | TimePropertyType) => string;
 };
 
+const selectors = (state) => {
+  const roundingOn = getRoundingOn(state);
+  return {
+    projects: getAllProjects(state),
+    round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
+    roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
+  };
+};
+
+const actions = [
+  updateTime,
+  (entry: TimeType) => removeTime(entry.id),
+];
+
 function TimeTable({
   entries,
   now,
@@ -39,25 +52,9 @@ function TimeTable({
     projects,
     round,
     roundAmount,
-  } = useMappedState((state) => {
-    const roundingOn = getRoundingOn(state);
-    return {
-      projects: getAllProjects(state),
-      round: roundingOn === 'entries' ? getDurationRounding(state) : 'none',
-      roundAmount: roundingOn === 'entries' ? getDurationAmount(state) : 0,
-    };
-  });
-  const {
-    onEntryUpdate,
-    onEntryRemove,
-  } = useDispatch(dispatch => ({
-    onEntryUpdate(entry: TimeType | TimePropertyType) {
-      dispatch(updateTime(entry));
-    },
-    onEntryRemove(entry: TimeType) {
-      dispatch(removeTime(entry.id));
-    },
-  }));
+  } = useSelector(selectors);
+
+  const [onEntryUpdate, onEntryRemove] = useActions(actions);
 
   const days = [];
 

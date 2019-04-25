@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { withRouter } from 'react-router';
 import type { RouterHistory } from 'react-router';
+import { useSelector, useActions } from 'react-redux';
 
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
@@ -10,8 +11,6 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
-
-import { useMappedState, useDispatch } from 'core/useRedux';
 
 import { getLastSync } from 'selectors/app';
 
@@ -28,16 +27,17 @@ type AccountProps = {
   history: RouterHistory;
 }
 
+const selectors = state => ({
+  lastSync: getLastSync(state),
+  loggedIn: isLoggedIn(state),
+  showPremium: !hasPremium(state) && isLoaded(state),
+});
+
 function Account({ history }: AccountProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { loggedIn, showPremium, lastSync } = useMappedState(state => ({
-    lastSync: getLastSync(state),
-    loggedIn: isLoggedIn(state),
-    showPremium: !hasPremium(state) && isLoaded(state),
-  }));
-
-  const onLogout = useDispatch(dispatch => () => dispatch(logout()));
+  const { loggedIn, showPremium, lastSync } = useSelector(selectors);
+  const onLogout = useActions(logout);
 
   const handleOpen = useCallback(() => setIsOpen(true), [setIsOpen]);
   const handleClose = useCallback(() => setIsOpen(false), [setIsOpen]);

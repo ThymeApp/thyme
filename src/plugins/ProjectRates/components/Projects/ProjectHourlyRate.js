@@ -1,12 +1,12 @@
 // @flow
 
 import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 
 import { valueFromEventTarget } from 'core/dom';
-import { useMappedState } from 'core/useRedux';
 
 import type { ProjectItemProps } from 'sections/Projects/components/ProjectsList/ProjectItem';
 
@@ -27,7 +27,7 @@ function ProjectHourlyRate({
   project,
   onUpdateProject,
 }: ProjectHourlyRateProps) {
-  const currencySign = useMappedState(getRatesCurrencySign);
+  const currencySign = useSelector(getRatesCurrencySign);
 
   const onChange = useCallback((e: Event) => {
     const rate = parseInt(valueFromEventTarget(e.target), 10);

@@ -2,11 +2,11 @@
 
 import React, { useMemo, useCallback } from 'react';
 import { Formik } from 'formik';
+import { useActions } from 'react-redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
-import { useDispatch } from 'core/useRedux';
 import createValidation from 'core/validate';
 
 import { alert } from 'actions/app';
@@ -16,7 +16,7 @@ import FormField from 'components/FormField/FormField';
 import { changePassword } from '../../api';
 
 function Account() {
-  const showAlert = useDispatch(dispatch => message => dispatch(alert(message)));
+  const showAlert = useActions(alert);
 
   const validation = useMemo(
     () => createValidation({

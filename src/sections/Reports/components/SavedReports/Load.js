@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { withRouter } from 'react-router';
 import type { RouterHistory } from 'react-router';
+import { useSelector, useActions } from 'react-redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
@@ -11,8 +12,6 @@ import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
 import Confirm from 'semantic-ui-react/dist/commonjs/addons/Confirm/Confirm';
-
-import { useMappedState, useDispatch } from 'core/useRedux';
 
 import { alert } from 'actions/app';
 
@@ -33,16 +32,9 @@ type ConfirmDelete = {
 
 function Load({ history, isOpen, onClose }: LoadProps) {
   const [confirmDeleteOpened, setConfirmDeleteOpened] = useState<ConfirmDelete>({});
-  const { dispatchRemoveReport, showAlert } = useDispatch(dispatch => ({
-    dispatchRemoveReport(id: string) {
-      dispatch(removeReport(id));
-    },
-    showAlert(message: string) {
-      dispatch(alert(message));
-    },
-  }));
+  const [dispatchRemoveReport, showAlert] = useActions([removeReport, alert]);
 
-  const savedReports = useMappedState(state => getAllReports(state));
+  const savedReports = useSelector(getAllReports);
 
   const openReport = useCallback((id: string) => {
     history.push(`/reports/${id}`);
