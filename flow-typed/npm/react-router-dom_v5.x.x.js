@@ -1,5 +1,5 @@
-// flow-typed signature: b7f98c6a7afc32bb93cf5d468d7d757a
-// flow-typed version: b999c93144/react-router-dom_v4.x.x/flow_>=v0.63.x
+// flow-typed signature: 87499887cf1960d2093758ae1cdaccc2
+// flow-typed version: c50652b159/react-router-dom_v5.x.x/flow_>=v0.63.x
 
 declare module "react-router-dom" {
   declare export var BrowserRouter: React$ComponentType<{|
@@ -28,8 +28,8 @@ declare module "react-router-dom" {
     to: string | LocationShape,
     activeClassName?: string,
     className?: string,
-    activeStyle?: Object,
-    style?: Object,
+    activeStyle?: { +[string]: mixed },
+    style?: { +[string]: mixed },
     isActive?: (match: Match, location: Location) => boolean,
     children?: React$Node,
     exact?: boolean,
@@ -170,5 +170,5 @@ declare module "react-router-dom" {
     parent?: Match
   ): null | Match;
 
-  declare export function generatePath(pattern?: string, params?: Object): string;
+  declare export function generatePath(pattern?: string, params?: { +[string]: mixed }): string;
 }

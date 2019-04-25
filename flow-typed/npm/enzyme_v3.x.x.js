@@ -1,28 +1,31 @@
-// flow-typed signature: c278360f2144417a98958b1da49f89c5
-// flow-typed version: 7bd880a082/enzyme_v3.x.x/flow_>=v0.53.x
+// flow-typed signature: f6bad512110ebc6da85b1ddda297fe3d
+// flow-typed version: f04d291d8b/enzyme_v3.x.x/flow_>=v0.53.x
 
 declare module "enzyme" {
   declare type PredicateFunction<T: Wrapper<*>> = (
     wrapper: T,
     index: number
   ) => boolean;
-  declare type NodeOrNodes = React$Node | Array<React$Node>;
-  declare type EnzymeSelector = string | {} | React$ElementType;
+  declare type UntypedSelector = string | {[key: string]: number|string|boolean};
+  declare type EnzymeSelector = UntypedSelector | React$ElementType;
 
   // CheerioWrapper is a type alias for an actual cheerio instance
   // TODO: Reference correct type from cheerio's type declarations
   declare type CheerioWrapper = any;
 
   declare class Wrapper<RootComponent> {
-    find(selector: EnzymeSelector): this,
+    equals(node: React$Element<any>): boolean,
+    find(selector: UntypedSelector): this,
+    find<T: React$ElementType>(selector: T): ReactWrapper<T>,
     findWhere(predicate: PredicateFunction<this>): this,
-    filter(selector: EnzymeSelector): this,
+    filter(selector: UntypedSelector): this,
+    filter<T: React$ElementType>(selector: T): ReactWrapper<T>,
     filterWhere(predicate: PredicateFunction<this>): this,
     hostNodes(): this,
-    contains(nodeOrNodes: NodeOrNodes): boolean,
+    contains(nodes: React$Node): boolean,
     containsMatchingElement(node: React$Node): boolean,
-    containsAllMatchingElements(nodes: NodeOrNodes): boolean,
-    containsAnyMatchingElements(nodes: NodeOrNodes): boolean,
+    containsAllMatchingElements(nodes: React$Node): boolean,
+    containsAnyMatchingElements(nodes: React$Node): boolean,
     dive(option?: { context?: Object }): this,
     exists(selector?: EnzymeSelector): boolean,
     isEmptyRender(): boolean,
@@ -31,11 +34,14 @@ declare module "enzyme" {
     is(selector: EnzymeSelector): boolean,
     isEmpty(): boolean,
     not(selector: EnzymeSelector): this,
-    children(selector?: EnzymeSelector): this,
+    children(selector?: UntypedSelector): this,
+    children<T: React$ElementType>(selector: T): ReactWrapper<T>,
     childAt(index: number): this,
-    parents(selector?: EnzymeSelector): this,
+    parents(selector?: UntypedSelector): this,
+    parents<T: React$ElementType>(selector: T): ReactWrapper<T>,
     parent(): this,
-    closest(selector: EnzymeSelector): this,
+    closest(selector: UntypedSelector): this,
+    closest<T: React$ElementType>(selector: T): ReactWrapper<T>,
     render(): CheerioWrapper,
     renderProp(propName: string): (...args: Array<any>) => this,
     unmount(): this,
