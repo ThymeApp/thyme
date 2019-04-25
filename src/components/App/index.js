@@ -63,6 +63,7 @@ function App({
     onCheckForUpdate,
   ] = useActions([appInit, clearAlert, checkForUpdate]);
 
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const [menuOpened, handleToggle, handleClose] = useMenuOpened(false);
   const appLink = useCallback((name, path, icon: string, exact = false) => {
     const currentPath = location.pathname;
@@ -84,7 +85,12 @@ function App({
   }, [location, handleClose]);
 
   // callback on mount
-  useEffect(() => { onInitialize(); }, [onInitialize]);
+  useEffect(() => {
+    if (isInitialized) return;
+
+    onInitialize();
+    setIsInitialized(true);
+  }, [onInitialize, isInitialized]);
 
   // check version every one so often
   useEffect(() => {
