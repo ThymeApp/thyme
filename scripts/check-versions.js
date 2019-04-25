@@ -23,6 +23,8 @@ if (packageJson.version !== packageLockJson.version) {
 }
 
 // eslint-disable-next-line no-console
+console.log(process.env.TRAVIS_BRANCH);
+console.log(process.env.TRAVIS_PULL_REQUEST);
 console.error('package.json and package-lock.json versions match');
 
 if (!skipRemoteVersion) {
