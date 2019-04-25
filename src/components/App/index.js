@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
+import { useSelector, useActions } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
@@ -16,8 +17,6 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import Sidebar from 'semantic-ui-react/dist/commonjs/modules/Sidebar';
-
-import { useMappedState, useDispatch } from 'core/useRedux';
 
 import { clearAlert, appInit, checkForUpdate } from 'actions/app';
 
@@ -53,25 +52,16 @@ function useMenuOpened(initialValue: boolean) {
   return [menuOpened, handleToggle, handleClose];
 }
 
-const mapState = state => ({ alertMessage: getAlert(state) });
-const mapDispatch = dispatch => ({
-  onInitialize() {
-    dispatch(appInit());
-  },
-  onCloseAlert() {
-    dispatch(clearAlert());
-  },
-  onCheckForUpdate() {
-    dispatch(checkForUpdate());
-  },
-});
-
 function App({
   children,
   location,
 }: AppProps) {
-  const { alertMessage } = useMappedState(mapState);
-  const { onInitialize, onCloseAlert, onCheckForUpdate } = useDispatch(mapDispatch);
+  const alertMessage = useSelector(getAlert);
+  const [
+    onInitialize,
+    onCloseAlert,
+    onCheckForUpdate,
+  ] = useActions([appInit, clearAlert, checkForUpdate]);
 
   const [menuOpened, handleToggle, handleClose] = useMenuOpened(false);
   const appLink = useCallback((name, path, icon: string, exact = false) => {
@@ -94,7 +84,7 @@ function App({
   }, [location, handleClose]);
 
   // callback on mount
-  useEffect(() => onInitialize(), [onInitialize]);
+  useEffect(() => { onInitialize(); }, [onInitialize]);
 
   // check version every one so often
   useEffect(() => {
