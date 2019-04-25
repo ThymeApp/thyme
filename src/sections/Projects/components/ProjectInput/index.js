@@ -1,10 +1,10 @@
 // @flow
 
 import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
 
-import { useMappedState } from 'core/useRedux';
 import { treeDisplayName } from 'core/projects';
 
 import { sortedProjects } from 'sections/Projects/selectors';
@@ -26,7 +26,7 @@ function ProjectInput({
   onAddItem,
   disabled,
 }: ProjectInputType) {
-  const projects = useMappedState(state => sortedProjects(state)
+  const projects = useSelector(sortedProjects)
     .map(project => ({
       key: project.id,
       value: project.id,
@@ -37,7 +37,7 @@ function ProjectInput({
         empty: true,
         circular: true,
       } : undefined,
-    })));
+    }));
 
   const onChange = useCallback((e: Event, project: { value: string | null }) => {
     // if the project is new, don't emit handleChange

@@ -35,7 +35,7 @@ function colour(state = null, action) {
   switch (action.type) {
     case 'ADD_PROJECT':
     case 'UPDATE_PROJECT':
-      return action.colour;
+      return action.colour || null;
     default:
       return state;
   }

@@ -1,8 +1,8 @@
 // @flow
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
+import { useSelector } from 'react-redux';
 
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 
@@ -16,69 +16,47 @@ type ConnectionStates = 'connected' | 'syncing' | 'offline';
 
 type StatusProps = {
   closePopup: () => void;
-  connectionState: ConnectionStates;
-  isPremium: boolean;
-  loaded: boolean;
 }
 
-type StatusState = {
-  online: boolean;
-};
+const selectors = state => ({
+  connectionState: isSyncing(state) ? 'syncing' : 'connected',
+  isPremium: hasPremium(state),
+  loaded: isLoaded(state),
+});
 
-class Status extends Component<StatusProps, StatusState> {
-  state = {
-    online: navigator.onLine,
-  };
+function Status({ closePopup }: StatusProps) {
+  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+  const { connectionState, isPremium, loaded } = useSelector(selectors);
 
-  componentDidMount() {
-    const { closePopup } = this.props;
-
+  useEffect(() => {
     closePopup();
 
-    window.addEventListener('online', this.goOnline);
-    window.addEventListener('offline', this.goOffline);
-  }
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => setIsOnline(false);
 
-  componentWillUnmount() {
-    clearTimeout(this.timeout);
+    window.addEventListener('online', goOnline);
+    window.addEventListener('offline', goOffline);
 
-    window.removeEventListener('online', this.goOnline);
-    window.removeEventListener('offline', this.goOffline);
-  }
+    return () => {
+      window.removeEventListener('online', goOnline);
+      window.removeEventListener('offline', goOffline);
+    };
+  }, [closePopup]);
 
-  goOnline = () => this.setState({ online: true });
+  const status: ConnectionStates = isOnline ? connectionState : 'offline';
 
-  goOffline = () => this.setState({ online: false });
-
-  timeout: TimeoutID;
-
-  render() {
-    const { connectionState, isPremium, loaded } = this.props;
-    const { online } = this.state;
-
-    const status: ConnectionStates = online ? connectionState : 'offline';
-
-    return (
-      <div className={classnames('Status', { [`Status--${status}`]: loaded && isPremium })}>
-        {!loaded && 'connecting'}
-        {isPremium && (online ? 'connected' : 'offline')}
-        {loaded && !isPremium && (
-          <>
-            subscribe to sync
-            <Icon name="caret down" />
-          </>
-        )}
-      </div>
-    );
-  }
+  return (
+    <div className={classnames('Status', { [`Status--${status}`]: loaded && isPremium })}>
+      {!loaded && 'connecting'}
+      {isPremium && (isOnline ? 'connected' : 'offline')}
+      {loaded && !isPremium && (
+        <>
+          subscribe to sync
+          <Icon name="caret down" />
+        </>
+      )}
+    </div>
+  );
 }
 
-function mapStateToProps(state) {
-  return {
-    connectionState: isSyncing(state) ? 'syncing' : 'connected',
-    isPremium: hasPremium(state),
-    loaded: isLoaded(state),
-  };
-}
-
-export default connect(mapStateToProps)(Status);
+export default Status;

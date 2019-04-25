@@ -1,10 +1,9 @@
 // @flow
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
-
-import { useMappedState } from 'core/useRedux';
 
 import Loading from 'components/Loading';
 import Button from 'components/BuySubscription/Button';
@@ -13,11 +12,13 @@ import { hasPremium, isLoaded } from '../../selectors';
 
 import ListSubscription from '../../components/ListSubscription';
 
+const selectors = state => ({
+  isPremium: hasPremium(state),
+  isLoading: !isLoaded(state),
+});
+
 function Subscription() {
-  const { isPremium, isLoading } = useMappedState(state => ({
-    isPremium: hasPremium(state),
-    isLoading: !isLoaded(state),
-  }));
+  const { isPremium, isLoading } = useSelector(selectors);
 
   if (isLoading) {
     return (

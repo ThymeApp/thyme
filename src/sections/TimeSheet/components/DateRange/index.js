@@ -1,10 +1,9 @@
 // @flow
 
 import React, { useCallback } from 'react';
+import { useSelector, useActions } from 'react-redux';
 
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
-
-import { useMappedState, useDispatch } from 'core/useRedux';
 
 import { changeDateRange } from '../../actions';
 
@@ -24,19 +23,9 @@ function useToggleHandlers(onChangeDateRange: (dateRange: DateRanges) => void) {
   };
 }
 
-const mapState = state => ({
-  dateRange: getDateRange(state),
-});
-
-const mapDispatch = dispatch => ({
-  onChangeDateRange(dateRange: DateRanges) {
-    dispatch(changeDateRange(dateRange));
-  },
-});
-
 function DateRange({ vertical = false }: DateRangeProps) {
-  const { dateRange } = useMappedState(mapState);
-  const { onChangeDateRange } = useDispatch(mapDispatch);
+  const dateRange = useSelector(getDateRange);
+  const onChangeDateRange = useActions(changeDateRange);
 
   const {
     toggleToday,

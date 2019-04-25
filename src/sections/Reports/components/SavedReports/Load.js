@@ -1,10 +1,9 @@
 // @flow
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useCallback } from 'react';
 import { withRouter } from 'react-router';
-import { compose } from 'redux';
 import type { RouterHistory } from 'react-router';
+import { useSelector, useActions } from 'react-redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
@@ -25,134 +24,87 @@ type LoadProps = {
   history: RouterHistory;
   isOpen: boolean;
   onClose: () => void;
-  savedReports: {
-    id: string,
-    name: string,
-    filters: Array<string>,
-    from: Date,
-    to: Date,
-  }[];
-  onRemoveReport: (id: string) => void;
-  showAlert: (message: string) => void;
 };
 
-type LoadState = {
-  confirmDelete: {
-    [key: string]: boolean;
-  };
-}
+type ConfirmDelete = {
+  [key: string]: boolean;
+};
 
-class Load extends Component<LoadProps, LoadState> {
-  state = {
-    confirmDelete: {},
-  };
+function Load({ history, isOpen, onClose }: LoadProps) {
+  const [confirmDeleteOpened, setConfirmDeleteOpened] = useState<ConfirmDelete>({});
+  const [dispatchRemoveReport, showAlert] = useActions([removeReport, alert]);
 
-  onCancelConfirm = (e?: Event) => {
-    if (e) {
-      e.stopPropagation();
-    }
+  const savedReports = useSelector(getAllReports);
 
-    this.setState({ confirmDelete: {} });
-  };
-
-  openReport = (id: string) => {
-    const { history, onClose } = this.props;
-
+  const openReport = useCallback((id: string) => {
     history.push(`/reports/${id}`);
     onClose();
-  };
+  }, [history, onClose]);
 
-  onRemoveReport = (id: string) => (e: Event) => {
+  const onCancelConfirm = useCallback(() => setConfirmDeleteOpened({}), [setConfirmDeleteOpened]);
+
+  const onRemoveReport = useCallback((id: string) => (e: Event) => {
     e.stopPropagation();
 
-    const { confirmDelete } = this.state;
-
-    this.setState({
-      confirmDelete: {
-        ...confirmDelete,
-        [id]: true,
-      },
+    setConfirmDeleteOpened({
+      ...confirmDeleteOpened,
+      [id]: true,
     });
-  };
+  }, [confirmDeleteOpened, setConfirmDeleteOpened]);
 
-  removeReport = report => (e: Event) => {
+  const confirmDelete = useCallback((report: ReportType) => (e: Event) => {
     e.stopPropagation();
 
-    const { onRemoveReport, showAlert } = this.props;
-
-    this.onCancelConfirm();
-    onRemoveReport(report.id);
+    onCancelConfirm();
+    dispatchRemoveReport(report.id);
     showAlert(`Removed report "${report.name}"`);
-  };
+  }, [dispatchRemoveReport, showAlert, onCancelConfirm]);
 
-  render() {
-    const { isOpen, onClose, savedReports } = this.props;
-    const { confirmDelete } = this.state;
+  return (
+    <Modal size="small" open={isOpen} onClose={onClose}>
+      <Header content="Load Report" />
+      <Modal.Content className="Reports__LoadTable">
+        {savedReports.length === 0 && (
+          <p style={{ padding: '1.5rem' }}>No saved reports yet.</p>
+        )}
 
-    return (
-      <Modal size="small" open={isOpen} onClose={onClose}>
-        <Header content="Load Report" />
-        <Modal.Content className="Reports__LoadTable">
-          {savedReports.length === 0 && (
-            <p>No saved reports yet.</p>
-          )}
+        {savedReports.length > 0 && (
+          <Menu vertical>
+            {savedReports.map(report => (
+              <Menu.Item key={report.id} onClick={() => openReport(report.id)}>
+                {report.name}
 
-          {savedReports.length > 0 && (
-            <Menu vertical>
-              {savedReports.map(report => (
-                <Menu.Item key={report.id} onClick={() => this.openReport(report.id)}>
-                  {report.name}
+                <Popup
+                  inverted
+                  position="top right"
+                  trigger={(
+                    <Button icon onClick={onRemoveReport(report.id)}>
+                      <Icon name="remove" />
+                    </Button>
+                  )}
+                  content="Remove this report"
+                />
 
-                  <Popup
-                    inverted
-                    position="top right"
-                    trigger={(
-                      <Button icon onClick={this.onRemoveReport(report.id)}>
-                        <Icon name="remove" />
-                      </Button>
-                    )}
-                    content="Remove this report"
-                  />
-
-                  <Confirm
-                    open={confirmDelete[report.id]}
-                    content="Are you sure you want to remove this report?"
-                    confirmButton="Remove report"
-                    size="mini"
-                    onCancel={this.onCancelConfirm}
-                    onConfirm={this.removeReport(report)}
-                  />
-                </Menu.Item>
-              ))}
-            </Menu>
-          )}
-        </Modal.Content>
-        <Modal.Actions>
-          <Button onClick={onClose}>
-            Close
-          </Button>
-        </Modal.Actions>
-      </Modal>
-    );
-  }
+                <Confirm
+                  open={confirmDeleteOpened[report.id]}
+                  content="Are you sure you want to remove this report?"
+                  confirmButton="Remove Report"
+                  size="mini"
+                  onCancel={onCancelConfirm}
+                  onConfirm={confirmDelete(report)}
+                />
+              </Menu.Item>
+            ))}
+          </Menu>
+        )}
+      </Modal.Content>
+      <Modal.Actions>
+        <Button onClick={onClose}>
+          Close
+        </Button>
+      </Modal.Actions>
+    </Modal>
+  );
 }
 
-function mapStateToProps(state) {
-  return { savedReports: getAllReports(state) };
-}
-
-function mapDispatchToProps(dispatch: ThymeDispatch) {
-  return {
-    onRemoveReport(id: string) {
-      dispatch(removeReport(id));
-    },
-    showAlert(message: string) {
-      dispatch(alert(message));
-    },
-  };
-}
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withRouter,
-)(Load);
+export default withRouter<*>(Load);

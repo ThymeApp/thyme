@@ -1,13 +1,12 @@
 // @flow
 
 import React, { useState, useCallback, useEffect } from 'react';
+import { useActions } from 'react-redux';
 
 import format from 'date-fns/format';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
-
-import { useDispatch } from 'core/useRedux';
 
 import Loading from 'components/Loading';
 
@@ -27,7 +26,7 @@ function ListSubscription() {
       });
   }, []);
 
-  const showAlert = useDispatch(dispatch => message => dispatch(alert(message)));
+  const showAlert = useActions(alert);
 
   const onCancel = useCallback(() => {
     showAlert('Please send an email to support@usethyme.com and add that you would like to cancel your subscription.');

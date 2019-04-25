@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { formatCurrency } from 'core/intl';
-import { useMappedState } from 'core/useRedux';
 
 import { totalProjectPrice } from '../../helpers';
 
@@ -16,7 +16,7 @@ type ReportTableTotalProps = {
 };
 
 function ReportTableTotal({ projects }: ReportTableTotalProps) {
-  const currency = useMappedState(getRatesCurrency);
+  const currency = useSelector(getRatesCurrency);
 
   return formatCurrency(
     currency,

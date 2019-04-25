@@ -1,11 +1,10 @@
 // @flow
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
-
-import { useMappedState } from 'core/useRedux';
 
 import { updateAvailable } from 'selectors/app';
 
@@ -14,7 +13,7 @@ import './style.css';
 const reloadWindow = () => window.location.reload();
 
 function Notifier() {
-  const isUpdateAvailable = useMappedState(updateAvailable);
+  const isUpdateAvailable = useSelector(updateAvailable);
 
   if (!isUpdateAvailable) return null;
 

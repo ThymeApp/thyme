@@ -1,11 +1,17 @@
 {
     "name": "thyme",
-    "version": "1.18.4",
+    "version": "1.18.5",
     "private": false,
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ThymeApp/thyme"
+    },
     "homepage": "/",
     "scripts": {
         "analyze": "source-map-explorer build/static/js/main.*",
-        "generate-sample": "node ./scripts/create-mock",
+        "generate-sample": "node ./scripts/create-mock.js",
+        "check-versions": "node ./scripts/check-versions.js",
         "start": "react-scripts start",
         "eject": "react-scripts eject",
         "test": "react-scripts test --env=jsdom",
@@ -42,7 +48,7 @@
         "react-chartjs": "^1.2.0",
         "react-dom": "^16.8.6",
         "react-dom-confetti": "^0.1.0",
-        "react-redux": "^6.0.1",
+        "react-redux": "^7.1.0-alpha.1",
         "react-router": "^5.0.0",
         "react-router-dom": "^5.0.0",
         "react-scripts": "^3.0.0",
@@ -56,6 +62,7 @@
         "rxjs": "^6.5.1",
         "semantic-ui-css": "^2.4.1",
         "semantic-ui-react": "^0.86.0",
+        "semver": "^6.0.0",
         "shortid": "^2.2.14",
         "socket.io-client": "^2.2.0",
         "source-map-explorer": "^1.8.0",
@@ -80,8 +87,9 @@
         "webpack-cli": "^3.3.1"
     },
     "pre-push": [
-        "lint",
+        "check-versions",
         "flow",
+        "lint",
         "test:ci",
         "build:staging"
     ],

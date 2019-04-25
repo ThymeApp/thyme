@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react';
-
-import { useMappedState } from 'core/useRedux';
+import { useSelector } from 'react-redux';
 
 import Loading from 'components/Loading';
 
@@ -14,12 +13,14 @@ import Completed from './Completed';
 
 import './Premium.css';
 
+const selectors = state => ({
+  isPremium: hasPremium(state),
+  loggedIn: isLoggedIn(state),
+  loadingDone: isLoaded(state),
+});
+
 function Premium() {
-  const { loadingDone, isPremium, loggedIn } = useMappedState(state => ({
-    isPremium: hasPremium(state),
-    loggedIn: isLoggedIn(state),
-    loadingDone: isLoaded(state),
-  }));
+  const { loadingDone, isPremium, loggedIn } = useSelector(selectors);
 
   if (loggedIn && !loadingDone) {
     return <Loading />;
