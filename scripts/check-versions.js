@@ -5,7 +5,8 @@ const packageJson = require('../package.json');
 const packageLockJson = require('../package-lock.json');
 
 // skip checking remote version if travis is checking master
-const skipRemoteVersion = process.env.TRAVIS_BRANCH === 'master' && !process.env.TRAVIS_PULL_REQUEST;
+const checkRemoteVersion = typeof process.env.TRAVIS_PULL_REQUEST === 'string'
+  || typeof process.env.TRAVIS_PULL_REQUEST === 'undefined';
 
 const githubPackageJsonLocation = 'https://raw.githubusercontent.com/ThymeApp/thyme/master/package.json';
 
@@ -25,7 +26,7 @@ if (packageJson.version !== packageLockJson.version) {
 // eslint-disable-next-line no-console
 console.error('package.json and package-lock.json versions match');
 
-if (!skipRemoteVersion) {
+if (checkRemoteVersion) {
   https.get(githubPackageJsonLocation, (res) => {
     let rawData = '';
     res.on('data', (chunk) => { rawData += chunk; });
