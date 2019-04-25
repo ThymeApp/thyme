@@ -1,13 +1,13 @@
 // @flow
 
 import React, { useState, useCallback } from 'react';
+import { useSelector, useActions, useDispatch } from 'react-redux';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordion';
 import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagination';
 
-import { useMappedState, useDispatch } from 'core/useRedux';
 import { useTrackPageview } from 'core/analytics';
 
 import { render as renderComponent } from 'register/component';
@@ -53,7 +53,7 @@ function TimeSheet(props: TimeSheetProps) {
     enabledNotes,
     enabledProjects,
     enabledEndDate,
-  } = useMappedState(useCallback((state) => {
+  } = useSelector((state) => {
     const currentDate = now || new Date();
 
     return {
@@ -65,36 +65,30 @@ function TimeSheet(props: TimeSheetProps) {
       enabledProjects: getEnableProjects(state),
       enabledEndDate: getEnableEndDate(state),
     };
-  }, [now]));
+  }, [now]);
 
-  const {
-    changeEntriesPage,
-    onAddProject,
-  } = useDispatch(useCallback(dispatch => ({
-    changeEntriesPage(newPage: number) {
-      dispatch(changePage(newPage));
-    },
-    onAddProject(project, entry?: any): string {
-      const newProjectAction = addProject({
-        colour: null,
-        name: project,
-        parent: null,
-      });
+  const dispatch = useDispatch();
+  const changeEntriesPage = useActions(changePage, []);
+  const onAddProject = useCallback((project, entry?: any): string => {
+    const newProjectAction = addProject({
+      colour: null,
+      name: project,
+      parent: null,
+    });
 
-      const projectId = newProjectAction.id;
+    const projectId = newProjectAction.id;
 
-      dispatch(newProjectAction);
+    dispatch(newProjectAction);
 
-      if (entry) {
-        dispatch(updateTime({
-          ...entry,
-          project: projectId,
-        }));
-      }
+    if (entry) {
+      dispatch(updateTime({
+        ...entry,
+        project: projectId,
+      }));
+    }
 
-      return newProjectAction.id;
-    },
-  }), []));
+    return newProjectAction.id;
+  }, [dispatch]);
 
   const totalPages = Math.ceil(entries.length / entriesPerPage);
   const start = (page - 1) * entriesPerPage;
