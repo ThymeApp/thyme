@@ -2,9 +2,21 @@
 
 import parse from 'date-fns/parse';
 
+// determine locale to use
+const locales = ['i-default', ...navigator.languages];
+const locale = locales.find((l) => {
+  try {
+    Intl.NumberFormat(l);
+    return true;
+  } catch (e) {
+    // silent
+  }
+  return false;
+});
+
 export function formatCurrency(currency: string, value: number) {
   return new Intl
-    .NumberFormat('i-default', { style: 'currency', currency })
+    .NumberFormat(locale, { style: 'currency', currency })
     .format(value);
 }
 
@@ -18,11 +30,11 @@ export function formatShortDate(
   const parsedDate = parse(date);
 
   if (numberOfDays > 14 && parsedDate.getDate() === 1) {
-    return parsedDate.toLocaleDateString('i-default', { month: 'short' });
+    return parsedDate.toLocaleDateString(locale, { month: 'short' });
   }
 
   return parsedDate.toLocaleDateString(
-    'i-default',
+    locale,
     {
       month: numberOfDays < 15 ? '2-digit' : undefined,
       day: '2-digit',
@@ -34,14 +46,14 @@ export function formatShortDate(
 export function formatDate(date: Date | number) {
   const parsedDate = parse(date);
 
-  return parsedDate.toLocaleDateString('i-default');
+  return parsedDate.toLocaleDateString(locale);
 }
 
 export function formatTime(date: Date | number) {
   const parsedDate = parse(date);
 
   return parsedDate.toLocaleTimeString(
-    'i-default',
+    locale,
     { hour: '2-digit', minute: '2-digit' },
   );
 }
