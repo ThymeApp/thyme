@@ -1,13 +1,13 @@
 // @flow
 
 import React, { useState, useCallback } from 'react';
-import { useActions } from 'react-redux';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Input from 'semantic-ui-react/dist/commonjs/elements/Input';
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 
 import { valueFromEventTarget } from 'core/dom';
+import { useActions } from 'core/useActions';
 
 import { useResponsive } from 'components/Responsive';
 

@@ -1,9 +1,11 @@
 // @flow
 
 import React from 'react';
-import { useSelector, useActions } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import isSameDay from 'date-fns/is_same_day';
+
+import { useActions } from 'core/useActions';
 
 import {
   getDurationRounding,

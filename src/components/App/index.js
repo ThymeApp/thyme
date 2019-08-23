@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
-import { useSelector, useActions } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
@@ -17,6 +17,8 @@ import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
 import Modal from 'semantic-ui-react/dist/commonjs/modules/Modal';
 import Sidebar from 'semantic-ui-react/dist/commonjs/modules/Sidebar';
+
+import { useActions } from 'core/useActions';
 
 import { clearAlert, appInit, checkForUpdate } from 'actions/app';
 

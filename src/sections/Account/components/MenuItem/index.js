@@ -3,7 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { withRouter } from 'react-router';
 import type { RouterHistory } from 'react-router';
-import { useSelector, useActions } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
@@ -11,6 +11,8 @@ import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup';
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
+
+import { useActions } from 'core/useActions';
 
 import { getLastSync } from 'selectors/app';
 
