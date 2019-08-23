@@ -33,7 +33,7 @@ describe('NewProject', () => {
     const state = store.getState();
 
     expect(state.projects.allIds.length).toBe(1);
-    expect(state.projects.allIds.map(id => state.projects.byId[id])[0].name).toBe('Test project');
+    expect(state.projects.allIds.map((id) => state.projects.byId[id])[0].name).toBe('Test project');
   });
 
   it('Add project with parent', () => {
@@ -45,14 +45,14 @@ describe('NewProject', () => {
     const prevState = store.getState();
     const target = document.createElement('input');
     target.value = 'Child project';
-    const parent = prevState.projects.allIds.map(id => prevState.projects.byId[id])[0];
+    const parent = prevState.projects.allIds.map((id) => prevState.projects.byId[id])[0];
 
     projectName.simulate('change', { target });
     projectParent.prop('handleChange')(parent.id);
     form.simulate('submit');
 
     const state = store.getState();
-    const projects = state.projects.allIds.map(id => state.projects.byId[id]);
+    const projects = state.projects.allIds.map((id) => state.projects.byId[id]);
 
     expect(state.projects.allIds.length).toBe(2);
     expect(projects[1].name).toBe('Child project');

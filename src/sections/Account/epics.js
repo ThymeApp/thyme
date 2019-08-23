@@ -54,7 +54,7 @@ export const checkTokenEpic = (action$: ActionsObservable, state$: StateObservab
 
     return refreshToken()
       // save refreshed token
-      .then(token => updateToken(token))
+      .then((token) => updateToken(token))
       // token is invalid
       .catch(logout);
   }),
@@ -87,7 +87,7 @@ export const fetchStateEpic = (action$: ActionsObservable, state$: StateObservab
         return importJSONData(newState);
       });
   }),
-  filter(needsAction => !!needsAction),
+  filter((needsAction) => !!needsAction),
 );
 
 export const createFetchAccountInformation = (action$: ActionsObservable) => action$.pipe(
@@ -104,7 +104,7 @@ export const createFetchAccountInformation = (action$: ActionsObservable) => act
 export const fetchAccountInformation = (action$: ActionsObservable) => action$.pipe(
   ofType('ACCOUNT_FETCH_INFORMATION'),
   mergeMap(() => getAccountInformation().catch(() => false)),
-  map(information => (information ? receiveAccountInformation(information) : logout())),
+  map((information) => (information ? receiveAccountInformation(information) : logout())),
 );
 
 export const refreshOnLogOut = (

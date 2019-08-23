@@ -30,10 +30,16 @@ type SaveState = {
 };
 
 class Save extends Component<SaveProps, SaveState> {
-  state = {
-    name: '',
-    error: false,
-  };
+  timeout: TimeoutID;
+
+  constructor() {
+    super();
+
+    this.state = {
+      name: '',
+      error: false,
+    };
+  }
 
   onUpdateName = (e: Event) => {
     if (e.target instanceof HTMLInputElement) {
@@ -85,8 +91,6 @@ class Save extends Component<SaveProps, SaveState> {
     clearTimeout(this.timeout);
     onClose();
   };
-
-  timeout: TimeoutID;
 
   updateName(name: string) {
     this.setState({ name });

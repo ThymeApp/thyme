@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useState, useCallback } from 'react';
-import { useSelector, useActions, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header/Header';
 import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
@@ -9,6 +9,7 @@ import Accordion from 'semantic-ui-react/dist/commonjs/modules/Accordion/Accordi
 import Pagination from 'semantic-ui-react/dist/commonjs/addons/Pagination/Pagination';
 
 import { useTrackPageview } from 'core/analytics';
+import { useActions } from 'core/useActions';
 
 import { render as renderComponent } from 'register/component';
 
@@ -68,7 +69,7 @@ function TimeSheet(props: TimeSheetProps) {
   }, [now]);
 
   const dispatch = useDispatch();
-  const changeEntriesPage = useActions(changePage, []);
+  const changeEntriesPage = useActions(changePage);
   const onAddProject = useCallback((project, entry?: any): string => {
     const newProjectAction = addProject({
       colour: null,

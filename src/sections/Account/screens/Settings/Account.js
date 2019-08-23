@@ -2,12 +2,12 @@
 
 import React, { useMemo, useCallback } from 'react';
 import { Formik } from 'formik';
-import { useActions } from 'react-redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 
 import createValidation from 'core/validate';
+import { useActions } from 'core/useActions';
 
 import { alert } from 'actions/app';
 

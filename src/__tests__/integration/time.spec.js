@@ -141,7 +141,7 @@ describe('EditableEntry', () => {
       .simulate('click');
 
     const state = store.getState();
-    const entries = state.time.allIds.map(id => state.time.byId[id]);
+    const entries = state.time.allIds.map((id) => state.time.byId[id]);
 
     // see if entry has entered
     expect(entries.length).toBe(1);
@@ -189,7 +189,7 @@ describe('EditableEntry', () => {
       .simulate('click');
 
     const state = store.getState();
-    const entries = state.time.allIds.map(id => state.time.byId[id]);
+    const entries = state.time.allIds.map((id) => state.time.byId[id]);
 
     expect(entries[0].project).toBe(1);
   });
@@ -210,7 +210,7 @@ describe('EditableEntry', () => {
     page.find('EditableEntry').find('.dropdown .item').at(0).simulate('click');
 
     const state = store.getState();
-    const projects = state.projects.allIds.map(id => state.projects.byId[id]);
+    const projects = state.projects.allIds.map((id) => state.projects.byId[id]);
 
     expect(projects.length).toBe(1);
     expect(projects[0].name).toBe('Test project');
@@ -245,7 +245,7 @@ describe('EditableEntry', () => {
       .simulate('click');
 
     const state = store.getState();
-    const entries = state.time.allIds.map(id => state.time.byId[id]);
+    const entries = state.time.allIds.map((id) => state.time.byId[id]);
     expect(isSameDay(entries[0].start, '2018-08-15T19:00:00.000Z')).toBe(true);
     expect(isSameDay(entries[0].end, '2018-08-15T19:00:00.000Z')).toBe(true);
   });
@@ -282,7 +282,7 @@ describe('EditableEntry', () => {
       .simulate('click');
 
     const state = store.getState();
-    const entries = state.time.allIds.map(id => state.time.byId[id]);
+    const entries = state.time.allIds.map((id) => state.time.byId[id]);
     expect(isSameDay(entries[0].start, '2018-08-13T19:00:00.000Z')).toBe(true);
     expect(isSameDay(entries[0].end, '2018-08-14T19:00:00.000Z')).toBe(true);
   });
@@ -353,7 +353,7 @@ describe('ListEntry', () => {
     page.find('Modal').find('.actions .button').at(0).simulate('click');
 
     const updatedState = store.getState();
-    const updatedEntries = updatedState.time.allIds.map(id => updatedState.time.byId[id]);
+    const updatedEntries = updatedState.time.allIds.map((id) => updatedState.time.byId[id]);
 
     expect(updatedEntries[0].notes).toBe('Updated notes');
   });

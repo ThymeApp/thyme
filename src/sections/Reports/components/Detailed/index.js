@@ -37,7 +37,7 @@ function ReportDetailed({
   const rows = projects
     .reduce((acc, project) => [
       ...acc,
-      ...project.entries.map(entry => ({
+      ...project.entries.map((entry) => ({
         ...entry,
         project,
       })),
@@ -53,31 +53,31 @@ function ReportDetailed({
       {
         name: enabledEndDate ? 'Start Date' : 'Date',
         header: () => (enabledEndDate ? 'Start Date' : 'Date'),
-        row: entry => format(entry.start, 'DD/MM/YYYY'),
+        row: (entry) => format(entry.start, 'DD/MM/YYYY'),
         collapsing: true,
       },
       {
         name: 'Start',
         header: () => 'Start',
-        row: entry => format(entry.start, 'HH:mm'),
+        row: (entry) => format(entry.start, 'HH:mm'),
         collapsing: true,
       },
       enabledEndDate ? {
         name: 'End Date',
         header: () => 'End Date',
-        row: entry => format(entry.end, 'DD/MM/YYYY'),
+        row: (entry) => format(entry.end, 'DD/MM/YYYY'),
         collapsing: true,
       } : null,
       {
         name: 'End',
         header: () => 'End',
-        row: entry => format(entry.end, 'HH:mm'),
+        row: (entry) => format(entry.end, 'HH:mm'),
         collapsing: true,
       },
       {
         name: 'Duration',
         header: () => 'Duration',
-        row: entry => timeElapsed(
+        row: (entry) => timeElapsed(
           entry.start,
           entry.end,
           false,
@@ -91,13 +91,13 @@ function ReportDetailed({
       {
         name: 'Project',
         header: () => 'Project',
-        row: entry => treeDisplayName(entry.project),
+        row: (entry) => treeDisplayName(entry.project),
         collapsing: true,
       },
       {
         name: 'Notes',
         header: () => 'Notes',
-        row: entry => entry.notes,
+        row: (entry) => entry.notes,
       },
     ],
     rows,

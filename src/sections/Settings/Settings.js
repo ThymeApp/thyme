@@ -103,7 +103,7 @@ class Settings extends Component<SettingsProps> {
         </Header>
 
         <RegisterConsumer>
-          {state => (
+          {(state) => (
             <Accordion fluid styled>
               {[...panels, ...state.settingsPanels].map(this.settingsItem)}
             </Accordion>

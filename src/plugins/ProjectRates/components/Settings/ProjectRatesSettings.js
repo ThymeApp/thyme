@@ -1,10 +1,12 @@
 // @flow
 
 import React from 'react';
-import { useSelector, useActions } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown';
+
+import { useActions } from 'core/useActions';
 
 import { popular, other } from '../../currencies';
 
@@ -28,7 +30,7 @@ const currencyOptions = [
 
 function ProjectRatesSettings() {
   const currency = useSelector(getRatesCurrency);
-  const onCurrencyChange = useActions((e, data) => updateCurrency(data.value), []);
+  const onCurrencyChange = useActions((e, data) => updateCurrency(data.value));
 
   return (
     <Form>

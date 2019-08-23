@@ -30,8 +30,8 @@ function ProjectsList({
   const projects = useSelector(allSortedProjects);
 
   return projects
-    .filter(item => (parent === '' && item.parent === null) || item.parent === parent)
-    .map(project => (
+    .filter((item) => (parent === '' && item.parent === null) || item.parent === parent)
+    .map((project) => (
       <ProjectItem
         key={project.id}
         project={project}

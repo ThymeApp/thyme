@@ -1,10 +1,12 @@
 // @flow
 
 import React from 'react';
-import { useSelector, useActions } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
+
+import { useActions } from 'core/useActions';
 
 import {
   updateDurationRounding,
@@ -20,7 +22,7 @@ import RoundingOn from './RoundingOn';
 
 import './Rounding.css';
 
-const selectors = state => ({
+const selectors = (state) => ({
   durationRounding: getDurationRounding(state),
   durationAmount: getDurationAmount(state),
   roundingOn: getRoundingOn(state),

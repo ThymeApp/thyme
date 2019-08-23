@@ -1,9 +1,11 @@
 // @flow
 
 import React, { useCallback } from 'react';
-import { useSelector, useActions } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Menu from 'semantic-ui-react/dist/commonjs/collections/Menu';
+
+import { useActions } from 'core/useActions';
 
 import { changeDateRange } from '../../actions';
 

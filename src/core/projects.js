@@ -5,7 +5,7 @@ export function isDescendant(from: string, to: string | null, projects: Array<Pr
     return true;
   }
 
-  const toProject = projects.find(project => project.id === to);
+  const toProject = projects.find((project) => project.id === to);
 
   if (!toProject) {
     return false;
@@ -30,7 +30,7 @@ function getProjectTree(
   const projectNames = [project.name, ...current];
 
   if (project.parent) {
-    const parent = projects.find(item => item.id === project.parent);
+    const parent = projects.find((item) => item.id === project.parent);
 
     if (parent) {
       return getProjectTree(
@@ -69,14 +69,14 @@ export function sortProjects(
   const parent = (project && project.id) || null;
 
   return sortedByName
-    .filter(item => item.parent === parent)
+    .filter((item) => item.parent === parent)
     .reduce((acc, item) => [
       ...acc,
       item,
       ...sortProjects(sortedByName, item),
     ], [])
-    .filter(item => !!item)
-    .map(item => ({
+    .filter((item) => !!item)
+    .map((item) => ({
       ...item,
       nameTree: getProjectTree(item, projects),
     }));

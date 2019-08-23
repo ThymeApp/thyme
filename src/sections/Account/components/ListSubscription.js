@@ -1,12 +1,13 @@
 // @flow
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { useActions } from 'react-redux';
 
 import format from 'date-fns/format';
 
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
+
+import { useActions } from 'core/useActions';
 
 import Loading from 'components/Loading';
 

@@ -25,7 +25,7 @@ import { updateAccountInformation } from '../../actions';
 
 import countries from './countries';
 
-const countryOptions = countries.map(country => ({ ...country, value: country.key }));
+const countryOptions = countries.map((country) => ({ ...country, value: country.key }));
 
 type SubscribeProps = {
   fetchAccountInformation: () => void;
@@ -37,11 +37,6 @@ type SubscribeState = {
 };
 
 class Subscribe extends Component<SubscribeProps, SubscribeState> {
-  state = {
-    stripe: null,
-    cardInput: null,
-  };
-
   validation = createValidation(
     ['name', 'address', 'postalCode', 'city', 'country']
       .reduce((acc, key) => ({
@@ -49,6 +44,15 @@ class Subscribe extends Component<SubscribeProps, SubscribeState> {
         [key]: { required: 'Required field' },
       }), {}),
   );
+
+  constructor() {
+    super();
+
+    this.state = {
+      stripe: null,
+      cardInput: null,
+    };
+  }
 
   componentDidMount() {
     const stripeJs = document.createElement('script');

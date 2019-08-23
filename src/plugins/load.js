@@ -25,10 +25,10 @@ const createPluginInitDispatcher = (dispatch: ThymeDispatch) => (pluginName: str
 };
 
 export default function loadPlugins(dispatch: ThymeDispatch) {
-  Promise.all(pluginsList().map(p => p()))
+  Promise.all(pluginsList().map((p) => p()))
     .then((modules) => {
       modules
-        .filter(m => !!m)
+        .filter((m) => !!m)
         .forEach((m) => {
           if (typeof m !== 'boolean' && typeof m.default === 'function') {
             const dispatchPluginInit = createPluginInitDispatcher(dispatch);

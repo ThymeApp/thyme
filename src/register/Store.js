@@ -90,7 +90,7 @@ export default createStore<ContextType, UpdateActions, Dispatch<UpdateActions>>(
           hiddenColumns: {
             ...state.hiddenColumns,
             [name]: filters.indexOf(column) > -1
-              ? filters.filter(item => item !== column)
+              ? filters.filter((item) => item !== column)
               : [...filters, column],
           },
         };

@@ -27,6 +27,8 @@ type ImportExportState = {
 };
 
 class ImportExport extends Component<ImportExportProps, ImportExportState> {
+  uploadInput: HTMLInputElement;
+
   constructor() {
     super();
 
@@ -38,11 +40,11 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
     input.addEventListener('change', this.handleFileChange.bind(this));
 
     this.uploadInput = input;
-  }
 
-  state = {
-    confirmImport: false,
-  };
+    this.state = {
+      confirmImport: false,
+    };
+  }
 
   onCancelConfirm = () => this.setState({ confirmImport: false });
 
@@ -91,14 +93,12 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
   handleFileChange = (e: Event) => {
     if (e.target instanceof HTMLInputElement && e.target.files instanceof FileList) {
       const reader = new FileReader();
-      reader.onload = (ev) => {
-        this.handleImportData(ev.target.result);
+      reader.onload = () => {
+        if (typeof reader.result === 'string') this.handleImportData(reader.result);
       };
       reader.readAsText(e.target.files[0]);
     }
   };
-
-  uploadInput: HTMLInputElement;
 
   render() {
     const { confirmImport } = this.state;
@@ -126,7 +126,7 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
   }
 }
 
-const mapStateToProps = state => ({ exportState: getDataToExport(state) });
+const mapStateToProps = (state) => ({ exportState: getDataToExport(state) });
 
 function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {

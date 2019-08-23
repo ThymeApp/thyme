@@ -62,6 +62,8 @@ function defaultState(props = {}, now: Date): TimePropertyType {
 }
 
 class New extends Component<NewEntryProps, NewEntryState> {
+  tickInterval: IntervalID;
+
   constructor(props: NewEntryProps) {
     super(props);
 
@@ -288,8 +290,6 @@ class New extends Component<NewEntryProps, NewEntryState> {
       this.setState({ entry });
     }
   }
-
-  tickInterval: IntervalID;
 
   render() {
     const {

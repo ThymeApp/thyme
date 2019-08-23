@@ -27,7 +27,7 @@ function ProjectInput({
   disabled,
 }: ProjectInputType) {
   const projects = useSelector(sortedProjects)
-    .map(project => ({
+    .map((project) => ({
       key: project.id,
       value: project.id,
       text: treeDisplayName(project),
@@ -41,7 +41,7 @@ function ProjectInput({
 
   const onChange = useCallback((e: Event, project: { value: string | null }) => {
     // if the project is new, don't emit handleChange
-    if (project.value !== null && !projects.some(p => p.value === project.value)) {
+    if (project.value !== null && !projects.some((p) => p.value === project.value)) {
       return;
     }
 

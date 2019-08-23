@@ -18,7 +18,7 @@ type StatusProps = {
   closePopup: () => void;
 }
 
-const selectors = state => ({
+const selectors = (state) => ({
   connectionState: isSyncing(state) ? 'syncing' : 'connected',
   isPremium: hasPremium(state),
   loaded: isLoaded(state),

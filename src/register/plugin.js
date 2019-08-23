@@ -13,7 +13,7 @@ export function loadOnPremium(
   args: any,
 ) {
   const onLoadPlugin = () => importModule()
-    .then(module => module && typeof module.default === 'function' && module.default(args));
+    .then((module) => module && typeof module.default === 'function' && module.default(args));
   const state = getState();
   const isPremium = state ? hasPremium(state) : false;
 

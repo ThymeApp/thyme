@@ -73,7 +73,7 @@ function ListEntry(props: ListEntryProps) {
   const project = useSelector(useCallback((state) => {
     const projects = sortedProjects(state);
 
-    return projects.find(item => item.id === entry.project);
+    return projects.find((item) => item.id === entry.project);
   }, [entry.project]));
 
   const onHandleOpenEdit = useCallback(() => {

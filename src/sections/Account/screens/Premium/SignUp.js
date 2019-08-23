@@ -33,7 +33,13 @@ type PremiumState = {
 };
 
 class Premium extends Component<PremiumProps, PremiumState> {
-  state = { page: 'register' };
+  constructor() {
+    super();
+
+    this.state = {
+      page: 'register',
+    };
+  }
 
   componentDidMount() {
     trackPageview('Premium / Sign up');
@@ -122,8 +128,7 @@ class Premium extends Component<PremiumProps, PremiumState> {
               <Header as="h1">
                 {page === 'register'
                   ? 'Sign Up For a Premium Thyme Account'
-                  : 'Log in to get a Premium Thyme Account'
-                }
+                  : 'Log in to get a Premium Thyme Account'}
               </Header>
               <p style={{ margin: '2em 0' }}>
                 Start using the premium features of Thyme by signing up for an account. You will be

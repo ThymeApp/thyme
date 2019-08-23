@@ -12,7 +12,7 @@ import { hasPremium, isLoaded } from '../../selectors';
 
 import ListSubscription from '../../components/ListSubscription';
 
-const selectors = state => ({
+const selectors = (state) => ({
   isPremium: hasPremium(state),
   isLoading: !isLoaded(state),
 });

@@ -33,7 +33,7 @@ function ProjectColourPicker({ colour, onChange }: ProjectColourPickerProps) {
       )}
       position="bottom left"
       on="click"
-      content={coloursSorted.map(c => (
+      content={coloursSorted.map((c) => (
         <Button
           className={c === colour ? 'selected' : ''}
           key={c}

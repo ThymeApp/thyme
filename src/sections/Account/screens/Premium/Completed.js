@@ -16,9 +16,13 @@ type CompletedState = {
 };
 
 class Completed extends Component<*, CompletedState> {
-  state = {
-    pop: false,
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      pop: false,
+    };
+  }
 
   componentDidMount() {
     this.setState({ pop: true });

@@ -17,7 +17,7 @@ function RenderComponent({ name, props }: { name: string, props: any }) {
     return null;
   }
 
-  return components[name].map(c => <c.render key={`${name}_${c.key}`} {...props} />);
+  return components[name].map((c) => <c.render key={`${name}_${c.key}`} {...props} />);
 }
 
 export function render(name: string, props: any) {

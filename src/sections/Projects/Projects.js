@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { useSelector, useActions } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Container from 'semantic-ui-react/dist/commonjs/elements/Container';
 import Header from 'semantic-ui-react/dist/commonjs/elements/Header';
@@ -9,6 +9,7 @@ import Divider from 'semantic-ui-react/dist/commonjs/elements/Divider';
 
 import { useTrackPageview } from 'core/analytics';
 import { isDescendant } from 'core/projects';
+import { useActions } from 'core/useActions';
 
 import BuyMessage from 'components/BuySubscription/Message';
 
@@ -23,7 +24,7 @@ import ProjectsList from './components/ProjectsList';
 
 import { archiveProject, removeProject, updateProject } from './actions';
 
-const selectors = state => ({
+const selectors = (state) => ({
   projects: allSortedProjects(state),
   showUpgrade: !hasPremium(state) && isLoaded(state),
 });
@@ -58,7 +59,7 @@ function Projects() {
           projects={projects}
           onUpdateProject={onUpdateProject}
           onRemoveProject={(id: string) => {
-            if (projects.find(item => item.parent === id)) {
+            if (projects.find((item) => item.parent === id)) {
               showAlert('This project has children, a parent cannot be removed.');
               return;
             }

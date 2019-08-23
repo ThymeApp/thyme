@@ -1,9 +1,11 @@
 // @flow
 
 import React from 'react';
-import { useSelector, useActions } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import isSameDay from 'date-fns/is_same_day';
+
+import { useActions } from 'core/useActions';
 
 import {
   getDurationRounding,
@@ -59,7 +61,7 @@ function TimeTable({
   const days = [];
 
   const firstEntries = entries.filter((entry) => {
-    if (days.some(day => isSameDay(entry.start, day))) {
+    if (days.some((day) => isSameDay(entry.start, day))) {
       return false;
     }
 
@@ -70,12 +72,12 @@ function TimeTable({
 
   return (
     <section className="TimeSheet__Entries">
-      {entries.map(entry => (
+      {entries.map((entry) => (
         <div key={entry.id}>
-          {firstEntries.find(e => e.id === entry.id) && (
+          {firstEntries.find((e) => e.id === entry.id) && (
             <DayHeader
               date={entry.start}
-              entries={entries.filter(e => isSameDay(e.start, entry.start))}
+              entries={entries.filter((e) => isSameDay(e.start, entry.start))}
               round={round}
               roundAmount={roundAmount}
             />

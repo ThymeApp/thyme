@@ -40,7 +40,7 @@ function totalTime(projects) {
 }
 
 export default ({ from, to, projects }: ReportsProps) => {
-  const projectsWithTime = projects.filter(project => project.time > 0);
+  const projectsWithTime = projects.filter((project) => project.time > 0);
 
   if (projectsWithTime.length === 0) {
     return null;
@@ -48,10 +48,10 @@ export default ({ from, to, projects }: ReportsProps) => {
 
   const daysInRange = daysInDateRange(from, to);
 
-  const days = daysInRange.map(day => ({
+  const days = daysInRange.map((day) => ({
     day,
     projects: projectsWithTime.map((project, index) => {
-      const dayEntries = project.entries.filter(entry => isSameDay(entry.start, day));
+      const dayEntries = project.entries.filter((entry) => isSameDay(entry.start, day));
 
       const projectDetails = {
         ...project,
@@ -95,10 +95,10 @@ export default ({ from, to, projects }: ReportsProps) => {
         <table className="Insights__Table" style={{ minWidth: days.length * 30 }}>
           <tbody>
             <tr className="Insights__Days Insights__Days--bars">
-              {days.map(day => (
+              {days.map((day) => (
                 <td key={day.day.toString()} className="Insights__Days-Item">
                   <div className="Insights__Days-ItemBars">
-                    {day.projects.filter(project => project.time > 0).map(project => (
+                    {day.projects.filter((project) => project.time > 0).map((project) => (
                       <BarItem
                         key={project.id}
                         project={project}
@@ -111,7 +111,7 @@ export default ({ from, to, projects }: ReportsProps) => {
               ))}
             </tr>
             <tr className="Insights__Days Insights__Days--dates">
-              {days.map(day => (
+              {days.map((day) => (
                 <td key={day.day.toString()} className="Insights__Days-Item">
                   {formatShortDate(day.day, days.length)}
                 </td>

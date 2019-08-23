@@ -2,13 +2,13 @@
 
 import React, { useCallback } from 'react';
 import { Formik } from 'formik';
-import { useActions } from 'react-redux';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
 import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 import createValidation from 'core/validate';
+import { useActions } from 'core/useActions';
 
 import FormField from 'components/FormField/FormField';
 
