@@ -81,7 +81,7 @@
         "eslint-plugin-jsx-a11y": "^6.2.3",
         "eslint-plugin-react": "^7.14.3",
         "eslint-plugin-react-hooks": "^1.7.0",
-        "flow-bin": "^0.97.0",
+        "flow-bin": "^0.106.0",
         "pre-push": "^0.1.1",
         "stylelint": "^10.1.0",
         "stylelint-config-standard": "^18.3.0",

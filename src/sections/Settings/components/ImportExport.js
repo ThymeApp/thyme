@@ -91,8 +91,8 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
   handleFileChange = (e: Event) => {
     if (e.target instanceof HTMLInputElement && e.target.files instanceof FileList) {
       const reader = new FileReader();
-      reader.onload = (ev) => {
-        this.handleImportData(ev.target.result);
+      reader.onload = () => {
+        if (typeof reader.result === 'string') this.handleImportData(reader.result);
       };
       reader.readAsText(e.target.files[0]);
     }
