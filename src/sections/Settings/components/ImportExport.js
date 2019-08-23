@@ -126,7 +126,7 @@ class ImportExport extends Component<ImportExportProps, ImportExportState> {
   }
 }
 
-const mapStateToProps = state => ({ exportState: getDataToExport(state) });
+const mapStateToProps = (state) => ({ exportState: getDataToExport(state) });
 
 function mapDispatchToProps(dispatch: ThymeDispatch) {
   return {

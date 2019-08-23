@@ -38,7 +38,7 @@ function ColumnWrapper(props: ColumnWrapperProps) {
 
   return (
     <RegisterConsumer>
-      {state => children({
+      {(state) => children({
         extraColumns: (state.columns[name] || []),
         hiddenColumns: (state.hiddenColumns[name] || []),
         onToggleColumn,
@@ -63,21 +63,21 @@ function TableComponent({
   extraProps,
 }: TableProps) {
   const allColumns = [...columns, ...extraColumns]
-    .filter(column => hiddenColumns.indexOf(column.name) === -1);
+    .filter((column) => hiddenColumns.indexOf(column.name) === -1);
 
   if (allColumns.length === 0) {
     return null;
   }
 
-  const hasHeader = allColumns.some(column => !!column.header);
-  const hasFooter = allColumns.some(column => !!column.footer);
+  const hasHeader = allColumns.some((column) => !!column.header);
+  const hasFooter = allColumns.some((column) => !!column.footer);
 
   return (
     <Table {...extraProps} celled unstackable>
       {hasHeader && (
         <Table.Header>
           <Table.Row>
-            {allColumns.map(column => (
+            {allColumns.map((column) => (
               <Table.HeaderCell
                 key={column.name}
                 width={column.width}
@@ -92,9 +92,9 @@ function TableComponent({
         </Table.Header>
       )}
       <Table.Body>
-        {rows.map(row => (
+        {rows.map((row) => (
           <Table.Row key={row.id}>
-            {allColumns.map(column => (
+            {allColumns.map((column) => (
               <Table.Cell
                 key={column.name}
                 width={column.width}
@@ -111,7 +111,7 @@ function TableComponent({
       {hasFooter && (
         <Table.Footer>
           <Table.Row>
-            {allColumns.map(column => (
+            {allColumns.map((column) => (
               <Table.HeaderCell
                 key={column.name}
                 width={column.width}
@@ -147,7 +147,7 @@ function Filters({
   return (
     <Dropdown text="Show columns" closeOnBlur={false}>
       <Dropdown.Menu>
-        {allColumns.map(column => (
+        {allColumns.map((column) => (
           <Dropdown.Item
             key={column.name}
             onClick={(e: Event) => {
@@ -177,7 +177,7 @@ export function create(
 ): { filters: Node, table: Node } {
   const cols: TableColumn[] = [];
 
-  columns.forEach(c => c !== null && cols.push(c));
+  columns.forEach((c) => c !== null && cols.push(c));
 
   return {
     filters: (

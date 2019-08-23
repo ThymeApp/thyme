@@ -44,7 +44,7 @@ export default [
   createTracking('ADD_TIME', () => ({ category: 'TimeSheet', action: 'add' })),
   createTracking('UPDATE_TIME', () => ({ category: 'TimeSheet', action: 'update' })),
   createTracking('REMOVE_TIME', () => ({ category: 'TimeSheet', action: 'remove' })),
-  createTracking('CHANGE_DATE_RANGE', action => ({
+  createTracking('CHANGE_DATE_RANGE', (action) => ({
     category: 'TimeSheet',
     action: 'change date range',
     name: 'dateRange',

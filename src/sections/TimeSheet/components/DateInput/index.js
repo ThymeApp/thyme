@@ -23,7 +23,7 @@ function DateInput({
   onChange,
   onKeyPress,
 }: DateInputType) {
-  const onChangeHandler = useCallback(e => onChange(valueFromEventTarget(e.target)), [onChange]);
+  const onChangeHandler = useCallback((e) => onChange(valueFromEventTarget(e.target)), [onChange]);
 
   return (
     <Input

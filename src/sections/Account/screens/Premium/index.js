@@ -13,7 +13,7 @@ import Completed from './Completed';
 
 import './Premium.css';
 
-const selectors = state => ({
+const selectors = (state) => ({
   isPremium: hasPremium(state),
   loggedIn: isLoggedIn(state),
   loadingDone: isLoaded(state),

@@ -22,7 +22,7 @@ export const announcePlugin = (action$: ActionsObservable) => action$.pipe(
 
       return false;
     })),
-  filter(needsAction => !!needsAction),
+  filter((needsAction) => !!needsAction),
 );
 
 export default [announcePlugin];

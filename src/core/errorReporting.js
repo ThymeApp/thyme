@@ -26,7 +26,7 @@ if (process.env.REACT_APP_SENTRY_DSN) {
     });
 
     if (buffer.length > 0) {
-      buffer.forEach(item => logError(item.error, item.errorInfo));
+      buffer.forEach((item) => logError(item.error, item.errorInfo));
     }
   });
 }

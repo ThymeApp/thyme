@@ -4,7 +4,7 @@ import { create } from 'register/reducer';
 
 import createReportReducer from './report';
 
-const byId = report => (state = {}, action) => {
+const byId = (report) => (state = {}, action) => {
   switch (action.type) {
     // targeted updates
     case 'ADD_REPORT':
@@ -28,7 +28,7 @@ function allIds(state = [], action) {
     case 'ADD_REPORT':
       return [...state, action.id];
     case 'IMPORT_JSON_DATA':
-      return action.reports.map(item => item.id);
+      return action.reports.map((item) => item.id);
     default:
       return state;
   }

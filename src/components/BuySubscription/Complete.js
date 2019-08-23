@@ -11,7 +11,7 @@ import { hasPremium, isLoaded, isLoggedIn } from 'sections/Account/selectors';
 
 import BuyButton from './Button';
 
-const showMessageSelector = state => !hasPremium(state) && isLoaded(state) && isLoggedIn(state);
+const showMessageSelector = (state) => !hasPremium(state) && isLoaded(state) && isLoggedIn(state);
 
 function Complete() {
   const showMessage = useSelector(showMessageSelector);

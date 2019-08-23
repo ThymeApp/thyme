@@ -99,9 +99,9 @@ export function projectTimeEntries(
   const endOfDayTo = endOfDay(to);
 
   return time
-    .filter(entry => entry.project === project.id)
-    .filter(entry => isAfter(entry.start, startOfDayFrom) || isEqual(entry.start, startOfDayFrom))
-    .filter(entry => isBefore(entry.end, endOfDayTo) || isEqual(entry.end, endOfDayTo));
+    .filter((entry) => entry.project === project.id)
+    .filter((entry) => isAfter(entry.start, startOfDayFrom) || isEqual(entry.start, startOfDayFrom))
+    .filter((entry) => isBefore(entry.end, endOfDayTo) || isEqual(entry.end, endOfDayTo));
 }
 
 export function totalTimeFromEntries(

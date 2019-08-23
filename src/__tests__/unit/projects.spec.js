@@ -56,7 +56,7 @@ describe('Sort projects', () => {
         updatedAt,
       },
     ];
-    const sorted = sortProjects(projects).map(item => item.id);
+    const sorted = sortProjects(projects).map((item) => item.id);
 
     expect(sorted).toEqual(['2', '1', '4', '6', '5', '3', '7']);
   });

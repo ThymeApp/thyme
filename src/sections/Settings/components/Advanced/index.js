@@ -62,7 +62,7 @@ class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettings
     const { apiRoot } = this.props;
 
     isValidThymeApi(apiRoot)
-      .then(valid => this.setState({ connection: valid ? 'valid' : 'invalid' }));
+      .then((valid) => this.setState({ connection: valid ? 'valid' : 'invalid' }));
   }
 
   render() {

@@ -24,7 +24,7 @@ import ProjectsList from './components/ProjectsList';
 
 import { archiveProject, removeProject, updateProject } from './actions';
 
-const selectors = state => ({
+const selectors = (state) => ({
   projects: allSortedProjects(state),
   showUpgrade: !hasPremium(state) && isLoaded(state),
 });
@@ -59,7 +59,7 @@ function Projects() {
           projects={projects}
           onUpdateProject={onUpdateProject}
           onRemoveProject={(id: string) => {
-            if (projects.find(item => item.parent === id)) {
+            if (projects.find((item) => item.parent === id)) {
               showAlert('This project has children, a parent cannot be removed.');
               return;
             }

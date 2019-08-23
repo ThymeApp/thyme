@@ -16,9 +16,9 @@ export type exportType = {
 
 export function stateToExport({ time, projects, reports }: toExportType): exportType {
   return {
-    time: time.allIds.map(id => time.byId[id]),
-    projects: projects.allIds.map(id => projects.byId[id]),
-    reports: reports.allIds.map(id => reports.byId[id]),
+    time: time.allIds.map((id) => time.byId[id]),
+    projects: projects.allIds.map((id) => projects.byId[id]),
+    reports: reports.allIds.map((id) => reports.byId[id]),
   };
 }
 
@@ -50,7 +50,7 @@ function validReportEntry(entry) {
   return !(typeof entry.id !== 'string'
     || typeof entry.name !== 'string'
     || !Array.isArray(entry.filters)
-    || !entry.filters.every(item => typeof item === 'string' || item === null)
+    || !entry.filters.every((item) => typeof item === 'string' || item === null)
     || typeof entry.from !== 'string'
     || typeof entry.to !== 'string'
     || typeof entry.createdAt !== 'string');
@@ -74,7 +74,7 @@ function mergeOverwrite(oldList: any[] = [], newList: any[] = [], overwrite: boo
         return time;
       }
 
-      const newItem = newList.find(item => item.id === time.id);
+      const newItem = newList.find((item) => item.id === time.id);
 
       // return old time entry if updateAt is later then imported item
       if (
@@ -86,7 +86,7 @@ function mergeOverwrite(oldList: any[] = [], newList: any[] = [], overwrite: boo
 
       return newItem || time;
     }),
-    ...newList.filter(time => !oldList.find(item => item.id === time.id)),
+    ...newList.filter((time) => !oldList.find((item) => item.id === time.id)),
   ];
 }
 

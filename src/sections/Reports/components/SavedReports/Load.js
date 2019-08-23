@@ -72,7 +72,7 @@ function Load({ history, isOpen, onClose }: LoadProps) {
 
         {savedReports.length > 0 && (
           <Menu vertical>
-            {savedReports.map(report => (
+            {savedReports.map((report) => (
               <Menu.Item key={report.id} onClick={() => openReport(report.id)}>
                 {report.name}
 

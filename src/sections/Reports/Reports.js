@@ -52,7 +52,7 @@ import { getById } from './selectors';
 
 function toggleFilter(filters: Array<string | null>, filter: string | null) {
   if (filters.indexOf(filter) > -1) {
-    return filters.filter(item => item !== filter);
+    return filters.filter((item) => item !== filter);
   }
 
   return [...filters, filter];
@@ -106,12 +106,12 @@ class Reports extends Component<ReportsProps, ReportsState> {
       report,
     } = this.props;
 
-    const projectWithTime = projects.filter(project => project.time > 0);
+    const projectWithTime = projects.filter((project) => project.time > 0);
 
     // only import when using
     import('./helpers/downloadPdf')
-      .then(m => m.default)
-      .then(downloadPdf => downloadPdf({
+      .then((m) => m.default)
+      .then((downloadPdf) => downloadPdf({
         from,
         to,
         projects: projectWithTime,
@@ -152,7 +152,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
   currentFilters() {
     const { report, allProjects } = this.props;
 
-    const defaultFilters = allProjects.map(project => project.id);
+    const defaultFilters = allProjects.map((project) => project.id);
     return report ? report.filters : queryStringFilters() || defaultFilters;
   }
 
@@ -189,8 +189,8 @@ class Reports extends Component<ReportsProps, ReportsState> {
       loadOpened,
     } = this.state;
 
-    const projectsWithTime = projects.filter(project => project.time > 0);
-    const allProjectsWithTime = allProjects.filter(project => project.time > 0);
+    const projectsWithTime = projects.filter((project) => project.time > 0);
+    const allProjectsWithTime = allProjects.filter((project) => project.time > 0);
 
     const reportTable = createTable(
       'reports', [
@@ -303,7 +303,7 @@ function mapStateToProps(state, props) {
   const allProjects = [
     { id: null, name: 'No project', nameTree: ['No project'] },
     ...sortedProjects(state),
-  ].map(project => ({
+  ].map((project) => ({
     ...project,
     time: totalProjectTime(
       project,
@@ -317,7 +317,7 @@ function mapStateToProps(state, props) {
     entries: [...projectTimeEntries(project, mappedTime, from, to)].sort(sortByTime('asc')),
   }));
 
-  const defaultFilters = allProjects.map(project => project.id);
+  const defaultFilters = allProjects.map((project) => project.id);
   const filters = report ? report.filters : queryStringFilters() || defaultFilters;
 
   return {
@@ -328,7 +328,7 @@ function mapStateToProps(state, props) {
     to,
     detailedRound: roundingOn === 'entries' ? durationRounding : 'none',
     roundAmount: durationAmount,
-    projects: allProjects.filter(project => filters.indexOf(project.id) > -1),
+    projects: allProjects.filter((project) => filters.indexOf(project.id) > -1),
     enabledEndDate: getEnableEndDate(state),
     showUpgrade: !hasPremium(state) && isLoaded(state),
   };

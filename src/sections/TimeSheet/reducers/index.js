@@ -4,7 +4,7 @@ import { create } from 'register/reducer';
 
 import createTimeReducer from './time';
 
-const byId = time => (state = {}, action) => {
+const byId = (time) => (state = {}, action) => {
   switch (action.type) {
     // targeted updates
     case 'ADD_TIME':
@@ -41,7 +41,7 @@ function allIds(state = [], action) {
     case 'ADD_TIME':
       return [...state, action.id];
     case 'IMPORT_JSON_DATA':
-      return action.time.map(item => item.id);
+      return action.time.map((item) => item.id);
     default:
       return state;
   }

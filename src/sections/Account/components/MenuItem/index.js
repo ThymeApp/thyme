@@ -29,7 +29,7 @@ type AccountProps = {
   history: RouterHistory;
 }
 
-const selectors = state => ({
+const selectors = (state) => ({
   lastSync: getLastSync(state),
   loggedIn: isLoggedIn(state),
   showPremium: !hasPremium(state) && isLoaded(state),

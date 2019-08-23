@@ -22,7 +22,7 @@ import RoundingOn from './RoundingOn';
 
 import './Rounding.css';
 
-const selectors = state => ({
+const selectors = (state) => ({
   durationRounding: getDurationRounding(state),
   durationAmount: getDurationAmount(state),
   roundingOn: getRoundingOn(state),

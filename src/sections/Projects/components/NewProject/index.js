@@ -59,7 +59,7 @@ function NewProject() {
     resetState,
   } = useNewProjectState();
   const [showLabels] = useResponsive({ max: 'tablet' });
-  const onAddProject = useActions(useCallback(project => addProject({ ...project }), []));
+  const onAddProject = useActions(useCallback((project) => addProject({ ...project }), []));
 
   const onSubmit = useCallback(() => {
     if (name.trim() === '') {

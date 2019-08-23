@@ -19,7 +19,7 @@ const epics = combineEpics(
 
 export const epic$ = new BehaviorSubject<any>(epics);
 const rootEpic = (action$: ActionsObservable, state$: StateObservable) => epic$.pipe<any>(
-  mergeMap(epic => epic(action$, state$)),
+  mergeMap((epic) => epic(action$, state$)),
 );
 
 export default rootEpic;

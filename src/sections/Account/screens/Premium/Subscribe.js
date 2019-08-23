@@ -25,7 +25,7 @@ import { updateAccountInformation } from '../../actions';
 
 import countries from './countries';
 
-const countryOptions = countries.map(country => ({ ...country, value: country.key }));
+const countryOptions = countries.map((country) => ({ ...country, value: country.key }));
 
 type SubscribeProps = {
   fetchAccountInformation: () => void;

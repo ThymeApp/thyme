@@ -4,7 +4,7 @@ import { create } from 'register/reducer';
 
 import createProjectReducer from './project';
 
-const byId = project => (state = {}, action) => {
+const byId = (project) => (state = {}, action) => {
   switch (action.type) {
     case 'ADD_PROJECT':
     case 'UPDATE_PROJECT':
@@ -34,7 +34,7 @@ function allIds(state = [], action) {
     case 'ADD_PROJECT':
       return [...state, action.id];
     case 'IMPORT_JSON_DATA':
-      return action.projects.map(item => item.id);
+      return action.projects.map((item) => item.id);
     default:
       return state;
   }
