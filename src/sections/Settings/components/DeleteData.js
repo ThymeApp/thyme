@@ -23,10 +23,14 @@ type DeleteDataState = {
 }
 
 class DeleteData extends Component<DeleteDataProps, DeleteDataState> {
-  state = {
-    confirmRemoveTimesheet: false,
-    confirmRemoveProjects: false,
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      confirmRemoveTimesheet: false,
+      confirmRemoveProjects: false,
+    };
+  }
 
   onRemoveTime = () => { this.setState({ confirmRemoveTimesheet: true }); };
 

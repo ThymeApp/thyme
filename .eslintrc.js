@@ -10,6 +10,7 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js'] }],
     'react/require-default-props': 0,
+    'react/jsx-props-no-spreading': 0,
     'import/prefer-default-export': 0,
     'jsx-a11y/anchor-is-valid': ['error', {
       components: ['Link'],
@@ -19,7 +20,7 @@ module.exports = {
     'jsx-a11y/label-has-for': 0,
     'jsx-a11y/label-has-associated-control': 0,
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
+    'react-hooks/exhaustive-deps': 'warn',
   },
   settings: {
     'import/resolver': {

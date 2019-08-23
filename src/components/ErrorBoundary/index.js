@@ -9,9 +9,13 @@ type ErrorBoundaryState = {
 };
 
 class ErrorBoundary extends Component<*, ErrorBoundaryState> {
-  state = {
-    showError: false,
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      showError: false,
+    };
+  }
 
   componentDidCatch(error: Error, errorInfo: any) {
     if (error.message.match(/Loading( CSS)? chunk [0-9]+ failed/)) {

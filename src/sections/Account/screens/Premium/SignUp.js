@@ -33,7 +33,13 @@ type PremiumState = {
 };
 
 class Premium extends Component<PremiumProps, PremiumState> {
-  state = { page: 'register' };
+  constructor() {
+    super();
+
+    this.state = {
+      page: 'register',
+    };
+  }
 
   componentDidMount() {
     trackPageview('Premium / Sign up');

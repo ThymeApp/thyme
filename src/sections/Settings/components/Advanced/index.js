@@ -31,9 +31,13 @@ type AdvancedSettingsState = {
 };
 
 class AdvancedSettings extends Component<AdvancedSettingsProps, AdvancedSettingsState> {
-  state = {
-    connection: 'validating',
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      connection: 'validating',
+    };
+  }
 
   componentDidMount() {
     this.checkApiValidity();

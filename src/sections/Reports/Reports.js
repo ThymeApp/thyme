@@ -78,10 +78,14 @@ type ReportsState = {
 };
 
 class Reports extends Component<ReportsProps, ReportsState> {
-  state = {
-    saveOpened: false,
-    loadOpened: false,
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      saveOpened: false,
+      loadOpened: false,
+    };
+  }
 
   componentDidMount() {
     trackPageview('Reports');
