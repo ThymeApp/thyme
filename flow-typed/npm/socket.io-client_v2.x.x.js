@@ -1,5 +1,5 @@
-// flow-typed signature: 7c685d7598a4fb437f0c294df30693de
-// flow-typed version: 1de402c763/socket.io-client_v2.x.x/flow_>=v0.34.x
+// flow-typed signature: a759d3a0bd7174dd17d96b53712e32e7
+// flow-typed version: c6154227d1/socket.io-client_v2.x.x/flow_>=v0.104.x
 
 declare module "socket.io-client" {
   declare type Callback = (...args: any[]) => void;
@@ -13,19 +13,14 @@ declare module "socket.io-client" {
     randomizationFactor: number,
     timeout: number,
     transports: ("polling" | "websocket")[],
-    transportOptions: {
-      polling: {
-        extraHeaders: {[string]:string}
-      }
-    },
+    transportOptions: { polling: { extraHeaders: { [string]:string, ... }, ... }, ... },
     autoConnect: boolean,
-    query: { [string]: string },
-    parser: any
+    query: { [string]: string, ... },
+    parser: any,
+    ...
   }>;
 
-  declare type SocketOptions = $Shape<{
-    query: string
-  }>;
+  declare type SocketOptions = $Shape<{ query: string, ... }>;
 
   declare class Emitter<T> {
     on(event: string, cb: Callback): T;
@@ -72,7 +67,8 @@ declare module "socket.io-client" {
     {
       forceNew: boolean,
       "force new connection": true,
-      multiplex: boolean
+      multiplex: boolean,
+      ...
     } & ManagerOptions
   >;
 
