@@ -2,6 +2,8 @@
 
 import isBefore from 'date-fns/is_before';
 
+import { debugError, debugWarn } from './debug';
+
 export type toExportType = {
   time: TimeShape;
   projects: ProjectsShape;
@@ -29,13 +31,17 @@ type importStateType = {
 }
 
 function validTimeEntry(entry) {
-  return !(typeof entry.id !== 'string'
+  const isValid = !(typeof entry.id !== 'string'
     || (entry.project !== null && typeof entry.project !== 'string')
-    || typeof entry.start !== 'string'
-    || typeof entry.end !== 'string'
+    || (typeof entry.start !== 'string' && typeof entry.start !== 'number')
+    || (typeof entry.end !== 'string' && typeof entry.end !== 'number')
     || typeof entry.notes !== 'string'
     || typeof entry.createdAt !== 'string'
     || typeof entry.updatedAt !== 'string');
+
+  if (!isValid) debugWarn('Invalid time entry', entry);
+
+  return isValid;
 }
 
 function validProjectEntry(entry) {
@@ -61,10 +67,23 @@ export function parseImportData({ time = [], projects = [], reports = [] }: impo
 }
 
 export function validData({ time, projects, reports }: importStateType) {
-  return !(!time || !projects || !reports
-    || !Array.isArray(time) || !Array.isArray(projects) || !Array.isArray(reports)
-    || !time.every(validTimeEntry) || !projects.every(validProjectEntry)
-    || !reports.every(validReportEntry));
+  if (!time || !Array.isArray(time) || !time.every(validTimeEntry)) {
+    debugError('Invalid `time` in import data');
+    return false;
+  }
+
+  if (!projects || !Array.isArray(projects) || !projects.every(validProjectEntry)) {
+    debugError('Invalid `projects` in import data');
+    return false;
+  }
+
+  if (!reports || !Array.isArray(reports) || !reports.every(validReportEntry)) {
+    debugError('Invalid `reports` in import data');
+    return false;
+  }
+
+  // all is good
+  return true;
 }
 
 function mergeOverwrite(oldList: any[] = [], newList: any[] = [], overwrite: boolean = true) {
