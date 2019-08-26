@@ -3,7 +3,8 @@
 import parse from 'date-fns/parse';
 
 // determine locale to use
-const locales = ['i-default', ...navigator.languages];
+const navigatorLocales = Array.isArray(navigator.languages) ? navigator.languages : [];
+const locales = ['i-default', ...navigatorLocales];
 const locale = locales.find((l) => {
   try {
     Intl.NumberFormat(l);
