@@ -40,10 +40,10 @@ function Projects() {
     onRemoveProject,
     onArchiveProject,
   ] = useActions([
+    alert,
     updateProject,
     removeProject,
     archiveProject,
-    alert,
   ]);
 
   return (
