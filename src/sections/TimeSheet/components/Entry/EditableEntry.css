@@ -102,6 +102,7 @@
   padding: 0.4em 0 !important;
   border-top: 2px solid transparent;
   border-bottom: 2px dotted rgba(34, 36, 38, 0.1) !important;
+  height: 42px;
 }
 
 .EditableEntry--tracking .ui.selection.dropdown {
