@@ -32,7 +32,9 @@ const selectors = (state) => ({
 function Projects() {
   useTrackPageview('Projects');
 
-  const { projects, showUpgrade } = useSelector(selectors);
+  const { projects } = useSelector(selectors);
+
+  const showUpgrade = false;
 
   const [
     showAlert,

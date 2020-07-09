@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 
 import Form from 'semantic-ui-react/dist/commonjs/collections/Form';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message';
-import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
+// import Button from 'semantic-ui-react/dist/commonjs/elements/Button';
 
 import createValidation from 'core/validate';
 import { useActions } from 'core/useActions';
@@ -26,11 +26,11 @@ const validation = createValidation({
   },
 });
 
-type LoginProps = {
-  goToRegister: (e: Event) => void;
-};
+// type LoginProps = {
+//   goToRegister: (e: Event) => void;
+// };
 
-function Login({ goToRegister }: LoginProps) {
+function Login() { // { goToRegister }: LoginProps
   const onLoginAccount = useActions(loginAccount);
 
   const onSubmit = useCallback(
@@ -107,17 +107,17 @@ function Login({ goToRegister }: LoginProps) {
             </Form.Button>
           </section>
 
-          <section className="Account__Sub-Bar">
-            Do not have an account?
+          {/* <section className="Account__Sub-Bar"> */}
+          {/*  Do not have an account? */}
 
-            <Button
-              labelPosition="right"
-              basic
-              color="blue"
-              onClick={goToRegister}
-              content="Register"
-            />
-          </section>
+          {/*  <Button */}
+          {/*    labelPosition="right" */}
+          {/*    basic */}
+          {/*    color="blue" */}
+          {/*    onClick={goToRegister} */}
+          {/*    content="Register" */}
+          {/*  /> */}
+          {/* </section> */}
         </Form>
       )}
     </Formik>

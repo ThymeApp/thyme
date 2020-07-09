@@ -256,7 +256,7 @@ class Reports extends Component<ReportsProps, ReportsState> {
         />
         {renderComponent('reports.beforeCharts', this.props)}
         <ReportCharts projects={projectsWithTime} />
-        {showUpgrade && (
+        {showUpgrade && false && (
           <BuyMessage>Want more insights in your day to day tracked time?</BuyMessage>
         )}
         {renderComponent('reports.afterCharts', this.props)}
